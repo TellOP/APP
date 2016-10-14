@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AEEC39AD-DFDA-4805-A71E-6F80232CC68E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TellOP</RootNamespace>
+    <AssemblyName>TellOP</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\TellOP.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>TellOP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\TellOP.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>TellOP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="API\ExerciseAPI.cs" />
+    <Compile Include="API\ExerciseFeaturedAPI.cs" />
+    <Compile Include="API\ExerciseHistoryAPI.cs" />
+    <Compile Include="API\ExerciseSubmissionAPI.cs" />
+    <Compile Include="API\Tips.cs" />
+    <Compile Include="API\StringNet.cs" />
+    <Compile Include="API\NetSpeakPreceding.cs" />
+    <Compile Include="API\NetSpeakFollowing.cs" />
+    <Compile Include="API\Adelex.cs" />
+    <Compile Include="API\AdelexOrder.cs" />
+    <Compile Include="API\AdelexOrderExtensions.cs" />
+    <Compile Include="API\UserProfile.cs" />
+    <Compile Include="API\LexTutor.cs" />
+    <Compile Include="API\Stands4Dictionary.cs" />
+    <Compile Include="API\CollinsEnglishDictionaryGetEntry.cs" />
+    <Compile Include="API\CollinsEnglishDictionary.cs" />
+    <Compile Include="API\OAuth2API.cs" />
+    <Compile Include="API\UnsuccessfulAPICallException.cs" />
+    <Compile Include="App.cs" />
+    <Compile Include="Authentication.xaml.cs">
+      <DependentUpon>Authentication.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Config\TellOPConfiguration.cs" />
+    <Compile Include="Config\TellOPSecretsConfiguration.cs" />
+    <Compile Include="DataModels\Activity\Exercise.cs" />
+    <Compile Include="DataModels\APIModels\ExerciseStatusJSONConverter.cs" />
+    <Compile Include="DataModels\APIModels\JSONCreationConverterExtensions.cs" />
+    <Compile Include="DataModels\APIModels\Tip.cs" />
+    <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
+    <Compile Include="DataModels\APIModels\Adelex\AdelexResultEntry.cs" />
+    <Compile Include="DataModels\APIModels\Adelex\AdelexToken.cs" />
+    <Compile Include="DataModels\APIModels\APIErrorResponse.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsWordDefinitionSense.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionary.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntry.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntryContent.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntryContentEntry.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntryRelated.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionarySingleResult.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsWord.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsWordSearchException.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONLinkedWord.cs" />
+    <Compile Include="DataModels\APIModels\Collins\CollinsJSONPartOfSpeechJSONConverter.cs" />
+    <Compile Include="DataModels\APIModels\Exercise\ActivityConverter.cs" />
+    <Compile Include="DataModels\APIModels\Exercise\Activity.cs" />
+    <Compile Include="DataModels\APIModels\Exercise\ActivityDictionarySearch.cs" />
+    <Compile Include="DataModels\APIModels\Exercise\ActivityEssay.cs" />
+    <Compile Include="DataModels\APIModels\Exercise\UserActivity.cs" />
+    <Compile Include="DataModels\APIModels\Exercise\UserActivityDictionarySearch.cs" />
+    <Compile Include="DataModels\APIModels\Exercise\UserActivityEssay.cs" />
+    <Compile Include="DataModels\APIModels\JSONCreationConverter.cs" />
+    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultFrequencyDetails.cs" />
+    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultFrequencyLevels.cs" />
+    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultRatios.cs" />
+    <Compile Include="DataModels\APIModels\Stands4\Stands4WordNotFoundException.cs" />
+    <Compile Include="DataModels\APIModels\StringNet.cs" />
+    <Compile Include="DataModels\Enums\LanguageLevelClassificationExtension.cs" />
+    <Compile Include="DataModels\Enums\PartOfSpeech.cs" />
+    <Compile Include="DataModels\APIModels\Stands4\PartOfSpeechJSONConverter.cs" />
+    <Compile Include="DataModels\APIModels\Stands4\Stands4Word.cs" />
+    <Compile Include="DataModels\Activity\ExerciseGroup.cs" />
+    <Compile Include="DataModels\Enums\ExerciseStatusExtensions.cs" />
+    <Compile Include="DataModels\Enums\SupportedLanguage.cs" />
+    <Compile Include="DataModels\Enums\SupportedLanguageExtension.cs" />
+    <Compile Include="DataModels\Enums\LanguageLevelClassification.cs" />
+    <Compile Include="DataModels\APIModels\SupportedLanguageJSONConverter.cs" />
+    <Compile Include="DataModels\WordSearchUtilities.cs" />
+    <Compile Include="ICertificateVerifier.cs" />
+    <Compile Include="ISQLite.cs" />
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OAuthAccountStoreFactory.cs" />
+    <Compile Include="Preconditions.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard.xaml.cs">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardTabFeatured.xaml.cs">
+      <DependentUpon>DashboardTabFeatured.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardTabHistory.xaml.cs">
+      <DependentUpon>DashboardTabHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultEntry.cs" />
+    <Compile Include="DataModels\APIModels\NetSpeak.cs" />
+    <Compile Include="DataModels\Activity\EssayExercise.cs" />
+    <Compile Include="DataModels\FeaturedDataModel.cs" />
+    <Compile Include="DataModels\APIModels\Stands4\DictionarySingleDefinition.cs" />
+    <Compile Include="DataModels\TipsDataModel.cs" />
+    <Compile Include="DataModels\HistoryDataModel.cs" />
+    <Compile Include="DataModels\SQLiteModels\OfflineWord.cs" />
+    <Compile Include="DataModels\Enums\PartOfSpeechExtension.cs" />
+    <Compile Include="DataModels\User.cs" />
+    <Compile Include="DataModels\Interfaces\IWord.cs" />
+    <Compile Include="ExerciseAnalysis.xaml.cs">
+      <DependentUpon>ExerciseAnalysis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EssayExerciseView.xaml.cs">
+      <DependentUpon>EssayExerciseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ILocalize.cs" />
+    <Compile Include="Localize.cs" />
+    <Compile Include="MainSearch.xaml.cs">
+      <DependentUpon>MainSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profile.xaml.cs">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NonNullToBooleanConverter.cs" />
+    <Compile Include="SingleWordExploration.xaml.cs">
+      <DependentUpon>SingleWordExploration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\Logger.cs" />
+    <Compile Include="TranslateExtension.cs" />
+    <Compile Include="ViewModels\Collins\CollinsEntriesWrapper.cs" />
+    <Compile Include="ViewModels\Collins\CollinsMultipleWordsWrapper.cs" />
+    <Compile Include="ViewModels\Collins\CollinsWordView.cs" />
+    <Compile Include="ViewModels\LanguageLevelWordsListView.cs" />
+    <Compile Include="ViewModels\PartOfSpeechWordsListView.cs" />
+    <Compile Include="ViewModels\SearchListItemView.cs" />
+    <Compile Include="ViewModels\Stands4\Stands4SearchListItemView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DashboardTabHistory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DashboardTabFeatured.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Profile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainSearch.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EssayExerciseView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ExerciseAnalysis.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SingleWordExploration.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Login.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Authentication.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
+    <None Include="project.json" />
+    <None Include="TellOP.ruleset" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\Windows.Foundation.UniversalApiContract\3.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="About.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

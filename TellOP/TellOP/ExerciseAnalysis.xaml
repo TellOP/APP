@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+<copyright file="ExerciseAnalysis.xaml" company="University of Murcia">
+Copyright © 2016 University of Murcia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</copyright>
+<author>Mattia Zago</author>
+-->
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TellOP.ExerciseAnalysis"
+             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP">
+  <ContentPage.Title>Results</ContentPage.Title>
+  <ContentPage.ToolbarItems>
+    <ToolbarItem x:Name="analysisButton" Text="Repeat" Order="Primary" />
+  </ContentPage.ToolbarItems>
+  <ScrollView HorizontalOptions="Fill">
+    <StackLayout Orientation="Vertical" Padding="0">
+      <Grid HorizontalOptions="Fill" BackgroundColor="#64B5F6" Padding="5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" LineBreakMode="WordWrap" FontSize="14" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" x:Name="ExTitleLabel" />
+        <Label Grid.Row="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" x:Name="ExTitleSub"/>
+      </Grid>
+      
+      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_ProfileLevelTitle}" />
+      <Grid Padding="2" x:Name="LangGrid">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="Label_A1">
+          <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="A1"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="Value_A1" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0" Padding="0" x:Name="StackA1" IsVisible="False" />
+          </StackLayout>
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="0" x:Name="Label_A2">
+          <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="A2"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="Value_A2" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0" Padding="0" x:Name="StackA2" IsVisible="False" />
+          </StackLayout>
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="0" x:Name="Label_B1">
+          <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="B1"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="Value_B1" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0" Padding="0" x:Name="StackB1" IsVisible="False" />
+          </StackLayout>
+        </Frame>
+        <Frame Padding="2" Grid.Column="3" Grid.Row="0" x:Name="Label_B2" >
+          <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="B2"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="Value_B2" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0" Padding="0" x:Name="StackB2" IsVisible="False" />
+          </StackLayout>
+        </Frame>
+        <Frame Padding="2" Grid.Column="4" Grid.Row="0" x:Name="Label_C1">
+          <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="C1"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="Value_C1" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0" Padding="0" x:Name="StackC1" IsVisible="False" />
+          </StackLayout>
+        </Frame>
+        <Frame Padding="2" Grid.Column="5" Grid.Row="0" x:Name="Label_C2">
+          <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="C2"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="Value_C2" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0" Padding="0" x:Name="StackC2" IsVisible="False" />
+          </StackLayout>
+        </Frame>
+        <Frame Padding="2" Grid.Column="6" Grid.Row="0" x:Name="Label_UNKNOWN">
+          <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="?"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="Value_UNKNOWN" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0" Padding="0" x:Name="StackUNKNOWN" IsVisible="False" />
+          </StackLayout>
+        </Frame>
+      </Grid>
+
+      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_RelatedRatiosIndices}" />
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Frame Padding="10,5,10,10" Grid.Column="0" Grid.Row="1" BackgroundColor="#FFF176">
+          <Grid HorizontalOptions="Fill">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="2*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="12" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="{i18n:Translate ExerciseAnalysis_PertainingWholeText}" />
+            <Label Grid.Row="2" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_WordsInText}" />
+            <Label Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="232" x:Name="LexTutorWordsInText" />
+            <Label Grid.Row="3" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_DifferentWords}" />
+            <Label Grid.Row="3" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="125" x:Name="LexTutorDifferentWords" />
+            <Label Grid.Row="4" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TypeTokenRatio}" />
+            <Label Grid.Row="4" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="0.54" x:Name="LexTutorTypeTokenRatio" />
+            <Label Grid.Row="5" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TokensPerType}" />
+            <Label Grid.Row="5" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="1.86" x:Name="LexTutorTokensPerType" />
+          </Grid>
+        </Frame>
+
+        <Frame Padding="10" Grid.Column="1" Grid.Row="1" BackgroundColor="#FFF176">
+          <Grid HorizontalOptions="Fill">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="2*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+              <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="12" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="{i18n:Translate ExerciseAnalysis_PertainingOnlistOnly}" />
+            <Label Grid.Row="2" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_Tokens}"/>
+            <Label Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="227" x:Name="LexTutorTokens" />
+            <Label Grid.Row="3" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_Types}" />
+            <Label Grid.Row="3" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="120" x:Name="LexTutorTypes" />
+            <Label Grid.Row="4" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_Families}" />
+            <Label Grid.Row="4" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="107" x:Name="LexTutorFamilies" />
+            <Label Grid.Row="5" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TokensPerFamily}" />
+            <Label Grid.Row="5" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="2.12" x:Name="LexTutorTokensPerFamily" />
+            <Label Grid.Row="6" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TypesPerFamily}" />
+            <Label Grid.Row="6" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="1.12" x:Name="LexTutorTypesPerFamily" />
+          </Grid>
+        </Frame>
+      </Grid>
+<!--
+      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_KFrequencyDistribution}" />
+      <Frame OutlineColor="Accent" Padding="10">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+          </Grid.RowDefinitions>
+          <Image Source="SampleGraph.png" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand"  />
+        </Grid>
+      </Frame>
+-->
+      <Label FontSize="14" HorizontalOptions="Center" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_ExploreText}" />
+      <StackLayout Margin="0" Padding="0" x:Name="PoSStack">
+      </StackLayout>
+
+    </StackLayout>
+  </ScrollView>
+</ContentPage>

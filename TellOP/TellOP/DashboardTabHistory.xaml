@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+<copyright file="DashboardTabHistory.xaml" company="University of Murcia">
+Copyright © 2016 University of Murcia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</copyright>
+<author>Mattia Zago</author>
+-->
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             xmlns:datamodels="clr-namespace:TellOP.DataModels;assembly=TellOP"
+             x:Class="TellOP.DashboardTabHistory"
+             xmlns:data="clr-namespace:TellOP.DataModels"
+             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP">
+  
+  <ListView x:Name="ExList" ItemSelected="OnSelection" HasUnevenRows="true" Margin="5">
+    
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <ViewCell.ContextActions>
+            <MenuItem Text="{i18n:Translate ButtonOpen}"  />
+            <MenuItem Text="{i18n:Translate ButtonDelete}" IsDestructive="True" />
+          </ViewCell.ContextActions>
+          
+          <ContentView Padding="5" BackgroundColor="{Binding StatusColor}" Margin="0,2,0,2">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <!--<ColumnDefinition Width="5" />-->
+                  <ColumnDefinition Width="2*" />
+                  <ColumnDefinition Width="2*" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="auto" />
+                  <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <!--<BoxView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="boxView" Color="{Binding StatusColor}" WidthRequest="5" />-->
+                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Title}" FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap"/>
+                <Label Grid.Column="0" Grid.Row="1" Text="Essay" FontSize="14" VerticalOptions="StartAndExpand" FontAttributes="Italic" />
+                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Language}" FontSize="14" VerticalOptions="CenterAndExpand" />
+                <Label Grid.Column="2" Grid.Row="1" Text="{Binding Level}" FontSize="14" VerticalOptions="EndAndExpand" />
+              </Grid>
+          </ContentView>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+
+    <!-- HEADER and FOOTER -->
+    <ListView.Header>
+      <StackLayout Padding="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+        <Label Text="Exercise History" HorizontalTextAlignment="Center" FontSize="20" />
+        <Label Text="Select an exercise from the list below to see the details" FontSize="16" HorizontalOptions="CenterAndExpand"/>
+      </StackLayout>
+    </ListView.Header>
+    <ListView.Footer >
+      <Frame Padding="5">
+        <StackLayout Orientation="Vertical" >
+          <Label x:Name="TipTitle" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Italic" LineBreakMode="WordWrap" />
+        </StackLayout>
+      </Frame>
+    </ListView.Footer>
+    
+  </ListView>
+</ContentPage>

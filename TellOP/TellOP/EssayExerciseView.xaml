@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+<copyright file="EssayExerciseView.xaml" company="University of Murcia">
+Copyright © 2016 University of Murcia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</copyright>
+<author>Mattia Zago</author>
+-->
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TellOP.EssayExerciseView">
+
+  <ContentPage.Title>Exercise</ContentPage.Title>
+  <ContentPage.ToolbarItems>
+    <ToolbarItem x:Name="searchButton" Text="Search" Order="Primary" />
+    <ToolbarItem x:Name="analysisButton" Text="Analysis" Order="Primary" />
+    <ToolbarItem x:Name="submitButton" Text="Submit" Order="Secondary" />
+    <ToolbarItem x:Name="saveButton" Text="Save" Order="Secondary" />
+    <ToolbarItem x:Name="loadButton" Text="Load save" Order="Secondary" />
+  </ContentPage.ToolbarItems>
+  <StackLayout>
+    <Label x:Name="ExTitleLabel" HorizontalOptions="Center" FontSize="Medium" Text="Title" FontAttributes="Bold" Margin="5" />
+    <Label x:Name="ExDescriptionLabel" HorizontalOptions="StartAndExpand" FontSize="Small" Text="Description" FontAttributes="Italic" Margin="5,0,5,0"/>
+    <Editor Margin="0,5,0,5" x:Name="ExContentEditor" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Content" Keyboard="Text" />
+    <StackLayout VerticalOptions="End">
+      <ProgressBar HeightRequest="5" x:Name="ProgressBar" HorizontalOptions="FillAndExpand"  />
+      <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!--
+        <Label Grid.Column="0" Grid.Row="0" Text="Words" x:Name="statWordsLabel" HorizontalOptions="Center" FontAttributes="Bold" />
+        <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statWords" HorizontalOptions="CenterAndExpand"  />
+        -->
+        <Label Grid.Column="0" Grid.Row="0" Text="Unknown" x:Name="statUnknownLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
+        <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statUnknown" HorizontalOptions="CenterAndExpand"  />
+        <ActivityIndicator Grid.Column="0" Grid.Row="1" x:Name="aiUnknown" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+
+        <Label Grid.Column="1" Grid.Row="0" Text="Nouns" x:Name="statNounsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"  />
+        <Label Grid.Column="1" Grid.Row="1"  Text="" x:Name="statNouns" HorizontalOptions="CenterAndExpand"  />
+        <ActivityIndicator Grid.Column="1" Grid.Row="1" x:Name="aiNouns" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+
+        <Label Grid.Column="2" Grid.Row="0" Text="Adv." x:Name="statAdverbsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
+        <Label Grid.Column="2" Grid.Row="1"  Text="" x:Name="statAdverbs" HorizontalOptions="CenterAndExpand"  />
+        <ActivityIndicator Grid.Column="2" Grid.Row="1" x:Name="aiAdverbs" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+
+        <Label Grid.Column="3" Grid.Row="0" Text="Adj." x:Name="statAdjectiveLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
+        <Label Grid.Column="3" Grid.Row="1"  Text="" x:Name="statAdjective" HorizontalOptions="CenterAndExpand"  />
+        <ActivityIndicator Grid.Column="3" Grid.Row="1" x:Name="aiAdjective" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+
+        <Label Grid.Column="4" Grid.Row="0" Text="Verbs" x:Name="statVerbsLabel" HorizontalOptions="Center" FontAttributes="Bold"  FontSize="14"  />
+        <Label Grid.Column="4" Grid.Row="1"  Text="" x:Name="statVerbs" HorizontalOptions="CenterAndExpand"  />
+        <ActivityIndicator Grid.Column="4" Grid.Row="1" x:Name="aiVerbs" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+      </Grid>
+    </StackLayout>
+  </StackLayout>
+  
+</ContentPage>

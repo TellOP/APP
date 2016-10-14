@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+<copyright file="Login.xaml" company="University of Murcia">
+Copyright © 2016 University of Murcia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</copyright>
+<author>Mattia Zago</author>
+<author>Alessandro Menti</author>
+-->
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TellOP.Login"
+             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP"
+             Title="{i18n:Translate Login_Title}">
+  <ContentPage.Padding>
+    <OnPlatform x:TypeArguments="Thickness"
+    iOS="10, 20, 10, 0"
+    Android="10, 0"
+    WinPhone="10, 0" />
+  </ContentPage.Padding>
+
+  <ContentPage.Content>
+    <ScrollView Padding="0" Margin="0" HorizontalOptions="CenterAndExpand">
+      <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Image x:Name="logo" VerticalOptions="Center" HeightRequest="200" HorizontalOptions="Center" Source="LOGO_black.png" />
+        <StackLayout x:Name="LoginPanel" Margin="5,15,5,5">
+          <StackLayout x:Name="ButtonsPanel" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
+            <Button Text="{i18n:Translate Login_LoginButton}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Clicked="LoginButton_Clicked" />
+          </StackLayout>
+        </StackLayout>
+        <StackLayout Margin="5,15,5,5" HorizontalOptions="Center">
+          <Label HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Margin="15">.. or ..</Label>
+
+          <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
+            <Label x:Name="SignUp" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{i18n:Translate Login_SignUpLabel}" />
+            <Label x:Name="About" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{i18n:Translate Login_AboutLabel}" />
+            <Label x:Name="Privacy" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{i18n:Translate Login_PrivacyLabel}" />
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+  </ContentPage.Content>
+</ContentPage>

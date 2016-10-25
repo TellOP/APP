@@ -67,17 +67,15 @@ namespace TellOP.Droid
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        private void OnAuthenticationCompleted(
-            object sender,
-            AuthenticatorCompletedEventArgs e)
+        private async void OnAuthenticationCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
             if (e.IsAuthenticated)
             {
-                App.LoadUserData(e.Account);
+                await App.LoadUserData(e.Account);
             }
             else
             {
-                App.LoginAuthenticationCompletedButNotAuthenticatedAction.Invoke();
+                App.LogOnAuthenticationCompletedButNotAuthenticatedAction.Invoke();
             }
         }
 
@@ -86,11 +84,9 @@ namespace TellOP.Droid
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        private void OnAuthenticationError(
-            object sender,
-            AuthenticatorErrorEventArgs e)
+        private void OnAuthenticationError(object sender, AuthenticatorErrorEventArgs e)
         {
-            App.LoginAuthenticationErrorAction.Invoke();
+            App.LogOnAuthenticationErrorAction.Invoke();
         }
     }
 }

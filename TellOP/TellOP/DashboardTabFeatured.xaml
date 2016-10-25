@@ -15,78 +15,79 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </copyright>
 <author>Mattia Zago</author>
+<author>Alessandro Menti</author>
 -->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TellOP;assembly=TellOP"
              xmlns:datamodels="clr-namespace:TellOP.DataModels;assembly=TellOP"
+             xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
              x:Class="TellOP.DashboardTabFeatured"
-             xmlns:data="clr-namespace:TellOP.DataModels"
-             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP">
-
-  <ListView x:Name="ExList" ItemSelected="OnSelection" HasUnevenRows="true" IsGroupingEnabled="True" GroupShortNameBinding="{Binding GroupShortName}" Margin="5">
-    <ListView.BindingContext>
-      <datamodels:FeaturedDataModel />
-    </ListView.BindingContext>
-
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <ViewCell.ContextActions>
-            <MenuItem Text="{i18n:Translate ButtonOpen}"  /> <!-- TODO -->
-            <MenuItem Text="{i18n:Translate ButtonDelete}" IsDestructive="True" /> <!-- TODO -->
-          </ViewCell.ContextActions>
-
-          <ContentView Margin="0,2,0,2">
-              <Grid Padding="0" BackgroundColor="{Binding LevelColor}">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="5" />
-                  <ColumnDefinition Width="2*" />
-                  <ColumnDefinition Width="2*" />
-                  <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="auto" />
-                  <RowDefinition Height="auto" />
-                  <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <BoxView Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" BackgroundColor="{Binding StatusColor}" />
-                <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Title}" FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap" />
-                <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Description}" FontSize="12" VerticalOptions="Start" HorizontalOptions="Fill" LineBreakMode="WordWrap"/>
-                <Label Grid.Column="1" Grid.Row="2" Text="Essay" FontSize="14" HorizontalOptions="Start" VerticalOptions="Center" FontAttributes="Italic" />
-                <Label Grid.Column="2" Grid.Row="2" Text="{Binding Language}" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"  />
-                <Label Grid.Column="3" Grid.Row="2" Text="{Binding Level}" FontSize="14" HorizontalOptions="End" VerticalOptions="Center"  />
-              </Grid>
-          </ContentView>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-
-    <!-- GROUPS HEADER-->
-    <ListView.GroupHeaderTemplate Margin="5">
-      <DataTemplate>
-        <ViewCell>
-          <Label Text="{Binding GroupName, StringFormat='Level {0}'}" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0">
-            <Label.FontSize>
-              <OnPlatform x:TypeArguments="x:Double" iOS="16" Android="16" WinPhone="14" />
-            </Label.FontSize>
-          </Label>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.GroupHeaderTemplate>
-
-    <!-- HEADER and FOOTER -->
-    <ListView.Header>
-      <StackLayout Padding="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
-        <Label Text="Featured Exercises" HorizontalTextAlignment="Center" FontSize="20" />
-        <Label Text="Select an exercise from the list below to see the details" FontSize="16" HorizontalOptions="CenterAndExpand"/>
-      </StackLayout>
-    </ListView.Header>
-    <ListView.Footer>
-        <StackLayout Orientation="Vertical" BackgroundColor="#cccccc" >
-          <Label x:Name="TipTitle" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Italic" LineBreakMode="WordWrap" />
-        </StackLayout>
-    </ListView.Footer>
-
-  </ListView>
+             Title="{local:Translate Dashboard_TabFeatured}"
+             Icon="TAB_Featured.png">
+  <ContentPage.Content>
+    <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
+      <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <ActivityIndicator IsRunning="True" IsVisible="{Binding FeaturedExercises.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+      </RelativeLayout>
+      <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Label Text="{local:Translate Dashboard_TabError}" IsVisible="{Binding FeaturedExercises.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+      </RelativeLayout>
+      <ListView x:Name="ExerciseList" HasUnevenRows="true" IsGroupingEnabled="True" ItemsSource="{Binding FeaturedExercises.Result}" GroupDisplayBinding="{Binding GroupName}" GroupShortNameBinding="{Binding GroupShortName}" Margin="5" ItemSelected="ExerciseList_ItemSelected">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <ViewCell.ContextActions>
+                <MenuItem Text="{local:Translate ButtonOpen}"  />
+                <MenuItem Text="{local:Translate ButtonDelete}" IsDestructive="True" />
+              </ViewCell.ContextActions>
+              <ContentView Margin="0,2,0,2">
+                <Grid Padding="0" BackgroundColor="{Binding Level, Converter={enums:LanguageLevelClassificationToColorConverter}}">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                  </Grid.RowDefinitions>
+                  <BoxView Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" BackgroundColor="{Binding Status, Converter={enums:ExerciseStatusToColorConverter}}" />
+                  <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Title}" />
+                  <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" FontSize="12" VerticalOptions="Start" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Description}" />
+                  <Label Grid.Column="1" Grid.Row="2" Text="Essay" FontSize="14" HorizontalOptions="Start" VerticalOptions="Center" FontAttributes="Italic" />
+                  <Label Grid.Column="2" Grid.Row="2" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Text="{Binding Language}" />
+                  <Label Grid.Column="3" Grid.Row="2" FontSize="14" HorizontalOptions="End" VerticalOptions="Center" Text="{Binding Level}" />
+                </Grid>
+              </ContentView>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.GroupHeaderTemplate Margin="5">
+          <DataTemplate>
+            <ViewCell>
+              <Label FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" Text="{Binding GroupName}">
+                <Label.FontSize>
+                  <OnPlatform x:TypeArguments="x:Double" iOS="16" Android="16" WinPhone="14" />
+                </Label.FontSize>
+              </Label>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.GroupHeaderTemplate>
+        <ListView.Header>
+          <StackLayout Padding="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+            <Label Text="{local:Translate Dashboard_TabFeatured_Title}" HorizontalTextAlignment="Center" FontSize="20" />
+            <Label Text="{local:Translate Dashboard_TabFeatured_Description}" FontSize="16" HorizontalOptions="CenterAndExpand"/>
+          </StackLayout>
+        </ListView.Header>
+        <ListView.Footer>
+          <StackLayout Orientation="Vertical" BackgroundColor="#CCCCCC" >
+            <Label x:Name="TipTitle" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Italic" LineBreakMode="WordWrap" Text="{Binding AppTips.SingleRandomTip}" />
+          </StackLayout>
+        </ListView.Footer>
+      </ListView>
+    </ScrollView>
+  </ContentPage.Content>
 </ContentPage>

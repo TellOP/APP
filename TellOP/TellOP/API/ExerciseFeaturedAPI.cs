@@ -1,4 +1,4 @@
-// <copyright file="ExerciseFeaturedAPI.cs" company="University of Murcia">
+// <copyright file="ExerciseFeaturedApi.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System;
     using System.Collections.Generic;
@@ -29,45 +29,36 @@ namespace TellOP.API
     /// <summary>
     /// A class accessing the list of featured exercises on the TellOP server.
     /// </summary>
-    public class ExerciseFeaturedAPI : OAuth2API
+    public class ExerciseFeaturedApi : OAuth2Api
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExerciseFeaturedAPI"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="ExerciseFeaturedApi"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
-        public ExerciseFeaturedAPI(Account account)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.ExerciseFeatured"),
-                  HttpMethod.Get,
-                  account)
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
+        public ExerciseFeaturedApi(Account account)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.ExerciseFeatured"), HttpMethod.Get, account)
         {
         }
 
         /// <summary>
-        /// Call the API endpoint and return the object representation of the
-        /// API response.
+        /// Call the API endpoint and return the object representation of the API response.
         /// </summary>
-        /// <returns>A <see cref="Task{IList}"/> containing the
-        /// object representation of the API response as its result.</returns>
+        /// <returns>A <see cref="Task{IList}"/> containing the object representation of the API response as its
+        /// result.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
         public async Task<IList<Activity>> CallEndpointAsObjectAsync()
         {
-            string res = await this.CallEndpointAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<List<Activity>>(res, new ActivityConverter());
+            return JsonConvert.DeserializeObject<List<Activity>>(await this.CallEndpointAsync().ConfigureAwait(false), new ActivityConverter());
         }
 
         /// <summary>
-        /// Call the API endpoint and return it in the form used for internal
-        /// representation.
+        /// Call the API endpoint and return it in the form used for internal representation.
         /// </summary>
-        /// <returns>A <see cref="Task{IList}"/> containing instances of
-        /// a subclass of <see cref="Exercise"/> filled in
+        /// <returns>A <see cref="Task{IList}"/> containing instances of a subclass of <see cref="Exercise"/> filled in
         /// with the data returned by the API.</returns>
-        /// <exception cref="NotImplementedException">Thrown if an activity in
-        /// the result list provided by the API is an activity type that is not
-        /// supported by the app at this time.</exception>
+        /// <exception cref="NotImplementedException">Thrown if an activity in the result list provided by the API is
+        /// an activity type that is not supported by the app at this time.</exception>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
         public async Task<IList<Exercise>> CallEndpointAsExerciseModel()
         {
@@ -77,7 +68,7 @@ namespace TellOP.API
 
             foreach (Activity result in resultList)
             {
-                convertedResultList.Add(ExerciseAPI.ConvertActivityToExercise(result));
+                convertedResultList.Add(ExerciseApi.ConvertActivityToExercise(result));
             }
 
             return convertedResultList;

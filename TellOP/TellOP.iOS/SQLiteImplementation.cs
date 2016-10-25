@@ -50,15 +50,8 @@ namespace TellOP.iOS
             // we would like to avoid memory backing).
             // TODO: do we need to add "Tell-OP" at the end? See
             // https://developer.xamarin.com/guides/ios/application_fundamentals/working_with_the_file_system/
-            string directoryPath = Path.Combine(
-                Environment.GetFolderPath(
-                    Environment.SpecialFolder.MyDocuments),
-                "..",
-                "Library",
-                "Application Support");
-            string databasePath = Path.Combine(
-                directoryPath,
-                databaseName);
+            string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library", "Application Support");
+            string databasePath = Path.Combine(directoryPath, databaseName);
 
             if (!Directory.Exists(directoryPath))
             {
@@ -83,9 +76,7 @@ namespace TellOP.iOS
                     splitExt = splitDBName[1];
                 }
 
-                File.Copy(
-                    NSBundle.MainBundle.PathForResource(splitName, splitExt),
-                    databasePath);
+                File.Copy(NSBundle.MainBundle.PathForResource(splitName, splitExt), databasePath);
             }
 
             // Initialize the connection.

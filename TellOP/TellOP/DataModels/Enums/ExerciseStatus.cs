@@ -15,7 +15,7 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.Activity
+namespace TellOP.DataModels.Enums
 {
     /// <summary>
     /// The status of an exercise (completed, not completed or failed).

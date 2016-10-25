@@ -20,26 +20,22 @@ namespace TellOP.DataModels.Activity
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using API;
+    using System.Threading.Tasks;
+    using Api;
     using APIModels.Adelex;
     using APIModels.LexTutor;
     using Enums;
+    using Nito.AsyncEx;
     using SQLiteModels;
-    using Xamarin.Forms;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// An essay exercise.
     /// </summary>
     public class EssayExercise : Exercise
     {
-        /// <summary>
-        /// A cache for the Adelex analysis results.
-        /// </summary>
-        private AdelexResultEntry _adelexResult;
-
         /// <summary>
         /// The contents (development) of the exercise.
         /// </summary>
@@ -71,49 +67,26 @@ namespace TellOP.DataModels.Activity
         private string _essayTitle;
 
         /// <summary>
-        /// A cache for the LexTutor analysis results.
-        /// </summary>
-        private LexTutorResultEntry _lexTutorResult;
-
-        /// <summary>
-        /// A cache for the offline analysis results.
-        /// </summary>
-        private List<IWord> _offlineAnalysisCache;
-
-        /// <summary>
-        /// Determines whether the text needs to be analyzed offline.
-        /// </summary>
-        private bool _offlineAnalysisDirtyFlag;
-
-        /// <summary>
-        /// Determines whether the text needs to be analyzed online.
-        /// </summary>
-        private bool _onlineAnalysisDirtyFlag;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="EssayExercise"/> class.
         /// </summary>
         public EssayExercise()
         {
-            this._adelexResult = null;
             this._essayContents = string.Empty;
             this._essayDescription = string.Empty;
             this._essayMaximumWords = 250;
             this._essayMinimumWords = 80;
             this._essayTags = new List<string>();
             this._essayTitle = string.Empty;
-            this._lexTutorResult = null;
-            this._offlineAnalysisCache = new List<IWord>();
-            this._offlineAnalysisDirtyFlag = false;
-            this._onlineAnalysisDirtyFlag = false;
+            this.ExcludeFunctionalWords = true;
             this.Status = ExerciseStatus.NotCompleted;
+            this.InitializeOfflineAnalysisProperties();
+            this.InitializeOnlineAnalysisProperties();
         }
 
         /// <summary>
         /// Gets or sets the contents (user development) of this exercise.
         /// </summary>
-        /// <remarks>If the contents are changed, the analysis result cache is
-        /// preserved (even though it refers to the old contents).</remarks>
+        /// <remarks>If the contents are changed, the analysis result cache is not preserved.</remarks>
         public string Contents
         {
             get
@@ -128,21 +101,20 @@ namespace TellOP.DataModels.Activity
                     value = string.Empty;
                 }
 
-                // Only update the value and the dirty flags if the new
-                // contents differ from the old ones.
+                // Only update the value and the dirty flags if the new contents differ from the old ones.
                 if (!value.Equals(this._essayContents))
                 {
                     this._essayContents = value;
-                    this._offlineAnalysisDirtyFlag = true;
-                    this._onlineAnalysisDirtyFlag = true;
+                    this.InitializeOfflineAnalysisProperties();
+                    this.InitializeOnlineAnalysisProperties();
                 }
             }
         }
 
         /// <summary>
-        /// Gets or sets the description of this essay (instructions the user
-        /// must follow).
+        /// Gets or sets the description of this essay (instructions the user must follow).
         /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown if the description is <c>null</c>.</exception>
         public string Description
         {
             get
@@ -154,9 +126,7 @@ namespace TellOP.DataModels.Activity
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException(
-                        "value",
-                        "The essay description can not be null");
+                    throw new ArgumentNullException("value");
                 }
 
                 this._essayDescription = value;
@@ -164,32 +134,10 @@ namespace TellOP.DataModels.Activity
         }
 
         /// <summary>
-        /// Gets a value indicating whether an offline analysis of the text is
-        /// needed.
-        /// </summary>
-        public bool IsOfflineAnalysisNeeded
-        {
-            get
-            {
-                return this._offlineAnalysisDirtyFlag;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether an online analysis of the text is
-        /// needed.
-        /// </summary>
-        public bool IsOnlineAnalysisNeeded
-        {
-            get
-            {
-                return this._onlineAnalysisDirtyFlag;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the maximum number of words this essay should have.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the maximum number of words is less than
+        /// <c>1</c>.</exception>
         public int MaximumWords
         {
             get
@@ -201,9 +149,7 @@ namespace TellOP.DataModels.Activity
             {
                 if (value < 1)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        "value",
-                        "The maximum number of words must be at least 1");
+                    throw new ArgumentOutOfRangeException("value");
                 }
 
                 this._essayMaximumWords = value;
@@ -213,6 +159,8 @@ namespace TellOP.DataModels.Activity
         /// <summary>
         /// Gets or sets the minimum number of words this essay should have.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the minimum number of words is less than
+        /// <c>1</c>.</exception>
         public int MinimumWords
         {
             get
@@ -224,9 +172,7 @@ namespace TellOP.DataModels.Activity
             {
                 if (value < 1)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        "value",
-                        "The minimum number of words must be at least 1");
+                    throw new ArgumentOutOfRangeException("value");
                 }
 
                 this._essayMinimumWords = value;
@@ -264,6 +210,7 @@ namespace TellOP.DataModels.Activity
         /// <summary>
         /// Gets or sets the title of this essay.
         /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown if the essay title is <c>null</c>.</exception>
         public string Title
         {
             get
@@ -275,9 +222,7 @@ namespace TellOP.DataModels.Activity
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException(
-                        "value",
-                        "The essay title can not be null");
+                    throw new ArgumentNullException("value");
                 }
 
                 this._essayTitle = value;
@@ -287,553 +232,438 @@ namespace TellOP.DataModels.Activity
         /// <summary>
         /// Gets the adjectives in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Adjectives
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Adjective);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Adjectives { get; private set; }
 
         /// <summary>
         /// Gets the adverbs in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Adverbs
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Adverb);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Adverbs { get; private set; }
 
         /// <summary>
         /// Gets the clause openers in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> ClauseOpeners
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.ClauseOpener);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> ClauseOpeners { get; private set; }
 
         /// <summary>
         /// Gets the conjunctions in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Conjunctions
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Conjunction);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Conjunctions { get; private set; }
 
         /// <summary>
         /// Gets the determiners in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Determiners
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Determiner);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Determiners { get; private set; }
 
         /// <summary>
         /// Gets the determiners used as pronouns in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> DeterminerPronouns
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.DeterminerPronoun);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> DeterminerPronouns { get; private set; }
 
         /// <summary>
         /// Gets the existential particles in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> ExistentialParticles
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.ExistentialParticle);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> ExistentialParticles { get; private set; }
 
         /// <summary>
         /// Gets the foreign words in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> ForeignWords
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.ForeignWord);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> ForeignWords { get; private set; }
 
         /// <summary>
         /// Gets the genitives in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Genitives
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Genitive);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Genitives { get; private set; }
 
         /// <summary>
         /// Gets the infinitive markers in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> InfinitiveMarkers
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.InfinitiveMarker);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> InfinitiveMarkers { get; private set; }
 
         /// <summary>
         /// Gets the interjection or discourse markers in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Interjections
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.InterjectionOrDiscourseMarker);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Interjections { get; private set; }
 
         /// <summary>
-        /// Gets the letters of the alphabet treated as words in the exercise
-        /// text.
+        /// Gets the letters of the alphabet treated as words in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> LettersOfAlphabet
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.LetterAsWord);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> LettersOfAlphabet { get; private set; }
 
         /// <summary>
         /// Gets the negative markers in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> NegativeMarkers
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.NegativeMarker);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> NegativeMarkers { get; private set; }
 
         /// <summary>
         /// Gets the common nouns in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> CommonNouns
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.CommonNoun);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> CommonNouns { get; private set; }
 
         /// <summary>
         /// Gets the proper nouns in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> ProperNouns
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.ProperNoun);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> ProperNouns { get; private set; }
 
         /// <summary>
         /// Gets the parts of a proper noun in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> PartsOfProperNouns
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.PartOfProperNoun);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> PartsOfProperNouns { get; private set; }
 
         /// <summary>
         /// Gets the cardinal numbers in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> CardinalNumbers
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.CardinalNumber);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> CardinalNumbers { get; private set; }
 
         /// <summary>
         /// Gets the ordinal numbers in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> OrdinalNumbers
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Ordinal);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> OrdinalNumbers { get; private set; }
 
         /// <summary>
         /// Gets the prepositions in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Prepositions
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Preposition);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Prepositions { get; private set; }
 
         /// <summary>
         /// Gets the pronouns in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Pronouns
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Pronoun);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Pronouns { get; private set; }
 
         /// <summary>
         /// Gets the unclassified words in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> UnclassifiedWords
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Unclassified);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> UnclassifiedWords { get; private set; }
 
         /// <summary>
         /// Gets the verbs in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> Verbs
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.Verb);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> Verbs { get; private set; }
 
         /// <summary>
         /// Gets the modal verbs in the exercise text.
         /// </summary>
-        public IDictionary<IWord, int> ModalVerbs
-        {
-            get
-            {
-                return this.GetWordsByPartOfSpeech(PartOfSpeech.ModalVerb);
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<IDictionary<IWord, int>> ModalVerbs { get; private set; }
 
         /// <summary>
         /// Gets the result of the Adelex analysis.
         /// </summary>
-        public AdelexResultEntry AdelexResult
-        {
-            get
-            {
-                if (this._onlineAnalysisDirtyFlag)
-                {
-                    this.PerformFullOnlineAnalysis();
-                }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<AdelexResultEntry> AdelexResult { get; private set; }
 
-                return this._adelexResult;
-            }
-        }
+        /// <summary>
+        /// Gets the result of the LexTutor analysis.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<LexTutorResultEntry> LexTutorResult { get; private set; }
 
         /// <summary>
         /// Gets a list of words in the essay content grouped by their language
         /// level.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
-        public Dictionary<LanguageLevelClassification, List<IWord>> LevelClassification
-        {
-            get
-            {
-                return (from word in this._offlineAnalysisCache
-                        group word by word.Level into wl
-                        select new { Level = wl.Key, Words = wl.ToList() })
-                        .ToDictionary(w => w.Level, w => w.Words);
-            }
-        }
+        public AsyncLazy<Dictionary<LanguageLevelClassification, List<IWord>>> LevelClassification { get; private set; }
 
         /// <summary>
         /// Gets the distribution relative to the language distribution of words.
         /// </summary>
         /// <returns>A dictionary having the possible language levels as keys and the relative word frequency as its
         /// value.</returns>
-        public Dictionary<LanguageLevelClassification, float> LevelClassificationDistribution
-        {
-            get
-            {
-                // TODO: are all groups returned?
-                return (from word in this._offlineAnalysisCache
-                        group word by word.Level into wl
-                        select new { Level = wl.Key, WordCount = wl.ToList().Count })
-                        .ToDictionary(w => w.Level, w => w.WordCount / (float)this._offlineAnalysisCache.Count);
-            }
-        }
-
-        /// <summary>
-        /// Gets the result of the LexTutor analysis.
-        /// </summary>
-        public LexTutorResultEntry LexTutorResult
-        {
-            get
-            {
-                if (this._onlineAnalysisDirtyFlag)
-                {
-                    this.PerformFullOnlineAnalysis();
-                }
-
-                return this._lexTutorResult;
-            }
-        }
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<Dictionary<LanguageLevelClassification, float>> LevelClassificationDistribution { get; private set; }
 
         /// <summary>
         /// Gets the number of offline analyzed words in the essay.
         /// </summary>
-        public int NumWords
-        {
-            get
-            {
-                return this._offlineAnalysisCache.Count;
-            }
-        }
-
-        // TODO: move these to converters!
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list of values as a key")]
+        public AsyncLazy<int> NumWords { get; private set; }
 
         /// <summary>
-        /// Gets the color associated to the exercise.
+        /// Gets or sets a value indicating whether functional words should be excluded from the offline analysis.
         /// </summary>
-        public Color StatusColor
-        {
-            get
-            {
-                return this.Status.ToColor();
-            }
-        }
+        public bool ExcludeFunctionalWords { get; set; }
 
         /// <summary>
-        /// Gets a human-readable name for the exercise type.
+        /// Gets or sets the cache for the offline analysis result.
         /// </summary>
-        /// <returns>The human-readable name for the exercise type.</returns>
-        public new string ToNiceString()
-        {
-            return Properties.Resources.Exercise_EssayName;
-        }
+        private AsyncLazy<List<IWord>> OfflineAnalysisResult { get; set; }
 
         /// <summary>
-        /// Returns the cumulative percentage of the passed dictionaries with
-        /// respect to the total amount of words.
+        /// Returns the cumulative percentage of the passed dictionaries with respect to the total amount of words.
         /// </summary>
-        /// <param name="dictionaries">An <see cref="IList{PartOfSpeech}"/>
-        /// containing the dictionaries this function should examine.</param>
-        /// <returns>The cumulative percentage of the dictionaries listed in
-        /// <paramref name="dictionaries"/>.</returns>
-        public float GetNumWordsPercentage(IList<PartOfSpeech> dictionaries)
+        /// <param name="dictionaries">An <see cref="IList{PartOfSpeech}"/> containing the dictionaries this function
+        /// should examine.</param>
+        /// <returns>A <see cref="Task{Float}"/> containing the cumulative percentage of the dictionaries listed in
+        /// <paramref name="dictionaries"/> as its result.</returns>
+        public async Task<float> GetNumWordsPercentage(IList<PartOfSpeech> dictionaries)
         {
-            return this._offlineAnalysisCache.Where(w => dictionaries.Contains(w.PartOfSpeech)).Count() / (float)this._offlineAnalysisCache.Count;
+            List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
+            return offlineAnalysis.Where(w => dictionaries.Contains(w.PartOfSpeech)).Count() / (float)offlineAnalysis.Count;
         }
 
         /// <summary>
         /// Gets a list of words according to their parts of speech.
         /// </summary>
         /// <param name="part">The part of speech the words belong to.</param>
-        /// <returns>A <see cref="Dictionary{IWord, Integer}"/> containing all
-        /// the words in the essay contents belonging to the specified part of
-        /// speech and the number of their occurrencies.</returns>
-        public IDictionary<IWord, int> GetWordsByPartOfSpeech(PartOfSpeech part)
+        /// <returns>A <see cref="Task{IDictionary}"/> containing all the words in the essay contents belonging to the
+        /// specified part of speech and the number of their occurrencies as its result.</returns>
+        public async Task<IDictionary<IWord, int>> GetWordsByPartOfSpeech(PartOfSpeech part)
         {
-            return this._offlineAnalysisCache
-                .Where(w => w.PartOfSpeech == part)
-                .GroupBy(w => w)
-                .Where(w => w.Count() >= 1)
-                .ToDictionary(w => w.Key, w => w.Count());
+            List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
+            return offlineAnalysis.Where(w => w.PartOfSpeech == part).GroupBy(w => w).Where(w => w.Count() >= 1).ToDictionary(w => w.Key, w => w.Count());
+        }
+
+        private async Task<IWord> ProcessSingleWord(string token)
+        {
+            IWord w;
+            string cleanToken = await OfflineLemma.RetrieveBase(token);
+            if (cleanToken == null)
+            {
+                cleanToken = token;
+            }
+
+            IList<IWord> offlineWords = await OfflineWord.Search(cleanToken);
+            if (offlineWords.Count > 0)
+            {
+                w = WordSearchUtilities.GetMostProbable(offlineWords);
+            }
+            else
+            {
+                // TODO: find a better way to add a word that is not found in the database.
+                Tools.Logger.Log(this.GetType().Name, "Count is zero, so I'm creating a new word with an unclassified part of speech and an unknown language level");
+                w = new OfflineWord()
+                {
+                    Term = cleanToken,
+                    JSONLevel = LanguageLevelClassification.Unknown,
+                    PartOfSpeech = PartOfSpeech.Unclassified,
+                    Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.USEnglish, typeof(string), null, CultureInfo.InvariantCulture)
+                };
+            }
+
+            if (this.ExcludeFunctionalWords && (
+                        w.PartOfSpeech == PartOfSpeech.ClauseOpener
+                        || w.PartOfSpeech == PartOfSpeech.Conjunction
+                        || w.PartOfSpeech == PartOfSpeech.Determiner
+                        || w.PartOfSpeech == PartOfSpeech.DeterminerPronoun
+                        || w.PartOfSpeech == PartOfSpeech.ExistentialParticle
+                        || w.PartOfSpeech == PartOfSpeech.Genitive
+                        || w.PartOfSpeech == PartOfSpeech.InfinitiveMarker
+                        || w.PartOfSpeech == PartOfSpeech.InterjectionOrDiscourseMarker
+                        || w.PartOfSpeech == PartOfSpeech.NegativeMarker
+                        || w.PartOfSpeech == PartOfSpeech.CardinalNumber
+                        || w.PartOfSpeech == PartOfSpeech.Ordinal
+                        || w.PartOfSpeech == PartOfSpeech.Preposition
+                        || w.PartOfSpeech == PartOfSpeech.Pronoun
+                        || w.PartOfSpeech == PartOfSpeech.ModalVerb))
+            {
+                return null;
+            }
+            else
+            {
+                return w;
+            }
         }
 
         /// <summary>
-        /// Performs a full offline analysis of the contents of the essay, excluding all functional words.
+        /// Initializes or reinitializes all properties which can be extracted from an offline analysis of the text.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task PerformFullOfflineAnalysis()
+        private void InitializeOfflineAnalysisProperties()
         {
-            await this.PerformFullOfflineAnalysis(true);
+            // TODO: catch errors in the UI!
+            this.OfflineAnalysisResult = new AsyncLazy<List<IWord>>(async () =>
+            {
+                List<IWord> analysisCache = new List<IWord>();
+
+                IList<Task<IWord>> searchTokenTasks = new List<Task<IWord>>();
+
+                foreach (string token in Regex.Matches(this._essayContents, "\\w+").Cast<Match>().Select(m => m.Value))
+                {
+                    searchTokenTasks.Add(this.ProcessSingleWord(token));
+                }
+
+                await Task.WhenAll(searchTokenTasks);
+
+                foreach (IWord w in searchTokenTasks)
+                {
+                    analysisCache.Add(w);
+                }
+
+                return analysisCache;
+            });
+            this.LevelClassification = new AsyncLazy<Dictionary<LanguageLevelClassification, List<IWord>>>(async () =>
+            {
+                List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
+                Dictionary<LanguageLevelClassification, List<IWord>> result = new Dictionary<LanguageLevelClassification, List<IWord>>();
+
+                foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
+                {
+                    result.Add(level, new List<IWord>());
+                }
+                foreach (IWord word in offlineAnalysis)
+                {
+                    LanguageLevelClassification level = await word.Level;
+                    result[level].Add(word);
+                }
+                return result;
+            });
+            this.LevelClassificationDistribution = new AsyncLazy<Dictionary<LanguageLevelClassification, float>>(async () =>
+            {
+                // TODO: check for any possible loss of precision
+                List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
+                Dictionary<LanguageLevelClassification, float> result = new Dictionary<LanguageLevelClassification, float>();
+
+                foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
+                {
+                    result.Add(level, 0);
+                }
+                foreach (IWord word in offlineAnalysis)
+                {
+                    LanguageLevelClassification level = await word.Level;
+                    result[level] = result[level] + 1;
+                }
+                foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
+                {
+                    result[level] = result[level] / (float)offlineAnalysis.Count;
+                }
+                return result;
+            });
+            this.NumWords = new AsyncLazy<int>(async () =>
+            {
+                List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
+                return offlineAnalysis.Count;
+            });
+            this.Adjectives = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Adjective);
+            });
+            this.Adverbs = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Adverb);
+            });
+            this.ClauseOpeners = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.ClauseOpener);
+            });
+            this.Conjunctions = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Conjunction);
+            });
+            this.Determiners = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Determiner);
+            });
+            this.DeterminerPronouns = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.DeterminerPronoun);
+            });
+            this.ExistentialParticles = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.ExistentialParticle);
+            });
+            this.ForeignWords = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.ForeignWord);
+            });
+            this.Genitives = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Genitive);
+            });
+            this.InfinitiveMarkers = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.InfinitiveMarker);
+            });
+            this.Interjections = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.InterjectionOrDiscourseMarker);
+            });
+            this.LettersOfAlphabet = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.LetterAsWord);
+            });
+            this.NegativeMarkers = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.NegativeMarker);
+            });
+            this.CommonNouns = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.CommonNoun);
+            });
+            this.ProperNouns = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.ProperNoun);
+            });
+            this.PartsOfProperNouns = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.PartOfProperNoun);
+            });
+            this.CardinalNumbers = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.CardinalNumber);
+            });
+            this.OrdinalNumbers = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Ordinal);
+            });
+            this.Prepositions = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Preposition);
+            });
+            this.Pronouns = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Pronoun);
+            });
+            this.UnclassifiedWords = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Unclassified);
+            });
+            this.Verbs = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.Verb);
+            });
+            this.ModalVerbs = new AsyncLazy<IDictionary<IWord, int>>(async () =>
+            {
+                return await this.GetWordsByPartOfSpeech(PartOfSpeech.ModalVerb);
+            });
         }
 
         /// <summary>
-        /// Performs a full offline analysis of the contents of the essay.
+        /// Initializes or reinitializes all properties which can be extracted from an online analysis of the text.
         /// </summary>
-        /// <param name="excludeFunctional">If <c>true</c>, exclude all
-        /// functional words from the analysis.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task PerformFullOfflineAnalysis(bool excludeFunctional)
+        private void InitializeOnlineAnalysisProperties()
         {
-            if (!this._offlineAnalysisDirtyFlag)
+            // TODO: catch errors in the UI!
+            this.AdelexResult = new AsyncLazy<AdelexResultEntry>(async () =>
             {
-                return;
-            }
-
-            this._offlineAnalysisCache = new List<IWord>();
-
-            foreach (string token in Regex.Matches(this._essayContents, "\\w+").Cast<Match>().Select(m => m.Value))
+                AdelexApi adelex = new AdelexApi(App.OAuth2Account, this._essayContents, AdelexOrder.Frequency);
+                return await adelex.CallEndpointAsObjectAsync();
+            });
+            this.LexTutorResult = new AsyncLazy<LexTutorResultEntry>(async () =>
             {
-                IWord w;
-                IList<IWord> offlineWords = await OfflineWord.Search(token);
-                if (offlineWords.Count > 0)
-                {
-                    w = WordSearchUtilities.GetMostProbable(offlineWords);
-                }
-                else
-                {
-                    // TODO: find a better way to add a word that is not found
-                    // in the database.
-                    Tools.Logger.Log(this, "Count is zero, so I'm creating a new word with " + PartOfSpeech.Unclassified + " PoS and " + LanguageLevelClassification.UNKNOWN + " language");
-                    w = new OfflineWord()
-                    {
-                        Term = token,
-                        Level = LanguageLevelClassification.UNKNOWN,
-                        PartOfSpeech = PartOfSpeech.Unclassified,
-                        Language = "en-US"
-                    };
-                }
-
-                if (excludeFunctional && (
-                    w.PartOfSpeech == PartOfSpeech.ClauseOpener
-                    || w.PartOfSpeech == PartOfSpeech.Conjunction
-                    || w.PartOfSpeech == PartOfSpeech.Determiner
-                    || w.PartOfSpeech == PartOfSpeech.DeterminerPronoun
-                    || w.PartOfSpeech == PartOfSpeech.ExistentialParticle
-                    || w.PartOfSpeech == PartOfSpeech.Genitive
-                    || w.PartOfSpeech == PartOfSpeech.InfinitiveMarker
-                    || w.PartOfSpeech == PartOfSpeech.InterjectionOrDiscourseMarker
-                    || w.PartOfSpeech == PartOfSpeech.NegativeMarker
-                    || w.PartOfSpeech == PartOfSpeech.CardinalNumber
-                    || w.PartOfSpeech == PartOfSpeech.Ordinal
-                    || w.PartOfSpeech == PartOfSpeech.Preposition
-                    || w.PartOfSpeech == PartOfSpeech.Pronoun
-                    || w.PartOfSpeech == PartOfSpeech.ModalVerb))
-                {
-                    continue;
-                }
-
-                this._offlineAnalysisCache.Add(w);
-            }
-
-            this._printResult();
-            this._offlineAnalysisDirtyFlag = false;
-        }
-
-        /// <summary>
-        /// Performs a full online analysis of the contents of the essay.
-        /// </summary>
-        public async void PerformFullOnlineAnalysis()
-        {
-            if (!this._onlineAnalysisDirtyFlag)
-            {
-                return;
-            }
-
-            LexTutor lexTutor = new LexTutor(App.OAuth2Account, this._essayTitle, this._essayContents);
-            try
-            {
-                this._lexTutorResult = await lexTutor.CallEndpointAsObjectAsync();
-            }
-            catch (UnsuccessfulAPICallException ex)
-            {
-                Tools.Logger.Log(this, "PerformFullOnlineAnalysis method - LexTutor", ex);
-            }
-            catch (System.Exception ex)
-            {
-                Tools.Logger.Log(this, "PerformFullOnlineAnalysis method - LexTutor", ex);
-            }
-
-            /*
-            Adelex adelex = new Adelex(App.OAuth2Account, this._essayContents, AdelexOrder.Frequency);
-            try
-            {
-                this._adelexResult = await adelex.CallEndpointAsObjectAsync();
-            }
-            catch (UnsuccessfulAPICallException ex)
-            {
-                Tools.Logger.Log(this, "PerformFullOnlineAnalysis method - Adelex", ex);
-            }
-            catch (System.Exception ex)
-            {
-                Tools.Logger.Log(this, "PerformFullOnlineAnalysis method - Adelex", ex);
-            }
-            */
-
-            this._onlineAnalysisDirtyFlag = false;
-        }
-
-        private float countpercent = 0;
-        private int counttot = 0;
-
-        private void _printResult()
-        {
-            string msg = "Offline Analysis Result";
-
-            msg += "\nTotal words: " + this.NumWords;
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Adjective);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Adverb);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.ClauseOpener);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Conjunction);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Determiner);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.DeterminerPronoun);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.ExistentialParticle);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.ForeignWord);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Genitive);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.InfinitiveMarker);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.InterjectionOrDiscourseMarker);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.LetterAsWord);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.NegativeMarker);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.CommonNoun);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.ProperNoun);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.PartOfProperNoun);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.CardinalNumber);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Ordinal);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Preposition);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Pronoun);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Unclassified);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Verb);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.ModalVerb);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.AuxiliaryVerb);
-            msg += "\n" + this.getResultStringForASinglePartOfSpeech(PartOfSpeech.Exclamation);
-
-            msg += "\n Total counted: " + counttot + " - Percentage: " + countpercent.ToString("0.00");
-
-            msg += "\nUnclassified:";
-            foreach (IWord w in this.GetWordsByPartOfSpeech(PartOfSpeech.Unclassified).Keys)
-            {
-                msg += " " + w.Term;
-            }
-
-            Tools.Logger.Log(this, msg);
-        }
-
-        private string getResultStringForASinglePartOfSpeech(PartOfSpeech elem)
-        {
-            IDictionary<IWord, int> f1 = this.GetWordsByPartOfSpeech(elem);
-            counttot += f1.Count;
-
-            float f2 = this.GetNumWordsPercentage(new List<PartOfSpeech>() { elem });
-            this.countpercent += f2;
-
-            return f1.Count + "\t" + f2.ToString("0.00") + " " + elem;
+                LexTutorApi lexTutor = new LexTutorApi(App.OAuth2Account, this._essayTitle, this._essayContents);
+                return await lexTutor.CallEndpointAsObjectAsync();
+            });
         }
     }
 }

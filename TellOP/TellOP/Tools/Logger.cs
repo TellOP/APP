@@ -13,13 +13,18 @@
 // limitations under the License.
 // </copyright>
 // <author>Mattia Zago</author>
+// <author>Alessandro Menti</author>
 
 namespace TellOP.Tools
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading.Tasks;
+    using Xamarin.Forms;
 
     /// <summary>
-    /// Debugger class
+    /// A class used to log debug errors.
     /// </summary>
     public sealed class Logger
     {
@@ -31,176 +36,92 @@ namespace TellOP.Tools
         }
 
         /// <summary>
-        /// Logs an error to the debug console.
+        /// Logs an error to the debug console and records it in HockeyApp if tracking is enabled.
         /// </summary>
-        /// <param name="who">A string identifying the caller.</param>
-        /// <param name="customMessage">A custom message.</param>
-        public static void Log(string who, string customMessage)
+        /// <param name="caller">A string identifying the logger.</param>
+        /// <param name="message">The message to log.</param>
+        public static void Log(string caller, string message)
         {
-            if (who == null || customMessage == null)
+            Log(caller, message, null);
+        }
+
+        /// <summary>
+        /// Logs an error to the debug console and records it in HockeyApp if tracking is enabled.
+        /// </summary>
+        /// <param name="caller">A string identifying the logger.</param>
+        /// <param name="ex">The exception to log.</param>
+        public static void Log(string caller, Exception ex)
+        {
+            Log(caller, "An exception occurred.", ex);
+        }
+
+        /// <summary>
+        /// Logs an error to the debug console and records it in HockeyApp if tracking is enabled.
+        /// </summary>
+        /// <param name="caller">A string identifying the logger.</param>
+        /// <param name="message">The message to log.</param>
+        /// <param name="ex">The exception associated to the message.</param>
+        public static void Log(string caller, string message, Exception ex)
+        {
+            if (caller == null || string.IsNullOrEmpty(message) || string.IsNullOrWhiteSpace(message))
             {
+                // Do not throw an ArgumentNullException (the logger will probably be used in "difficult" situations
+                // where an exception has already occurred)
                 return;
             }
 
-            if (customMessage.Contains("\n"))
+            if (message.Contains("\n"))
             {
-                System.Diagnostics.Debug.WriteLine("[" + who + " Log]--------------------------------");
-                System.Diagnostics.Debug.WriteLine("Message: " + customMessage);
-                System.Diagnostics.Debug.WriteLine("[End " + who + " Log]--------------------------------");
+                Debug.WriteLine("[" + caller + "] --------------------------------");
+                Debug.WriteLine(message);
+
+                try
+                {
+                    Debug.WriteLineIf(ex != null, "Exception: " + ex.ToString());
+                }
+                catch (Exception)
+                {
+                }
+
+                Debug.WriteLine("[End " + caller + "] --------------------------------");
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("[" + who + " Log]: " + customMessage);
-            }
-        }
+                Debug.WriteLine("[" + caller + "] " + message);
 
-        /// <summary>
-        /// Log to the debug console the error.
-        /// </summary>
-        /// <param name="who">Identify the caller</param>
-        /// <param name="customMessage">Custom message</param>
-        public static void Log(object who, string customMessage)
-        {
-            if (who == null || customMessage == null)
+                try
+                {
+                    Debug.WriteLineIf(ex != null, "Exception: " + ex.ToString());
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            // Track the event in HockeyApp on supported platforms
+            Action trackInHockeyApp = new Action(() =>
             {
-                return;
-            }
-
-            Log(who.GetType().Name, customMessage);
+                if (!HockeyApp.MetricsManager.Disabled)
+                {
+                    HockeyApp.MetricsManager.TrackEvent("logMessage", new Dictionary<string, string> { { "caller", caller }, { "message", message }, { "exception", (ex != null ? ex.ToString() : string.Empty) } }, new Dictionary<string, double>());
+                }
+            });
+            Device.OnPlatform(trackInHockeyApp, trackInHockeyApp, null, null);
         }
 
         /// <summary>
-        /// Log to the debug console the error.
+        /// Logs an error to the debug console, records it in HockeyApp (if tracking is enabled) and displays it to the
+        /// user.
         /// </summary>
-        /// <param name="who">Identify the caller</param>
-        /// <param name="customMessage">Custom message</param>
-        /// <param name="ex">Optional exception to be logged</param>
-        public static void Log(string who, string customMessage, API.UnsuccessfulAPICallException ex)
+        /// <param name="caller">An instance of <see cref="Page"/> containing the page this subroutine is called
+        /// from.</param>
+        /// <param name="message">The message to log and display.</param>
+        /// <param name="ex">The exception associated to the message.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task LogWithErrorMessage(Page caller, string message, Exception ex)
         {
-            if (who == null || customMessage == null || ex == null)
-            {
-                return;
-            }
-
-            System.Diagnostics.Debug.WriteLine("[" + who + " Log]--------------------------------");
-            System.Diagnostics.Debug.WriteLine("Message: " + customMessage);
-            System.Diagnostics.Debug.WriteLine("API Response: " + ex.GetResponse);
-            System.Diagnostics.Debug.WriteLine("Exception Stack Trace: ");
-            System.Diagnostics.Debug.WriteLine(ex);
-            System.Diagnostics.Debug.WriteLine("[End " + who + " Log]--------------------------------");
-        }
-
-        /// <summary>
-        /// Log to the debug console the error.
-        /// </summary>
-        /// <param name="who">Identify the caller</param>
-        /// <param name="ex">Optional exception to be logged</param>
-        public static void Log(string who, Exception ex)
-        {
-            if (who == null || ex == null)
-            {
-                return;
-            }
-
-            System.Diagnostics.Debug.WriteLine("[" + who + " Log]--------------------------------");
-            System.Diagnostics.Debug.WriteLine("Exception Stack Trace: ");
-            System.Diagnostics.Debug.WriteLine(ex);
-            System.Diagnostics.Debug.WriteLine("[End " + who + " Log]--------------------------------");
-        }
-
-        /// <summary>
-        /// Log to the debug console the error.
-        /// </summary>
-        /// <param name="who">Identify the caller</param>
-        /// <param name="ex">Optional exception to be logged</param>
-        public static void Log(string who, API.UnsuccessfulAPICallException ex)
-        {
-            if (who == null || ex == null)
-            {
-                return;
-            }
-
-            System.Diagnostics.Debug.WriteLine("[" + who + " Log]--------------------------------");
-            System.Diagnostics.Debug.WriteLine("API Response: " + ex.GetResponse);
-            System.Diagnostics.Debug.WriteLine("Exception Stack Trace: ");
-            System.Diagnostics.Debug.WriteLine(ex);
-            System.Diagnostics.Debug.WriteLine("[End " + who + " Log]--------------------------------");
-        }
-
-        /// <summary>
-        /// Log to the debug console the error.
-        /// </summary>
-        /// <param name="who">Identify the caller</param>
-        /// <param name="customMessage">Custom message</param>
-        /// <param name="ex">Optional exception to be logged</param>
-        public static void Log(string who, string customMessage, Exception ex)
-        {
-            if (who == null || customMessage == null || ex == null)
-            {
-                return;
-            }
-
-            System.Diagnostics.Debug.WriteLine("[" + who + " Log]--------------------------------");
-            System.Diagnostics.Debug.WriteLine("Message: " + customMessage);
-            System.Diagnostics.Debug.WriteLine("Exception Stack Trace: ");
-            System.Diagnostics.Debug.WriteLine(ex);
-            System.Diagnostics.Debug.WriteLine("[End " + who + " Log]--------------------------------");
-        }
-
-        /// <summary>
-        /// Log to the debug console the error.
-        /// </summary>
-        /// <param name="who">Identify the caller</param>
-        /// <param name="customMessage">Custom message</param>
-        /// <param name="ex">Optional exception to be logged</param>
-        public static void Log(object who, string customMessage, Exception ex)
-        {
-            if (who == null || customMessage == null || ex == null)
-            {
-                return;
-            }
-
-            Log(who.GetType().Name, customMessage, ex);
-        }
-
-        /// <summary>
-        /// Log to the debug console the error.
-        /// </summary>
-        /// <param name="who">Identify the caller</param>
-        /// <param name="ex">Optional exception to be logged</param>
-        public static void Log(object who, Exception ex)
-        {
-            if (who == null || ex == null)
-            {
-                return;
-            }
-
-            Log(who.GetType().Name, ex);
-        }
-
-        /// <summary>
-        /// Log to the debug console and warn the user
-        /// </summary>
-        /// <param name="currentPage">Current page</param>
-        /// <param name="customMessage">Custom message</param>
-        /// <returns>>A <see cref="System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
-        public static async System.Threading.Tasks.Task LogWithErrorMessage(Xamarin.Forms.Page currentPage, string customMessage)
-        {
-            Log(currentPage.GetType().Name, customMessage);
-            await currentPage.DisplayAlert("[Error] " + currentPage.GetType().Name, customMessage, "OK");
-        }
-
-        /// <summary>
-        /// Log to the debug console and warn the user
-        /// </summary>
-        /// <param name="currentPage">Current page</param>
-        /// <param name="customMessage">Custom message</param>
-        /// <param name="ex">Optional exception to be logged</param>
-        /// <returns>>A <see cref="System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
-        public static async System.Threading.Tasks.Task LogWithErrorMessage(Xamarin.Forms.Page currentPage, string customMessage, System.Exception ex)
-        {
-            Log(currentPage.GetType().Name, customMessage, ex);
-            await currentPage.DisplayAlert("[Error] " + currentPage.GetType().Name, customMessage + "\nException Message: " + ex.Message, "OK");
+            Log(caller.GetType().ToString(), message, ex);
+            await caller.DisplayAlert(Properties.Resources.Error, message, Properties.Resources.ButtonOK);
         }
     }
 }

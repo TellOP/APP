@@ -17,6 +17,7 @@
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
+using Xamarin.Forms.Xaml;
 
 [assembly: AssemblyTitle("Tell-OP for Universal Windows Platform")]
 [assembly: AssemblyDescription("The Tell-OP mobile app for the Universal Windows Platform")]
@@ -26,6 +27,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © 2016 University of Murcia")]
 [assembly: AssemblyTrademark("All trademarks belong to their respective owners.")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("0.1.*")]
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]

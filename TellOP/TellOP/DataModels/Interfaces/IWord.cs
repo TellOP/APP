@@ -13,10 +13,12 @@
 // limitations under the License.
 // </copyright>
 // <author>Mattia Zago</author>
+// <author>Alessandro Menti</author>
 
 namespace TellOP.DataModels
 {
     using Enums;
+    using Nito.AsyncEx;
 
     /// <summary>
     /// A single word used in the exercises.
@@ -36,6 +38,6 @@ namespace TellOP.DataModels
         /// <summary>
         /// Gets the CEFR level of this word.
         /// </summary>
-        LanguageLevelClassification Level { get; }
+        AsyncLazy<LanguageLevelClassification> Level { get; }
     }
 }

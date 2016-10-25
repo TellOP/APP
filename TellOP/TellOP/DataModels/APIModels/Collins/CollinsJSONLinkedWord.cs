@@ -1,4 +1,4 @@
-﻿// <copyright file="CollinsJSONLinkedWord.cs" company="University of Murcia">
+﻿// <copyright file="CollinsJsonLinkedWord.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +19,16 @@ namespace TellOP.DataModels.APIModels.Collins
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A "related" or "see also" word linked from a
-    /// <see cref="CollinsWordDefinitionSense"/>.
+    /// A "related" or "see also" word linked from a <see cref="CollinsWordDefinitionSense"/>.
     /// </summary>
     [JsonObject]
-    public class CollinsJSONLinkedWord
+    public class CollinsJsonLinkedWord
     {
         /// <summary>
         /// Gets or sets the target unique ID of the linked word.
         /// </summary>
         [JsonProperty("target")]
-        public string TargetID { get; set; }
+        public string TargetId { get; set; }
 
         /// <summary>
         /// Gets or sets the linked word/expression.

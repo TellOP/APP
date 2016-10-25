@@ -32,17 +32,13 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
-        /// Given a list of words, returns the one that is the most probable
-        /// match.
+        /// Given a list of words, returns the one that is the most probable match.
         /// </summary>
-        /// <param name="wordList">An <see cref="IList{IWord}"/> object
-        /// containing the list of possible words.</param>
-        /// <returns>An <see cref="IWord"/> object containing the most probable
-        /// match.</returns>
-        /// <exception cref="ArgumentNullException">Thrown in case
-        /// <paramref name="wordList"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown in case
-        /// <paramref name="wordList"/> is empty.</exception>
+        /// <param name="wordList">An <see cref="IList{IWord}"/> object containing the list of possible words.</param>
+        /// <returns>An <see cref="IWord"/> object containing the most probable match.</returns>
+        /// <exception cref="ArgumentNullException">Thrown in case <paramref name="wordList"/> is
+        /// <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown in case <paramref name="wordList"/> is empty.</exception>
         public static IWord GetMostProbable(IList<IWord> wordList)
         {
             if (wordList == null)
@@ -54,7 +50,7 @@ namespace TellOP.DataModels
             {
                 // TODO: use a better algorithm (e.g. frequency analysis).
                 // Just return the first word for now.
-                Tools.Logger.Log("WordSearchUtilities", "Choosen word:\t\t(" + w.Term + " as " + w.PartOfSpeech + ")");
+                Tools.Logger.Log("WordSearchUtilities", "Chosen word:\t\t(" + w.Term + " as " + w.PartOfSpeech + ")");
                 return w;
             }
 
@@ -62,17 +58,14 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
-        /// Given a list of words, returns the one that is the most probable
-        /// match.
+        /// Given a list of words, returns the one that is the most probable match.
         /// </summary>
-        /// <param name="wordList">An <see cref="IEnumerable{IWord}"/> object
-        /// containing the list of possible words.</param>
-        /// <returns>An <see cref="IWord"/> object containing the most probable
-        /// match.</returns>
-        /// <exception cref="ArgumentNullException">Thrown in case
-        /// <paramref name="wordList"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown in case
-        /// <paramref name="wordList"/> is empty.</exception>
+        /// <param name="wordList">An <see cref="IEnumerable{IWord}"/> object containing the list of possible
+        /// words.</param>
+        /// <returns>An <see cref="IWord"/> object containing the most probable match.</returns>
+        /// <exception cref="ArgumentNullException">Thrown in case <paramref name="wordList"/> is
+        /// <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown in case <paramref name="wordList"/> is empty.</exception>
         public static IWord GetMostProbable(IEnumerable<IWord> wordList)
         {
             if (wordList == null)

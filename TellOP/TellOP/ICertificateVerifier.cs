@@ -22,8 +22,7 @@ namespace TellOP
     public interface ICertificateVerifier
     {
         /// <summary>
-        /// Sets the verifier used by the current platform to check for
-        /// certificate validity.
+        /// Sets the verifier used by the current platform to check for certificate validity.
         /// </summary>
         void SetCertificateVerifier();
     }

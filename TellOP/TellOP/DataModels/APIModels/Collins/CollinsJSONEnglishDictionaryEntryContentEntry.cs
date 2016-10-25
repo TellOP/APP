@@ -1,4 +1,4 @@
-﻿// <copyright file="CollinsJSONEnglishDictionaryEntryContentEntry.cs" company="University of Murcia">
+﻿// <copyright file="CollinsJsonEnglishDictionaryEntryContentEntry.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,18 +18,19 @@ namespace TellOP.DataModels.APIModels.Collins
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using Enums;
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A content entry inside an <see cref="CollinsJSONEnglishDictionaryEntryContent"/>.
+    /// A content entry inside an <see cref="CollinsJsonEnglishDictionaryEntryContent"/>.
     /// </summary>
     [JsonObject]
-    public class CollinsJSONEnglishDictionaryEntryContentEntry
+    public class CollinsJsonEnglishDictionaryEntryContentEntry
     {
         /// <summary>
         /// Gets or sets the part of speech this content entry belongs to.
         /// </summary>
-        [JsonConverter(typeof(CollinsJSONPartOfSpeechJSONConverter))]
+        [JsonConverter(typeof(CollinsJsonPartOfSpeechJsonConverter))]
         [JsonProperty("partOfSpeech")]
         public PartOfSpeech PartOfSpeech { get; set; }
 

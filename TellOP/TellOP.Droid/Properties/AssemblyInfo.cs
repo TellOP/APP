@@ -18,6 +18,8 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Android.App;
+using TellOP.Droid;
+using Xamarin.Forms.Xaml;
 
 [assembly: AssemblyTitle("Tell-OP for Android")]
 [assembly: AssemblyDescription("The Tell-OP mobile app for Android")]
@@ -29,8 +31,12 @@ using Android.App;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("0.1.*")]
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
 // Android permissions
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
 [assembly: UsesFeature("android.hardware.wifi", Required = false)]
+
+// The HockeyApp API 2 key
+[assembly: MetaData("net.hockeyapp.android.appIdentifier", Value = TellOPDroidConfiguration.HockeyAppSecret)]

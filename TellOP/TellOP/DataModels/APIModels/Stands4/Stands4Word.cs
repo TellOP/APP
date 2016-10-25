@@ -18,8 +18,9 @@
 namespace TellOP.DataModels.APIModels.Stands4
 {
     using System;
-    using API;
+    using Api;
     using Enums;
+    using Nito.AsyncEx;
     using SQLiteModels;
 
     /// <summary>
@@ -28,15 +29,9 @@ namespace TellOP.DataModels.APIModels.Stands4
     public class Stands4Word : IWord
     {
         /// <summary>
-        /// Cache for the local DB word corresponding to the Collins word.
-        /// </summary>
-        private IWord _localWord;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Stands4Word"/> class.
         /// </summary>
-        /// <param name="definition">An instance of
-        /// <see cref="DictionarySingleDefinition"/> containing the definition
+        /// <param name="definition">An instance of <see cref="DictionarySingleDefinition"/> containing the definition
         /// extracted from the Web service.</param>
         public Stands4Word(DictionarySingleDefinition definition)
         {
@@ -49,28 +44,16 @@ namespace TellOP.DataModels.APIModels.Stands4
             this.Definition = definition.Definition;
             this.Examples = definition.Examples;
             this.Term = definition.Term;
+            this.Level = new AsyncLazy<LanguageLevelClassification>(async () =>
+            {
+                return await WordSearchUtilities.GetMostProbable(await OfflineWord.Search(this.Term, SupportedLanguage.English).ConfigureAwait(false)).Level;
+            });
         }
 
         /// <summary>
         /// Gets the CEFR level of this word.
         /// </summary>
-        public LanguageLevelClassification Level
-        {
-            get
-            {
-                if (this._localWord == null)
-                {
-                    this.CacheLocalWord();
-                }
-
-                return this._localWord.Level;
-            }
-
-            private set
-            {
-                // Nothing to do
-            }
-        }
+        public AsyncLazy<LanguageLevelClassification> Level { get; private set; }
 
         /// <summary>
         /// Gets the part of speech this term is categorized into.
@@ -87,27 +70,11 @@ namespace TellOP.DataModels.APIModels.Stands4
         /// </summary>
         public string Definition { get; private set; }
 
+        // TODO: change this array to a list!
+
         /// <summary>
         /// Gets the examples obtained by the remote API.
         /// </summary>
         public string[] Examples { get; private set; }
-
-        /// <summary>
-        /// Caches a local DB word corresponding to the Stands4 word.
-        /// </summary>
-        private async void CacheLocalWord()
-        {
-            if (this._localWord == null)
-            {
-                try
-                {
-                    this._localWord = WordSearchUtilities.GetMostProbable(await OfflineWord.Search(this.Term, SupportedLanguage.English));
-                }
-                catch (Exception ex)
-                {
-                    Tools.Logger.Log(this, ex);
-                }
-            }
-        }
     }
 }

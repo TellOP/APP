@@ -20,26 +20,20 @@ namespace TellOP.DataModels.APIModels.Exercise
     using Newtonsoft.Json.Linq;
 
     /// <summary>
-    /// A <see cref="JSONCreationConverter{Activity}"/> converting JSON
-    /// representations of exercises to <see cref="Activity"/> objects (or one
-    /// of its subclasses) and vice versa.
+    /// A <see cref="JsonCreationConverter{Activity}"/> converting JSON representations of exercises to
+    /// <see cref="Activity"/> objects (or one of its subclasses) and vice versa.
     /// </summary>
-    public class ActivityConverter : JSONCreationConverter<Activity>
+    public class ActivityConverter : JsonCreationConverter<Activity>
     {
         /// <summary>
-        /// Creates an instance of the subclass of
-        /// <see cref="Activity"/> that is most appropriate for the JSON
+        /// Creates an instance of the subclass of <see cref="Activity"/> that is most appropriate for the JSON
         /// representation in <paramref name="jsonObject"/>.
         /// </summary>
         /// <param name="objectType">The object type.</param>
-        /// <param name="jsonObject">An instance of <see cref="JObject"/>
-        /// containing the JSON object to convert.</param>
-        /// <returns>A new instance of the subclass of
-        /// <see cref="Activity"/> that is most appropriate for the JSON
+        /// <param name="jsonObject">An instance of <see cref="JObject"/> containing the JSON object to convert.</param>
+        /// <returns>A new instance of the subclass of <see cref="Activity"/> that is most appropriate for the JSON
         /// representation in <paramref name="jsonObject"/>.</returns>
-        protected override Activity Create(
-            Type objectType,
-            JObject jsonObject)
+        protected override Activity Create(Type objectType, JObject jsonObject)
         {
             if (jsonObject == null)
             {

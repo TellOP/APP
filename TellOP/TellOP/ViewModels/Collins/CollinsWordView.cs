@@ -16,12 +16,14 @@
 
 namespace TellOP.ViewModels.Collins
 {
+    using System.Globalization;
     using DataModels;
     using DataModels.APIModels.Collins;
+    using DataModels.Enums;
     using Xamarin.Forms;
 
     /// <summary>
-    /// Represent the CollinsWord object
+    /// A visual representation of an instance of <see cref="CollinsWord"/>.
     /// </summary>
     public class CollinsWordView : StackLayout
     {
@@ -30,7 +32,7 @@ namespace TellOP.ViewModels.Collins
         /// <summary>
         /// Initializes a new instance of the <see cref="CollinsWordView"/> class.
         /// </summary>
-        /// <param name="word">Collins Word</param>
+        /// <param name="word">The instance of <see cref="CollinsWord"/> containing the word to represent.</param>
         public CollinsWordView(CollinsWord word)
             : base()
         {
@@ -60,10 +62,10 @@ namespace TellOP.ViewModels.Collins
                 };
 
                 int rowCounter = 0;
-                { // Init fill content
+                {
                     Label titleLabel = new Label
                     {
-                        Text = "[" + this.word.PartOfSpeech.GetFriendlyName() + "] Sense #" + (senseNum + 1),
+                        Text = "[" + new PartOfSpeechToStringConverter().Convert(this.word.PartOfSpeech, typeof(string), null, CultureInfo.CurrentCulture) + "] Sense #" + (senseNum + 1),
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.Start,
                         FontAttributes = FontAttributes.Bold,
@@ -76,7 +78,7 @@ namespace TellOP.ViewModels.Collins
                     CollinsWordDefinitionSense currentSense = this.word.Senses[senseNum];
                     for (int definitionNum = 0; definitionNum < currentSense.Definitions.Count; ++definitionNum)
                     {
-                        rowCounter++;
+                        ++rowCounter;
                         senseGrid.Children.Add(
                             new Label
                             {
@@ -99,7 +101,7 @@ namespace TellOP.ViewModels.Collins
                             },
                             1,
                             rowCounter);
-                    } // End definition for
+                    }
 
                     for (int exampleNum = 0; exampleNum < currentSense.Examples.Count; ++exampleNum)
                     {
@@ -126,11 +128,11 @@ namespace TellOP.ViewModels.Collins
                             },
                             1,
                             rowCounter);
-                    } // End example for
-                } // End fill content
+                    }
+                }
 
                 this.Children.Add(senseGrid);
-            } // End sense for
+            }
         }
     }
 }

@@ -16,6 +16,8 @@
 
 namespace TellOP.DataModels.APIModels.Stands4
 {
+    using System.Globalization;
+    using Enums;
     using TellOP.ViewModels;
     using Xamarin.Forms;
 
@@ -83,14 +85,14 @@ namespace TellOP.DataModels.APIModels.Stands4
 
             this.termLabel = new Label
             {
-                Text = ((Stands4Word)this._term).Term,
+                Text = ((Stands4Word)this.Term).Term,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.StartAndExpand,
                 FontAttributes = FontAttributes.Bold,
                 FontSize = 14d
             };
             this.termLabel.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => this._invertDetailsPanel()) });
-            string tmpFriendlyName = ((Stands4Word)this._term).PartOfSpeech.GetFriendlyName();
+            string tmpFriendlyName = (string)new PartOfSpeechToStringConverter().Convert(((Stands4Word)this.Term).PartOfSpeech, typeof(string), null, CultureInfo.CurrentCulture);
             if (tmpFriendlyName.Length > 15)
             {
                 tmpFriendlyName = tmpFriendlyName.Remove(15);
@@ -131,13 +133,13 @@ namespace TellOP.DataModels.APIModels.Stands4
             };
 
             this.detailsPanel.Children.Add(new Label { Text = "Definition", FontSize = 14, FontAttributes = FontAttributes.Bold }, 0, 0);
-            this.detailsPanel.Children.Add(new Label { Text = ((Stands4Word)this._term).Definition, FontSize = 14, LineBreakMode = LineBreakMode.WordWrap }, 1, 0);
+            this.detailsPanel.Children.Add(new Label { Text = ((Stands4Word)this.Term).Definition, FontSize = 14, LineBreakMode = LineBreakMode.WordWrap }, 1, 0);
 
-            for (int i = 0; i < ((Stands4Word)this._term).Examples.Length; i++)
+            for (int i = 0; i < ((Stands4Word)this.Term).Examples.Length; i++)
             {
                 this.detailsPanel.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 this.detailsPanel.Children.Add(new Label { Text = "Example", FontSize = 14, FontAttributes = FontAttributes.Bold }, 0, i + 1);
-                this.detailsPanel.Children.Add(new Label { Text = ((Stands4Word)this._term).Examples[i], FontSize = 14, LineBreakMode = LineBreakMode.WordWrap }, 1, i + 1);
+                this.detailsPanel.Children.Add(new Label { Text = ((Stands4Word)this.Term).Examples[i], FontSize = 14, LineBreakMode = LineBreakMode.WordWrap }, 1, i + 1);
             }
 
             this.Children.Add(this.detailsPanel, 0, 1);

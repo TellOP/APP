@@ -35,7 +35,7 @@ namespace TellOP
         {
             if (value == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("value");
             }
 
             return value;

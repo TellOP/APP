@@ -49,11 +49,11 @@ limitations under the License.
         <!--
         <Label Grid.Column="0" Grid.Row="0" Text="Words" x:Name="statWordsLabel" HorizontalOptions="Center" FontAttributes="Bold" />
         <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statWords" HorizontalOptions="CenterAndExpand"  />
-        -->
+        
         <Label Grid.Column="0" Grid.Row="0" Text="Unknown" x:Name="statUnknownLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
         <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statUnknown" HorizontalOptions="CenterAndExpand"  />
         <ActivityIndicator Grid.Column="0" Grid.Row="1" x:Name="aiUnknown" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
-
+-->
         <Label Grid.Column="1" Grid.Row="0" Text="Nouns" x:Name="statNounsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"  />
         <Label Grid.Column="1" Grid.Row="1"  Text="" x:Name="statNouns" HorizontalOptions="CenterAndExpand"  />
         <ActivityIndicator Grid.Column="1" Grid.Row="1" x:Name="aiNouns" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />

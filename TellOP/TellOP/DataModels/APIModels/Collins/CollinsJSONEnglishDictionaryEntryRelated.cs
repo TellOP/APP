@@ -1,4 +1,4 @@
-﻿// <copyright file="CollinsJSONEnglishDictionaryEntryRelated.cs" company="University of Murcia">
+﻿// <copyright file="CollinsJsonEnglishDictionaryEntryRelated.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +16,14 @@
 
 namespace TellOP.DataModels.APIModels.Collins
 {
+    using Enums;
     using Newtonsoft.Json;
 
     /// <summary>
     /// A related word.
     /// </summary>
     [JsonObject]
-    public class CollinsJSONEnglishDictionaryEntryRelated
+    public class CollinsJsonEnglishDictionaryEntryRelated
     {
         /// <summary>
         /// Gets or sets the related word.
@@ -33,7 +34,7 @@ namespace TellOP.DataModels.APIModels.Collins
         /// <summary>
         /// Gets or sets the part of speech the related word belongs to.
         /// </summary>
-        [JsonConverter(typeof(CollinsJSONPartOfSpeechJSONConverter))]
+        [JsonConverter(typeof(CollinsJsonPartOfSpeechJsonConverter))]
         [JsonProperty("partOfSpeech")]
         public PartOfSpeech PartOfSpeech { get; set; }
     }

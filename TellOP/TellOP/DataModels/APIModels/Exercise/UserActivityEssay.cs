@@ -17,7 +17,7 @@
 namespace TellOP.DataModels.APIModels.Exercise
 {
     using System;
-    using DataModels.Activity;
+    using Enums;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -47,7 +47,7 @@ namespace TellOP.DataModels.APIModels.Exercise
         /// Gets or sets the exercise status.
         /// </summary>
         [JsonProperty("passed")]
-        [JsonConverter(typeof(ExerciseStatusJSONConverter))]
+        [JsonConverter(typeof(ExerciseStatusJsonConverter))]
         public ExerciseStatus Status { get; set; }
     }
 }

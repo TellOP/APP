@@ -1,4 +1,4 @@
-// <copyright file="ExerciseHistoryAPI.cs" company="University of Murcia">
+// <copyright file="ExerciseHistoryApi.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -27,13 +27,14 @@ namespace TellOP.API
     /// <summary>
     /// A class accessing the exercise history API on the TellOP server.
     /// </summary>
-    public class ExerciseHistoryAPI : OAuth2API
+    public class ExerciseHistoryApi : OAuth2Api
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExerciseHistoryAPI"/> class.
+        /// Initializes a new instance of the <see cref="ExerciseHistoryApi"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account credentials.</param>
-        public ExerciseHistoryAPI(Account account)
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
+        public ExerciseHistoryApi(Account account)
             : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.ExerciseHistory"), HttpMethod.Get, account)
         {
         }
@@ -41,7 +42,8 @@ namespace TellOP.API
         /// <summary>
         /// Call the API endpoint and return the object representation of the API response.
         /// </summary>
-        /// <returns>A <see cref="Task{IList}"/> containing the object representation of the API response as its result.</returns>
+        /// <returns>A <see cref="Task{IList}"/> containing the object representation of the API response as its
+        /// result.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
         public async Task<IList<UserActivity>> CallEndpointAsObjectAsync()
         {

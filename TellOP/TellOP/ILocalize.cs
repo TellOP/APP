@@ -26,8 +26,7 @@ namespace TellOP
         /// <summary>
         /// Gets the current culture information.
         /// </summary>
-        /// <returns>A <see cref="CultureInfo"/> object containing the current
-        /// culture information.</returns>
+        /// <returns>A <see cref="CultureInfo"/> object containing the current culture information.</returns>
         CultureInfo CurrentCultureInfo { get; }
 
         /// <summary>

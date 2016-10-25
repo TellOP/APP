@@ -1,4 +1,4 @@
-﻿// <copyright file="ExerciseSubmissionAPI.cs" company="University of Murcia">
+﻿// <copyright file="ExerciseSubmissionApi.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,52 +14,49 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System;
     using System.Net.Http;
     using DataModels.APIModels.Exercise;
     using Xamarin.Auth;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// A class that submits exercises to the TellOP server.
     /// </summary>
-    public class ExerciseSubmissionAPI : OAuth2API
+    public class ExerciseSubmissionApi : OAuth2Api
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExerciseSubmissionAPI"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="ExerciseSubmissionApi"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
-        public ExerciseSubmissionAPI(Account account)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"),
-                  HttpMethod.Post,
-                  account)
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
+        public ExerciseSubmissionApi(Account account)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"), HttpMethod.Post, account)
         {
-            throw new NotImplementedException("Calling this constructor without"
-                + " passing the user activity to submit is not supported");
+            throw new NotImplementedException("Calling this constructor without passing the user activity to submit is not supported");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExerciseSubmissionAPI"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="ExerciseSubmissionApi"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
         /// <param name="activity">The user activity to submit.</param>
-        public ExerciseSubmissionAPI(Account account, UserActivity activity)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"),
-                  HttpMethod.Post,
-                  account)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="activity"/> is <c>null</c>.</exception>
+        public ExerciseSubmissionApi(Account account, UserActivity activity)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"), HttpMethod.Post, account)
         {
-            this.PostBody = "id=" + Uri.EscapeDataString(activity.ActivityID.ToString(System.Globalization.CultureInfo.InvariantCulture));
-            if (activity is UserActivityEssay)
+            if (activity == null)
             {
-                UserActivityEssay essay = (UserActivityEssay)activity;
+                throw new ArgumentNullException("activity");
+            }
+
+            this.PostBody = "id=" + Uri.EscapeDataString(activity.ActivityId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+
+            UserActivityEssay essay = activity as UserActivityEssay;
+            if (essay != null)
+            {
                 this.PostBody += "&type=" + UserActivityEssay.UserActivityType + "&text=" + Uri.EscapeDataString(essay.Text);
             }
             else if (activity is UserActivityDictionarySearch)
@@ -68,22 +65,8 @@ namespace TellOP.API
             }
             else
             {
-                throw new ArgumentException(
-                    "The activity type is not supported at this time",
-                    "activity");
+                throw new ArgumentException("The activity type is not supported at this time", "activity");
             }
-        }
-
-        /// <summary>
-        /// Call the API endpoint asynchronously.
-        /// </summary>
-        /// <returns>A <see cref="Task{String}"/> object containing the API response text.</returns>
-        /// <exception cref="UnsuccessfulAPICallException">Thrown if the API request did not complete successfully.</exception>
-        public new async Task<string> CallEndpointAsync()
-        {
-            string result = await base.CallEndpointAsync();
-            Tools.Logger.Log(this, "Submitted endpoint: " + this.EndpointUri);
-            return result;
         }
     }
 }

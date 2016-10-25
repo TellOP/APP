@@ -116,7 +116,11 @@
     <BundleResource Include="..\TellOP\LocalDictionary.sqlite">
       <Link>Resources\LocalDictionary.sqlite</Link>
     </BundleResource>
+    <BundleResource Include="..\TellOP\LocalLemmasDictionary.sqlite">
+      <Link>Resources\LocalLemmasDictionary.sqlite</Link>
+    </BundleResource>
     <Compile Include="SQLiteImplementation.cs" />
+    <Compile Include="TellOPiOSConfiguration.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
       <SubType>Designer</SubType>

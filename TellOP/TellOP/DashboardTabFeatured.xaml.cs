@@ -13,13 +13,12 @@
 // limitations under the License.
 // </copyright>
 // <author>Mattia Zago</author>
+// <author>Alessandro Menti</author>
 
 namespace TellOP
 {
-    using API;
     using DataModels;
     using DataModels.Activity;
-    using System.Threading.Tasks;
     using Xamarin.Forms;
 
     /// <summary>
@@ -27,92 +26,29 @@ namespace TellOP
     /// </summary>
     public partial class DashboardTabFeatured : ContentPage
     {
-        private FeaturedDataModel _fdm;
-
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="DashboardTabFeatured"/> class.
+        /// Initializes a new instance of the <see cref="DashboardTabFeatured"/> class.
         /// </summary>
         public DashboardTabFeatured()
         {
+            this.BindingContext = new FeaturedDataModel();
             this.InitializeComponent();
-            this.Refresh();
         }
 
         /// <summary>
-        /// Force the refresh of all the displayed data
+        /// Refreshes the exercise list.
         /// </summary>
         public void Refresh()
         {
-            this.PopulateExercises();
-            this.PopulateTips();
+            ((FeaturedDataModel)this.BindingContext).RefreshExercises();
         }
 
         /// <summary>
-        /// Populate the ex list
+        /// Called when an item in the exercise list is selected.
         /// </summary>
-        private async void PopulateExercises()
-        {
-            try
-            {
-                if (this._fdm == null)
-                {
-                    this._fdm = new FeaturedDataModel();
-                    await this._fdm.RefreshFeaturedExercises();
-                }
-
-                if (this._fdm.FeaturedExercises == null)
-                {
-                    await this._fdm.RefreshFeaturedExercises();
-                }
-
-                this.ExList.ItemsSource = this._fdm.FeaturedExercises;
-            }
-            catch (UnsuccessfulAPICallException ex)
-            {
-                Tools.Logger.Log(this, "PopulateExercises", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-            catch (System.Exception ex)
-            {
-                Tools.Logger.Log(this, "PopulateExercises", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-        }
-
-        /// <summary>
-        /// Populate the tips panel
-        /// </summary>
-        private async void PopulateTips()
-        {
-            try
-            {
-                TipsDataModel currentTip = new TipsDataModel();
-                this.TipTitle.Text = (await currentTip.GetSingleRandom()).Text;
-            }
-            catch (UnsuccessfulAPICallException ex)
-            {
-                Tools.Logger.Log(this, "PopulateTips method", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-            catch (System.Exception ex)
-            {
-                Tools.Logger.Log(this, "PopulateTips method", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-        }
-
-        private async void OnSelection(
-            object sender,
-            SelectedItemChangedEventArgs e)
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void ExerciseList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             // If this handler is called when an item is deselected, bail out
             if (e.SelectedItem == null)
@@ -120,8 +56,8 @@ namespace TellOP
                 return;
             }
 
-            await this.Navigation.PushAsync(new EssayExerciseView(
-                (EssayExercise)e.SelectedItem));
+            // TODO: support dictionary searches
+            await this.Navigation.PushAsync(new EssayExerciseView((EssayExercise)e.SelectedItem));
         }
     }
 }

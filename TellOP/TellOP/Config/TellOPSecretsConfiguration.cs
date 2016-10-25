@@ -17,19 +17,19 @@
 namespace TellOP.Config
 {
     /// <summary>
-    /// Secrets configuration file
+    /// The configuration file containing the base endpoint URL and the OAuth 2.0 credentials.
     /// </summary>
     internal class TellOPSecretsConfiguration
     {
         /// <summary>
         /// The server URL.
         /// </summary>
-        public static readonly string ServerBaseURL = "https://tellop.inf.um.es";
+        public static readonly string ServerBaseUrl = "https://tellop.inf.um.es";
 
         /// <summary>
         /// The OAuth 2.0 client id.
         /// </summary>
-        public static readonly string OAuth2ClientID = "1011a510829210912e6b9c63f4108e5b28fdc110e7dde792dfb1ee45524cc5c1f4a78";
+        public static readonly string OAuth2ClientId = "1011a510829210912e6b9c63f4108e5b28fdc110e7dde792dfb1ee45524cc5c1f4a78";
 
         // TODO: insert the OAuth 2.0 client secret obtained from the Tell-OP server.
         // The field is currently left empty to preserve its secrecy.

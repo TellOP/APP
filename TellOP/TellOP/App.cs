@@ -18,8 +18,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TellOP.API;
+using TellOP.Api;
 using TellOP.DataModels;
 using Xamarin.Auth;
 using Xamarin.Forms;
@@ -64,8 +65,8 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Gets a platform-dependent implementation of <see cref="ILocalize"/>
-        /// containing several localization utilities.
+        /// Gets a platform-dependent implementation of <see cref="ILocalize"/> containing several localization
+        /// utilities.
         /// </summary>
         public static ILocalize LocalizationUtils { get; private set; }
 
@@ -93,7 +94,7 @@ namespace TellOP
         /// <summary>
         /// Gets the action performed when the login operation succeeds.
         /// </summary>
-        public static Action SuccessfulLoginAction
+        public static Action SuccessfulLogOnAction
         {
             get
             {
@@ -108,10 +109,9 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Gets the action performed when the login operation fails due to
-        /// an error in the authentication process.
+        /// Gets the action performed when the login operation fails due to an error in the authentication process.
         /// </summary>
-        public static Action LoginAuthenticationErrorAction
+        public static Action LogOnAuthenticationErrorAction
         {
             get
             {
@@ -119,22 +119,18 @@ namespace TellOP
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await App.loginPage.DisplayAlert(
-                            TellOP.Properties.Resources.OAuth2_AuthenticationErrorTitle,
-                            TellOP.Properties.Resources.OAuth2_AuthenticationError,
-                            TellOP.Properties.Resources.ButtonOK).ConfigureAwait(false);
-                        await App.loginPage.PopAsync().ConfigureAwait(false);
+                        await App.loginPage.DisplayAlert(TellOP.Properties.Resources.OAuth2_AuthenticationErrorTitle, TellOP.Properties.Resources.OAuth2_AuthenticationError, TellOP.Properties.Resources.ButtonOK);
+                        await App.loginPage.Navigation.PopModalAsync();
                     });
                 });
             }
         }
 
         /// <summary>
-        /// Gets the action performed when the login operation fails due to
-        /// an error in the authentication process (authentication is complete,
-        /// but the user is still not logged in).
+        /// Gets the action performed when the login operation fails due to an error in the authentication process
+        /// (authentication is complete, but the user is still not logged in).
         /// </summary>
-        public static Action LoginAuthenticationCompletedButNotAuthenticatedAction
+        public static Action LogOnAuthenticationCompletedButNotAuthenticatedAction
         {
             get
             {
@@ -142,21 +138,18 @@ namespace TellOP
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await App.loginPage.DisplayAlert(
-                            TellOP.Properties.Resources.OAuth2_AuthenticationCompleteNotAuthenticatedErrorTitle,
-                            TellOP.Properties.Resources.OAuth2_AuthenticationCompleteNotAuthenticatedError,
-                            TellOP.Properties.Resources.ButtonOK).ConfigureAwait(false);
-                        await App.loginPage.PopAsync().ConfigureAwait(false);
+                        await App.loginPage.DisplayAlert(TellOP.Properties.Resources.OAuth2_AuthenticationCompleteNotAuthenticatedErrorTitle, TellOP.Properties.Resources.OAuth2_AuthenticationCompleteNotAuthenticatedError, TellOP.Properties.Resources.ButtonOK);
+                        await App.loginPage.Navigation.PopModalAsync();
                     });
                 });
             }
         }
 
         /// <summary>
-        /// Gets the action performed when the login operation fails due to
-        /// an error while calling the "Get user profile API" endpoint.
+        /// Gets the action performed when the login operation fails due to an error while calling the "Get user
+        /// profile API" endpoint.
         /// </summary>
-        public static Action LoginAPICallErrorAction
+        public static Action LogOnApiCallErrorAction
         {
             get
             {
@@ -164,22 +157,18 @@ namespace TellOP
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await App.loginPage.DisplayAlert(
-                            TellOP.Properties.Resources.API_UserDataErrorTitle,
-                            TellOP.Properties.Resources.API_UserDataError,
-                            TellOP.Properties.Resources.ButtonOK).ConfigureAwait(false);
-                        await App.loginPage.PopAsync().ConfigureAwait(false);
+                        await App.loginPage.DisplayAlert(TellOP.Properties.Resources.API_UserDataErrorTitle, TellOP.Properties.Resources.API_UserDataError, TellOP.Properties.Resources.ButtonOK);
+                        await App.loginPage.Navigation.PopModalAsync();
                     });
                 });
             }
         }
 
         /// <summary>
-        /// Gets the action performed when the login operation fails due to
-        /// an error while reading the response from the "Get user profile API"
-        /// endpoint.
+        /// Gets the action performed when the login operation fails due to an error while reading the response from
+        /// the "Get user profile API" endpoint.
         /// </summary>
-        public static Action LoginAPIJsonExceptionAction
+        public static Action LogOnApiJsonExceptionAction
         {
             get
             {
@@ -187,11 +176,8 @@ namespace TellOP
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await App.loginPage.DisplayAlert(
-                            TellOP.Properties.Resources.API_UserDataJSONErrorTitle,
-                            TellOP.Properties.Resources.API_UserDataJSONError,
-                            TellOP.Properties.Resources.ButtonOK).ConfigureAwait(false);
-                        await App.loginPage.PopAsync().ConfigureAwait(false);
+                        await App.loginPage.DisplayAlert(TellOP.Properties.Resources.API_UserDataJSONErrorTitle, TellOP.Properties.Resources.API_UserDataJSONError, TellOP.Properties.Resources.ButtonOK);
+                        await App.loginPage.Navigation.PopModalAsync();
                     });
                 });
             }
@@ -201,7 +187,8 @@ namespace TellOP
         /// Loads the user profile data into the app.
         /// </summary>
         /// <param name="account">The user account.</param>
-        public static async void LoadUserData(Account account)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task LoadUserData(Account account)
         {
             // Get the profile data from the Web application
             UserProfile userController = new UserProfile(account);
@@ -217,33 +204,27 @@ namespace TellOP
 
                 App.OAuth2Account = account;
                 App.User = apiResponse;
-                App.SuccessfulLoginAction.Invoke();
+                App.SuccessfulLogOnAction.Invoke();
             }
-            catch (UnsuccessfulAPICallException)
+            catch (UnsuccessfulApiCallException)
             {
-                App.LoginAPICallErrorAction.Invoke();
+                App.LogOnApiCallErrorAction.Invoke();
             }
             catch (Exception e)
                 when (e is JsonSerializationException || e is JsonReaderException)
             {
-                App.LoginAPIJsonExceptionAction.Invoke();
+                App.LogOnApiJsonExceptionAction.Invoke();
             }
         }
 
         /// <summary>
-        /// Gets the authenticator used for OAuth 2.0 authentication
-        /// operations.
+        /// Gets the authenticator used for OAuth 2.0 authentication operations.
         /// </summary>
-        /// <returns>The instance of <see cref="OAuth2Authenticator"/> used by
-        /// the app to authenticate.</returns>
+        /// <returns>The instance of <see cref="OAuth2Authenticator"/> used by the app to authenticate.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Needs to generate a fresh authenticator")]
         public static OAuth2Authenticator GetOAuthAuthenticator()
         {
-            OAuth2Authenticator auth = new OAuth2Authenticator(
-                Config.TellOPConfiguration.OAuth2ClientId,
-                Config.TellOPConfiguration.OAuth2Scopes,
-                Config.TellOPConfiguration.OAuth2AuthorizeURL,
-                Config.TellOPConfiguration.OAuth2RedirectURL);
+            OAuth2Authenticator auth = new OAuth2Authenticator(Config.TellOPConfiguration.OAuth2ClientId, Config.TellOPConfiguration.OAuth2Scopes, Config.TellOPConfiguration.OAuth2AuthorizeUrl, Config.TellOPConfiguration.OAuth2RedirectUrl);
             auth.AllowCancel = false;
             auth.Title = TellOP.Properties.Resources.OAuth2_Title;
             return auth;

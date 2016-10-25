@@ -19,80 +19,61 @@ namespace TellOP.DataModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
-    using Activity;
-    using API;
-    using Enums;
-    using System;
     using System.Threading.Tasks;
+    using Activity;
+    using Api;
+    using Enums;
+    using Nito.AsyncEx;
 
     /// <summary>
     /// The data model for featured exercises.
     /// </summary>
-    public class FeaturedDataModel : INotifyPropertyChanged
+    public class FeaturedDataModel
     {
-        /// <summary>
-        /// A list of featured exercises.
-        /// </summary>
-        private ReadOnlyObservableCollection<ExerciseGroup> _featuredExercises;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FeaturedDataModel"/> class.
         /// </summary>
         public FeaturedDataModel()
         {
+            this.AppTips = new TipsDataModel();
+            this.RefreshExercises();
         }
-
-        /// <summary>
-        /// Fired when a property of this model changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets a read-only list of featured exercises.
         /// </summary>
-        public ReadOnlyObservableCollection<ExerciseGroup> FeaturedExercises
-        {
-            get
-            {
-                return this._featuredExercises;
-            }
-        }
+        public INotifyTaskCompletion<ReadOnlyObservableCollection<ExerciseGroup>> FeaturedExercises { get; private set; }
+
+        /// <summary>
+        /// Gets a tip data model.
+        /// </summary>
+        public TipsDataModel AppTips { get; private set; }
 
         /// <summary>
         /// Refreshes the list of featured exercises.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <exception cref="UnsuccessfulAPICallException">Thrown if the API didn't exit correctly</exception>
-        public async Task RefreshFeaturedExercises()
+        public void RefreshExercises()
         {
-            ExerciseFeaturedAPI featuredEndpoint = new ExerciseFeaturedAPI(App.OAuth2Account);
+            this.FeaturedExercises = NotifyTaskCompletion.Create(GetFeaturedExercisesAsync());
+        }
 
-            // These exceptions are handled in the view
-            IList<Exercise> featuredExercises = await featuredEndpoint.CallEndpointAsExerciseModel();
+        /// <summary>
+        /// Refreshes the list of featured exercises asynchronously.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private static async Task<ReadOnlyObservableCollection<ExerciseGroup>> GetFeaturedExercisesAsync()
+        {
+            ExerciseFeaturedApi featuredEndpoint = new ExerciseFeaturedApi(App.OAuth2Account);
+            IList<Exercise> featuredExercises = await Task.Run(async () => await featuredEndpoint.CallEndpointAsExerciseModel());
 
-            try
-            {
-                // Group the exercises by their CEFR level.
-                IEnumerable<ExerciseGroup> featuredByGroup = from ex in featuredExercises
-                                                             group ex by ex.Level into exSameLevel
-                                                             select new ExerciseGroup(
-                                                                 LanguageLevelClassificationExtension.LevelToLongDescription(exSameLevel.Key),
-                                                                 LanguageLevelClassificationExtension.LevelToShortTitle(exSameLevel.Key),
-                                                                 exSameLevel.ToList());
+            // Group the exercises by their CEFR level.
+            LanguageLevelClassificationToLongDescriptionConverter longDescConverter = new LanguageLevelClassificationToLongDescriptionConverter();
+            LanguageLevelClassificationToHtmlParamConverter htmlParamConverter = new LanguageLevelClassificationToHtmlParamConverter();
+            IEnumerable<ExerciseGroup> featuredByGroup = from ex in featuredExercises group ex by ex.Level into exSameLevel select new ExerciseGroup((string)longDescConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), (string)htmlParamConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), exSameLevel.ToList());
 
-                this._featuredExercises = new ReadOnlyObservableCollection<ExerciseGroup>(new ObservableCollection<ExerciseGroup>(featuredByGroup));
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FeaturedExercises"));
-                return;
-            }
-            catch (Exception ex)
-            {
-                Tools.Logger.Log(this, "RefreshFeaturedExercises method - Exercise Group", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
+            return new ReadOnlyObservableCollection<ExerciseGroup>(new ObservableCollection<ExerciseGroup>(featuredByGroup));
         }
     }
 }

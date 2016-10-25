@@ -1,4 +1,4 @@
-// <copyright file="CollinsJSONEnglishDictionaryEntry.cs" company="University of Murcia">
+// <copyright file="CollinsJsonEnglishDictionaryEntry.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ namespace TellOP.DataModels.APIModels.Collins
     /// An entry in the Collins English Dictionary.
     /// </summary>
     [JsonObject]
-    public class CollinsJSONEnglishDictionaryEntry
+    public class CollinsJsonEnglishDictionaryEntry
     {
         /// <summary>
         /// Gets or sets the unique ID of the dictionary this entry was
@@ -36,7 +36,7 @@ namespace TellOP.DataModels.APIModels.Collins
         /// Gets or sets the unique ID for this entry.
         /// </summary>
         [JsonProperty("entryId")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the label (title) of the dictionary entry.
@@ -48,7 +48,7 @@ namespace TellOP.DataModels.APIModels.Collins
         /// Gets or sets the URL of the dictionary entry.
         /// </summary>
         [JsonProperty("entryUrl")]
-        public Uri URL { get; set; }
+        public Uri Url { get; set; }
 
         // FIXME Topics
 
@@ -56,6 +56,6 @@ namespace TellOP.DataModels.APIModels.Collins
         /// Gets or sets the content of the dictionary entry.
         /// </summary>
         [JsonProperty("entryContent")]
-        public CollinsJSONEnglishDictionaryEntryContent Content { get; set; }
+        public CollinsJsonEnglishDictionaryEntryContent Content { get; set; }
     }
 }

@@ -148,7 +148,7 @@
     <value>Families</value>
   </data>
   <data name="ExerciseAnalysis_KFrequencyDistribution" xml:space="preserve">
-    <value>K-Frequency distribution</value>
+    <value>K-frequency distribution</value>
   </data>
   <data name="ExerciseAnalysis_PertainingOnlistOnly" xml:space="preserve">
     <value>Pertaining to onlist only</value>
@@ -157,13 +157,13 @@
     <value>Pertaining to the whole text</value>
   </data>
   <data name="ExerciseAnalysis_RelatedRatiosIndices" xml:space="preserve">
-    <value>Related Ratios and Indices</value>
+    <value>Related ratios and indices</value>
   </data>
   <data name="ExerciseAnalysis_Tokens" xml:space="preserve">
     <value>Tokens</value>
   </data>
   <data name="ExerciseAnalysis_TokensPerFamily" xml:space="preserve">
-    <value>Tokens per Family</value>
+    <value>Tokens per family</value>
   </data>
   <data name="ExerciseAnalysis_TokensPerType" xml:space="preserve">
     <value>Tokens per type</value>
@@ -172,7 +172,7 @@
     <value>Types</value>
   </data>
   <data name="ExerciseAnalysis_TypesPerFamily" xml:space="preserve">
-    <value>Types per Family</value>
+    <value>Types per family</value>
   </data>
   <data name="ExerciseAnalysis_TypeTokenRatio" xml:space="preserve">
     <value>Type-token ratio</value>
@@ -187,13 +187,13 @@
     <value>Adverb</value>
   </data>
   <data name="PartOfSpeech_CardinalNumber" xml:space="preserve">
-    <value>Cardinal Number</value>
+    <value>Cardinal number</value>
   </data>
   <data name="PartOfSpeech_ClauseOpener" xml:space="preserve">
-    <value>Clause Opener</value>
+    <value>Clause opener</value>
   </data>
   <data name="PartOfSpeech_CommonNoun" xml:space="preserve">
-    <value>Common Noun</value>
+    <value>Common noun</value>
   </data>
   <data name="PartOfSpeech_Conjunction" xml:space="preserve">
     <value>Conjunction</value>
@@ -205,34 +205,34 @@
     <value>Determiner/Pronoun</value>
   </data>
   <data name="PartOfSpeech_ExistentialParticle" xml:space="preserve">
-    <value>Existential Particle</value>
+    <value>Existential particle</value>
   </data>
   <data name="PartOfSpeech_ForeignWord" xml:space="preserve">
-    <value>Foreign Word</value>
+    <value>Foreign word</value>
   </data>
   <data name="PartOfSpeech_Genitive" xml:space="preserve">
     <value>Genitive</value>
   </data>
   <data name="PartOfSpeech_InfinitiveMarker" xml:space="preserve">
-    <value>Infinitive Marker</value>
+    <value>Infinitive marker</value>
   </data>
   <data name="PartOfSpeech_Interjection" xml:space="preserve">
-    <value>Interjection or Discourse Marker</value>
+    <value>Interjection or discourse marker</value>
   </data>
   <data name="PartOfSpeech_LetterAsWord" xml:space="preserve">
     <value>Letter of the alphabet treated as a word</value>
   </data>
   <data name="PartOfSpeech_ModalVerb" xml:space="preserve">
-    <value>Modal Verb</value>
+    <value>Modal verb</value>
   </data>
   <data name="PartOfSpeech_NegativeMarker" xml:space="preserve">
-    <value>Negative Marker</value>
+    <value>Negative marker</value>
   </data>
   <data name="PartOfSpeech_Ordinal" xml:space="preserve">
     <value>Ordinal</value>
   </data>
   <data name="PartOfSpeech_PartProperNoun" xml:space="preserve">
-    <value>Part of a proper Noun (United Kingdom, Los Angeles, New Zealand, ...)</value>
+    <value>Part of a proper noun (United Kingdom, Los Angeles, New Zealand...)</value>
   </data>
   <data name="PartOfSpeech_Preposition" xml:space="preserve">
     <value>Preposition</value>
@@ -241,13 +241,13 @@
     <value>Pronoun</value>
   </data>
   <data name="PartOfSpeech_ProperNoun" xml:space="preserve">
-    <value>Proper Noun</value>
+    <value>Proper noun</value>
   </data>
   <data name="PartOfSpeech_Unclassified" xml:space="preserve">
     <value>Unclassified</value>
   </data>
   <data name="PartOfSpeech_Unrecognized" xml:space="preserve">
-    <value>Unrecognized Term</value>
+    <value>Unrecognized term</value>
   </data>
   <data name="PartOfSpeech_Verb" xml:space="preserve">
     <value>Verb</value>
@@ -313,10 +313,10 @@
     <value>Privacy</value>
   </data>
   <data name="Login_SignUpLabel" xml:space="preserve">
-    <value>Sign Up</value>
+    <value>Sign up</value>
   </data>
   <data name="ExerciseAnalysis_ProfileLevelTitle" xml:space="preserve">
-    <value>Profile Levels</value>
+    <value>Profile levels</value>
   </data>
   <data name="AppCredits" xml:space="preserve">
     <value>Copyright © 2016 University of Murcia
@@ -414,5 +414,116 @@ Developed by Mattia Zago and Alessandro Menti</value>
   </data>
   <data name="EssayExercise_MinMaxWords" xml:space="preserve">
     <value>Write an essay between {0} and {1} words.</value>
+  </data>
+  <data name="UnexpectedException_Text" xml:space="preserve">
+    <value>An unexpected error occurred.
+
+Please contact the developers, telling them the exact steps you performed in the application, so that they will be able to fix it.</value>
+  </data>
+  <data name="UnexpectedException_Title" xml:space="preserve">
+    <value>An unexpected error occurred</value>
+  </data>
+  <data name="UnexpectedException_WithDetails_Text" xml:space="preserve">
+    <value>An unexpected error occurred.
+
+Please contact the developers, telling them the exact steps you performed in the application, so that they will be able to fix it.
+
+Error details: {0}</value>
+  </data>
+  <data name="About_CopyrightNotice" xml:space="preserve">
+    <value>Copyright © 2016 University of Murcia
+
+This software is supported by the Erasmus+ Programme of the European Union: TELL-OP - Transforming European Learner Language into Learning Opportunities A KA200 Higher Education Strategic Partnership 2014‐1‐ES01‐KA203-004782.</value>
+  </data>
+  <data name="About_ThirdPartyLicenses" xml:space="preserve">
+    <value>View third-party licenses</value>
+  </data>
+  <data name="About_ThirdPartyLicensesTitle" xml:space="preserve">
+    <value>Third-party licenses</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>About Tell-OP</value>
+  </data>
+  <data name="About_Version" xml:space="preserve">
+    <value>Version: {0}</value>
+  </data>
+  <data name="About_ThirdPartyLicenses_UnableToLoad" xml:space="preserve">
+    <value>Unable to load the third-party license notices.</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ButtonRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ButtonSaveAndOverride" xml:space="preserve">
+    <value>Save and override</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="EssayExerciseViewAnalysisAborted" xml:space="preserve">
+    <value>Operation aborted.</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning" xml:space="preserve">
+    <value>Another analysis is running. Aborting the operation.</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionErrorGeneric" xml:space="preserve">
+    <value>Error while performing the analysis.\nSpecific message:\n</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionTextTooShort" xml:space="preserve">
+    <value>Text is too short to be analyzed. </value>
+  </data>
+  <data name="EssayExerciseViewExerciseTypeNotSupported" xml:space="preserve">
+    <value>The returned exercise type is not supported yet</value>
+  </data>
+  <data name="EssayExerciseViewSaveExceptionAPI" xml:space="preserve">
+    <value>Error while saving the exercise in the database.</value>
+  </data>
+  <data name="EssayExerciseViewSaveExceptionOpCanceled" xml:space="preserve">
+    <value>Analysis aborted</value>
+  </data>
+  <data name="EssayExerciseViewSaveExceptionUnknown" xml:space="preserve">
+    <value>Unknown exception.</value>
+  </data>
+  <data name="EssayExerciseViewStringContentError" xml:space="preserve">
+    <value>EssayExerciseView supports only string content at this time</value>
+  </data>
+  <data name="UserMessageSaveAndOverrideQuestion" xml:space="preserve">
+    <value>Do you want to save and override the previous content?</value>
+  </data>
+  <data name="Login_Or" xml:space="preserve">
+    <value>...or...</value>
+    <comment>Shown between the "Log in" button and the three links "Sign up", "About" and "Privacy"at the bottom</comment>
+  </data>
+  <data name="EssayExerciseViewXAMLAdjectivesLabel" xml:space="preserve">
+    <value>Adjectives</value>
+  </data>
+  <data name="EssayExerciseViewXAMLAdverbsLabel" xml:space="preserve">
+    <value>Adverbs</value>
+  </data>
+  <data name="EssayExerciseViewXAMLNounsLabel" xml:space="preserve">
+    <value>Nouns</value>
+  </data>
+  <data name="EssayExerciseViewXAMLVerbsLabel" xml:space="preserve">
+    <value>Verbs</value>
+  </data>
+  <data name="Dashboard_TabFeatured_Description" xml:space="preserve">
+    <value>Select an exercise from the list below to see the details</value>
+  </data>
+  <data name="Dashboard_TabFeatured_Title" xml:space="preserve">
+    <value>Featured exercises</value>
+  </data>
+  <data name="Dashboard_TabError" xml:space="preserve">
+    <value>An error occurred while trying to load the data. Press the Refresh button to try again.</value>
+  </data>
+  <data name="PartOfSpeech_AuxiliaryVerb" xml:space="preserve">
+    <value>Auziliary verb</value>
+  </data>
+  <data name="PartOfSpeech_Exclamation" xml:space="preserve">
+    <value>Exclamation</value>
   </data>
 </root>

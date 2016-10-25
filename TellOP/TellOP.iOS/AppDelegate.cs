@@ -18,32 +18,31 @@
 namespace TellOP.iOS
 #pragma warning restore SA1300
 {
-    using System.Security;
     using Foundation;
+    using HockeyApp.iOS;
     using UIKit;
 
     /// <summary>
-    /// The UIApplicationDelegate for the application. This class is
-    /// responsible for launching the User Interface of the application, as
-    /// well as listening (and optionally responding) to application events
-    /// from iOS.
+    /// The UIApplicationDelegate for the application. This class is responsible for launching the User Interface of
+    /// the application, as well as listening (and optionally responding) to application events from iOS.
     /// </summary>
     [Register("AppDelegate")]
     public partial class AppDelegate
         : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         /// <summary>
-        /// This method is invoked when the application has loaded and is ready
-        /// to run.
+        /// This method is invoked when the application has loaded and is ready to run.
         /// </summary>
-        /// <param name="app">An <see cref="UIApplication" /> object
-        /// referencing the application.</param>
-        /// <param name="options">An <see cref="NSDictionary" /> object
-        /// containing the application options.</param>
-        /// <returns><c>true</c> if the application has finished launching,
-        /// <c>false</c> otherwise.</returns>
+        /// <param name="app">An <see cref="UIApplication" /> object referencing the application.</param>
+        /// <param name="options">An <see cref="NSDictionary" /> object containing the application options.</param>
+        /// <returns><c>true</c> if the application has finished launching, <c>false</c> otherwise.</returns>
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            BITHockeyManager manager = BITHockeyManager.SharedHockeyManager;
+            manager.Configure(TellOPiOSConfiguration.HockeyAppId);
+            manager.StartManager();
+            manager.Authenticator.AuthenticateInstallation();
+
             global::Xamarin.Forms.Forms.Init();
             this.LoadApplication(new App());
 

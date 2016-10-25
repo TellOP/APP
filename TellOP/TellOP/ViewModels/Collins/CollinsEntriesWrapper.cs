@@ -46,7 +46,7 @@ namespace TellOP.ViewModels.Collins
         /// </summary>
         private StackLayout detailsPanel;
 
-        private CollinsJSONEnglishDictionarySingleResult entry;
+        private CollinsJsonEnglishDictionarySingleResult entry;
 
         private ActivityIndicator activityIndicator;
 
@@ -54,7 +54,7 @@ namespace TellOP.ViewModels.Collins
         /// Initializes a new instance of the <see cref="CollinsEntriesWrapper"/> class.
         /// </summary>
         /// <param name="singleResult">Word object</param>
-        public CollinsEntriesWrapper(CollinsJSONEnglishDictionarySingleResult singleResult)
+        public CollinsEntriesWrapper(CollinsJsonEnglishDictionarySingleResult singleResult)
         {
             this.BackgroundColor = Color.Yellow;
             this.Padding = 1;
@@ -104,7 +104,7 @@ namespace TellOP.ViewModels.Collins
 
             this.uIDLabel = new Label
             {
-                Text = "[ID: " + this.entry.EntryID + "]",
+                Text = "[ID: " + this.entry.EntryId + "]",
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.End,
                 FontSize = 10d
@@ -129,7 +129,7 @@ namespace TellOP.ViewModels.Collins
             try
             {
                 this.SwitchActivityIndicator(true);
-                this.detailsPanel = new CollinsMultipleWordsWrapper(this.entry.EntryID);
+                this.detailsPanel = new CollinsMultipleWordsWrapper(this.entry.EntryId);
                 this.detailsPanel.HorizontalOptions = LayoutOptions.FillAndExpand;
                 this.detailsPanel.VerticalOptions = LayoutOptions.StartAndExpand;
                 this.detailsPanel.Padding = 1;
@@ -144,7 +144,7 @@ namespace TellOP.ViewModels.Collins
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "_builtDetails method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "_builtDetails method", ex);
                 this.SwitchActivityIndicator(false);
                 return false;
             }
@@ -164,7 +164,8 @@ namespace TellOP.ViewModels.Collins
         /// <summary>
         /// Manage the hide/show behaviour of the detail panel
         /// </summary>
-        private async void _invertDetailsPanel()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task _invertDetailsPanel()
         {
             if (this.detailsPanel != null)
             {

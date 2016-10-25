@@ -41,7 +41,8 @@ namespace TellOP.UWP
         /// </summary>
         public void SetLocale()
         {
-            // FIXME
+            // On UWP, the CultureInfo is automatically inferred from the device settings, so there is nothing to do
+            // here.
         }
     }
 }

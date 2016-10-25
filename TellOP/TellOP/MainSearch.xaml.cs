@@ -19,7 +19,7 @@ namespace TellOP
 {
     using System;
     using System.Collections.Generic;
-    using API;
+    using Api;
     using DataModels.APIModels.Collins;
     using DataModels.APIModels.Stands4;
     using ViewModels.Collins;
@@ -73,7 +73,7 @@ namespace TellOP
             {
                 this.SwitchActivityIndicator(true);
                 Stands4Dictionary s4d = new Stands4Dictionary(App.OAuth2Account, word);
-                IList<Stands4Word> s4wResult = await s4d.CallEndpointAsStands4Word();
+                IList<Stands4Word> s4wResult = await s4d.CallEndpointAsStands4Word().ConfigureAwait(false);
                 foreach (Stands4Word w in s4wResult)
                 {
                     this.MainStack.Children.Add(new Stands4SearchListItemView(w));
@@ -81,14 +81,14 @@ namespace TellOP
 
                 this.SwitchActivityIndicator(false);
             }
-            catch (UnsuccessfulAPICallException ex)
+            catch (UnsuccessfulApiCallException ex)
             {
-                Tools.Logger.Log(this, "Stands4 Exception", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "Stands4 Exception", ex);
                 this.SwitchActivityIndicator(false);
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "Stands4 Exception", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "Stands4 Exception", ex);
                 this.SwitchActivityIndicator(false);
             }
 
@@ -96,24 +96,24 @@ namespace TellOP
             {
                 this.SwitchActivityIndicator(true);
                 CollinsEnglishDictionary dictionaryAPI = new CollinsEnglishDictionary(App.OAuth2Account, word);
-                CollinsJSONEnglishDictionary result = await dictionaryAPI.CallEndpointAsObjectAsync();
+                CollinsJsonEnglishDictionary result = await dictionaryAPI.CallEndpointAsObjectAsync().ConfigureAwait(false);
 
                 // Create a panel, but avoid the remote call
-                foreach (CollinsJSONEnglishDictionarySingleResult entry in result.Results)
+                foreach (CollinsJsonEnglishDictionarySingleResult entry in result.Results)
                 {
                     this.MainStack.Children.Add(new CollinsEntriesWrapper(entry));
                 }
 
                 this.SwitchActivityIndicator(false);
             }
-            catch (UnsuccessfulAPICallException ex)
+            catch (UnsuccessfulApiCallException ex)
             {
-                Tools.Logger.Log(this, "Collins Exception", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "Collins Exception", ex);
                 this.SwitchActivityIndicator(false);
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "Collins Exception", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "Collins Exception", ex);
                 this.SwitchActivityIndicator(false);
             }
         }

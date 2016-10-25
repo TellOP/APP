@@ -27,7 +27,7 @@ namespace TellOP.DataModels.APIModels.Adelex
         /// Gets or sets the token type (word).
         /// </summary>
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string TokenType { get; set; }
 
         /// <summary>
         /// Gets or sets the frequency of the token in the text.

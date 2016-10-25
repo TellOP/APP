@@ -18,8 +18,10 @@ namespace TellOP
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using DataModels;
     using DataModels.Activity;
+    using DataModels.APIModels.LexTutor;
     using DataModels.Enums;
     using ViewModels;
     using Xamarin.Forms;
@@ -50,6 +52,7 @@ namespace TellOP
             this.ExTitleLabel.Text = this.ExTitle;
             this.ExTitleSub.Text = this.ExSub;
 
+            // FIXME: initialize these asynchronously!
             this._initSectionsRelatedToOfflineContent();
             this._initSectionsRelatedToOnlineContent();
         }
@@ -105,7 +108,8 @@ namespace TellOP
         {
             get
             {
-                return this.ex.ToNiceString();
+                // FIXME return this.ex.ToNiceString();
+                return string.Empty;
             }
         }
 
@@ -134,149 +138,150 @@ namespace TellOP
         /// <summary>
         /// Initialize and populate all the sections related to the offline content.
         /// </summary>
-        private async void _initSectionsRelatedToOfflineContent()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task _initSectionsRelatedToOfflineContent()
         {
-            await this.ex.PerformFullOfflineAnalysis();
-            this._initSectionLanguageLevel();
-            this._initSectionExploreYourText();
+            await this._initSectionLanguageLevel();
+            await this._initSectionExploreYourText();
         }
 
         /// <summary>
         /// Initialize and populate all the sections related to the online content.
         /// </summary>
-        private async void _initSectionsRelatedToOnlineContent()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task _initSectionsRelatedToOnlineContent()
         {
-            await this.ex.PerformFullOfflineAnalysis();
-
-            // Tthe panels are built asynchronously.
-            this._initSectionRelatedRatiosAndIndexes();
+            await this._initSectionRelatedRatiosAndIndexes();
             this._initSectionKFrequencyDistribution();
         }
 
         /// <summary>
         /// Initialize Language Level section
         /// </summary>
-        private void _initSectionLanguageLevel()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task _initSectionLanguageLevel()
         {
             try
             {
-                Dictionary<LanguageLevelClassification, float> levels = this.ex.LevelClassificationDistribution;
+                Dictionary<LanguageLevelClassification, float> levels = await this.ex.LevelClassificationDistribution;
+                Dictionary<LanguageLevelClassification, List<IWord>> classification = await this.ex.LevelClassification;
 
                 try
                 {
-                    this.Label_A1.BackgroundColor = LanguageLevelClassification.A1.ToColor();
+                    // FIXME this.Label_A1.BackgroundColor = LanguageLevelClassification.A1.ToColor();
+                    // FIXME: format the string
                     this.Value_A1.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.A1] * 100) + "%";
-                    LanguageLevelWordsListView stackA1Content = new LanguageLevelWordsListView(LanguageLevelClassification.A1, this.ex.LevelClassification[LanguageLevelClassification.A1], this.StackA1);
+                    LanguageLevelWordsListView stackA1Content = new LanguageLevelWordsListView(LanguageLevelClassification.A1, classification[LanguageLevelClassification.A1], this.StackA1);
                     this.Label_A1.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => { this.InvertStatusLanguagePanelDetails(this.StackA1, stackA1Content, this.Label_A1, 0); }) });
                     this.StackA1.Children.Add(stackA1Content);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Tools.Logger.Log(this, "Error with group A1", ex);
-                    this.Label_A1.BackgroundColor = LanguageLevelClassification.A1.ToColor();
+                    Tools.Logger.Log(this.GetType().ToString(), "Error with group A1", e);
+                    // FIXME this.Label_A1.BackgroundColor = LanguageLevelClassification.A1.ToColor();
                     this.Value_A1.Text = string.Empty + "-";
                     this.StackA1.Children.Add(new StackLayout());
                 }
 
                 try
                 {
-                    this.Label_A2.BackgroundColor = LanguageLevelClassification.A2.ToColor();
+                    // FIXME this.Label_A2.BackgroundColor = LanguageLevelClassification.A2.ToColor();
                     this.Value_A2.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.A2] * 100) + "%";
-                    LanguageLevelWordsListView stackA2Content = new LanguageLevelWordsListView(LanguageLevelClassification.A2, this.ex.LevelClassification[LanguageLevelClassification.A2], this.StackA2);
+                    LanguageLevelWordsListView stackA2Content = new LanguageLevelWordsListView(LanguageLevelClassification.A2, classification[LanguageLevelClassification.A2], this.StackA2);
                     this.Label_A2.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => { this.InvertStatusLanguagePanelDetails(this.StackA2, stackA2Content, this.Label_A2, 1); }) });
                     this.StackA2.Children.Add(stackA2Content);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Tools.Logger.Log(this, "Error with group A2", ex);
-                    this.Label_A2.BackgroundColor = LanguageLevelClassification.A2.ToColor();
+                    Tools.Logger.Log(this.GetType().ToString(), "Error with group A2", e);
+                    // FIXME this.Label_A2.BackgroundColor = LanguageLevelClassification.A2.ToColor();
                     this.Value_A2.Text = string.Empty + "-";
                     this.StackA2.Children.Add(new StackLayout());
                 }
 
                 try
                 {
-                    this.Label_B1.BackgroundColor = LanguageLevelClassification.B1.ToColor();
+                    // FIXME this.Label_B1.BackgroundColor = LanguageLevelClassification.B1.ToColor();
                     this.Value_B1.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.B1] * 100) + "%";
-                    LanguageLevelWordsListView stackB1Content = new LanguageLevelWordsListView(LanguageLevelClassification.B1, this.ex.LevelClassification[LanguageLevelClassification.B1], this.StackB1);
+                    LanguageLevelWordsListView stackB1Content = new LanguageLevelWordsListView(LanguageLevelClassification.B1, classification[LanguageLevelClassification.B1], this.StackB1);
                     this.Label_B1.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => { this.InvertStatusLanguagePanelDetails(this.StackB1, stackB1Content, this.Label_B1, 2); }) });
                     this.StackB1.Children.Add(stackB1Content);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Tools.Logger.Log(this, "Error with group B1", ex);
-                    this.Label_B1.BackgroundColor = LanguageLevelClassification.A2.ToColor();
+                    Tools.Logger.Log(this.GetType().ToString(), "Error with group B1", e);
+                    // FIXME this.Label_B1.BackgroundColor = LanguageLevelClassification.A2.ToColor();
                     this.Value_B1.Text = string.Empty + "-";
                     this.StackB1.Children.Add(new StackLayout());
                 }
 
                 try
                 {
-                    this.Label_B2.BackgroundColor = LanguageLevelClassification.B2.ToColor();
+                    // FIXME this.Label_B2.BackgroundColor = LanguageLevelClassification.B2.ToColor();
                     this.Value_B2.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.B2] * 100) + "%";
-                    LanguageLevelWordsListView stackB2Content = new LanguageLevelWordsListView(LanguageLevelClassification.B2, this.ex.LevelClassification[LanguageLevelClassification.B2], this.StackB2);
+                    LanguageLevelWordsListView stackB2Content = new LanguageLevelWordsListView(LanguageLevelClassification.B2, classification[LanguageLevelClassification.B2], this.StackB2);
                     this.Label_B2.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => { this.InvertStatusLanguagePanelDetails(this.StackB2, stackB2Content, this.Label_B2, 3); }) });
                     this.StackB2.Children.Add(stackB2Content);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Tools.Logger.Log(this, "Error with group B2", ex);
-                    this.Label_B2.BackgroundColor = LanguageLevelClassification.B2.ToColor();
+                    Tools.Logger.Log(this.GetType().ToString(), "Error with group B2", e);
+                    // FIXME this.Label_B2.BackgroundColor = LanguageLevelClassification.B2.ToColor();
                     this.Value_B2.Text = string.Empty + "-";
                     this.StackB2.Children.Add(new StackLayout());
                 }
 
                 try
                 {
-                    this.Label_C1.BackgroundColor = LanguageLevelClassification.C1.ToColor();
+                    // FIXME this.Label_C1.BackgroundColor = LanguageLevelClassification.C1.ToColor();
                     this.Value_C1.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.C1] * 100) + "%";
-                    LanguageLevelWordsListView stackC1Content = new LanguageLevelWordsListView(LanguageLevelClassification.C1, this.ex.LevelClassification[LanguageLevelClassification.C1], this.StackC1);
+                    LanguageLevelWordsListView stackC1Content = new LanguageLevelWordsListView(LanguageLevelClassification.C1, classification[LanguageLevelClassification.C1], this.StackC1);
                     this.Label_C1.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => { this.InvertStatusLanguagePanelDetails(this.StackC1, stackC1Content, this.Label_C1, 4); }) });
                     this.StackC1.Children.Add(stackC1Content);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Tools.Logger.Log(this, "Error with group C1", ex);
-                    this.Label_C1.BackgroundColor = LanguageLevelClassification.C1.ToColor();
+                    Tools.Logger.Log(this.GetType().ToString(), "Error with group C1", e);
+                    // FIXME this.Label_C1.BackgroundColor = LanguageLevelClassification.C1.ToColor();
                     this.Value_C1.Text = string.Empty + "-";
                     this.StackC1.Children.Add(new StackLayout());
                 }
 
                 try
                 {
-                    this.Label_C2.BackgroundColor = LanguageLevelClassification.C2.ToColor();
+                    // FIXME this.Label_C2.BackgroundColor = LanguageLevelClassification.C2.ToColor();
                     this.Value_C2.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.C2] * 100) + "%";
-                    LanguageLevelWordsListView stackC2Content = new LanguageLevelWordsListView(LanguageLevelClassification.C2, this.ex.LevelClassification[LanguageLevelClassification.C2], this.StackC2);
+                    LanguageLevelWordsListView stackC2Content = new LanguageLevelWordsListView(LanguageLevelClassification.C2, classification[LanguageLevelClassification.C2], this.StackC2);
                     this.Label_C2.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => { this.InvertStatusLanguagePanelDetails(this.StackC2, stackC2Content, this.Label_C2, 5); }) });
                     this.StackC2.Children.Add(stackC2Content);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Tools.Logger.Log(this, "Error with group C2", ex);
-                    this.Label_C2.BackgroundColor = LanguageLevelClassification.C2.ToColor();
+                    Tools.Logger.Log(this.GetType().ToString(), "Error with group C2", e);
+                    // FIXME this.Label_C2.BackgroundColor = LanguageLevelClassification.C2.ToColor();
                     this.Value_C2.Text = string.Empty + "-";
                     this.StackC2.Children.Add(new StackLayout());
                 }
 
                 try
                 {
-                    this.Label_UNKNOWN.BackgroundColor = LanguageLevelClassification.UNKNOWN.ToColor();
-                    this.Value_UNKNOWN.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.UNKNOWN] * 100) + "%";
-                    LanguageLevelWordsListView stackUNKNOWNContent = new LanguageLevelWordsListView(LanguageLevelClassification.UNKNOWN, this.ex.LevelClassification[LanguageLevelClassification.UNKNOWN], this.StackUNKNOWN);
+                    // FIXME this.Label_UNKNOWN.BackgroundColor = LanguageLevelClassification.Unknown.ToColor();
+                    this.Value_UNKNOWN.Text = string.Empty + Convert.ToInt32(levels[LanguageLevelClassification.Unknown] * 100) + "%";
+                    LanguageLevelWordsListView stackUNKNOWNContent = new LanguageLevelWordsListView(LanguageLevelClassification.Unknown, classification[LanguageLevelClassification.Unknown], this.StackUNKNOWN);
                     this.Label_UNKNOWN.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => { this.InvertStatusLanguagePanelDetails(this.StackUNKNOWN, stackUNKNOWNContent, this.Label_UNKNOWN, 6); }) });
                     this.StackUNKNOWN.Children.Add(stackUNKNOWNContent);
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Tools.Logger.Log(this, "Error with group UNKNOWN", ex);
-                    this.Label_UNKNOWN.BackgroundColor = LanguageLevelClassification.UNKNOWN.ToColor();
+                    Tools.Logger.Log(this.GetType().ToString(), "Error with group UNKNOWN", e);
+                    // FIXME this.Label_UNKNOWN.BackgroundColor = LanguageLevelClassification.Unknown.ToColor();
                     this.Value_UNKNOWN.Text = string.Empty + "-";
                     this.StackUNKNOWN.Children.Add(new StackLayout());
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Tools.Logger.Log(this, "_initSectionLanguageLevel method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "_initSectionLanguageLevel method", e);
             }
         }
 
@@ -319,55 +324,51 @@ namespace TellOP
         /// <summary>
         /// Initialize Related Ratios and Indexes section
         /// </summary>
-        /// <returns>True if the operation is completed successfully</returns>
-        private bool _initSectionRelatedRatiosAndIndexes()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task _initSectionRelatedRatiosAndIndexes()
         {
             try
             {
-                this.LexTutorWordsInText.Text = string.Empty + this.ex.LexTutorResult.Ratios.WordsInText;
-                this.LexTutorDifferentWords.Text = string.Empty + this.ex.LexTutorResult.Ratios.DifferentWords;
-                this.LexTutorTypeTokenRatio.Text = string.Empty + this.ex.LexTutorResult.Ratios.TypeTokenRatio;
-                this.LexTutorTokensPerType.Text = string.Empty + this.ex.LexTutorResult.Ratios.TokensPerType;
+                LexTutorResultEntry lexTutorResult = await this.ex.LexTutorResult;
+                this.LexTutorWordsInText.Text = string.Empty + lexTutorResult.Ratios.WordsInText;
+                this.LexTutorDifferentWords.Text = string.Empty + lexTutorResult.Ratios.DifferentWords;
+                this.LexTutorTypeTokenRatio.Text = string.Empty + lexTutorResult.Ratios.TypeTokenRatio;
+                this.LexTutorTokensPerType.Text = string.Empty + lexTutorResult.Ratios.TokensPerType;
 
-                this.LexTutorTokens.Text = string.Empty + this.ex.LexTutorResult.Ratios.TokensOnList;
-                this.LexTutorTypes.Text = string.Empty + this.ex.LexTutorResult.Ratios.TypesOnList;
-                this.LexTutorFamilies.Text = string.Empty + this.ex.LexTutorResult.Ratios.FamiliesOnList;
-                this.LexTutorTokensPerFamily.Text = string.Empty + this.ex.LexTutorResult.Ratios.TokensPerFamily;
-                this.LexTutorTypesPerFamily.Text = string.Empty + this.ex.LexTutorResult.Ratios.TypesPerFamily;
-
-                // TODO: remove the return value
-                return true;
+                this.LexTutorTokens.Text = string.Empty + lexTutorResult.Ratios.TokensOnList;
+                this.LexTutorTypes.Text = string.Empty + lexTutorResult.Ratios.TypesOnList;
+                this.LexTutorFamilies.Text = string.Empty + lexTutorResult.Ratios.FamiliesOnList;
+                this.LexTutorTokensPerFamily.Text = string.Empty + lexTutorResult.Ratios.TokensPerFamily;
+                this.LexTutorTypesPerFamily.Text = string.Empty + lexTutorResult.Ratios.TypesPerFamily;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Tools.Logger.Log(this, "_initSectionRelatedRatiosAndIndexes method", ex);
-                return false;
+                Tools.Logger.Log(this.GetType().ToString(), "_initSectionRelatedRatiosAndIndexes method", e);
             }
         }
 
         /// <summary>
         /// Initialize K-Frequency Distribution section
         /// </summary>
-        /// <returns>True if the operation was successful</returns>
-        private bool _initSectionKFrequencyDistribution()
+        private void _initSectionKFrequencyDistribution()
         {
             // TODO
-            return false;
         }
 
         /// <summary>
         /// Initialize Explore Your Text section
         /// </summary>
-        private void _initSectionExploreYourText()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task _initSectionExploreYourText()
         {
             // TODO: Possible async improvement? Right now only the Populate method is async but is executed and not waited by the constructor
-            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Adjective, this.ex.Adjectives));
-            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Adverb, this.ex.Adverbs));
-            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.CommonNoun, this.ex.CommonNouns));
-            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.ProperNoun, this.ex.ProperNouns));
-            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.PartOfProperNoun, this.ex.PartsOfProperNouns));
-            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Verb, this.ex.Verbs));
-            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Unclassified, this.ex.UnclassifiedWords));
+            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Adjective, await this.ex.Adjectives));
+            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Adverb, await this.ex.Adverbs));
+            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.CommonNoun, await this.ex.CommonNouns));
+            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.ProperNoun, await this.ex.ProperNouns));
+            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.PartOfProperNoun, await this.ex.PartsOfProperNouns));
+            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Verb, await this.ex.Verbs));
+            this.PoSStack.Children.Add(new PartOfSpeechWordsListView(PartOfSpeech.Unclassified, await this.ex.UnclassifiedWords));
         }
 
         /// <summary>
@@ -375,9 +376,9 @@ namespace TellOP
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs object</param>
-        private void AnalysisButton_Clicked(object sender, EventArgs e)
+        private async void AnalysisButton_Clicked(object sender, EventArgs e)
         {
-            Tools.Logger.Log(this, "Clear the interface and recompute");
+            Tools.Logger.Log(this.GetType().ToString(), "Clear the interface and recompute");
             this.PoSStack.Children.Clear();
             this.StackA1.Children.Clear();
             this.StackA2.Children.Clear();
@@ -387,7 +388,7 @@ namespace TellOP
             this.StackC2.Children.Clear();
             this.StackUNKNOWN.Children.Clear();
             this._initSectionsRelatedToOfflineContent();
-            this._initSectionsRelatedToOnlineContent();
+            await this._initSectionsRelatedToOnlineContent();
         }
     }
 }

@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System;
     using System.Collections.Generic;
@@ -26,85 +26,56 @@ namespace TellOP.API
     using Xamarin.Auth;
 
     /// <summary>
-    /// A class accessing the Collins Dictionary "Get entry" API on the TellOP
-    /// server.
+    /// A class accessing the Collins Dictionary "Get entry" API on the TellOP server.
     /// </summary>
-    public class CollinsEnglishDictionaryGetEntry : OAuth2API
+    public class CollinsEnglishDictionaryGetEntry : OAuth2Api
     {
         /// <summary>
-        /// The entry ID of the word that was searched for.
+        /// Initializes a new instance of the <see cref="CollinsEnglishDictionaryGetEntry"/> class.
         /// </summary>
-        private string _entryId;
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="CollinsEnglishDictionaryGetEntry"/> class.
-        /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
         public CollinsEnglishDictionaryGetEntry(Account account)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.CollinsEnglishDictionaryGetEntry"),
-                  HttpMethod.Get,
-                  account)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.CollinsEnglishDictionaryGetEntry"), HttpMethod.Get, account)
         {
-            throw new NotImplementedException("Calling this constructor without"
-                + " passing the definition ID is not supported");
+            throw new NotImplementedException("Calling this constructor without passing the definition ID is not supported");
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="CollinsEnglishDictionaryGetEntry"/> class.
+        /// Initializes a new instance of the <see cref="CollinsEnglishDictionaryGetEntry"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
-        /// <param name="wordId">The word ID of the definition to be
-        /// retrieved.</param>
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
+        /// <param name="wordId">The word ID of the definition to be retrieved.</param>
         public CollinsEnglishDictionaryGetEntry(Account account, string wordId)
-            : base(
-                  new Uri(Config.TellOPConfiguration.GetEndpoint("TellOP.API.CollinsEnglishDictionaryGetEntry")
-                      + "?entryId="
-                      + Uri.EscapeDataString(wordId)),
-                  HttpMethod.Get,
-                  account)
+            : base(new Uri(Config.TellOPConfiguration.GetEndpoint("TellOP.API.CollinsEnglishDictionaryGetEntry") + "?entryId=" + Uri.EscapeDataString(wordId)), HttpMethod.Get, account)
         {
-            this._entryId = wordId;
         }
 
         /// <summary>
-        /// Call the API endpoint and return the object representation of the
-        /// API response.
+        /// Call the API endpoint and return the object representation of the API response.
         /// </summary>
-        /// <returns>An instance of <see cref="CollinsJSONEnglishDictionaryEntry"/> containing the object
-        /// representation of the API response as its result.</returns>
-        public async Task<CollinsJSONEnglishDictionaryEntry> CallEndpointAsObjectAsync()
+        /// <returns>An instance of <see cref="CollinsJsonEnglishDictionaryEntry"/> containing the object representation
+        /// of the API response as its result.</returns>
+        public async Task<CollinsJsonEnglishDictionaryEntry> CallEndpointAsObjectAsync()
         {
-            return JsonConvert.DeserializeObject<CollinsJSONEnglishDictionaryEntry>(
-                await this.CallEndpointAsync().ConfigureAwait(false));
+            return JsonConvert.DeserializeObject<CollinsJsonEnglishDictionaryEntry>(await this.CallEndpointAsync().ConfigureAwait(false));
         }
 
         /// <summary>
-        /// Call the API endpoint and return a <see cref="CollinsWord"/>
-        /// object representing the searched word.
+        /// Call the API endpoint and return a <see cref="CollinsWord"/> object representing the searched word.
         /// </summary>
-        /// <returns>A <see cref="Task"/> object having as result a
-        /// <see cref="CollinsWord"/> (the word retrieved during the
-        /// search).</returns>
+        /// <returns>A <see cref="Task{IList}"/> containing the object representation of the API response as its
+        /// result.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification="Need to return a list inside a Task")]
-        public async Task<List<CollinsWord>> CallEndpointAsCollinsWord()
+        public async Task<IList<CollinsWord>> CallEndpointAsCollinsWord()
         {
-            CollinsJSONEnglishDictionaryEntry apiResult
-                = await this.CallEndpointAsObjectAsync().ConfigureAwait(false);
+            CollinsJsonEnglishDictionaryEntry apiResult = await this.CallEndpointAsObjectAsync().ConfigureAwait(false);
             List<CollinsWord> resultList = new List<CollinsWord>();
 
-            foreach (CollinsJSONEnglishDictionaryEntryContentEntry entry
-                in apiResult.Content.Entries)
+            foreach (CollinsJsonEnglishDictionaryEntryContentEntry entry in apiResult.Content.Entries)
             {
-                resultList.Add(new CollinsWord(
-                    entry,
-                    apiResult.ID,
-                    apiResult.Label,
-                    apiResult.URL));
+                resultList.Add(new CollinsWord(entry, apiResult.Id, apiResult.Label, apiResult.Url));
             }
 
             return resultList;

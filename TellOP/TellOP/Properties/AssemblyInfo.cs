@@ -18,6 +18,7 @@
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
+using Xamarin.Forms.Xaml;
 
 [assembly: AssemblyTitle("Tell-OP")]
 [assembly: AssemblyDescription("The Tell-OP mobile app")]
@@ -30,3 +31,4 @@ using System.Runtime.InteropServices;
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyVersion("0.1.*")]
 [assembly: ComVisible(false)]
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]

@@ -24,7 +24,6 @@ using Xamarin.Forms;
 namespace TellOP.iOS
 #pragma warning restore SA1300
 {
-    using System.Security;
     using TellOP;
     using Xamarin.Auth;
     using Xamarin.Forms.Platform.iOS;
@@ -35,17 +34,15 @@ namespace TellOP.iOS
     public class AuthenticationRenderer : PageRenderer
     {
         /// <summary>
-        /// Specifies whether the authentication process was already completed,
-        /// either by having the user log in or using a stored account.
+        /// Specifies whether the authentication process was already completed, either by having the user log in or
+        /// using a stored account.
         /// </summary>
-        /// <param name="animated">Specifies if the interface was shown with an
-        /// animation.</param>
+        /// <param name="animated">Specifies if the interface was shown with an animation.</param>
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
 
-            // Use a stored account if available, otherwise show the
-            // authentication UI
+            // Use a stored account if available, otherwise show the authentication UI
             // FIXME: for now, we ask for a token every time so as not to handle
             // the case where the token is expired. Consider implementing
             // refresh tokens or RFC 7662 (token introspection) in the future
@@ -70,17 +67,15 @@ namespace TellOP.iOS
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        private void OnAuthenticationCompleted(
-            object sender,
-            AuthenticatorCompletedEventArgs e)
+        private async void OnAuthenticationCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
             if (e.IsAuthenticated)
             {
-                App.LoadUserData(e.Account);
+                await App.LoadUserData(e.Account);
             }
             else
             {
-                App.LoginAuthenticationCompletedButNotAuthenticatedAction.Invoke();
+                App.LogOnAuthenticationCompletedButNotAuthenticatedAction.Invoke();
             }
         }
 
@@ -89,11 +84,9 @@ namespace TellOP.iOS
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        private void OnAuthenticationError(
-            object sender,
-            AuthenticatorErrorEventArgs e)
+        private void OnAuthenticationError(object sender, AuthenticatorErrorEventArgs e)
         {
-            App.LoginAuthenticationErrorAction.Invoke();
+            App.LogOnAuthenticationErrorAction.Invoke();
         }
     }
 }

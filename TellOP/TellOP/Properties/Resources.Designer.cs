@@ -62,6 +62,62 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Copyright © 2016 University of Murcia
+        ///
+        ///This software is supported by the Erasmus+ Programme of the European Union: TELL-OP - Transforming European Learner Language into Learning Opportunities A KA200 Higher Education Strategic Partnership 2014‐1‐ES01‐KA203-004782..
+        /// </summary>
+        public static string About_CopyrightNotice {
+            get {
+                return ResourceManager.GetString("About_CopyrightNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a View third-party licenses.
+        /// </summary>
+        public static string About_ThirdPartyLicenses {
+            get {
+                return ResourceManager.GetString("About_ThirdPartyLicenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Unable to load the third-party license notices..
+        /// </summary>
+        public static string About_ThirdPartyLicenses_UnableToLoad {
+            get {
+                return ResourceManager.GetString("About_ThirdPartyLicenses_UnableToLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Third-party licenses.
+        /// </summary>
+        public static string About_ThirdPartyLicensesTitle {
+            get {
+                return ResourceManager.GetString("About_ThirdPartyLicensesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a About Tell-OP.
+        /// </summary>
+        public static string About_Title {
+            get {
+                return ResourceManager.GetString("About_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Version: {0}.
+        /// </summary>
+        public static string About_Version {
+            get {
+                return ResourceManager.GetString("About_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a An error occurred while retrieving your profile data from the server. Please try again..
         /// </summary>
         public static string API_UserDataError {
@@ -118,6 +174,15 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Cancel.
+        /// </summary>
+        public static string ButtonCancel {
+            get {
+                return ResourceManager.GetString("ButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Delete.
         /// </summary>
         public static string ButtonDelete {
@@ -159,6 +224,33 @@ namespace TellOP.Properties {
         public static string ButtonRefresh {
             get {
                 return ResourceManager.GetString("ButtonRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Retry.
+        /// </summary>
+        public static string ButtonRetry {
+            get {
+                return ResourceManager.GetString("ButtonRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Save.
+        /// </summary>
+        public static string ButtonSave {
+            get {
+                return ResourceManager.GetString("ButtonSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Save and override.
+        /// </summary>
+        public static string ButtonSaveAndOverride {
+            get {
+                return ResourceManager.GetString("ButtonSaveAndOverride", resourceCulture);
             }
         }
         
@@ -231,11 +323,38 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a An error occurred while trying to load the data. Press the Refresh button to try again..
+        /// </summary>
+        public static string Dashboard_TabError {
+            get {
+                return ResourceManager.GetString("Dashboard_TabError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Featured.
         /// </summary>
         public static string Dashboard_TabFeatured {
             get {
                 return ResourceManager.GetString("Dashboard_TabFeatured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Select an exercise from the list below to see the details.
+        /// </summary>
+        public static string Dashboard_TabFeatured_Description {
+            get {
+                return ResourceManager.GetString("Dashboard_TabFeatured_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Featured exercises.
+        /// </summary>
+        public static string Dashboard_TabFeatured_Title {
+            get {
+                return ResourceManager.GetString("Dashboard_TabFeatured_Title", resourceCulture);
             }
         }
         
@@ -267,11 +386,137 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Write an essay between {0} and {1} words..
         /// </summary>
         public static string EssayExercise_MinMaxWords {
             get {
                 return ResourceManager.GetString("EssayExercise_MinMaxWords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Operation aborted..
+        /// </summary>
+        public static string EssayExerciseViewAnalysisAborted {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewAnalysisAborted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Another analysis is running. Aborting the operation..
+        /// </summary>
+        public static string EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error while performing the analysis.\nSpecific message:\n.
+        /// </summary>
+        public static string EssayExerciseViewAnalyzeTextExceptionErrorGeneric {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewAnalyzeTextExceptionErrorGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Text is too short to be analyzed. .
+        /// </summary>
+        public static string EssayExerciseViewAnalyzeTextExceptionTextTooShort {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewAnalyzeTextExceptionTextTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a The returned exercise type is not supported yet.
+        /// </summary>
+        public static string EssayExerciseViewExerciseTypeNotSupported {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewExerciseTypeNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Error while saving the exercise in the database..
+        /// </summary>
+        public static string EssayExerciseViewSaveExceptionAPI {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewSaveExceptionAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Analysis aborted.
+        /// </summary>
+        public static string EssayExerciseViewSaveExceptionOpCanceled {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewSaveExceptionOpCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Unknown exception..
+        /// </summary>
+        public static string EssayExerciseViewSaveExceptionUnknown {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewSaveExceptionUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a EssayExerciseView supports only string content at this time.
+        /// </summary>
+        public static string EssayExerciseViewStringContentError {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewStringContentError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Adjectives.
+        /// </summary>
+        public static string EssayExerciseViewXAMLAdjectivesLabel {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewXAMLAdjectivesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Adverbs.
+        /// </summary>
+        public static string EssayExerciseViewXAMLAdverbsLabel {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewXAMLAdverbsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Nouns.
+        /// </summary>
+        public static string EssayExerciseViewXAMLNounsLabel {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewXAMLNounsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Verbs.
+        /// </summary>
+        public static string EssayExerciseViewXAMLVerbsLabel {
+            get {
+                return ResourceManager.GetString("EssayExerciseViewXAMLVerbsLabel", resourceCulture);
             }
         }
         
@@ -321,7 +566,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a K-Frequency distribution.
+        ///   Cerca una stringa localizzata simile a K-frequency distribution.
         /// </summary>
         public static string ExerciseAnalysis_KFrequencyDistribution {
             get {
@@ -348,7 +593,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Profile Levels.
+        ///   Cerca una stringa localizzata simile a Profile levels.
         /// </summary>
         public static string ExerciseAnalysis_ProfileLevelTitle {
             get {
@@ -357,7 +602,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Related Ratios and Indices.
+        ///   Cerca una stringa localizzata simile a Related ratios and indices.
         /// </summary>
         public static string ExerciseAnalysis_RelatedRatiosIndices {
             get {
@@ -375,7 +620,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Tokens per Family.
+        ///   Cerca una stringa localizzata simile a Tokens per family.
         /// </summary>
         public static string ExerciseAnalysis_TokensPerFamily {
             get {
@@ -402,7 +647,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Types per Family.
+        ///   Cerca una stringa localizzata simile a Types per family.
         /// </summary>
         public static string ExerciseAnalysis_TypesPerFamily {
             get {
@@ -591,6 +836,15 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a ...or....
+        /// </summary>
+        public static string Login_Or {
+            get {
+                return ResourceManager.GetString("Login_Or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Privacy.
         /// </summary>
         public static string Login_PrivacyLabel {
@@ -609,7 +863,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Sign Up.
+        ///   Cerca una stringa localizzata simile a Sign up.
         /// </summary>
         public static string Login_SignUpLabel {
             get {
@@ -708,7 +962,16 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Cardinal Number.
+        ///   Cerca una stringa localizzata simile a Auziliary verb.
+        /// </summary>
+        public static string PartOfSpeech_AuxiliaryVerb {
+            get {
+                return ResourceManager.GetString("PartOfSpeech_AuxiliaryVerb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Cardinal number.
         /// </summary>
         public static string PartOfSpeech_CardinalNumber {
             get {
@@ -717,7 +980,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Clause Opener.
+        ///   Cerca una stringa localizzata simile a Clause opener.
         /// </summary>
         public static string PartOfSpeech_ClauseOpener {
             get {
@@ -726,7 +989,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Common Noun.
+        ///   Cerca una stringa localizzata simile a Common noun.
         /// </summary>
         public static string PartOfSpeech_CommonNoun {
             get {
@@ -762,7 +1025,16 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Existential Particle.
+        ///   Cerca una stringa localizzata simile a Exclamation.
+        /// </summary>
+        public static string PartOfSpeech_Exclamation {
+            get {
+                return ResourceManager.GetString("PartOfSpeech_Exclamation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Existential particle.
         /// </summary>
         public static string PartOfSpeech_ExistentialParticle {
             get {
@@ -771,7 +1043,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Foreign Word.
+        ///   Cerca una stringa localizzata simile a Foreign word.
         /// </summary>
         public static string PartOfSpeech_ForeignWord {
             get {
@@ -789,7 +1061,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Infinitive Marker.
+        ///   Cerca una stringa localizzata simile a Infinitive marker.
         /// </summary>
         public static string PartOfSpeech_InfinitiveMarker {
             get {
@@ -798,7 +1070,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Interjection or Discourse Marker.
+        ///   Cerca una stringa localizzata simile a Interjection or discourse marker.
         /// </summary>
         public static string PartOfSpeech_Interjection {
             get {
@@ -816,7 +1088,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Modal Verb.
+        ///   Cerca una stringa localizzata simile a Modal verb.
         /// </summary>
         public static string PartOfSpeech_ModalVerb {
             get {
@@ -825,7 +1097,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Negative Marker.
+        ///   Cerca una stringa localizzata simile a Negative marker.
         /// </summary>
         public static string PartOfSpeech_NegativeMarker {
             get {
@@ -843,7 +1115,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Part of a proper Noun (United Kingdom, Los Angeles, New Zealand, ...).
+        ///   Cerca una stringa localizzata simile a Part of a proper noun (United Kingdom, Los Angeles, New Zealand...).
         /// </summary>
         public static string PartOfSpeech_PartProperNoun {
             get {
@@ -870,7 +1142,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Proper Noun.
+        ///   Cerca una stringa localizzata simile a Proper noun.
         /// </summary>
         public static string PartOfSpeech_ProperNoun {
             get {
@@ -888,7 +1160,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Unrecognized Term.
+        ///   Cerca una stringa localizzata simile a Unrecognized term.
         /// </summary>
         public static string PartOfSpeech_Unrecognized {
             get {
@@ -938,6 +1210,48 @@ namespace TellOP.Properties {
         public static string Profile_Title {
             get {
                 return ResourceManager.GetString("Profile_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a An unexpected error occurred.
+        ///
+        ///Please contact the developers, telling them the exact steps you performed in the application, so that they will be able to fix it..
+        /// </summary>
+        public static string UnexpectedException_Text {
+            get {
+                return ResourceManager.GetString("UnexpectedException_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a An unexpected error occurred.
+        /// </summary>
+        public static string UnexpectedException_Title {
+            get {
+                return ResourceManager.GetString("UnexpectedException_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a An unexpected error occurred.
+        ///
+        ///Please contact the developers, telling them the exact steps you performed in the application, so that they will be able to fix it.
+        ///
+        ///Error details: {0}.
+        /// </summary>
+        public static string UnexpectedException_WithDetails_Text {
+            get {
+                return ResourceManager.GetString("UnexpectedException_WithDetails_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Do you want to save and override the previous content?.
+        /// </summary>
+        public static string UserMessageSaveAndOverrideQuestion {
+            get {
+                return ResourceManager.GetString("UserMessageSaveAndOverrideQuestion", resourceCulture);
             }
         }
     }

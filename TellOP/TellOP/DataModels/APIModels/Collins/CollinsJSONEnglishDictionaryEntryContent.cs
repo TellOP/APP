@@ -1,4 +1,4 @@
-﻿// <copyright file="CollinsJSONEnglishDictionaryEntryContent.cs" company="University of Murcia">
+﻿// <copyright file="CollinsJsonEnglishDictionaryEntryContent.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,23 +21,23 @@ namespace TellOP.DataModels.APIModels.Collins
     using Newtonsoft.Json;
 
     /// <summary>
-    /// The content of an <see cref="CollinsJSONEnglishDictionaryEntryContent"/>.
+    /// The content of an <see cref="CollinsJsonEnglishDictionaryEntryContent"/>.
     /// </summary>
     [JsonObject]
-    public class CollinsJSONEnglishDictionaryEntryContent
+    public class CollinsJsonEnglishDictionaryEntryContent
     {
         /// <summary>
         /// Gets or sets the list of entries (meanings and related words).
         /// </summary>
         [JsonProperty("entries")]
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Needed for Newtonsoft.Json deserialization")]
-        public IList<CollinsJSONEnglishDictionaryEntryContentEntry> Entries { get; set; }
+        public IList<CollinsJsonEnglishDictionaryEntryContentEntry> Entries { get; set; }
 
         /// <summary>
         /// Gets or sets the list of related words.
         /// </summary>
         [JsonProperty("related")]
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Needed for Newtonsoft.Json deserialization")]
-        public IList<CollinsJSONEnglishDictionaryEntryRelated> Related { get; set; }
+        public IList<CollinsJsonEnglishDictionaryEntryRelated> Related { get; set; }
     }
 }

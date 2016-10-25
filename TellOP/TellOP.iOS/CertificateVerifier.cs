@@ -16,7 +16,6 @@
 
 using System.Net;
 using System.Net.Security;
-using System.Security;
 using TellOP.iOS;
 
 [assembly: Xamarin.Forms.Dependency(typeof(CertificateVerifier))]
@@ -28,20 +27,14 @@ namespace TellOP.iOS
     /// <summary>
     /// A certificate verifier for the iOS platform.
     /// </summary>
-    public class CertificateVerifier : TellOP.ICertificateVerifier
+    public class CertificateVerifier : ICertificateVerifier
     {
         /// <summary>
-        /// Sets the certificate verifier to use in the TLS certificate
-        /// checking process.
+        /// Sets the certificate verifier to use in the TLS certificate checking process.
         /// </summary>
         public void SetCertificateVerifier()
         {
-            ServicePointManager.ServerCertificateValidationCallback +=
-                new RemoteCertificateValidationCallback((
-                    sender,
-                    certificate,
-                    chain,
-                    policyErrors) =>
+            ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) =>
                 {
                     if (policyErrors == SslPolicyErrors.None)
                     {
@@ -54,8 +47,7 @@ namespace TellOP.iOS
                     }
 
 #if DEBUG
-                    // Pin the debug certificate used by the testing Web
-                    // server
+                    // Pin the debug certificate used by the testing Web server
                     if (certificate.GetPublicKeyString().Equals("3082020A0282"
                         + "020100ABCCECDD6F64D4C95EC6CEB79381F966579A77D22136"
                         + "36114476E6F7BEFDB0C4957D640E212A7E35CC834531591AEE"

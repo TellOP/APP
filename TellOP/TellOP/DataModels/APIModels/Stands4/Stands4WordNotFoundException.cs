@@ -25,8 +25,7 @@ namespace TellOP.DataModels
     public class Stands4WordNotFoundException : KeyNotFoundException
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="Stands4WordNotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="Stands4WordNotFoundException"/> class.
         /// </summary>
         public Stands4WordNotFoundException()
             : base()
@@ -34,8 +33,7 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="Stands4WordNotFoundException"/> class with the specified error
+        /// Initializes a new instance of the <see cref="Stands4WordNotFoundException"/> class with the specified error
         /// message.
         /// </summary>
         /// <param name="message">The exception message.</param>
@@ -45,8 +43,7 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="Stands4WordNotFoundException"/> class with the specified error
+        /// Initializes a new instance of the <see cref="Stands4WordNotFoundException"/> class with the specified error
         /// message.
         /// </summary>
         /// <param name="message">The exception message.</param>

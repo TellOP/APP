@@ -29,17 +29,11 @@ namespace TellOP.Droid
     public class CertificateVerifier : ICertificateVerifier
     {
         /// <summary>
-        /// Sets the certificate verifier to use in the TLS certificate
-        /// checking process.
+        /// Sets the certificate verifier to use in the TLS certificate checking process.
         /// </summary>
         public void SetCertificateVerifier()
         {
-            ServicePointManager.ServerCertificateValidationCallback +=
-                new RemoteCertificateValidationCallback((
-                    sender,
-                    certificate,
-                    chain,
-                    policyErrors) =>
+            ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) =>
                 {
                     if (policyErrors == SslPolicyErrors.None)
                     {
@@ -52,8 +46,7 @@ namespace TellOP.Droid
                     }
 
 #if DEBUG
-                    // Pin the debug certificate used by the testing Web
-                    // server
+                    // Pin the debug certificate used by the testing Web server
                     if (certificate.GetPublicKeyString().Equals("3082020A0282"
                         + "020100ABCCECDD6F64D4C95EC6CEB79381F966579A77D22136"
                         + "36114476E6F7BEFDB0C4957D640E212A7E35CC834531591AEE"
@@ -81,8 +74,8 @@ namespace TellOP.Droid
                     }
 #endif
 
-                    /* TODO: pin the public key certificate (or, even better,
-                     * the intermediate CA) of the real Web server here */
+                    /* TODO: pin the public key certificate (or, even better, the intermediate CA) of the real Web
+                     * server here */
 
                     return false;
                 });

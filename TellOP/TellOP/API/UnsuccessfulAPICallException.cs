@@ -1,4 +1,4 @@
-// <copyright file="UnsuccessfulAPICallException.cs" company="University of Murcia">
+// <copyright file="UnsuccessfulApiCallException.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System;
     using System.Net;
@@ -24,83 +24,67 @@ namespace TellOP.API
     /// <summary>
     /// An exception thrown when an API call does not complete successfully.
     /// </summary>
-    public class UnsuccessfulAPICallException : Exception
+    public class UnsuccessfulApiCallException : Exception
     {
         /// <summary>
         /// The HTTP status code returned by the API call.
         /// </summary>
-        private HttpStatusCode apiStatus;
+        private HttpStatusCode _apiStatus;
 
         /// <summary>
         /// The Web response returned by the API call.
         /// </summary>
-        private Response webResponse;
+        private Response _webResponse;
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="UnsuccessfulAPICallException"/> class.
+        /// Initializes a new instance of the <see cref="UnsuccessfulApiCallException"/> class.
         /// </summary>
-        public UnsuccessfulAPICallException()
-            : this(null, null, HttpStatusCode.OK, null)
+        public UnsuccessfulApiCallException()
+            : this("The API call failed.", null, HttpStatusCode.OK, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="UnsuccessfulAPICallException"/> class.
+        /// Initializes a new instance of the <see cref="UnsuccessfulApiCallException"/> class.
         /// </summary>
         /// <param name="message">The exception message.</param>
-        public UnsuccessfulAPICallException(string message)
+        public UnsuccessfulApiCallException(string message)
             : this(message, null, HttpStatusCode.OK, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="UnsuccessfulAPICallException"/> class.
+        /// Initializes a new instance of the <see cref="UnsuccessfulApiCallException"/> class.
         /// </summary>
         /// <param name="message">The exception message.</param>
         /// <param name="innerException">The inner exception, if any.</param>
-        public UnsuccessfulAPICallException(
-            string message,
-            Exception innerException)
+        public UnsuccessfulApiCallException(string message, Exception innerException)
             : this(message, innerException, HttpStatusCode.OK, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="UnsuccessfulAPICallException"/> class.
+        /// Initializes a new instance of the <see cref="UnsuccessfulApiCallException"/> class.
         /// </summary>
         /// <param name="message">The exception message.</param>
-        /// <param name="status">The HTTP status code returned by the API call.
-        /// </param>
-        public UnsuccessfulAPICallException(
-            string message,
-            HttpStatusCode status)
+        /// <param name="status">The HTTP status code returned by the API call.</param>
+        public UnsuccessfulApiCallException(string message, HttpStatusCode status)
             : this(message, null, status, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="UnsuccessfulAPICallException"/> class.
+        /// Initializes a new instance of the <see cref="UnsuccessfulApiCallException"/> class.
         /// </summary>
         /// <param name="message">The exception message.</param>
         /// <param name="innerException">The inner exception, if any.</param>
-        /// <param name="status">The HTTP status code returned by the API call.
-        /// </param>
-        /// <param name="response">The Web response returned by the API call.
-        /// </param>
-        public UnsuccessfulAPICallException(
-            string message,
-            Exception innerException,
-            HttpStatusCode status,
-            Response response)
+        /// <param name="status">The HTTP status code returned by the API call.</param>
+        /// <param name="response">The Web response returned by the API call.</param>
+        public UnsuccessfulApiCallException(string message, Exception innerException, HttpStatusCode status, Response response)
             : base(message, innerException)
         {
-            this.apiStatus = status;
-            this.webResponse = response;
+            this._apiStatus = status;
+            this._webResponse = response;
         }
 
         /// <summary>
@@ -110,7 +94,7 @@ namespace TellOP.API
         {
             get
             {
-                return this.apiStatus;
+                return this._apiStatus;
             }
         }
 
@@ -121,8 +105,22 @@ namespace TellOP.API
         {
             get
             {
-                return this.webResponse;
+                return this._webResponse;
             }
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            string message = "TellOP.Api.UnsuccessfulApiCallException: " + this.Message + ". HTTP status code: " + this._apiStatus.ToString() + ".";
+
+            if (this._webResponse != null)
+            {
+                message += " API response: " + this._webResponse.ToString() + ".";
+            }
+
+            message += " at " + this.StackTrace.ToString();
+            return message;
         }
     }
 }

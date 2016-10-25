@@ -19,14 +19,11 @@ namespace TellOP.DataModels.APIModels.LexTutor
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A class encapsulating the frequency details returned by the LexTutor
-    /// endpoint for each word class.
+    /// A class encapsulating the frequency details returned by the LexTutor endpoint for each word class.
     /// </summary>
     [JsonObject]
     public class LexTutorResultFrequencyDetails
     {
-        // TODO: check these types!
-
         /// <summary>
         /// Gets or sets the word families.
         /// </summary>

@@ -1,4 +1,4 @@
-// <copyright file="APIErrorResponse.cs" company="University of Murcia">
+// <copyright file="ApiErrorResponse.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,11 +19,10 @@ namespace TellOP.DataModels.APIModels
     using Newtonsoft.Json;
 
     /// <summary>
-    /// JSON object representing an error response by an API endpoint on the
-    /// TellOP server.
+    /// JSON object representing an error response by an API endpoint on the TellOP server.
     /// </summary>
     [JsonObject]
-    public class APIErrorResponse
+    public class ApiErrorResponse
     {
         /// <summary>
         /// The Web service endpoint was unable to initialize the cURL library.
@@ -36,14 +35,12 @@ namespace TellOP.DataModels.APIModels
         public const int UnableToSetCurlOption = 2;
 
         /// <summary>
-        /// The Web service endpoint was unable to execute the remote cURL
-        /// request.
+        /// The Web service endpoint was unable to execute the remote cURL request.
         /// </summary>
         public const int UnableToExecuteCurlRequest = 3;
 
         /// <summary>
-        /// The cURL request was completed successfully, but the remote server
-        /// returned an error.
+        /// The cURL request was completed successfully, but the remote server returned an error.
         /// </summary>
         public const int ErrorInCurlResponse = 4;
 
@@ -53,8 +50,8 @@ namespace TellOP.DataModels.APIModels
         public const int ValidationError = 5;
 
         /// <summary>
-        /// The Web service is unable to parse the remote response (either due
-        /// to an internal error or to the response being malformed).
+        /// The Web service is unable to parse the remote response (either due to an internal error or to the response
+        /// being malformed).
         /// </summary>
         public const int UnableToParseRemoteResponse = 6;
 

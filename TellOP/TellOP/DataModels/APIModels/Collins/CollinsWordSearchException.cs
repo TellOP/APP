@@ -20,14 +20,13 @@ namespace TellOP.DataModels
     using System;
 
     /// <summary>
-    /// Exception thrown in case a word is searched for in the Collins English
-    /// dictionary and is not found (or an error calling the remote API occurs).
+    /// Exception thrown in case a word is searched for in the Collins English dictionary and is not found (or an error
+    /// calling the remote API occurs).
     /// </summary>
     public class CollinsWordSearchException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="CollinsWordSearchException"/> class.
+        /// Initializes a new instance of the <see cref="CollinsWordSearchException"/> class.
         /// </summary>
         public CollinsWordSearchException()
             : base()
@@ -35,9 +34,8 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="CollinsWordSearchException"/> class with the specified
-        /// error message.
+        /// Initializes a new instance of the <see cref="CollinsWordSearchException"/> class with the specified error
+        /// message.
         /// </summary>
         /// <param name="message">The exception message.</param>
         public CollinsWordSearchException(string message)
@@ -46,9 +44,8 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="CollinsWordSearchException"/> class with the specified
-        /// error message and inner exception.
+        /// Initializes a new instance of the <see cref="CollinsWordSearchException"/> class with the specified error
+        /// message and inner exception.
         /// </summary>
         /// <param name="message">The exception message.</param>
         /// <param name="innerException">The inner exception.</param>

@@ -20,6 +20,8 @@ namespace TellOP.Droid
     using global::Android.App;
     using global::Android.Content.PM;
     using global::Android.OS;
+    using HockeyApp.Android;
+    using HockeyApp.Android.Metrics;
 
     /// <summary>
     /// Creates the main activity for the application.
@@ -35,8 +37,35 @@ namespace TellOP.Droid
         {
             base.OnCreate(bundle);
 
+            CrashManager.Register(this, TellOPDroidConfiguration.HockeyAppId);
+
+            MetricsManager.Register(this.Application, TellOPDroidConfiguration.HockeyAppId);
+
+            // Check for updates (debug builds only)
+#if DEBUG
+            UpdateManager.Register(this, TellOPDroidConfiguration.HockeyAppId);
+#endif
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
             this.LoadApplication(new App());
+        }
+
+        /// <inheritdoc/>
+        protected override void OnPause()
+        {
+            base.OnPause();
+#if DEBUG
+            UpdateManager.Unregister();
+#endif
+        }
+
+        /// <inheritdoc/>
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+#if DEBUG
+            UpdateManager.Unregister();
+#endif
         }
     }
 }

@@ -15,7 +15,7 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -26,31 +26,26 @@ namespace TellOP.API
     /// <summary>
     /// A class accessing the "User profile" API on the TellOP server.
     /// </summary>
-    public class UserProfile : OAuth2API
+    public class UserProfile : OAuth2Api
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfile"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
         public UserProfile(Account account)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.UserProfile"),
-                  HttpMethod.Get,
-                  account)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.UserProfile"), HttpMethod.Get, account)
         {
         }
 
         /// <summary>
-        /// Call the API endpoint and return the object representation of the
-        /// API response.
+        /// Call the API endpoint and return the object representation of the API response.
         /// </summary>
-        /// <returns>A <see cref="Task{User}"/> containing the object
-        /// representation of the API response as its result.</returns>
+        /// <returns>A <see cref="Task{User}"/> containing the object representation of the API response as its
+        /// result.</returns>
         public async Task<User> CallEndpointAsObjectAsync()
         {
-            return JsonConvert.DeserializeObject<User>(
-                await this.CallEndpointAsync());
+            return JsonConvert.DeserializeObject<User>(await this.CallEndpointAsync().ConfigureAwait(false));
         }
     }
 }

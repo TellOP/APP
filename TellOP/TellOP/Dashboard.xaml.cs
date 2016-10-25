@@ -25,76 +25,63 @@ namespace TellOP
     /// </summary>
     public partial class Dashboard : TabbedPage
     {
-        private DashboardTabHistory _historyTab;
-        private DashboardTabFeatured _featuredTab;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Dashboard"/> class.
         /// </summary>
         public Dashboard()
         {
             this.InitializeComponent();
-
-            this._historyTab = new DashboardTabHistory()
-            {
-                Title = TellOP.Properties.Resources.Dashboard_TabHistory,
-                Icon = "TAB_History.png"
-            };
-
-            this._featuredTab = new DashboardTabFeatured()
-            {
-                Title = TellOP.Properties.Resources.Dashboard_TabFeatured,
-                Icon = "TAB_Featured.png"
-            };
-
-            this.Children.Add(this._featuredTab);
-            this.Children.Add(this._historyTab);
-
-            /*
-            this.Children.Add(new ContentPage()
-            {
-                Title = TellOP.Properties.Resources.Dashboard_TabStats,
-                Icon = "TAB_Stats.png"
-            });
-            */
-
-            this.refreshButton.Icon = "toolbar_refresh.png";
-            this.searchButton.Icon = "toolbar_search.png";
-
-            this.refreshButton.Clicked += this.RefreshButton_Clicked;
-            this.searchButton.Clicked += this.SearchButton_Clicked;
-            this.profileButton.Clicked += this.ProfileButton_Clicked;
-            this.settingsButton.Clicked += this.SettingsButton_Clicked;
         }
 
+        /// <summary>
+        /// Called when the "Profile" button is clicked.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void ProfileButton_Clicked(object sender, EventArgs e)
+        {
+            await this.Navigation.PushAsync(new Profile());
+        }
+
+        /// <summary>
+        /// Called when the "Refresh" button is clicked.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private void RefreshButton_Clicked(object sender, EventArgs e)
+        {
+            if (this.CurrentPage is DashboardTabHistory)
+            {
+                // FIXME ((DashboardTabHistory)this.CurrentPage).Refresh();
+            }
+            else if (this.CurrentPage is DashboardTabFeatured)
+            {
+                // FIXME ((DashboardTabHistory)this.CurrentPage).Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Called when the "Search" button is clicked.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
         private void SearchButton_Clicked(object sender, EventArgs e)
         {
+            // TODO: why are two different kind of pushes used?
             Device.OnPlatform(
                 iOS: () => this.Navigation.PushAsync(new MainSearch()),
                 Default: () => this.Navigation.PushModalAsync(new MainSearch()));
         }
 
+        /// <summary>
+        /// Called when the "Settings" button is clicked.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
         private async void SettingsButton_Clicked(object sender, EventArgs e)
         {
-            await Tools.Logger.LogWithErrorMessage(this, string.Empty, new NotImplementedException("Settings are not supported yet."));
-        }
-
-        private void RefreshButton_Clicked(object sender, EventArgs e)
-        {
-            if (this.CurrentPage is DashboardTabHistory)
-            {
-                this._historyTab.Refresh();
-            }
-
-            if (this.CurrentPage is DashboardTabFeatured)
-            {
-                this._featuredTab.Refresh();
-            }
-        }
-
-        private async void ProfileButton_Clicked(object sender, EventArgs e)
-        {
-            await this.Navigation.PushAsync(new Profile());
+            // TODO: remove when implemented
+            await this.DisplayAlert(Properties.Resources.Error, "The Settings panel will be added soon", Properties.Resources.ButtonOK);
         }
     }
 }

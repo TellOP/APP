@@ -20,9 +20,8 @@ namespace TellOP
     using Xamarin.Auth;
 
     /// <summary>
-    /// A factory for <see cref="AccountStore"/> (overrides account store
-    /// creation on UWP, which is only partially supported by
-    /// <see cref="Xamarin.Auth"/> at this time).
+    /// A factory for <see cref="AccountStore"/> (overrides account store creation on UWP, which is only partially
+    /// supported by <see cref="Xamarin.Auth"/> at this time).
     /// </summary>
     public sealed class OAuthAccountStoreFactory
     {
@@ -34,10 +33,8 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Gets or sets the functor that creates a new instance of
-        /// <see cref="AccountStore"/>.
+        /// Gets or sets the functor that creates a new instance of <see cref="AccountStore"/>.
         /// </summary>
-        public static Func<AccountStore> Create { get; set; }
-            = () => AccountStore.Create();
+        public static Func<AccountStore> Create { get; set; } = () => AccountStore.Create();
     }
 }

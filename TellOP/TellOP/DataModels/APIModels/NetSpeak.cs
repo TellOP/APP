@@ -20,8 +20,8 @@ namespace TellOP.DataModels.APIModels
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A JSON object representing a single entry in the reply returned by the
-    /// "NetSpeak preceding/following" search endpoints.
+    /// A JSON object representing a single entry in the reply returned by the "NetSpeak preceding/following" search
+    /// endpoints.
     /// </summary>
     [JsonObject]
     public class NetSpeak
@@ -30,7 +30,7 @@ namespace TellOP.DataModels.APIModels
         /// Gets or sets the unique ID of the dictionary entry.
         /// </summary>
         [JsonProperty("ID")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the word frequency in the dataset used by NetSpeak.

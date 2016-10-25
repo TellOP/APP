@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System;
 
@@ -34,8 +34,7 @@ namespace TellOP.API
         /// Gets the HTTP parameter corresponding to the specified order value.
         /// </summary>
         /// <param name="order">The order value.</param>
-        /// <returns>The HTTP parameter to be used in the <see cref="Adelex"/>
-        /// API controller.</returns>
+        /// <returns>The HTTP parameter to be used in the <see cref="AdelexApi"/> API controller.</returns>
         public static string GetHttpParam(AdelexOrder order)
         {
             switch (order)
@@ -45,9 +44,7 @@ namespace TellOP.API
                 case AdelexOrder.Frequency:
                     return "frequency";
                 default:
-                    throw new ArgumentException(
-                        "The order parameter is not a member of AdelexOrder",
-                        "order");
+                    throw new ArgumentException("The order parameter is not a member of AdelexOrder", "order");
             }
         }
     }

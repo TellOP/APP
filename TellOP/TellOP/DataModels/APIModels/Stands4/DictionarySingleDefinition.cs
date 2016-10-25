@@ -17,11 +17,11 @@
 
 namespace TellOP.DataModels.APIModels.Stands4
 {
+    using Enums;
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A JSON object representing a single definition returned by the Stands4
-    /// Dictionary Definitions endpoint.
+    /// A JSON object representing a single definition returned by the Stands4 Dictionary Definitions endpoint.
     /// </summary>
     [JsonObject]
     public class DictionarySingleDefinition
@@ -42,7 +42,7 @@ namespace TellOP.DataModels.APIModels.Stands4
         /// Gets or sets the part of speech the term belongs to.
         /// </summary>
         [JsonProperty("partofspeech")]
-        [JsonConverter(typeof(PartOfSpeechJSONConverter))]
+        [JsonConverter(typeof(PartOfSpeechJsonConverter))]
         public PartOfSpeech PartOfSpeech { get; set; }
 
         /// <summary>

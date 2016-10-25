@@ -18,13 +18,15 @@ namespace TellOP.Config
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Configuration class
+    /// A class containing the Tell-OP base URI and endpoint URI building functions.
     /// </summary>
     public sealed class TellOPConfiguration
     {
+        /// <summary>
+        /// A list of server API names and of the respective relative URIs.
+        /// </summary>
         private static Dictionary<string, string> _serverEndpoints = new Dictionary<string, string>()
         {
             { "TellOP.API.Adelex", "/api/v1/resource/adelex" },
@@ -50,77 +52,63 @@ namespace TellOP.Config
         }
 
         /// <summary>
-        /// Gets the base URL of the server.
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "The URI is built in derived properties")]
-        public static string ServerBaseUrl
-        {
-            get
-            {
-                return TellOPSecretsConfiguration.ServerBaseURL;
-            }
-        }
-
-        /// <summary>
         /// Gets the base URL of the server as an <see cref="Uri"/>.
         /// </summary>
-        public static Uri ServerBaseURLAsUri
+        public static Uri ServerBaseUrl
         {
             get
             {
-                return new Uri(TellOPSecretsConfiguration.ServerBaseURL);
+                return new Uri(TellOPSecretsConfiguration.ServerBaseUrl);
             }
         }
 
         // OAuth 2.0 endpoints.
-        // The access token, authorization and redirect URLs are kept internal;
-        // since the client ID and secret are internal as well, there's no
-        // need to make them public.
-        // The other endpoints are public as they might be used by custom,
-        // platform-specific renderers (as is the case with the profile
-        // endpoint).
+        // The access token, authorization and redirect URLs are kept internal; since the client ID and secret are
+        // internal as well, there's no need to make them public.
+        // The other endpoints are public as they might be used by custom, platform-specific renderers (as is the case
+        // with the profile endpoint).
 
         /// <summary>
         /// Gets the URL for the profile endpoint.
         /// </summary>
-        public static Uri OAuth2ProfileURL
+        public static Uri OAuth2ProfileUrl
         {
             get
             {
-                return new Uri(TellOPSecretsConfiguration.ServerBaseURL + "/api/v1/app/profile");
+                return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + "/api/v1/app/profile");
             }
         }
 
         /// <summary>
         /// Gets the OAuth 2.0 access token URL.
         /// </summary>
-        public static Uri OAuth2AccessTokenURL
+        public static Uri OAuth2AccessTokenUrl
         {
             get
             {
-                return new Uri(TellOPSecretsConfiguration.ServerBaseURL + "/oauth/2/token");
+                return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + "/oauth/2/token");
             }
         }
 
         /// <summary>
         /// Gets the OAuth 2.0 authorization URL.
         /// </summary>
-        public static Uri OAuth2AuthorizeURL
+        public static Uri OAuth2AuthorizeUrl
         {
             get
             {
-                return new Uri(TellOPSecretsConfiguration.ServerBaseURL + "/oauth/2/authorize");
+                return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + "/oauth/2/authorize");
             }
         }
 
         /// <summary>
         /// Gets the OAuth 2.0 redirect URL.
         /// </summary>
-        public static Uri OAuth2RedirectURL
+        public static Uri OAuth2RedirectUrl
         {
             get
             {
-                return new Uri(TellOPSecretsConfiguration.ServerBaseURL + "/oauth/2/success");
+                return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + "/oauth/2/success");
             }
         }
 
@@ -131,7 +119,7 @@ namespace TellOP.Config
         {
             get
             {
-                return TellOPSecretsConfiguration.OAuth2ClientID;
+                return TellOPSecretsConfiguration.OAuth2ClientId;
             }
         }
 
@@ -158,25 +146,27 @@ namespace TellOP.Config
         }
 
         /// <summary>
-        /// Retrieve the correct endpoint from the configuration file.
+        /// Retrieves the correct endpoint from the configuration file.
         /// </summary>
-        /// <param name="fullyQualifiedApiClassName">Fully qualified class name, e.g. TellOP.API.Adelex for <see cref="TellOP.API.Adelex"/> class.</param>
-        /// <returns>Endpoint URL</returns>
-        /// <exception cref="KeyNotFoundException">When the key is missing or mispelled</exception>
+        /// <param name="fullyQualifiedApiClassName">The server API name, e.g. <c>TellOP.API.Adelex</c> for the
+        /// <see cref="Api.AdelexApi"/> class.</param>
+        /// <returns>The endpoint URL corresponding to the server API name.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown if the key is missing or misspelled.</exception>
         public static string GetEndpoint(string fullyQualifiedApiClassName)
         {
-            return TellOPSecretsConfiguration.ServerBaseURL + _serverEndpoints[fullyQualifiedApiClassName];
+            return TellOPSecretsConfiguration.ServerBaseUrl + _serverEndpoints[fullyQualifiedApiClassName];
         }
 
         /// <summary>
-        /// Retrieve the correct endpoint from the configuration file.
+        /// Retrieves the correct endpoint from the configuration file.
         /// </summary>
-        /// <param name="fullyQualifiedApiClassName">Fully qualified class name, e.g. TellOP.API.Adelex for <see cref="TellOP.API.Adelex"/> class.</param>
-        /// <returns>Endpoint URL</returns>
-        /// <exception cref="KeyNotFoundException">When the key is missing or mispelled</exception>
+        /// <param name="fullyQualifiedApiClassName">The server API name, e.g. <c>TellOP.API.Adelex</c> for the
+        /// <see cref="Api.AdelexApi"/> class.</param>
+        /// <returns>The endpoint URL corresponding to the server API name.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown if the key is missing or misspelled.</exception>
         public static Uri GetEndpointAsUri(string fullyQualifiedApiClassName)
         {
-            return new Uri(TellOPSecretsConfiguration.ServerBaseURL + _serverEndpoints[fullyQualifiedApiClassName]);
+            return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + _serverEndpoints[fullyQualifiedApiClassName]);
         }
     }
 }

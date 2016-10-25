@@ -21,8 +21,7 @@ namespace TellOP
     using Xamarin.Forms;
 
     /// <summary>
-    /// A class for converting <c>null</c> or empty values to <c>false</c>
-    /// boolean values and vice versa.
+    /// A class for converting <c>null</c> or empty values to <c>false</c> boolean values and vice versa.
     /// </summary>
     internal class NonNullToBooleanConverter : IValueConverter
     {
@@ -32,22 +31,21 @@ namespace TellOP
         /// <param name="value">The object to convert.</param>
         /// <param name="targetType">The target type.</param>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="culture">An instance of the <see cref="CultureInfo"/>
-        /// class to use in the conversion process.</param>
-        /// <returns><c>false</c> if <paramref name="value"/> is <c>null</c>
-        /// or an empty string, <c>true</c> otherwise.</returns>
-        public object Convert(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture)
+        /// <param name="culture">An instance of the <see cref="CultureInfo"/> class to use in the conversion
+        /// process.</param>
+        /// <returns><c>false</c> if <paramref name="value"/> is <c>null</c> or an empty string, <c>true</c>
+        /// otherwise.</returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string)
+            string strValue = value as string;
+            if (strValue != null)
             {
                 return !string.IsNullOrEmpty((string)value);
             }
-
-            return value != null;
+            else
+            {
+                return value != null;
+            }
         }
 
         /// <summary>
@@ -56,14 +54,10 @@ namespace TellOP
         /// <param name="value">The boolean value to convert.</param>
         /// <param name="targetType">The target type.</param>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="culture">An instance of the <see cref="CultureInfo"/>
-        /// class to use in the conversion process.</param>
+        /// <param name="culture">An instance of the <see cref="CultureInfo"/> class to use in the conversion
+        /// process.</param>
         /// <returns><c>null</c></returns>
-        public object ConvertBack(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return null;
         }

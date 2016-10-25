@@ -1,4 +1,4 @@
-// <copyright file="CollinsJSONEnglishDictionarySingleResult.cs" company="University of Murcia">
+// <copyright file="CollinsJsonEnglishDictionarySingleResult.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,13 +23,13 @@ namespace TellOP.DataModels.APIModels.Collins
     /// Single result returned by a "Search in dictionary" query.
     /// </summary>
     [JsonObject]
-    public class CollinsJSONEnglishDictionarySingleResult
+    public class CollinsJsonEnglishDictionarySingleResult
     {
         /// <summary>
         /// Gets or sets the unique ID identifying the dictionary entry.
         /// </summary>
         [JsonProperty("entryId")]
-        public string EntryID { get; set; }
+        public string EntryId { get; set; }
 
         /// <summary>
         /// Gets or sets the label of the dictionary entry.

@@ -19,7 +19,7 @@ namespace TellOP
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using API;
+    using Api;
     using DataModels;
     using DataModels.APIModels.Collins;
     using DataModels.APIModels.Stands4;
@@ -42,6 +42,11 @@ namespace TellOP
         public SingleWordExploration(IWord word)
             : this(word.Term)
         {
+            if (word == null)
+            {
+                return;
+            }
+
             if (word is CollinsWord)
             {
                 this.OpenCollins(null, null);
@@ -71,11 +76,11 @@ namespace TellOP
             this.TitleLabel.Text = this.searchedWord;
         }
 
-        private async void OpenStands4(object sender, System.EventArgs e)
+        private async Task OpenStands4(object sender, System.EventArgs e)
         {
             if (this.Stands4Stack.Children.Count == 0)
             {
-                await this._InitializeStands4Stack();
+                await this._InitializeStands4Stack().ConfigureAwait(false);
             }
 
             this.Stands4Stack.IsVisible = true;
@@ -93,30 +98,26 @@ namespace TellOP
             this.CollinsStack.IsVisible = true;
         }
 
-        private async Task<bool> _InitializeStands4Stack()
+        private async Task _InitializeStands4Stack()
         {
             try
             {
                 this.Stands4Stack.Children.Add(new ActivityIndicator());
                 Stands4Dictionary s4d = new Stands4Dictionary(App.OAuth2Account, this.searchedWord);
-                IList<Stands4Word> result = await s4d.CallEndpointAsStands4Word();
+                IList<Stands4Word> result = await s4d.CallEndpointAsStands4Word().ConfigureAwait(false);
                 foreach (Stands4Word word in result)
                 {
                     this.Stands4Stack.Children.Add(new Stands4SearchListItemView(word));
                 }
-
-                return true;
             }
-            catch (UnsuccessfulAPICallException ex)
+            catch (UnsuccessfulApiCallException ex)
             {
-                Tools.Logger.Log(this, "_InitializeStands4Stack method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "_InitializeStands4Stack method", ex);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                Tools.Logger.Log(this, "_InitializeStands4Stack method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "_InitializeStands4Stack method", ex);
             }
-
-            return false;
         }
 
         private bool _InitializeCollinsStack()
@@ -127,7 +128,7 @@ namespace TellOP
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "Collins Stack", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "Collins Stack", ex);
                 return false;
             }
         }

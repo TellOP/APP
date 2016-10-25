@@ -22,8 +22,7 @@ namespace TellOP.DataModels.APIModels.Collins
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A meaning (sense) of an
-    /// <see cref="CollinsJSONEnglishDictionaryEntryContentEntry"/>.
+    /// A meaning (sense) of an <see cref="CollinsJsonEnglishDictionaryEntryContentEntry"/>.
     /// </summary>
     [JsonObject]
     public class CollinsWordDefinitionSense
@@ -54,13 +53,13 @@ namespace TellOP.DataModels.APIModels.Collins
         /// </summary>
         [JsonProperty("seeAlso")]
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Needed for Newtonsoft.Json deserialization")]
-        public IList<CollinsJSONLinkedWord> SeeAlso { get; set; }
+        public IList<CollinsJsonLinkedWord> SeeAlso { get; set; }
 
         /// <summary>
         /// Gets or sets the words related to this sense.
         /// </summary>
         [JsonProperty("related")]
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Needed for Newtonsoft.Json deserialization")]
-        public IList<CollinsJSONLinkedWord> Related { get; set; }
+        public IList<CollinsJsonLinkedWord> Related { get; set; }
     }
 }

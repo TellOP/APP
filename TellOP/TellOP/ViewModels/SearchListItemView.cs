@@ -25,18 +25,18 @@ namespace TellOP.ViewModels
     public abstract class SearchListItemView : Grid
     {
         /// <summary>
-        /// Searched word
-        /// </summary>
-        protected IWord _term;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SearchListItemView"/> class.
         /// </summary>
         /// <param name="word">Searched term</param>
         protected SearchListItemView(IWord word)
             : base()
         {
-            this._term = word;
+            this.Term = word;
         }
+
+        /// <summary>
+        /// Gets or sets the searched word.
+        /// </summary>
+        protected IWord Term { get; set; }
     }
 }

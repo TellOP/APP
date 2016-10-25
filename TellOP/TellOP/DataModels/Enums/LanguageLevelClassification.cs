@@ -22,8 +22,8 @@ namespace TellOP.DataModels.Enums
     // accepted upstream, however).
 
     /// <summary>
-    /// The language level classification of the user according to the
-    /// Common European Framework of Reference for Languages.
+    /// The language level classification of the user according to the Common European Framework of Reference for
+    /// Languages.
     /// </summary>
     public enum LanguageLevelClassification
     {
@@ -100,6 +100,6 @@ namespace TellOP.DataModels.Enums
         /// A default value, used to highlight that a classification is
         /// missing or not available at the moment.
         /// </summary>
-        UNKNOWN = 6
+        Unknown = 6
     }
 }

@@ -42,13 +42,11 @@ namespace TellOP
         private readonly CultureInfo ci;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TranslateExtension"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="TranslateExtension"/> class.
         /// </summary>
         public TranslateExtension()
         {
-            this.ci =
-                DependencyService.Get<ILocalize>().CurrentCultureInfo;
+            this.ci = DependencyService.Get<ILocalize>().CurrentCultureInfo;
         }
 
         /// <summary>
@@ -60,10 +58,9 @@ namespace TellOP
         /// Provides a translated value for a given text string.
         /// </summary>
         /// <param name="serviceProvider">XAML service provider.</param>
-        /// <returns>The translated value, or the string key in case no
-        /// translation is found (in release builds).</returns>
-        /// <exception cref="Exception">Thrown in debug builds if no
-        /// translation is found.</exception>
+        /// <returns>The translated value, or the string key in case no translation is found (in release
+        /// builds).</returns>
+        /// <exception cref="Exception">Thrown in debug builds if no translation is found.</exception>
         public object ProvideValue(IServiceProvider serviceProvider)
         {
             if (this.Text == null)
@@ -80,13 +77,7 @@ namespace TellOP
             if (translation == null)
             {
 #if DEBUG
-                throw new Exception(
-                    string.Format(
-                        "Key '{0}' was not found in resources '{1}' for "
-                        + "culture '{2}'.",
-                        this.Text,
-                        ResourceId,
-                        this.ci.Name));
+                throw new Exception(string.Format(CultureInfo.InvariantCulture, "Key '{0}' was not found in resources '{1}' for culture '{2}'.", this.Text, ResourceId, this.ci.Name));
 #else
                 // HACK: returns the key, which GETS DISPLAYED TO THE USER
                 translation = Text;

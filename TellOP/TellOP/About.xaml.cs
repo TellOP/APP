@@ -16,6 +16,9 @@
 
 namespace TellOP
 {
+    using System;
+    using System.Globalization;
+    using Version.Plugin;
     using Xamarin.Forms;
 
     /// <summary>
@@ -29,6 +32,17 @@ namespace TellOP
         public About()
         {
             this.InitializeComponent();
+            this.VersionLabel.Text = string.Format(CultureInfo.CurrentUICulture, Properties.Resources.About_Version, CrossVersion.Current.Version);
+        }
+
+        /// <summary>
+        /// Called when the "Third party licenses" button is clicked.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void ThirdPartyLicensesButton_Clicked(object sender, EventArgs e)
+        {
+            await this.Navigation.PushAsync(new ThirdPartyLicenses());
         }
     }
 }

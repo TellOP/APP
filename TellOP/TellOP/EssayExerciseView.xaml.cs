@@ -21,13 +21,13 @@ namespace TellOP
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Api;
     using DataModels;
     using DataModels.Activity;
-    using DataModels.Enums;
-    using Xamarin.Forms;
-    using API;
     using DataModels.APIModels.Exercise;
+    using DataModels.Enums;
     using DataModels.SQLiteModels;
+    using Xamarin.Forms;
 
     /// <summary>
     /// EssayExercise application view.
@@ -96,7 +96,7 @@ namespace TellOP
         /// </summary>
         public string ExTypeOfExercise
         {
-            get { return this.ex.ToNiceString(); }
+            get { return string.Empty; /* FIXME this.ex.ToNiceString(); */ }
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace TellOP
             {
                 if (this.ex is EssayExercise)
                 {
-                    EssayExercise eex = (EssayExercise)this.ex;
+                    EssayExercise eex = this.ex;
                     if (string.IsNullOrEmpty(eex.Contents))
                     {
                         return string.Empty;
@@ -128,9 +128,7 @@ namespace TellOP
                 }
                 else
                 {
-                    throw new NotSupportedException(
-                        "EssayExerciseView supports only string content at "
-                        + "this time");
+                    throw new NotSupportedException(Properties.Resources.EssayExerciseViewStringContentError);
                 }
             }
         }
@@ -138,7 +136,7 @@ namespace TellOP
         /// <summary>
         /// Gets the exercise identifier.
         /// </summary>
-        public int ExUID
+        public int ExUid
         {
             get
             {
@@ -155,26 +153,27 @@ namespace TellOP
         {
             try
             {
-                ExerciseAPI exAPI = new ExerciseAPI(App.OAuth2Account, this.ex.Uid);
+                ExerciseApi exAPI = new ExerciseApi(App.OAuth2Account, this.ex.Uid);
                 Exercise result = await exAPI.CallEndpointAsExerciseModel();
                 if (!(result is EssayExercise))
                 {
-                    throw new NotImplementedException("The returned exercise type is not supported yet");
+                    throw new NotImplementedException(Properties.Resources.EssayExerciseViewExerciseTypeNotSupported);
                 }
 
                 await this.FillData((EssayExercise)result);
             }
             catch (NotImplementedException ex)
             {
+                // This shouldn't happen
                 await Tools.Logger.LogWithErrorMessage(this, "LoadButton_Clicked - This shouln't happen!", ex);
             }
-            catch (UnsuccessfulAPICallException ex)
+            catch (UnsuccessfulApiCallException ex)
             {
-                Tools.Logger.Log(this, "LoadButton_Clicked method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "LoadButton_Clicked method", ex);
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "LoadButton_Clicked method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "LoadButton_Clicked method", ex);
             }
         }
 
@@ -185,7 +184,11 @@ namespace TellOP
         /// <param name="e">evet param</param>
         private async void SaveButton_Clicked(object sender, EventArgs e)
         {
-            bool userChoice = await this.DisplayAlert("Save", "Do you want to save and override the previous content?", "Save and override", "Cancel");
+            bool userChoice = await this.DisplayAlert(
+                Properties.Resources.ButtonSave,
+                Properties.Resources.UserMessageSaveAndOverrideQuestion,
+                Properties.Resources.ButtonSaveAndOverride,
+                Properties.Resources.ButtonCancel);
             if (userChoice)
             {
                 try
@@ -193,23 +196,23 @@ namespace TellOP
                     // Save the current status
                     await this.AnalyzeText();
 
-                    ExerciseSubmissionAPI exSubAPI = new ExerciseSubmissionAPI(
+                    ExerciseSubmissionApi exSubAPI = new ExerciseSubmissionApi(
                         App.OAuth2Account,
-                        new UserActivityEssay() { ActivityID = this.ex.Uid, Text = this.ex.Contents });
+                        new UserActivityEssay() { ActivityId = this.ex.Uid, Text = this.ex.Contents });
 
                     await exSubAPI.CallEndpointAsync();
                 }
                 catch (OperationCanceledException ex)
                 {
-                    await Tools.Logger.LogWithErrorMessage(this, "Analysis Aborted", ex);
+                    await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewSaveExceptionOpCanceled, ex);
                 }
-                catch (UnsuccessfulAPICallException ex)
+                catch (UnsuccessfulApiCallException ex)
                 {
-                    await Tools.Logger.LogWithErrorMessage(this, "Error while saving the exercise in the database.", ex);
+                    await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewSaveExceptionAPI, ex);
                 }
                 catch (Exception ex)
                 {
-                    await Tools.Logger.LogWithErrorMessage(this, "Unknown exception.", ex);
+                    await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewSaveExceptionUnknown, ex);
                 }
             }
         }
@@ -227,12 +230,12 @@ namespace TellOP
             if (value <= 0 || value >= 1)
             {
                 this.ex.Status = ExerciseStatus.NotCompleted;
-                this.ProgressBar.BackgroundColor = ExerciseStatus.NotCompleted.ToColor();
+                // FIXME this.ProgressBar.BackgroundColor = ExerciseStatus.NotCompleted.ToColor();
             }
             else
             {
                 this.ex.Status = ExerciseStatus.Satisfactory;
-                this.ProgressBar.BackgroundColor = ExerciseStatus.Satisfactory.ToColor();
+                // FIXME this.ProgressBar.BackgroundColor = ExerciseStatus.Satisfactory.ToColor();
             }
 
             if (value < 0)
@@ -264,7 +267,7 @@ namespace TellOP
             this.ExDescriptionLabel.Text = string.Format(Properties.Resources.EssayExercise_MinMaxWords, this.ex.MinimumWords, this.ex.MaximumWords);
             this.ExContentEditor.Text = this.ExContent;
 
-            this.ProgressBar.BackgroundColor = this.ex.StatusColor;
+            // FIXME this.ProgressBar.BackgroundColor = this.ex.StatusColor;
 
             this.ExContentEditor.TextChanged += this.ExContentEditor_TextChanged;
 
@@ -277,7 +280,7 @@ namespace TellOP
                 }
                 catch (OperationCanceledException ex)
                 {
-                    Tools.Logger.Log(this, ex);
+                    Tools.Logger.Log(this.GetType().ToString(), ex);
                 }
             }
         }
@@ -305,7 +308,7 @@ namespace TellOP
             }
             catch (OperationCanceledException ex)
             {
-                await Tools.Logger.LogWithErrorMessage(this, "Operation Aborted", ex);
+                await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewAnalysisAborted, ex);
             }
         }
 
@@ -317,7 +320,7 @@ namespace TellOP
             }
             catch (OperationCanceledException ex)
             {
-                await Tools.Logger.LogWithErrorMessage(this, "Operation Aborted", ex);
+                await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewAnalysisAborted, ex);
             }
 
             this.Navigation.PushAsync(new ExerciseAnalysis(this.ex));
@@ -345,9 +348,11 @@ namespace TellOP
             this.aiVerbs.IsRunning = activate;
             this.statVerbs.IsVisible = !activate;
 
+            /*
             this.aiUnknown.IsVisible = activate;
             this.aiUnknown.IsRunning = activate;
             this.statUnknown.IsVisible = !activate;
+            */
         }
 
         /// <summary>
@@ -358,20 +363,19 @@ namespace TellOP
         {
             if (Regex.Matches(this.ExContentEditor.Text, "\\w+").Cast<Match>().Select(m => m.Value).Count() <= this.ex.MinimumWords * 2 / 3)
             {
-                throw new OperationCanceledException("Text is too short.");
+                throw new OperationCanceledException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShort);
             }
 
             if (this._isAnotherAnalysisRunning)
             {
-                throw new OperationCanceledException("Another analysis is running.");
+                throw new OperationCanceledException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning);
             }
 
             if (string.IsNullOrWhiteSpace(this.ExContentEditor.Text))
             {
-                throw new OperationCanceledException("Another analysis is running.");
+                throw new OperationCanceledException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShort);
             }
 
-            #region Cleaning the input text
             if (this.ExContentEditor.Text.Contains("’"))
             {
                 this.ExContentEditor.Text = this.ExContentEditor.Text.Replace("’", "'");
@@ -407,19 +411,15 @@ namespace TellOP
                 this.ExContentEditor.Text = this.ExContentEditor.Text.Replace("”", "\"");
             }
 
-            Tools.Logger.Log(this, "Replace all the contractions");
-            this.ex.Contents = OfflineWord.ReplaceAllEnglishContractions(this.ExContentEditor.Text.ToLower());
-            #endregion
+            Tools.Logger.Log(this.GetType().ToString(), "Replace all the contractions");
 
-            Tools.Logger.Log(this, "Start new offline analysis.");
+            // FIXME this.ex.Contents = OfflineWord.ReplaceAllEnglishContractions(this.ExContentEditor.Text.ToLower());
+            Tools.Logger.Log(this.GetType().ToString(), "Start new offline analysis.");
             this._changeActivityIndicatorsStatus(true);
 
             try
             {
-                await this.ex.PerformFullOfflineAnalysis(true);
-                Tools.Logger.Log(this, "Offline analysis done correctly.");
-
-                this.statUnknown.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Unclassified }));
+                // this.statUnknown.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Unclassified }));
                 this.statNouns.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.CommonNoun, PartOfSpeech.ProperNoun }));
                 this.statAdverbs.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adverb }));
                 this.statAdjective.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adjective }));
@@ -431,10 +431,14 @@ namespace TellOP
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "Offline analysis didn't exit correctly.", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "Offline analysis didn't exit correctly.", ex);
 
                 // TODO: localize!
-                bool userChoice = await this.DisplayAlert("Error", "Error while performing the analysis.\nSpecific message:\n" + ex.Message, "Retry", "Cancel the operation");
+                bool userChoice = await this.DisplayAlert(
+                    Properties.Resources.Error,
+                    Properties.Resources.EssayExerciseViewAnalyzeTextExceptionErrorGeneric + ex.Message,
+                    Properties.Resources.ButtonRetry,
+                    Properties.Resources.ButtonCancel);
                 if (userChoice)
                 {
                     this._isAnotherAnalysisRunning = false;

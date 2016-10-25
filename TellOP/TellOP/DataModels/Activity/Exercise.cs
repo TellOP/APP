@@ -18,7 +18,6 @@
 namespace TellOP.DataModels.Activity
 {
     using Enums;
-    using Xamarin.Forms;
 
     /// <summary>
     /// An exercise.
@@ -36,17 +35,6 @@ namespace TellOP.DataModels.Activity
         public LanguageLevelClassification Level { get; set; }
 
         /// <summary>
-        /// Gets the color associated to the CEFR level of the exercise.
-        /// </summary>
-        public Color LevelColor
-        {
-            get
-            {
-                return this.Level.ToColor();
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the language of the exercise.
         /// </summary>
         public SupportedLanguage Language { get; set; }
@@ -55,14 +43,5 @@ namespace TellOP.DataModels.Activity
         /// Gets or sets a value indicating whether the exercise is featured.
         /// </summary>
         public bool Featured { get; set; }
-
-        /// <summary>
-        /// Gets a human-readable name for the exercise type.
-        /// </summary>
-        /// <returns>The human-readable name for the exercise type.</returns>
-        public string ToNiceString()
-        {
-            return Properties.Resources.Exercise_GenericName;
-        }
     }
 }

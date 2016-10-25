@@ -24,16 +24,12 @@ namespace TellOP
     public interface ISQLite
     {
         /// <summary>
-        /// Gets a SQLite database connection given a database name. The
-        /// database will be loaded from the application's assets.
+        /// Gets a SQLite database connection given a database name. The database will be loaded from the application's
+        /// assets.
         /// </summary>
         /// <param name="databaseName">The database file name.</param>
-        /// <param name="openFlags">The flags to be used while opening the
-        /// database.</param>
-        /// <returns>A <see cref="SQLiteConnection"/> object containing the
-        /// required connection.</returns>
-        SQLiteConnection GetConnection(
-            string databaseName,
-            SQLiteOpenFlags openFlags);
+        /// <param name="openOptions">The flags to be used while opening the database.</param>
+        /// <returns>A <see cref="SQLiteConnection"/> object containing the required connection.</returns>
+        SQLiteConnection GetConnection(string databaseName, SQLiteOpenFlags openOptions);
     }
 }

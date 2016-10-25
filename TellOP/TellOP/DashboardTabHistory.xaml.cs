@@ -16,7 +16,8 @@
 
 namespace TellOP
 {
-    using API;
+    using System.Threading.Tasks;
+    using Api;
     using DataModels;
     using DataModels.Activity;
     using Xamarin.Forms;
@@ -54,7 +55,7 @@ namespace TellOP
         /// <summary>
         /// Populate the ex list
         /// </summary>
-        private async void PopulateExercises()
+        private async Task PopulateExercises()
         {
             try
             {
@@ -71,16 +72,16 @@ namespace TellOP
 
                 this.ExList.ItemsSource = this._hdm.History;
             }
-            catch (UnsuccessfulAPICallException ex)
+            catch (UnsuccessfulApiCallException ex)
             {
-                Tools.Logger.Log(this, "PopulateExercises", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "PopulateExercises", ex);
 
                 // TODO: Add activity indicator
                 // this.SwitchActivityIndicator(false);
             }
             catch (System.Exception ex)
             {
-                Tools.Logger.Log(this, "PopulateExercises", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "PopulateExercises", ex);
 
                 // TODO: Add activity indicator
                 // this.SwitchActivityIndicator(false);
@@ -90,23 +91,23 @@ namespace TellOP
         /// <summary>
         /// Populate the tips panel
         /// </summary>
-        private async void PopulateTips()
+        private async Task PopulateTips()
         {
             try
             {
                 TipsDataModel currentTip = new TipsDataModel();
-                this.TipTitle.Text = (await currentTip.GetSingleRandom()).Text;
+                // FIXME this.TipTitle.Text = (await currentTip.GetSingleRandom()).Text;
             }
-            catch (UnsuccessfulAPICallException ex)
+            catch (UnsuccessfulApiCallException ex)
             {
-                Tools.Logger.Log(this, "PopulateTips method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "PopulateTips method", ex);
 
                 // TODO: Add activity indicator
                 // this.SwitchActivityIndicator(false);
             }
             catch (System.Exception ex)
             {
-                Tools.Logger.Log(this, "PopulateTips method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "PopulateTips method", ex);
 
                 // TODO: Add activity indicator
                 // this.SwitchActivityIndicator(false);

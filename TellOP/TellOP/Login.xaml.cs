@@ -31,29 +31,16 @@ namespace TellOP
         public Login()
         {
             this.InitializeComponent();
-            this.SignUp.GestureRecognizers.Add(
-                new TapGestureRecognizer
-                {
-                    Command = new Command(() =>
-                        Device.OpenUri(
-                            new Uri(Config.TellOPConfiguration.ServerBaseUrl + "/register")))
-                });
-            this.Privacy.GestureRecognizers.Add(
-                new TapGestureRecognizer
-                {
-                    Command = new Command(() =>
-                        Device.OpenUri(
-                            new Uri(Config.TellOPConfiguration.ServerBaseUrl + "/privacy")))
-                });
-            this.About.GestureRecognizers.Add(
-                new TapGestureRecognizer
-                {
-                    Command = new Command(() =>
-                        Device.OpenUri(
-                            new Uri("http://www.tellop.eu/about")))
-                });
+            this.SignUp.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => Device.OpenUri(new Uri(Config.TellOPConfiguration.ServerBaseUrl.ToString() + "/register"))) });
+            this.Privacy.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => Device.OpenUri(new Uri(Config.TellOPConfiguration.ServerBaseUrl.ToString() + "/privacy"))) });
+            this.About.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => await this.Navigation.PushAsync(new About())) });
         }
 
+        /// <summary>
+        /// Called when the "Log in" button is clicked.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
         private void LoginButton_Clicked(object sender, EventArgs e)
         {
             this.Navigation.PushModalAsync(new Authentication());

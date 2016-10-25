@@ -43,13 +43,10 @@ namespace TellOP
         /// </summary>
         /// <param name="key">String key.</param>
         /// <param name="comment">String comment.</param>
-        /// <returns>The localized version of the string having
-        /// <paramref name="key"/> as its key.</returns>
+        /// <returns>The localized version of the string having <paramref name="key"/> as its key.</returns>
         public static string GetString(string key, string comment)
         {
-            ResourceManager temp = new ResourceManager(
-                "TellOP.Properties.Resources",
-                typeof(Localize).GetTypeInfo().Assembly);
+            ResourceManager temp = new ResourceManager("TellOP.Properties.Resources", typeof(Localize).GetTypeInfo().Assembly);
 
             string result = temp.GetString(key, CurrentCulture);
             return result;

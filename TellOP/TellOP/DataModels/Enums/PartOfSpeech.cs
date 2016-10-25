@@ -15,7 +15,7 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels
+namespace TellOP.DataModels.Enums
 {
     // Note: the numeric values associated to the enum are needed for the SQLite
     // "integer to enum" mapping in the local dictionary to work. At the time of

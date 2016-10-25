@@ -18,7 +18,9 @@ namespace TellOP.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using DataModels;
+    using DataModels.Enums;
     using Xamarin.Forms;
 
     /// <summary>
@@ -155,7 +157,7 @@ namespace TellOP.ViewModels
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "Populate Inner Frame", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "Populate Inner Frame", ex);
                 return false;
             }
 
@@ -282,7 +284,7 @@ namespace TellOP.ViewModels
                 this._spoilerButtonHIDE.Opacity = 0;
                 this._innerFrame.Focus();
 
-                this.BackgroundColor = this._pos.GetColor();
+                this.BackgroundColor = (Color)new PartOfSpeechToColorConverter().Convert(this._pos, typeof(Color), null, CultureInfo.InvariantCulture);
             }
         }
 

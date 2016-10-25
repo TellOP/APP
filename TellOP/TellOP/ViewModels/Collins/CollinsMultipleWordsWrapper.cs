@@ -19,7 +19,7 @@ namespace TellOP.ViewModels.Collins
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using API;
+    using Api;
     using DataModels.APIModels.Collins;
     using Xamarin.Forms;
 
@@ -85,7 +85,7 @@ namespace TellOP.ViewModels.Collins
             try
             {
                 CollinsEnglishDictionaryGetEntry dictionaryEntryAPI = new CollinsEnglishDictionaryGetEntry(App.OAuth2Account, this._entryID);
-                List<CollinsWord> dictionaryEntryResult = await dictionaryEntryAPI.CallEndpointAsCollinsWord();
+                IList<CollinsWord> dictionaryEntryResult = await dictionaryEntryAPI.CallEndpointAsCollinsWord().ConfigureAwait(false);
 
                 int i = 0;
                 foreach (CollinsWord word in dictionaryEntryResult)
@@ -98,14 +98,14 @@ namespace TellOP.ViewModels.Collins
                 this._needToRetrieveResult = false;
                 return true;
             }
-            catch (UnsuccessfulAPICallException ex)
+            catch (UnsuccessfulApiCallException ex)
             {
-                Tools.Logger.Log(this, "_retrieveResult method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "_retrieveResult method", ex);
                 return false;
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this, "_retrieveResult method", ex);
+                Tools.Logger.Log(this.GetType().ToString(), "_retrieveResult method", ex);
                 return false;
             }
         }

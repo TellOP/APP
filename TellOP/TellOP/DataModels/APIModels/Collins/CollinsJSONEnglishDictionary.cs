@@ -1,4 +1,4 @@
-// <copyright file="CollinsJSONEnglishDictionary.cs" company="University of Murcia">
+// <copyright file="CollinsJsonEnglishDictionary.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +21,10 @@ namespace TellOP.DataModels.APIModels.Collins
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A JSON object representing a reply returned by the "Collins English
-    /// Dictionary" search endpoint.
+    /// A JSON object representing a reply returned by the "Collins English Dictionary" search endpoint.
     /// </summary>
     [JsonObject]
-    public class CollinsJSONEnglishDictionary
+    public class CollinsJsonEnglishDictionary
     {
         /// <summary>
         /// Gets or sets the dictionary ID.
@@ -56,6 +55,6 @@ namespace TellOP.DataModels.APIModels.Collins
         /// </summary>
         [JsonProperty("results")]
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Needed for Newtonsoft.Json deserialization")]
-        public IList<CollinsJSONEnglishDictionarySingleResult> Results { get; set; }
+        public IList<CollinsJsonEnglishDictionarySingleResult> Results { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="JSONCreationConverterExtensions.cs" company="University of Murcia">
+﻿// <copyright file="JsonCreationConverterExtensions.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,28 +21,23 @@ namespace TellOP.DataModels.APIModels
     using Newtonsoft.Json.Linq;
 
     /// <summary>
-    /// Static extensions for <see cref="JSONCreationConverter{T}"/>.
+    /// Static extensions for <see cref="JsonCreationConverter{T}"/>.
     /// </summary>
-    public sealed class JSONCreationConverterExtensions
+    public sealed class JsonCreationConverterExtensions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JSONCreationConverterExtensions"/> class.
+        /// Initializes a new instance of the <see cref="JsonCreationConverterExtensions"/> class.
         /// </summary>
-        private JSONCreationConverterExtensions()
+        private JsonCreationConverterExtensions()
         {
         }
 
         /// <summary>Creates a new reader for the specified
-        /// <paramref name="jObject"/> by copying the settings from an existing
-        /// reader.</summary>
-        /// <param name="reader">The reader whose settings should be
-        /// copied.</param>
-        /// <param name="jObject">The JSON object to create a new reader
-        /// for.</param>
+        /// <paramref name="jObject"/> by copying the settings from an existing reader.</summary>
+        /// <param name="reader">The reader whose settings should be copied.</param>
+        /// <param name="jObject">The JSON object to create a new reader for.</param>
         /// <returns>The new disposable reader.</returns>
-        public static JsonReader CopyReaderForObject(
-            JsonReader reader,
-            JObject jObject)
+        public static JsonReader CopyReaderForObject(JsonReader reader, JObject jObject)
         {
             if (reader == null)
             {

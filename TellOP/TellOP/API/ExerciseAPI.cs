@@ -1,4 +1,4 @@
-// <copyright file="ExerciseAPI.cs" company="University of Murcia">
+// <copyright file="ExerciseApi.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System;
     using System.Net.Http;
@@ -27,54 +27,41 @@ namespace TellOP.API
     /// <summary>
     /// A class accessing the exercise API on the TellOP server.
     /// </summary>
-    public class ExerciseAPI : OAuth2API
+    public class ExerciseApi : OAuth2Api
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExerciseAPI"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="ExerciseApi"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
-        public ExerciseAPI(Account account)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"),
-                  HttpMethod.Get,
-                  account)
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
+        public ExerciseApi(Account account)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"), HttpMethod.Get, account)
         {
             throw new NotImplementedException("Calling this constructor without passing the ID is not supported");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExerciseAPI"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="ExerciseApi"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
         /// <param name="id">The ID of the exercise.</param>
-        public ExerciseAPI(Account account, int id)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"),
-                  HttpMethod.Get,
-                  account,
-                  "id=" + Uri.EscapeDataString(id.ToString(System.Globalization.CultureInfo.InvariantCulture)))
+        public ExerciseApi(Account account, int id)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.Exercise"), HttpMethod.Get, account, "id=" + Uri.EscapeDataString(id.ToString(System.Globalization.CultureInfo.InvariantCulture)))
         {
         }
 
         /// <summary>
-        /// Converts an <see cref="Activity"/> to the most specific subclass of
-        /// <see cref="Exercise"/> and fills in the
+        /// Converts an <see cref="Activity"/> to the most specific subclass of <see cref="Exercise"/> and fills in the
         /// relevant details.
         /// </summary>
-        /// <param name="activity">An instance of <see cref="Activity"/>
-        /// containing the data returned by an API endpoint.</param>
-        /// <returns>A subclass of <see cref="Exercise"/>
-        /// containing the data converted from <paramref name="activity"/>.
+        /// <param name="activity">An instance of <see cref="Activity"/> containing the data returned by an API
+        /// endpoint.</param>
+        /// <returns>A subclass of <see cref="Exercise"/> containing the data converted from <paramref name="activity"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException">Thrown if
-        /// <paramref name="activity"/> is <c>null</c>.</exception>
-        /// <exception cref="NotImplementedException">Thrown if
-        /// <paramref name="activity"/> is an activity type that is not
-        /// supported by the app at this time.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="activity"/> is <c>null</c>.</exception>
+        /// <exception cref="NotImplementedException">Thrown if <paramref name="activity"/> is an activity type that is
+        /// not supported by the app at this time.</exception>
         public static Exercise ConvertActivityToExercise(Activity activity)
         {
             if (activity == null)
@@ -93,7 +80,7 @@ namespace TellOP.API
                     MaximumWords = resultEssay.MaximumWords,
                     Contents = resultEssay.PreliminaryText,
                     Featured = resultEssay.Featured,
-                    Uid = resultEssay.ID,
+                    Uid = resultEssay.Id,
                     Language = resultEssay.Language,
                     Level = resultEssay.Level
                 };
@@ -110,25 +97,20 @@ namespace TellOP.API
         }
 
         /// <summary>
-        /// Call the API endpoint and return the object representation of the
-        /// API response.
+        /// Call the API endpoint and return the object representation of the API response.
         /// </summary>
-        /// <returns>A <see cref="Task{Activity}"/> containing the
-        /// object representation of the API response as its result.</returns>
+        /// <returns>A <see cref="Task{Activity}"/> containing the object representation of the API response as its
+        /// result.</returns>
         public async Task<Activity> CallEndpointAsObjectAsync()
         {
-            return JsonConvert.DeserializeObject<Activity>(
-                await this.CallEndpointAsync().ConfigureAwait(false),
-                new ActivityConverter());
+            return JsonConvert.DeserializeObject<Activity>(await this.CallEndpointAsync().ConfigureAwait(false), new ActivityConverter());
         }
 
         /// <summary>
-        /// Call the API endpoint and return it in the form used for internal
-        /// representation.
+        /// Call the API endpoint and return it in the form used for internal representation.
         /// </summary>
-        /// <returns>An instance of a subclass of
-        /// <see cref="Exercise"/> containing the data
-        /// returned by the API.</returns>
+        /// <returns>A <see cref="Task{Exercise}"/> containing the converted representation of the API response as its
+        /// result.</returns>
         public async Task<Exercise> CallEndpointAsExerciseModel()
         {
             return ConvertActivityToExercise(await this.CallEndpointAsObjectAsync().ConfigureAwait(false));

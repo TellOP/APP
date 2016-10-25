@@ -20,126 +20,186 @@ namespace TellOP.DataModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics.CodeAnalysis;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-    using API;
+    using Api;
     using APIModels;
     using Enums;
-    using Tools;
 
     /// <summary>
-    /// The viewmodel for the tips tab.
+    /// The data model for application tips.
     /// </summary>
-    public class TipsDataModel
+    public class TipsDataModel : INotifyPropertyChanged
     {
-        /// <summary>
-        /// A locally cached list of tips.
-        /// </summary>
-        private IList<Tip> _appTips = null;
+        // Note: we follow the NotifyTaskCompletion sketch given at https://msdn.microsoft.com/en-us/magazine/dn605875.aspx
+        // because we have two properties (ApplicationTips and SingleRandomTip) that depend on the result of the tip
+        // retrieval asynchronous task (so we can not just implement INotifyTaskCompletion, SingleRandomTip would
+        // need to wait on the result or at least listen to the PropertyChanged event).
 
         /// <summary>
-        /// Gets a locally cached list of tips.
+        /// The task used to retrieve tips from the server.
         /// </summary>
-        public IReadOnlyList<Tip> TipList
+        private Task<IList<Tip>> _tipsTask;
+
+        /// <summary>
+        /// A list of all available application tips.
+        /// </summary>
+        private ReadOnlyObservableCollection<Tip> _applicationTips;
+
+        /// <summary>
+        /// A lock for the application tips object.
+        /// </summary>
+        private object _appLock;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TipsDataModel"/> class.
+        /// </summary>
+        public TipsDataModel()
+        {
+            this._applicationTips = new ReadOnlyObservableCollection<Tip>(new ObservableCollection<Tip>(new List<Tip>()));
+            this._appLock = new object();
+            var dummy = this.RefreshTipsAsync();
+        }
+
+        /// <summary>
+        /// Fired when a property changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Gets a read-only list of application tips.
+        /// </summary>
+        public ReadOnlyObservableCollection<Tip> ApplicationTips
         {
             get
             {
-                return new ReadOnlyCollection<Tip>(this._appTips);
+                lock (this._appLock)
+                {
+                    return this._applicationTips;
+                }
+            }
+
+            private set
+            {
+                lock (this._appLock)
+                {
+                    this._applicationTips = value;
+                }
+
+                this.OnPropertyChanged("ApplicationTips");
             }
         }
 
         /// <summary>
-        /// Gets a single tip chosen at random.
+        /// Gets a single random tip from the list of all available tips.
         /// </summary>
-        /// <returns>A single tip chosen at random from all the available ones.</returns>
-        public async Task<Tip> GetSingleRandom()
+        public Tip SingleRandomTip
         {
-            await this._getTipsIfNeeded();
-
-            if (this._appTips == null)
+            get
             {
-                this._appTips = new List<Tip>()
-                        {
-                            { new Tip() { Text = "Unable to retrieve the tips now. Please retry later.", ID = 0 } }
-                        };
-            }
-
-            Random rnd = new Random();
-            return this._appTips[rnd.Next(this._appTips.Count - 1)];
-        }
-
-        /// <summary>
-        /// Gets several random tips at once.
-        /// </summary>
-        /// <param name="num">The number of tips to retrieve.</param>
-        /// <returns>An <see cref="IReadOnlyList{Tip}"/> containing <paramref name="num"/> tips. If the total number of
-        /// available tips is less than or equal to <paramref name="num" />, the returned list will contain all
-        /// available tips.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
-        public async Task<IReadOnlyList<Tip>> GetMultipleRandom(int num)
-        {
-            await this._getTipsIfNeeded();
-
-            if (num >= this._appTips.Count)
-            {
-                return new ReadOnlyCollection<Tip>(this._appTips);
-            }
-
-            List<Tip> result = new List<Tip>();
-            Random rnd = new Random();
-            for (int i = 0; i < num; ++i)
-            {
-                int rndElemIndex;
-                do
+                lock (this._appLock)
                 {
-                    rndElemIndex = rnd.Next(this._appTips.Count - 1);
-                }
-                while (!result.Contains(this._appTips[rndElemIndex]));
-                result.Add(this._appTips[rndElemIndex]);
-            }
-
-            return new ReadOnlyCollection<Tip>(result);
-        }
-
-        /// <summary>
-        /// Populates the tips list if it is empty.
-        /// </summary>
-        /// <returns>True if the operation is performed correctly.</returns>
-        private async Task<bool> _getTipsIfNeeded()
-        {
-            if (this._appTips == null || this._appTips.Count == 0)
-            {
-                try
-                {
-                    // TODO Choose the level and supported language
-                    Tips tipsEndpoint = new Tips(App.OAuth2Account, SupportedLanguage.English, LanguageLevelClassification.B1);
-                    this._appTips = await tipsEndpoint.CallEndpointAsObjectAsync();
-                    return this._appTips != null;
-                }
-                catch (UnsuccessfulAPICallException ex)
-                {
-                    Logger.Log(this, "_getTipsIfNeeded method", ex);
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Log(this, "_getTipsIfNeeded method", ex);
-                    return false;
-                }
-                finally
-                {
-                    // Hardcoded message for tips
-                    if (this._appTips == null)
+                    if (this._applicationTips.Count == 0)
                     {
-                        this._appTips = new List<Tip>()
-                        {
-                            { new Tip() { Text = "Unable to retrieve the tips now. Please retry later.", ID = 0 } }
-                        };
+                        return null;
                     }
+
+                    Random rnd = new Random();
+                    return this._applicationTips[rnd.Next(this._applicationTips.Count - 1)];
                 }
             }
+        }
 
-            return this._appTips != null;
+        /// <summary>
+        /// Gets the error message associated with the tip retrieval task.
+        /// </summary>
+        public string ErrorMessage
+        {
+            get
+            {
+                return this._tipsTask.Exception.InnerException != null ? this._tipsTask.Exception.InnerException.Message : null;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the tip retrieval operation is faulted.
+        /// </summary>
+        public bool IsFaulted
+        {
+            get
+            {
+                return this._tipsTask.IsFaulted;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the tip retrieval operation is not complete.
+        /// </summary>
+        public bool IsNotCompleted
+        {
+            get
+            {
+                return !this._tipsTask.IsCompleted;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the tip retrieval operation was completed successfully.
+        /// </summary>
+        public bool IsSuccessfullyCompleted
+        {
+            get
+            {
+                return this._tipsTask.Status == TaskStatus.RanToCompletion;
+            }
+        }
+
+        /// <summary>
+        /// Fired when a property of this class is changed.
+        /// </summary>
+        /// <param name="propertyName">The property that was changed,</param>
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Refreshes the list of available tips.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation. </returns>
+        private async Task RefreshTipsAsync()
+        {
+            try
+            {
+                // TODO: allow selecting the language and level classification
+                Tips tipsEndpoint = new Tips(App.OAuth2Account, SupportedLanguage.English, LanguageLevelClassification.B1);
+                this._tipsTask = Task.Run(async () => await tipsEndpoint.CallEndpointAsObjectAsync());
+                await this._tipsTask;
+            }
+            catch
+            {
+            }
+
+            this.OnPropertyChanged("IsNotCompleted");
+
+            if (this._tipsTask.IsFaulted)
+            {
+                this.OnPropertyChanged("IsFaulted");
+                this.OnPropertyChanged("ErrorMessage");
+            }
+
+            if (this._tipsTask.IsCanceled || this._tipsTask.IsFaulted)
+            {
+                this.ApplicationTips = new ReadOnlyObservableCollection<Tip>(new ObservableCollection<Tip>(new List<Tip>()));
+            }
+            else
+            {
+                this.ApplicationTips = new ReadOnlyObservableCollection<Tip>(new ObservableCollection<Tip>(this._tipsTask.Result));
+                this.OnPropertyChanged("IsSuccessfullyCompleted");
+            }
+
+            this.OnPropertyChanged("SingleRandomTip");
         }
     }
 }

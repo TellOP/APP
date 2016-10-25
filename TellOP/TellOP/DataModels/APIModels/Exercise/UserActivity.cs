@@ -33,12 +33,12 @@ namespace TellOP.DataModels.APIModels.Exercise
         /// Gets or sets the user ID of the user who has completed the activity.
         /// </summary>
         [JsonProperty("user")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the completed activity.
         /// </summary>
         [JsonProperty("activity")]
-        public int ActivityID { get; set; }
+        public int ActivityId { get; set; }
     }
 }

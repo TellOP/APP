@@ -35,7 +35,7 @@ namespace TellOP.DataModels.APIModels.Exercise
         /// Gets or sets the unique ID for this exercise.
         /// </summary>
         [JsonProperty("id")]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the CEFR level for this exercise.
@@ -48,12 +48,11 @@ namespace TellOP.DataModels.APIModels.Exercise
         /// Gets or sets the language for this exercise.
         /// </summary>
         [JsonProperty("language")]
-        [JsonConverter(typeof(SupportedLanguageJSONConverter))]
+        [JsonConverter(typeof(SupportedLanguageJsonConverter))]
         public SupportedLanguage Language { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this exercise is
-        /// "featured".
+        /// Gets or sets a value indicating whether this exercise is "featured".
         /// </summary>
         [JsonProperty("featured")]
         public bool Featured { get; set; }

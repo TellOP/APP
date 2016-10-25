@@ -24,8 +24,6 @@ namespace TellOP.DataModels.APIModels.LexTutor
     [JsonObject]
     public class LexTutorResultRatios
     {
-        // TODO: check the types!
-
         /// <summary>
         /// Gets or sets the number of words appearing in the text for this
         /// word class.
@@ -52,8 +50,7 @@ namespace TellOP.DataModels.APIModels.LexTutor
         public float TokensPerType { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of sentences in the analyzed text for this
-        /// word class.
+        /// Gets or sets the number of sentences in the analyzed text for this word class.
         /// </summary>
         [JsonProperty("sentencesInText")]
         public int SentencesInText { get; set; }
@@ -65,8 +62,7 @@ namespace TellOP.DataModels.APIModels.LexTutor
         public float AverageSentenceLength { get; set; }
 
         /// <summary>
-        /// Gets or sets the standard deviation of the average sentence length
-        /// for this word class.
+        /// Gets or sets the standard deviation of the average sentence length for this word class.
         /// </summary>
         [JsonProperty("averageSentenceLengthStdDev")]
         public float AverageSentenceLengthStdDev { get; set; }
@@ -90,15 +86,13 @@ namespace TellOP.DataModels.APIModels.LexTutor
         public int FamiliesOnList { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of tokens per family on the list for this
-        /// word class.
+        /// Gets or sets the number of tokens per family on the list for this word class.
         /// </summary>
         [JsonProperty("tokensPerFamily")]
         public float TokensPerFamily { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of types per family on the list for this
-        /// word class.
+        /// Gets or sets the number of types per family on the list for this word class.
         /// </summary>
         [JsonProperty("typesPerFamily")]
         public float TypesPerFamily { get; set; }
@@ -110,15 +104,13 @@ namespace TellOP.DataModels.APIModels.LexTutor
         public int CognatesTokens { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of "cognate with French" tokens for this
-        /// word class.
+        /// Gets or sets the number of "cognate with French" tokens for this word class.
         /// </summary>
         [JsonProperty("cognatesWithFrench")]
         public int CognatesWithFrench { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of "not cognate with French" tokens for
-        /// this word class.
+        /// Gets or sets the number of "not cognate with French" tokens for this word class.
         /// </summary>
         [JsonProperty("notCognatesWithFrench")]
         public int NotCognatesWithFrench { get; set; }
@@ -148,8 +140,7 @@ namespace TellOP.DataModels.APIModels.LexTutor
         public float MeanFrequency { get; set; }
 
         /// <summary>
-        /// Gets or sets the logarithm (in base 10) of the count index for this
-        /// word class.
+        /// Gets or sets the logarithm (in base 10) of the count index for this word class.
         /// </summary>
         [JsonProperty("countIndexLog10")]
         public float CountIndexLog10 { get; set; }

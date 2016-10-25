@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.API
+namespace TellOP.Api
 {
     using System;
     using System.Net.Http;
@@ -26,51 +26,38 @@ namespace TellOP.API
     /// <summary>
     /// A class accessing the Collins Dictionary API on the TellOP server.
     /// </summary>
-    public class CollinsEnglishDictionary : OAuth2API
+    public class CollinsEnglishDictionary : OAuth2Api
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="CollinsEnglishDictionary"/> class.
+        /// Initializes a new instance of the <see cref="CollinsEnglishDictionary"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
         public CollinsEnglishDictionary(Account account)
-            : base(
-                  Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.CollinsEnglishDictionary"),
-                  HttpMethod.Get,
-                  account)
+            : base(Config.TellOPConfiguration.GetEndpointAsUri("TellOP.API.CollinsEnglishDictionary"), HttpMethod.Get, account)
         {
-            throw new NotImplementedException("Calling this constructor without"
-                + " passing the search term is not supported");
+            throw new NotImplementedException("Calling this constructor without passing the search term is not supported");
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="CollinsEnglishDictionary"/> class.
+        /// Initializes a new instance of the <see cref="CollinsEnglishDictionary"/> class.
         /// </summary>
-        /// <param name="account">The instance of the <see cref="Account"/>
-        /// class to use to store the OAuth 2.0 account credentials.</param>
+        /// <param name="account">The instance of the <see cref="Account"/> class to use to store the OAuth 2.0 account
+        /// credentials.</param>
         /// <param name="searchTerm">The word to search for.</param>
         public CollinsEnglishDictionary(Account account, string searchTerm)
-            : base(
-                  new Uri(Config.TellOPConfiguration.GetEndpoint("TellOP.API.CollinsEnglishDictionary")
-                      + "?q="
-                      + Uri.EscapeDataString(searchTerm)),
-                  HttpMethod.Get,
-                  account)
+            : base(new Uri(Config.TellOPConfiguration.GetEndpoint("TellOP.API.CollinsEnglishDictionary") + "?q=" + Uri.EscapeDataString(searchTerm)), HttpMethod.Get, account)
         {
         }
 
         /// <summary>
-        /// Call the API endpoint and return the object representation of the
-        /// API response.
+        /// Call the API endpoint and return the object representation of the API response.
         /// </summary>
-        /// <returns>An instance of <see cref="CollinsJSONEnglishDictionary"/> containing the object representation of
-        /// the API response as its result.</returns>
-        public async Task<CollinsJSONEnglishDictionary> CallEndpointAsObjectAsync()
+        /// <returns>A <see cref="Task{CollinsJSONEnglishDictionary}"/> containing the object representation of the API
+        /// response as its result.</returns>
+        public async Task<CollinsJsonEnglishDictionary> CallEndpointAsObjectAsync()
         {
-            return JsonConvert.DeserializeObject<CollinsJSONEnglishDictionary>(
-                await this.CallEndpointAsync().ConfigureAwait(false));
+            return JsonConvert.DeserializeObject<CollinsJsonEnglishDictionary>(await this.CallEndpointAsync().ConfigureAwait(false));
         }
     }
 }

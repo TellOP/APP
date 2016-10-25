@@ -1,4 +1,4 @@
-// <copyright file="CollinsJSONPartOfSpeechJSONConverter.cs" company="University of Murcia">
+// <copyright file="CollinsJsonPartOfSpeechJsonConverter.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,13 +17,13 @@
 namespace TellOP.DataModels.APIModels.Collins
 {
     using System;
+    using Enums;
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A converter between <see cref="PartOfSpeech"/> enum values and their
-    /// JSON string representation.
+    /// A converter between <see cref="PartOfSpeech"/> enum values and their JSON string representation.
     /// </summary>
-    public class CollinsJSONPartOfSpeechJSONConverter : JsonConverter
+    public class CollinsJsonPartOfSpeechJsonConverter : JsonConverter
     {
         // TODO: replace this with something neater, such as a 2-way dictionary
         private const string AdjectiveRepresentation = "adjective";
@@ -38,35 +38,28 @@ namespace TellOP.DataModels.APIModels.Collins
         private const string VerbRepresentation = "verb";
 
         /// <summary>
-        /// Determines whether this instance can convert the specified
-        /// object type.
+        /// Determines whether this instance can convert the specified object type.
         /// </summary>
         /// <param name="objectType">The object type.</param>
-        /// <returns><c>true</c> if <paramref name="objectType"/> is the type
-        /// of <see cref="PartOfSpeech"/>, <c>false</c> otherwise.</returns>
+        /// <returns><c>true</c> if <paramref name="objectType"/> is the type of <see cref="PartOfSpeech"/>,
+        /// <c>false</c> otherwise.</returns>
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(PartOfSpeech);
         }
 
         /// <summary>
-        /// Converts a JSON representation, used by the Collins API endpoints,
-        /// of a <see cref="PartOfSpeech"/> object to a .NET object.
+        /// Converts a JSON representation, used by the Collins API endpoints, of a <see cref="PartOfSpeech"/> object
+        /// to a .NET object.
         /// </summary>
-        /// <param name="reader">A <see cref="JsonReader"/> object used to
-        /// translate the JSON representation of the object to the object
-        /// itself.</param>
+        /// <param name="reader">A <see cref="JsonReader"/> object used to translate the JSON representation of the
+        /// object to the object itself.</param>
         /// <param name="objectType">The object type.</param>
-        /// <param name="existingValue">The existing value of the object being
-        /// read.</param>
+        /// <param name="existingValue">The existing value of the object being read.</param>
         /// <param name="serializer">The calling serializer.</param>
-        /// <returns>The value of the <see cref="PartOfSpeech"/> enumeration
-        /// corresponding to the given JSON representation.</returns>
-        public override object ReadJson(
-            JsonReader reader,
-            Type objectType,
-            object existingValue,
-            JsonSerializer serializer)
+        /// <returns>The value of the <see cref="PartOfSpeech"/> enumeration corresponding to the given JSON
+        /// representation.</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader == null)
             {
@@ -117,19 +110,15 @@ namespace TellOP.DataModels.APIModels.Collins
         }
 
         /// <summary>
-        /// Converts a <see cref="PartOfSpeech"/> enum value to its JSON
-        /// representation used by the Collins API endpoints. If
-        /// <paramref name="value"/> is not a <see cref="PartOfSpeech"/>
-        /// object, the conversion is not performed.
+        /// Converts a <see cref="PartOfSpeech"/> enum value to its JSON representation used by the Collins API
+        /// endpoints. If <paramref name="value"/> is not a <see cref="PartOfSpeech"/> object, the conversion is not
+        /// performed.
         /// </summary>
-        /// <param name="writer">A <see cref="JsonWriter"/> object used to
-        /// translate the object to its JSON representation.</param>
+        /// <param name="writer">A <see cref="JsonWriter"/> object used to translate the object to its JSON
+        /// representation.</param>
         /// <param name="value">The value to convert.</param>
         /// <param name="serializer">The calling serializer.</param>
-        public override void WriteJson(
-            JsonWriter writer,
-            object value,
-            JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             if (writer == null)
             {

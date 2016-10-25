@@ -29,7 +29,7 @@ namespace TellOP.DataModels.APIModels
         /// Gets or sets the unique ID of the tip.
         /// </summary>
         [JsonProperty("id")]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the text of the tip.
@@ -40,11 +40,11 @@ namespace TellOP.DataModels.APIModels
         /// <summary>
         /// Gets the XAML name for this tip.
         /// </summary>
-        public string XAMLName
+        public string XamlName
         {
             get
             {
-                return "TIPS" + this.ID;
+                return "TIPS" + this.Id;
             }
         }
 

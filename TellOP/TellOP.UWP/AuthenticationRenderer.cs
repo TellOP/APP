@@ -43,11 +43,9 @@ namespace TellOP.UWP
         {
             base.OnElementChanged(e);
 
-            // Use a stored account if available, otherwise show the
-            // authentication UI
-            // FIXME: for now, we ask for a token every time so as not to handle
-            // the case where the token is expired. Consider implementing
-            // refresh tokens or RFC 7662 (token introspection) in the future
+            // Use a stored account if available, otherwise show the authentication UI
+            // FIXME: for now, we ask for a token every time so as not to handle the case where the token is expired.
+            // Consider implementing refresh tokens or RFC 7662 (token introspection) in the future
 
             /* Account appAccount = OAuthAccountStoreFactory.Create(this.Context)
                 .FindAccountsForService(App.AppName).FirstOrDefault();
@@ -57,42 +55,29 @@ namespace TellOP.UWP
             // Start the token request using the OAuth 2.0 implicit grant
             string state = CryptographicBuffer.EncodeToHexString(
                 CryptographicBuffer.GenerateRandom(25));
-            Uri authorizationURI = new Uri(
-                Config.TellOPConfiguration.OAuth2AuthorizeURL.ToString()
-                + "?response_type=token&client_id="
-                + Uri.EscapeDataString(Config.TellOPConfiguration.OAuth2ClientId)
-                + "&redirect_uri="
-                + Uri.EscapeDataString(Config.TellOPConfiguration.OAuth2RedirectURL.ToString())
-                + "&scope="
-                + Uri.EscapeDataString(Config.TellOPConfiguration.OAuth2Scopes)
-                + "&state="
-                + state);
+            Uri authorizationURI = new Uri(Config.TellOPConfiguration.OAuth2AuthorizeUrl.ToString() + "?response_type=token&client_id=" + Uri.EscapeDataString(Config.TellOPConfiguration.OAuth2ClientId) + "&redirect_uri=" + Uri.EscapeDataString(Config.TellOPConfiguration.OAuth2RedirectUrl.ToString()) + "&scope=" + Uri.EscapeDataString(Config.TellOPConfiguration.OAuth2Scopes) + "&state=" + state);
             WebAuthenticationResult authResult;
 
             try
             {
-                authResult = await WebAuthenticationBroker.AuthenticateAsync(
-                        WebAuthenticationOptions.None,
-                        authorizationURI,
-                        Config.TellOPConfiguration.OAuth2RedirectURL);
+                authResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, authorizationURI, Config.TellOPConfiguration.OAuth2RedirectUrl);
 
                 switch (authResult.ResponseStatus)
                 {
                     case WebAuthenticationStatus.Success:
                         break;
                     case WebAuthenticationStatus.UserCancel:
-                        // TODO: this shows an error message. Improve UX!
-                        TellOP.App.LoginAuthenticationCompletedButNotAuthenticatedAction.Invoke();
+                        TellOP.App.LogOnAuthenticationCompletedButNotAuthenticatedAction.Invoke();
                         return;
                     case WebAuthenticationStatus.ErrorHttp:
                     default:
-                        TellOP.App.LoginAuthenticationErrorAction.Invoke();
+                        TellOP.App.LogOnAuthenticationErrorAction.Invoke();
                         return;
                 }
             }
             catch (Exception)
             {
-                TellOP.App.LoginAuthenticationErrorAction.Invoke();
+                TellOP.App.LogOnAuthenticationErrorAction.Invoke();
                 return;
             }
 
@@ -115,12 +100,10 @@ namespace TellOP.UWP
                     continue;
                 }
 
-                // Note: plus signs should be removed from the URI
-                // manually as UnescapeDataString does not do that (the
+                // Note: plus signs should be removed from the URI manually as UnescapeDataString does not do that (the
                 // behavior is not standard across all URI schemes).
                 // See <https://msdn.microsoft.com/en-us/library/system.uri.unescapedatastring(v=vs.110).aspx>
-                string unescapedParam
-                    = Uri.UnescapeDataString(splitParam[1]).Replace('+', ' ');
+                string unescapedParam = Uri.UnescapeDataString(splitParam[1]).Replace('+', ' ');
                 oauthResponse.Add(splitParam[0], unescapedParam);
 
                 switch (splitParam[0])
@@ -134,7 +117,7 @@ namespace TellOP.UWP
                     case "token_type":
                         if (!unescapedParam.Equals("Bearer"))
                         {
-                            TellOP.App.LoginAuthenticationErrorAction.Invoke();
+                            TellOP.App.LogOnAuthenticationErrorAction.Invoke();
                             return;
                         }
 
@@ -143,7 +126,7 @@ namespace TellOP.UWP
                         if (!unescapedParam.Equals(
                             Config.TellOPConfiguration.OAuth2Scopes))
                         {
-                            TellOP.App.LoginAuthenticationErrorAction.Invoke();
+                            TellOP.App.LogOnAuthenticationErrorAction.Invoke();
                             return;
                         }
 
@@ -154,16 +137,15 @@ namespace TellOP.UWP
                 }
             }
 
-            if (!stateMatches
-                || string.IsNullOrWhiteSpace(accessToken))
+            if (!stateMatches || string.IsNullOrWhiteSpace(accessToken))
             {
-                TellOP.App.LoginAuthenticationErrorAction.Invoke();
+                TellOP.App.LogOnAuthenticationErrorAction.Invoke();
                 return;
             }
 
             // Create a Xamarin.Auth account and load user data
             Account authAccount = new Account(null, oauthResponse);
-            TellOP.App.LoadUserData(authAccount);
+            await TellOP.App.LoadUserData(authAccount);
 
             /*}
             else

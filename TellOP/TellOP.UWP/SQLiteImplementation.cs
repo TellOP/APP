@@ -27,24 +27,15 @@ namespace TellOP.UWP
     public class SQLiteImplementation : ISQLite
     {
         /// <summary>
-        /// Gets a SQLite database connection given a database name. The
-        /// database will be loaded from the application's assets.
+        /// Gets a SQLite database connection given a database name. The database will be loaded from the application's
+        /// assets.
         /// </summary>
         /// <param name="databaseName">The database file name.</param>
-        /// <param name="openFlags">The flags to be used while opening the
-        /// database.</param>
-        /// <returns>A <see cref="SQLiteConnection"/> object containing the
-        /// required connection.</returns>
-        public SQLiteConnection GetConnection(
-            string databaseName,
-            SQLiteOpenFlags openFlags)
+        /// <param name="openFlags">The flags to be used while opening the database.</param>
+        /// <returns>A <see cref="SQLiteConnection"/> object containing the required connection.</returns>
+        public SQLiteConnection GetConnection(string databaseName, SQLiteOpenFlags openFlags)
         {
-            // ApplicationData.Current.LocalFolder.Path,
-            return new SQLiteConnection(
-                Path.Combine(
-                    Windows.ApplicationModel.Package.Current.InstalledLocation.Path,
-                    databaseName),
-                openFlags);
+            return new SQLiteConnection(Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, databaseName), openFlags);
         }
     }
 }

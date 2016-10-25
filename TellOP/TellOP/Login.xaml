@@ -20,31 +20,26 @@ limitations under the License.
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TellOP.Login"
-             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP"
-             Title="{i18n:Translate Login_Title}">
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             Title="{local:Translate Login_Title}">
   <ContentPage.Padding>
-    <OnPlatform x:TypeArguments="Thickness"
-    iOS="10, 20, 10, 0"
-    Android="10, 0"
-    WinPhone="10, 0" />
+    <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" WinPhone="10, 0" />
   </ContentPage.Padding>
-
   <ContentPage.Content>
-    <ScrollView Padding="0" Margin="0" HorizontalOptions="CenterAndExpand">
+    <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
       <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-        <Image x:Name="logo" VerticalOptions="Center" HeightRequest="200" HorizontalOptions="Center" Source="LOGO_black.png" />
-        <StackLayout x:Name="LoginPanel" Margin="5,15,5,5">
-          <StackLayout x:Name="ButtonsPanel" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
-            <Button Text="{i18n:Translate Login_LoginButton}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Clicked="LoginButton_Clicked" />
+        <Image VerticalOptions="Center" HeightRequest="200" HorizontalOptions="Center" Source="LOGO_black.png" />
+        <StackLayout Margin="5,15,5,5">
+          <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
+            <Button Text="{local:Translate Login_LoginButton}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Clicked="LoginButton_Clicked" />
           </StackLayout>
         </StackLayout>
         <StackLayout Margin="5,15,5,5" HorizontalOptions="Center">
-          <Label HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Margin="15">.. or ..</Label>
-
+          <Label HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Margin="15" Text="{local:Translate Login_Or}" />
           <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
-            <Label x:Name="SignUp" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{i18n:Translate Login_SignUpLabel}" />
-            <Label x:Name="About" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{i18n:Translate Login_AboutLabel}" />
-            <Label x:Name="Privacy" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{i18n:Translate Login_PrivacyLabel}" />
+            <Label x:Name="SignUp" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_SignUpLabel}" />
+            <Label x:Name="About" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_AboutLabel}" />
+            <Label x:Name="Privacy" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_PrivacyLabel}" />
           </StackLayout>
         </StackLayout>
       </StackLayout>

@@ -105,6 +105,10 @@
       <Link>LocalDictionary.sqlite</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\TellOP\LocalLemmasDictionary.sqlite">
+      <Link>LocalLemmasDictionaryLocalLemmasDictionary.sqlite</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

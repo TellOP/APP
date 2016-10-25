@@ -22,7 +22,7 @@ namespace TellOP.DataModels
     using System.ComponentModel;
     using System.Threading.Tasks;
     using Activity;
-    using API;
+    using Api;
     using APIModels.Exercise;
 
     /// <summary>
@@ -34,13 +34,6 @@ namespace TellOP.DataModels
         /// The exercise history.
         /// </summary>
         private ReadOnlyObservableCollection<Exercise> _exerciseHistory;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HistoryDataModel"/> class.
-        /// </summary>
-        public HistoryDataModel()
-        {
-        }
 
         /// <summary>
         /// Fired when a property of this model changes.
@@ -62,19 +55,20 @@ namespace TellOP.DataModels
         /// Refreshes the list containing the exercise history.
         /// </summary>
         /// <returns>True if everything was completed correctly</returns>
-        /// <exception cref="UnsuccessfulAPICallException">Thrown if <see cref="ExerciseHistoryAPI.CallEndpointAsObjectAsync()"/> fails.</exception>
+        /// <exception cref="UnsuccessfulApiCallException">Thrown if
+        /// <see cref="ExerciseHistoryApi.CallEndpointAsObjectAsync()"/> fails.</exception>
         /// <exception cref="Exception">Thrown if something else fails.</exception>
         public async Task RefreshExerciseHistory()
         {
             List<Exercise> historyWithResults = new List<Exercise>();
-            ExerciseHistoryAPI historyEndpoint = new ExerciseHistoryAPI(App.OAuth2Account);
+            ExerciseHistoryApi historyEndpoint = new ExerciseHistoryApi(App.OAuth2Account);
 
             // These exceptions are handled in the view directly.
             IList<UserActivity> history = new List<UserActivity>();
-            history = await historyEndpoint.CallEndpointAsObjectAsync();
+            history = await historyEndpoint.CallEndpointAsObjectAsync().ConfigureAwait(false);
 
             // Performance
-            ExerciseAPI exerciseEndpoint;
+            ExerciseApi exerciseEndpoint;
             Exercise histEx;
             UserActivityEssay histActEssay;
             EssayExercise histExEssay;
@@ -83,8 +77,8 @@ namespace TellOP.DataModels
             {
                 try
                 {
-                    exerciseEndpoint = new ExerciseAPI(App.OAuth2Account, histAct.ActivityID);
-                    histEx = await exerciseEndpoint.CallEndpointAsExerciseModel();
+                    exerciseEndpoint = new ExerciseApi(App.OAuth2Account, histAct.ActivityId);
+                    histEx = await exerciseEndpoint.CallEndpointAsExerciseModel().ConfigureAwait(false);
                     if (histAct is UserActivityEssay && histEx is EssayExercise)
                     {
                         histActEssay = (UserActivityEssay)histAct;
@@ -98,16 +92,16 @@ namespace TellOP.DataModels
                         historyWithResults.Add(histEx);
                     }
                 }
-                catch (UnsuccessfulAPICallException ex)
+                catch (UnsuccessfulApiCallException ex)
                 {
-                    Tools.Logger.Log(this, "RefreshExerciseHistory method - Internal UserActivity loop", ex);
+                    Tools.Logger.Log(this.GetType().ToString(), "RefreshExerciseHistory method - Internal UserActivity loop", ex);
 
                     // TODO: Add activity indicator
                     // this.SwitchActivityIndicator(false);
                 }
                 catch (Exception ex)
                 {
-                    Tools.Logger.Log(this, "RefreshExerciseHistory method - Internal UserActivity loop", ex);
+                    Tools.Logger.Log(this.GetType().ToString(), "RefreshExerciseHistory method - Internal UserActivity loop", ex);
 
                     // TODO: Add activity indicator
                     // this.SwitchActivityIndicator(false);

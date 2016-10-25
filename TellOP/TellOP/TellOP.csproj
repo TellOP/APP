@@ -42,24 +42,24 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="API\ExerciseAPI.cs" />
-    <Compile Include="API\ExerciseFeaturedAPI.cs" />
-    <Compile Include="API\ExerciseHistoryAPI.cs" />
-    <Compile Include="API\ExerciseSubmissionAPI.cs" />
-    <Compile Include="API\Tips.cs" />
-    <Compile Include="API\StringNet.cs" />
-    <Compile Include="API\NetSpeakPreceding.cs" />
-    <Compile Include="API\NetSpeakFollowing.cs" />
-    <Compile Include="API\Adelex.cs" />
-    <Compile Include="API\AdelexOrder.cs" />
-    <Compile Include="API\AdelexOrderExtensions.cs" />
-    <Compile Include="API\UserProfile.cs" />
-    <Compile Include="API\LexTutor.cs" />
-    <Compile Include="API\Stands4Dictionary.cs" />
-    <Compile Include="API\CollinsEnglishDictionaryGetEntry.cs" />
-    <Compile Include="API\CollinsEnglishDictionary.cs" />
-    <Compile Include="API\OAuth2API.cs" />
-    <Compile Include="API\UnsuccessfulAPICallException.cs" />
+    <Compile Include="Api\ExerciseApi.cs" />
+    <Compile Include="Api\ExerciseFeaturedApi.cs" />
+    <Compile Include="Api\ExerciseHistoryApi.cs" />
+    <Compile Include="Api\ExerciseSubmissionApi.cs" />
+    <Compile Include="Api\Tips.cs" />
+    <Compile Include="Api\StringNet.cs" />
+    <Compile Include="Api\NetSpeakPreceding.cs" />
+    <Compile Include="Api\NetSpeakFollowing.cs" />
+    <Compile Include="Api\AdelexApi.cs" />
+    <Compile Include="Api\AdelexOrder.cs" />
+    <Compile Include="Api\AdelexOrderExtensions.cs" />
+    <Compile Include="Api\UserProfile.cs" />
+    <Compile Include="Api\LexTutorApi.cs" />
+    <Compile Include="Api\Stands4Dictionary.cs" />
+    <Compile Include="Api\CollinsEnglishDictionaryGetEntry.cs" />
+    <Compile Include="Api\CollinsEnglishDictionary.cs" />
+    <Compile Include="Api\OAuth2Api.cs" />
+    <Compile Include="Api\UnsuccessfulApiCallException.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Authentication.xaml.cs">
       <DependentUpon>Authentication.xaml</DependentUpon>
@@ -67,47 +67,56 @@
     <Compile Include="Config\TellOPConfiguration.cs" />
     <Compile Include="Config\TellOPSecretsConfiguration.cs" />
     <Compile Include="DataModels\Activity\Exercise.cs" />
-    <Compile Include="DataModels\APIModels\ExerciseStatusJSONConverter.cs" />
-    <Compile Include="DataModels\APIModels\JSONCreationConverterExtensions.cs" />
-    <Compile Include="DataModels\APIModels\Tip.cs" />
-    <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
-    <Compile Include="DataModels\APIModels\Adelex\AdelexResultEntry.cs" />
-    <Compile Include="DataModels\APIModels\Adelex\AdelexToken.cs" />
-    <Compile Include="DataModels\APIModels\APIErrorResponse.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsWordDefinitionSense.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionary.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntry.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntryContent.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntryContentEntry.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionaryEntryRelated.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONEnglishDictionarySingleResult.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsWord.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsWordSearchException.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONLinkedWord.cs" />
-    <Compile Include="DataModels\APIModels\Collins\CollinsJSONPartOfSpeechJSONConverter.cs" />
-    <Compile Include="DataModels\APIModels\Exercise\ActivityConverter.cs" />
-    <Compile Include="DataModels\APIModels\Exercise\Activity.cs" />
-    <Compile Include="DataModels\APIModels\Exercise\ActivityDictionarySearch.cs" />
-    <Compile Include="DataModels\APIModels\Exercise\ActivityEssay.cs" />
-    <Compile Include="DataModels\APIModels\Exercise\UserActivity.cs" />
-    <Compile Include="DataModels\APIModels\Exercise\UserActivityDictionarySearch.cs" />
-    <Compile Include="DataModels\APIModels\Exercise\UserActivityEssay.cs" />
-    <Compile Include="DataModels\APIModels\JSONCreationConverter.cs" />
-    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultFrequencyDetails.cs" />
-    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultFrequencyLevels.cs" />
-    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultRatios.cs" />
-    <Compile Include="DataModels\APIModels\Stands4\Stands4WordNotFoundException.cs" />
-    <Compile Include="DataModels\APIModels\StringNet.cs" />
-    <Compile Include="DataModels\Enums\LanguageLevelClassificationExtension.cs" />
-    <Compile Include="DataModels\Enums\PartOfSpeech.cs" />
-    <Compile Include="DataModels\APIModels\Stands4\PartOfSpeechJSONConverter.cs" />
-    <Compile Include="DataModels\APIModels\Stands4\Stands4Word.cs" />
     <Compile Include="DataModels\Activity\ExerciseGroup.cs" />
-    <Compile Include="DataModels\Enums\ExerciseStatusExtensions.cs" />
+    <Compile Include="DataModels\ApiModels\ExerciseStatusJsonConverter.cs" />
+    <Compile Include="DataModels\ApiModels\JsonCreationConverterExtensions.cs" />
+    <Compile Include="DataModels\ApiModels\Tip.cs" />
+    <Compile Include="DataModels\BaseConverter.cs" />
+    <Compile Include="DataModels\DictionaryMonoDirectionalConverter.cs" />
+    <Compile Include="DataModels\DictionaryConverter.cs" />
+    <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
+    <Compile Include="DataModels\ApiModels\Adelex\AdelexResultEntry.cs" />
+    <Compile Include="DataModels\ApiModels\Adelex\AdelexToken.cs" />
+    <Compile Include="DataModels\ApiModels\ApiErrorResponse.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsWordDefinitionSense.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionary.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntry.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntryContent.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntryContentEntry.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntryRelated.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionarySingleResult.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsWord.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsWordSearchException.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonLinkedWord.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonPartOfSpeechJsonConverter.cs" />
+    <Compile Include="DataModels\ApiModels\Exercise\ActivityConverter.cs" />
+    <Compile Include="DataModels\ApiModels\Exercise\Activity.cs" />
+    <Compile Include="DataModels\ApiModels\Exercise\ActivityDictionarySearch.cs" />
+    <Compile Include="DataModels\ApiModels\Exercise\ActivityEssay.cs" />
+    <Compile Include="DataModels\ApiModels\Exercise\UserActivity.cs" />
+    <Compile Include="DataModels\ApiModels\Exercise\UserActivityDictionarySearch.cs" />
+    <Compile Include="DataModels\ApiModels\Exercise\UserActivityEssay.cs" />
+    <Compile Include="DataModels\ApiModels\JsonCreationConverter.cs" />
+    <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultFrequencyDetails.cs" />
+    <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultFrequencyLevels.cs" />
+    <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultRatios.cs" />
+    <Compile Include="DataModels\ApiModels\Stands4\Stands4WordNotFoundException.cs" />
+    <Compile Include="DataModels\ApiModels\StringNet.cs" />
+    <Compile Include="DataModels\Enums\LanguageLevelClassificationToShortDescriptionConverter.cs" />
+    <Compile Include="DataModels\Enums\LanguageLevelClassificationToLongDescriptionConverter.cs" />
+    <Compile Include="DataModels\Enums\LanguageLevelClassificationToColorConverter.cs" />
+    <Compile Include="DataModels\Enums\LanguageLevelClassificationToHtmlParamConverter.cs" />
+    <Compile Include="DataModels\Enums\PartOfSpeech.cs" />
+    <Compile Include="DataModels\ApiModels\Stands4\PartOfSpeechJsonConverter.cs" />
+    <Compile Include="DataModels\ApiModels\Stands4\Stands4Word.cs" />
+    <Compile Include="DataModels\Enums\ExerciseStatusToColorConverter.cs" />
+    <Compile Include="DataModels\Enums\PartOfSpeechToColorConverter.cs" />
     <Compile Include="DataModels\Enums\SupportedLanguage.cs" />
-    <Compile Include="DataModels\Enums\SupportedLanguageExtension.cs" />
+    <Compile Include="DataModels\Enums\SupportedLanguageToLcidConverter.cs" />
     <Compile Include="DataModels\Enums\LanguageLevelClassification.cs" />
-    <Compile Include="DataModels\APIModels\SupportedLanguageJSONConverter.cs" />
+    <Compile Include="DataModels\ApiModels\SupportedLanguageJsonConverter.cs" />
+    <Compile Include="DataModels\SQLiteModels\OfflineLemma.cs" />
+    <Compile Include="DataModels\SQLiteModels\SQLiteManager.cs" />
     <Compile Include="DataModels\WordSearchUtilities.cs" />
     <Compile Include="ICertificateVerifier.cs" />
     <Compile Include="ISQLite.cs" />
@@ -130,15 +139,15 @@
     <Compile Include="DashboardTabHistory.xaml.cs">
       <DependentUpon>DashboardTabHistory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataModels\APIModels\LexTutor\LexTutorResultEntry.cs" />
-    <Compile Include="DataModels\APIModels\NetSpeak.cs" />
+    <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultEntry.cs" />
+    <Compile Include="DataModels\ApiModels\NetSpeak.cs" />
     <Compile Include="DataModels\Activity\EssayExercise.cs" />
     <Compile Include="DataModels\FeaturedDataModel.cs" />
-    <Compile Include="DataModels\APIModels\Stands4\DictionarySingleDefinition.cs" />
+    <Compile Include="DataModels\ApiModels\Stands4\DictionarySingleDefinition.cs" />
     <Compile Include="DataModels\TipsDataModel.cs" />
     <Compile Include="DataModels\HistoryDataModel.cs" />
     <Compile Include="DataModels\SQLiteModels\OfflineWord.cs" />
-    <Compile Include="DataModels\Enums\PartOfSpeechExtension.cs" />
+    <Compile Include="DataModels\Enums\PartOfSpeechToStringConverter.cs" />
     <Compile Include="DataModels\User.cs" />
     <Compile Include="DataModels\Interfaces\IWord.cs" />
     <Compile Include="ExerciseAnalysis.xaml.cs">
@@ -159,6 +168,9 @@
     <Compile Include="NonNullToBooleanConverter.cs" />
     <Compile Include="SingleWordExploration.xaml.cs">
       <DependentUpon>SingleWordExploration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ThirdPartyLicenses.xaml.cs">
+      <DependentUpon>ThirdPartyLicenses.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tools\Logger.cs" />
     <Compile Include="TranslateExtension.cs" />
@@ -240,6 +252,7 @@
     <AdditionalFiles Include="..\..\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
+    <None Include="app.config" />
     <None Include="project.json" />
     <None Include="TellOP.ruleset" />
   </ItemGroup>
@@ -252,6 +265,17 @@
     <EmbeddedResource Include="About.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ThirdPartyLicenses.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\NOTICE.html">
+      <Link>NOTICE.html</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

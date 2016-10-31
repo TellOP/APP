@@ -90,9 +90,11 @@
     </AdditionalFiles>
     <AndroidAsset Include="..\TellOP\LocalDictionary.sqlite">
       <Link>Assets\LocalDictionary.sqlite</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
     <AndroidAsset Include="..\TellOP\LocalLemmasDictionary.sqlite">
       <Link>Assets\LocalLemmasDictionary.sqlite</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
     <None Include="app.config" />
     <None Include="project.json" />

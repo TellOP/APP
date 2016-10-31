@@ -19,44 +19,85 @@ namespace TellOP.DataModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Activity;
     using Api;
+    using APIModels;
     using Enums;
     using Nito.AsyncEx;
 
     /// <summary>
     /// The data model for featured exercises.
     /// </summary>
-    public class FeaturedDataModel
+    public class FeaturedDataModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// A read-only list of featured exercises.
+        /// </summary>
+        private INotifyTaskCompletion<ReadOnlyObservableCollection<ExerciseGroup>> _featuredExercises;
+
+        /// <summary>
+        /// A single random tip.
+        /// </summary>
+        private INotifyTaskCompletion<Tip> _appTip;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FeaturedDataModel"/> class.
         /// </summary>
         public FeaturedDataModel()
         {
-            this.AppTips = new TipsDataModel();
             this.RefreshExercises();
         }
 
         /// <summary>
+        /// Fired when a property is changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
         /// Gets a read-only list of featured exercises.
         /// </summary>
-        public INotifyTaskCompletion<ReadOnlyObservableCollection<ExerciseGroup>> FeaturedExercises { get; private set; }
+        public INotifyTaskCompletion<ReadOnlyObservableCollection<ExerciseGroup>> FeaturedExercises
+        {
+            get
+            {
+                return this._featuredExercises;
+            }
+
+            private set
+            {
+                this._featuredExercises = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FeaturedExercises"));
+            }
+        }
 
         /// <summary>
-        /// Gets a tip data model.
+        /// Gets a single random tip.
         /// </summary>
-        public TipsDataModel AppTips { get; private set; }
+        public INotifyTaskCompletion<Tip> AppTip
+        {
+            get
+            {
+                return this._appTip;
+            }
+
+            private set
+            {
+                this._appTip = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AppTip"));
+            }
+        }
 
         /// <summary>
-        /// Refreshes the list of featured exercises.
+        /// Refreshes the list of featured exercises and the list of tips.
         /// </summary>
         public void RefreshExercises()
         {
             this.FeaturedExercises = NotifyTaskCompletion.Create(GetFeaturedExercisesAsync());
+            this.AppTip = NotifyTaskCompletion.Create(TipsDataModel.GetSingleTipAsync());
         }
 
         /// <summary>

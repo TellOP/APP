@@ -13,11 +13,10 @@
 // limitations under the License.
 // </copyright>
 // <author>Mattia Zago</author>
+// <author>Alessandro Menti</author>
 
 namespace TellOP
 {
-    using System.Threading.Tasks;
-    using Api;
     using DataModels;
     using DataModels.Activity;
     using Xamarin.Forms;
@@ -28,95 +27,28 @@ namespace TellOP
     public partial class DashboardTabHistory : ContentPage
     {
         /// <summary>
-        /// History data model that provides the exercises in a nice format
-        /// </summary>
-        private HistoryDataModel _hdm;
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="DashboardTabHistory"/> class.
+        /// Initializes a new instance of the <see cref="DashboardTabHistory"/> class.
         /// </summary>
         public DashboardTabHistory()
         {
+            this.BindingContext = new HistoryDataModel();
             this.InitializeComponent();
-
-            this.Refresh();
         }
 
         /// <summary>
-        /// Force the refresh of all the displayed data
+        /// Refreshes the exercise history list.
         /// </summary>
         public void Refresh()
         {
-            this.PopulateExercises();
-            this.PopulateTips();
+            ((HistoryDataModel)this.BindingContext).RefreshHistory();
         }
 
         /// <summary>
-        /// Populate the ex list
+        /// Called when an item in the exercise list is selected.
         /// </summary>
-        private async Task PopulateExercises()
-        {
-            try
-            {
-                if (this._hdm == null)
-                {
-                    this._hdm = new HistoryDataModel();
-                    await this._hdm.RefreshExerciseHistory();
-                }
-
-                if (this._hdm.History == null)
-                {
-                    await this._hdm.RefreshExerciseHistory();
-                }
-
-                this.ExList.ItemsSource = this._hdm.History;
-            }
-            catch (UnsuccessfulApiCallException ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "PopulateExercises", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-            catch (System.Exception ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "PopulateExercises", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-        }
-
-        /// <summary>
-        /// Populate the tips panel
-        /// </summary>
-        private async Task PopulateTips()
-        {
-            try
-            {
-                TipsDataModel currentTip = new TipsDataModel();
-                // FIXME this.TipTitle.Text = (await currentTip.GetSingleRandom()).Text;
-            }
-            catch (UnsuccessfulApiCallException ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "PopulateTips method", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-            catch (System.Exception ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "PopulateTips method", ex);
-
-                // TODO: Add activity indicator
-                // this.SwitchActivityIndicator(false);
-            }
-        }
-
-        private async void OnSelection(
-            object sender,
-            SelectedItemChangedEventArgs e)
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void HistoryList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             // If this handler is called when an item is deselected, bail out
             if (e.SelectedItem == null)
@@ -124,9 +56,8 @@ namespace TellOP
                 return;
             }
 
+            // TODO: support dictionary searches
             await this.Navigation.PushAsync(new EssayExerciseView((EssayExercise)e.SelectedItem));
-
-            ((ListView)sender).SelectedItem = null;
         }
     }
 }

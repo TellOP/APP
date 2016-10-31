@@ -52,11 +52,11 @@ namespace TellOP
         {
             if (this.CurrentPage is DashboardTabHistory)
             {
-                // FIXME ((DashboardTabHistory)this.CurrentPage).Refresh();
+                ((DashboardTabHistory)this.CurrentPage).Refresh();
             }
             else if (this.CurrentPage is DashboardTabFeatured)
             {
-                // FIXME ((DashboardTabHistory)this.CurrentPage).Refresh();
+                ((DashboardTabFeatured)this.CurrentPage).Refresh();
             }
         }
 

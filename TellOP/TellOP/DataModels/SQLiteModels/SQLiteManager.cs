@@ -43,7 +43,7 @@ namespace TellOP.DataModels.SQLiteModels
             {
                 if (localWordsDictionary == null)
                 {
-                    localWordsDictionary = DependencyService.Get<ISQLite>().GetConnection("LocalDictionary.sqlite", SQLiteOpenFlags.FullMutex);
+                    localWordsDictionary = DependencyService.Get<ISQLite>().GetConnection("LocalDictionary.sqlite", SQLiteOpenFlags.ReadOnly);
                 }
 
                 return localWordsDictionary;
@@ -59,7 +59,7 @@ namespace TellOP.DataModels.SQLiteModels
             {
                 if (localLemmasDictionary == null)
                 {
-                    localLemmasDictionary = DependencyService.Get<ISQLite>().GetConnection("LocalLemmasDictionary.sqlite", SQLiteOpenFlags.FullMutex);
+                    localLemmasDictionary = DependencyService.Get<ISQLite>().GetConnection("LocalLemmasDictionary.sqlite", SQLiteOpenFlags.ReadOnly);
                 }
 
                 return localLemmasDictionary;

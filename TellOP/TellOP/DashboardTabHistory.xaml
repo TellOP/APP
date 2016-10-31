@@ -15,62 +15,75 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </copyright>
 <author>Mattia Zago</author>
+<author>Alessandro Menti</author>
 -->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             xmlns:activity="clr-namespace:TellOP.DataModels.Activity;assembly=TellOP"
              xmlns:datamodels="clr-namespace:TellOP.DataModels;assembly=TellOP"
+             xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
              x:Class="TellOP.DashboardTabHistory"
-             xmlns:data="clr-namespace:TellOP.DataModels"
-             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP">
-  
-  <ListView x:Name="ExList" ItemSelected="OnSelection" HasUnevenRows="true" Margin="5">
-    
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <ViewCell.ContextActions>
-            <MenuItem Text="{i18n:Translate ButtonOpen}"  />
-            <MenuItem Text="{i18n:Translate ButtonDelete}" IsDestructive="True" />
-          </ViewCell.ContextActions>
-          
-          <ContentView Padding="5" BackgroundColor="{Binding StatusColor}" Margin="0,2,0,2">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <!--<ColumnDefinition Width="5" />-->
-                  <ColumnDefinition Width="2*" />
-                  <ColumnDefinition Width="2*" />
-                  <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="auto" />
-                  <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <!--<BoxView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="boxView" Color="{Binding StatusColor}" WidthRequest="5" />-->
-                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Title}" FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap"/>
-                <Label Grid.Column="0" Grid.Row="1" Text="Essay" FontSize="14" VerticalOptions="StartAndExpand" FontAttributes="Italic" />
-                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Language}" FontSize="14" VerticalOptions="CenterAndExpand" />
-                <Label Grid.Column="2" Grid.Row="1" Text="{Binding Level}" FontSize="14" VerticalOptions="EndAndExpand" />
-              </Grid>
-          </ContentView>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-
-    <!-- HEADER and FOOTER -->
-    <ListView.Header>
-      <StackLayout Padding="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
-        <Label Text="Exercise History" HorizontalTextAlignment="Center" FontSize="20" />
-        <Label Text="Select an exercise from the list below to see the details" FontSize="16" HorizontalOptions="CenterAndExpand"/>
-      </StackLayout>
-    </ListView.Header>
-    <ListView.Footer >
-      <Frame Padding="5">
-        <StackLayout Orientation="Vertical" >
-          <Label x:Name="TipTitle" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Italic" LineBreakMode="WordWrap" />
-        </StackLayout>
-      </Frame>
-    </ListView.Footer>
-    
-  </ListView>
+             Title="{local:Translate Dashboard_TabHistory}"
+             Icon="TAB_History.png">
+  <ContentPage.Content>
+    <Grid>
+      <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
+        <Label Text="{local:Translate Dashboard_TabError}" IsVisible="{Binding ExerciseHistory.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+        <ListView HasUnevenRows="true" ItemsSource="{Binding ExerciseHistory.Result}" Header="{Binding ExerciseHistory.Result.Count}" Footer="{Binding AppTip.Result.Text}" Margin="5" IsVisible="{Binding ExerciseHistory.IsCompleted}" ItemSelected="HistoryList_ItemSelected">
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <ViewCell>
+                <ViewCell.ContextActions>
+                  <MenuItem Text="{local:Translate ButtonOpen}"  />
+                  <MenuItem Text="{local:Translate ButtonDelete}" IsDestructive="True" />
+                </ViewCell.ContextActions>
+                <ContentView Margin="0,2,0,2">
+                  <Grid Padding="0" BackgroundColor="{Binding Level, Converter={enums:LanguageLevelClassificationToColorConverter}}">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="5" />
+                      <ColumnDefinition Width="2*" />
+                      <ColumnDefinition Width="2*" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="auto" />
+                      <RowDefinition Height="auto" />
+                      <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <BoxView Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" BackgroundColor="{Binding Status, Converter={enums:ExerciseStatusToColorConverter}}" />
+                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Title}" />
+                    <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" FontSize="12" VerticalOptions="Start" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Description}" />
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Converter={activity:ExerciseToNameConverter}}" FontSize="14" HorizontalOptions="Start" VerticalOptions="Center" FontAttributes="Italic" />
+                    <Label Grid.Column="2" Grid.Row="2" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Text="{Binding Language, Converter={enums:SupportedLanguageToNameConverter}}" />
+                    <Label Grid.Column="3" Grid.Row="2" FontSize="14" HorizontalOptions="End" VerticalOptions="Center" Text="{Binding Level, Converter={enums:LanguageLevelClassificationToShortDescriptionConverter}}" />
+                  </Grid>
+                </ContentView>
+              </ViewCell>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+          <ListView.HeaderTemplate>
+            <DataTemplate>
+              <StackLayout Padding="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+                <Label Text="{local:Translate Dashboard_TabHistory_Title}" HorizontalTextAlignment="Center" FontSize="20" />
+                <Label FontSize="16" HorizontalOptions="CenterAndExpand">
+                  <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding ., Converter={datamodels:CutoffConverter Cutoff=0}}" Value="false">
+                      <Setter Property="Text" Value="{local:Translate Dashboard_TabHistory_Description_NoHistory}" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label" Binding="{Binding ., Converter={datamodels:CutoffConverter Cutoff=0}}" Value="true">
+                      <Setter Property="Text" Value="{local:Translate Dashboard_TabHistory_Description}" />
+                    </DataTrigger>
+                  </Label.Triggers>
+                </Label>
+              </StackLayout>
+            </DataTemplate>
+          </ListView.HeaderTemplate>
+        </ListView>
+      </ScrollView>
+      <RelativeLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <ActivityIndicator IsVisible="{Binding ExerciseHistory.IsNotCompleted}" IsRunning="{Binding ExerciseHistory.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+      </RelativeLayout>
+    </Grid>
+  </ContentPage.Content>
 </ContentPage>

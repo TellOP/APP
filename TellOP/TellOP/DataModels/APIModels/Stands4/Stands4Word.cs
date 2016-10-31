@@ -46,7 +46,7 @@ namespace TellOP.DataModels.APIModels.Stands4
             this.Term = definition.Term;
             this.Level = new AsyncLazy<LanguageLevelClassification>(async () =>
             {
-                return await WordSearchUtilities.GetMostProbable(await OfflineWord.Search(this.Term, SupportedLanguage.English).ConfigureAwait(false)).Level;
+                return await WordSearchUtilities.GetMostProbable(OfflineWord.Search(this.Term, SupportedLanguage.English)).Level;
             });
         }
 

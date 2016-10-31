@@ -58,6 +58,8 @@ namespace TellOP
             this.searchButton.Icon = "toolbar_search.png";
             this.analysisButton.Icon = "toolbar_analysis.png";
 
+            this.imgReloadVerbs.Source = "toolbar_refresh.png";
+
             this.analysisButton.Clicked += this.AnalysisButton_Clicked;
             this.searchButton.Clicked += this.SearchButton_Clicked;
             this.submitButton.Clicked += this.SubmitButton_Clicked;
@@ -376,6 +378,8 @@ namespace TellOP
                 throw new OperationCanceledException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShort);
             }
 
+            this.imgReloadVerbs.IsVisible = false;
+
             if (this.ExContentEditor.Text.Contains("’"))
             {
                 this.ExContentEditor.Text = this.ExContentEditor.Text.Replace("’", "'");
@@ -419,11 +423,10 @@ namespace TellOP
 
             try
             {
-                // this.statUnknown.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Unclassified }));
-                this.statNouns.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.CommonNoun, PartOfSpeech.ProperNoun }));
-                this.statAdverbs.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adverb }));
-                this.statAdjective.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adjective }));
-                this.statVerbs.Text = string.Format("{0:P0}", this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Verb, PartOfSpeech.ModalVerb }));
+                this.statNouns.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.CommonNoun, PartOfSpeech.ProperNoun }));
+                this.statAdverbs.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adverb }));
+                this.statAdjective.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adjective }));
+                this.statVerbs.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Verb, PartOfSpeech.ModalVerb }));
 
                 this._changeActivityIndicatorsStatus(false);
 
@@ -433,7 +436,6 @@ namespace TellOP
             {
                 Tools.Logger.Log(this.GetType().ToString(), "Offline analysis didn't exit correctly.", ex);
 
-                // TODO: localize!
                 bool userChoice = await this.DisplayAlert(
                     Properties.Resources.Error,
                     Properties.Resources.EssayExerciseViewAnalyzeTextExceptionErrorGeneric + ex.Message,

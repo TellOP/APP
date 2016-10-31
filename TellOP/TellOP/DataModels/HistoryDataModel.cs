@@ -13,17 +13,19 @@
 // limitations under the License.
 // </copyright>
 // <author>Mattia Zago</author>
+// <author>Alessandro Menti</author>
 
 namespace TellOP.DataModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Threading.Tasks;
     using Activity;
     using Api;
+    using APIModels;
     using APIModels.Exercise;
+    using Nito.AsyncEx;
 
     /// <summary>
     /// The data model for the exercise history.
@@ -31,85 +33,92 @@ namespace TellOP.DataModels
     public class HistoryDataModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// The exercise history.
+        /// A read-only list containing the exercise history.
         /// </summary>
-        private ReadOnlyObservableCollection<Exercise> _exerciseHistory;
+        private INotifyTaskCompletion<ReadOnlyObservableCollection<Exercise>> _exerciseHistory;
 
         /// <summary>
-        /// Fired when a property of this model changes.
+        /// A single random tip.
+        /// </summary>
+        private INotifyTaskCompletion<Tip> _appTip;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HistoryDataModel"/> class.
+        /// </summary>
+        public HistoryDataModel()
+        {
+            this.RefreshHistory();
+        }
+
+        /// <summary>
+        /// Fired when a property is changed.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets a read-only list containing the exercise history.
         /// </summary>
-        public ReadOnlyObservableCollection<Exercise> History
+        public INotifyTaskCompletion<ReadOnlyObservableCollection<Exercise>> ExerciseHistory
         {
             get
             {
                 return this._exerciseHistory;
             }
+
+            private set
+            {
+                this._exerciseHistory = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ExerciseHistory"));
+            }
         }
 
         /// <summary>
-        /// Refreshes the list containing the exercise history.
+        /// Gets a single random tip.
         /// </summary>
-        /// <returns>True if everything was completed correctly</returns>
-        /// <exception cref="UnsuccessfulApiCallException">Thrown if
-        /// <see cref="ExerciseHistoryApi.CallEndpointAsObjectAsync()"/> fails.</exception>
-        /// <exception cref="Exception">Thrown if something else fails.</exception>
-        public async Task RefreshExerciseHistory()
+        public INotifyTaskCompletion<Tip> AppTip
+        {
+            get
+            {
+                return this._appTip;
+            }
+
+            private set
+            {
+                this._appTip = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AppTip"));
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the exercise history.
+        /// </summary>
+        public void RefreshHistory()
+        {
+            this.ExerciseHistory = NotifyTaskCompletion.Create(GetHistoryAsync());
+            this.AppTip = NotifyTaskCompletion.Create(TipsDataModel.GetSingleTipAsync());
+        }
+
+        /// <summary>
+        /// Refreshes the exercise history asynchronously.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private static async Task<ReadOnlyObservableCollection<Exercise>> GetHistoryAsync()
         {
             List<Exercise> historyWithResults = new List<Exercise>();
             ExerciseHistoryApi historyEndpoint = new ExerciseHistoryApi(App.OAuth2Account);
 
-            // These exceptions are handled in the view directly.
             IList<UserActivity> history = new List<UserActivity>();
-            history = await historyEndpoint.CallEndpointAsObjectAsync().ConfigureAwait(false);
+            history = await Task.Run(async () => await historyEndpoint.CallEndpointAsObjectAsync());
 
-            // Performance
+            // Preload all exercises in the list to improve performance.
             ExerciseApi exerciseEndpoint;
-            Exercise histEx;
-            UserActivityEssay histActEssay;
-            EssayExercise histExEssay;
-
             foreach (UserActivity histAct in history)
             {
-                try
-                {
-                    exerciseEndpoint = new ExerciseApi(App.OAuth2Account, histAct.ActivityId);
-                    histEx = await exerciseEndpoint.CallEndpointAsExerciseModel().ConfigureAwait(false);
-                    if (histAct is UserActivityEssay && histEx is EssayExercise)
-                    {
-                        histActEssay = (UserActivityEssay)histAct;
-                        histExEssay = (EssayExercise)histEx;
-                        histExEssay.Contents = histActEssay.Text;
-                        histExEssay.Status = histActEssay.Status;
-                        histExEssay.Timestamp = histActEssay.Timestamp;
-                    }
-                    else
-                    {
-                        historyWithResults.Add(histEx);
-                    }
-                }
-                catch (UnsuccessfulApiCallException ex)
-                {
-                    Tools.Logger.Log(this.GetType().ToString(), "RefreshExerciseHistory method - Internal UserActivity loop", ex);
-
-                    // TODO: Add activity indicator
-                    // this.SwitchActivityIndicator(false);
-                }
-                catch (Exception ex)
-                {
-                    Tools.Logger.Log(this.GetType().ToString(), "RefreshExerciseHistory method - Internal UserActivity loop", ex);
-
-                    // TODO: Add activity indicator
-                    // this.SwitchActivityIndicator(false);
-                }
+                exerciseEndpoint = new ExerciseApi(App.OAuth2Account, histAct.ActivityId);
+                historyWithResults.Add(await Task.Run(async () => await exerciseEndpoint.CallEndpointAsExerciseModel()));
             }
 
-            this._exerciseHistory = new ReadOnlyObservableCollection<Exercise>(new ObservableCollection<Exercise>(historyWithResults));
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("History"));
+            return new ReadOnlyObservableCollection<Exercise>(new ObservableCollection<Exercise>(historyWithResults));
         }
     }
 }

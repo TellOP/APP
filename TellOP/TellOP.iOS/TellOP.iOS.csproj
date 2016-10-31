@@ -180,7 +180,7 @@
     <BundleResource Include="Resources\TAB_Featured.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\TAB_Hystory.png" />
+    <BundleResource Include="Resources\TAB_History.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\BTN_hide24.png" />

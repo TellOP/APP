@@ -435,16 +435,23 @@ namespace TellOP.DataModels.Activity
             return offlineAnalysis.Where(w => w.PartOfSpeech == part).GroupBy(w => w).Where(w => w.Count() >= 1).ToDictionary(w => w.Key, w => w.Count());
         }
 
-        private async Task<IWord> ProcessSingleWord(string token)
+        private string PreprocessSingleWord(string token)
         {
-            IWord w;
-            string cleanToken = await OfflineLemma.RetrieveBase(token);
-            if (cleanToken == null)
+            string cleanToken = OfflineLemma.RetrieveBase(token);
+            if (string.IsNullOrEmpty(cleanToken) || string.IsNullOrWhiteSpace(cleanToken))
             {
                 cleanToken = token;
             }
 
-            IList<IWord> offlineWords = await OfflineWord.Search(cleanToken);
+            return cleanToken;
+        }
+
+        private async Task<IWord> ProcessSingleWord(string cleanToken)
+        {
+            string msg = "'" + cleanToken + "' ";
+            IWord w;
+
+            IList<IWord> offlineWords = OfflineWord.Search(cleanToken);
             if (offlineWords.Count > 0)
             {
                 w = WordSearchUtilities.GetMostProbable(offlineWords);
@@ -452,7 +459,7 @@ namespace TellOP.DataModels.Activity
             else
             {
                 // TODO: find a better way to add a word that is not found in the database.
-                Tools.Logger.Log(this.GetType().Name, "Count is zero, so I'm creating a new word with an unclassified part of speech and an unknown language level");
+                msg += "SearchCount is zero, so I'm creating a new word with an unclassified part of speech and an unknown language level";
                 w = new OfflineWord()
                 {
                     Term = cleanToken,
@@ -462,28 +469,8 @@ namespace TellOP.DataModels.Activity
                 };
             }
 
-            if (this.ExcludeFunctionalWords && (
-                        w.PartOfSpeech == PartOfSpeech.ClauseOpener
-                        || w.PartOfSpeech == PartOfSpeech.Conjunction
-                        || w.PartOfSpeech == PartOfSpeech.Determiner
-                        || w.PartOfSpeech == PartOfSpeech.DeterminerPronoun
-                        || w.PartOfSpeech == PartOfSpeech.ExistentialParticle
-                        || w.PartOfSpeech == PartOfSpeech.Genitive
-                        || w.PartOfSpeech == PartOfSpeech.InfinitiveMarker
-                        || w.PartOfSpeech == PartOfSpeech.InterjectionOrDiscourseMarker
-                        || w.PartOfSpeech == PartOfSpeech.NegativeMarker
-                        || w.PartOfSpeech == PartOfSpeech.CardinalNumber
-                        || w.PartOfSpeech == PartOfSpeech.Ordinal
-                        || w.PartOfSpeech == PartOfSpeech.Preposition
-                        || w.PartOfSpeech == PartOfSpeech.Pronoun
-                        || w.PartOfSpeech == PartOfSpeech.ModalVerb))
-            {
-                return null;
-            }
-            else
-            {
-                return w;
-            }
+            Tools.Logger.Log("ProcessSingleWord", msg);
+            return await Task<IWord>.Run(() => { return w; });
         }
 
         /// <summary>
@@ -498,15 +485,37 @@ namespace TellOP.DataModels.Activity
 
                 IList<Task<IWord>> searchTokenTasks = new List<Task<IWord>>();
 
-                foreach (string token in Regex.Matches(this._essayContents, "\\w+").Cast<Match>().Select(m => m.Value))
+                // Dirty tokens
+                foreach (string token in Regex.Matches(this._essayContents, "[\\w']+").Cast<Match>().Select(m => m.Value))
                 {
-                    searchTokenTasks.Add(this.ProcessSingleWord(token));
+                    foreach (string cleanToken in Regex.Matches(this.PreprocessSingleWord(token), "[\\w']+").Cast<Match>().Select(m => m.Value))
+                    {
+                        searchTokenTasks.Add(this.ProcessSingleWord(cleanToken));
+                    }
                 }
 
                 await Task.WhenAll(searchTokenTasks);
 
                 foreach (IWord w in searchTokenTasks)
                 {
+                    if (this.ExcludeFunctionalWords && (
+                        w.PartOfSpeech == PartOfSpeech.ClauseOpener
+                        || w.PartOfSpeech == PartOfSpeech.Conjunction
+                        || w.PartOfSpeech == PartOfSpeech.Determiner
+                        || w.PartOfSpeech == PartOfSpeech.DeterminerPronoun
+                        || w.PartOfSpeech == PartOfSpeech.ExistentialParticle
+                        || w.PartOfSpeech == PartOfSpeech.Genitive
+                        || w.PartOfSpeech == PartOfSpeech.InfinitiveMarker
+                        || w.PartOfSpeech == PartOfSpeech.InterjectionOrDiscourseMarker
+                        || w.PartOfSpeech == PartOfSpeech.NegativeMarker
+                        || w.PartOfSpeech == PartOfSpeech.CardinalNumber
+                        || w.PartOfSpeech == PartOfSpeech.Ordinal
+                        || w.PartOfSpeech == PartOfSpeech.Preposition
+                        || w.PartOfSpeech == PartOfSpeech.Pronoun
+                        || w.PartOfSpeech == PartOfSpeech.ModalVerb))
+                    {
+                        continue;
+                    }
                     analysisCache.Add(w);
                 }
 

@@ -341,11 +341,20 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Select an exercise from the list below to see the details.
+        ///   Cerca una stringa localizzata simile a Select an exercise from the list below to see the details..
         /// </summary>
         public static string Dashboard_TabFeatured_Description {
             get {
                 return ResourceManager.GetString("Dashboard_TabFeatured_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a There are no featured exercises at this time..
+        /// </summary>
+        public static string Dashboard_TabFeatured_Description_NoFeatured {
+            get {
+                return ResourceManager.GetString("Dashboard_TabFeatured_Description_NoFeatured", resourceCulture);
             }
         }
         
@@ -364,6 +373,33 @@ namespace TellOP.Properties {
         public static string Dashboard_TabHistory {
             get {
                 return ResourceManager.GetString("Dashboard_TabHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a You can access all exercises you already submitted from this page..
+        /// </summary>
+        public static string Dashboard_TabHistory_Description {
+            get {
+                return ResourceManager.GetString("Dashboard_TabHistory_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a You have not submitted any exercises so far..
+        /// </summary>
+        public static string Dashboard_TabHistory_Description_NoHistory {
+            get {
+                return ResourceManager.GetString("Dashboard_TabHistory_Description_NoHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Submitted exercises.
+        /// </summary>
+        public static string Dashboard_TabHistory_Title {
+            get {
+                return ResourceManager.GetString("Dashboard_TabHistory_Title", resourceCulture);
             }
         }
         
@@ -422,7 +458,9 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Error while performing the analysis.\nSpecific message:\n.
+        ///   Cerca una stringa localizzata simile a Error while performing the analysis.
+        ///Error message:
+        ///.
         /// </summary>
         public static string EssayExerciseViewAnalyzeTextExceptionErrorGeneric {
             get {
@@ -688,6 +726,60 @@ namespace TellOP.Properties {
         public static string InternetConnectionRequiredErrorTitle {
             get {
                 return ResourceManager.GetString("InternetConnectionRequiredErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a English.
+        /// </summary>
+        public static string Language_English {
+            get {
+                return ResourceManager.GetString("Language_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a French.
+        /// </summary>
+        public static string Language_French {
+            get {
+                return ResourceManager.GetString("Language_French", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a German.
+        /// </summary>
+        public static string Language_German {
+            get {
+                return ResourceManager.GetString("Language_German", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Italian.
+        /// </summary>
+        public static string Language_Italian {
+            get {
+                return ResourceManager.GetString("Language_Italian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Spanish.
+        /// </summary>
+        public static string Language_Spanish {
+            get {
+                return ResourceManager.GetString("Language_Spanish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a U.S. English.
+        /// </summary>
+        public static string Language_USEnglish {
+            get {
+                return ResourceManager.GetString("Language_USEnglish", resourceCulture);
             }
         }
         
@@ -962,7 +1054,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Auziliary verb.
+        ///   Cerca una stringa localizzata simile a Auxiliary verb.
         /// </summary>
         public static string PartOfSpeech_AuxiliaryVerb {
             get {

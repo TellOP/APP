@@ -472,7 +472,9 @@ This software is supported by the Erasmus+ Programme of the European Union: TELL
     <value>Another analysis is running. Aborting the operation.</value>
   </data>
   <data name="EssayExerciseViewAnalyzeTextExceptionErrorGeneric" xml:space="preserve">
-    <value>Error while performing the analysis.\nSpecific message:\n</value>
+    <value>Error while performing the analysis.
+Error message:
+</value>
   </data>
   <data name="EssayExerciseViewAnalyzeTextExceptionTextTooShort" xml:space="preserve">
     <value>Text is too short to be analyzed. </value>
@@ -512,7 +514,7 @@ This software is supported by the Erasmus+ Programme of the European Union: TELL
     <value>Verbs</value>
   </data>
   <data name="Dashboard_TabFeatured_Description" xml:space="preserve">
-    <value>Select an exercise from the list below to see the details</value>
+    <value>Select an exercise from the list below to see the details.</value>
   </data>
   <data name="Dashboard_TabFeatured_Title" xml:space="preserve">
     <value>Featured exercises</value>
@@ -521,9 +523,39 @@ This software is supported by the Erasmus+ Programme of the European Union: TELL
     <value>An error occurred while trying to load the data. Press the Refresh button to try again.</value>
   </data>
   <data name="PartOfSpeech_AuxiliaryVerb" xml:space="preserve">
-    <value>Auziliary verb</value>
+    <value>Auxiliary verb</value>
   </data>
   <data name="PartOfSpeech_Exclamation" xml:space="preserve">
     <value>Exclamation</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Language_USEnglish" xml:space="preserve">
+    <value>U.S. English</value>
+  </data>
+  <data name="Dashboard_TabHistory_Description" xml:space="preserve">
+    <value>You can access all exercises you already submitted from this page.</value>
+  </data>
+  <data name="Dashboard_TabHistory_Title" xml:space="preserve">
+    <value>Submitted exercises</value>
+  </data>
+  <data name="Dashboard_TabFeatured_Description_NoFeatured" xml:space="preserve">
+    <value>There are no featured exercises at this time.</value>
+  </data>
+  <data name="Dashboard_TabHistory_Description_NoHistory" xml:space="preserve">
+    <value>You have not submitted any exercises so far.</value>
   </data>
 </root>

@@ -37,7 +37,7 @@ namespace TellOP.Config
         /// <summary>
         /// The OAuth 2.0 client secret.
         /// </summary>
-        public static readonly string OAuth2ClientSecret = string.Empty;
+        public static readonly string OAuth2ClientSecret = "wTUWmekh82ATcMs8hnudYca9a9SutWPMBHN6GTyGNbG55ZUdt8tnGCw7GeV7wgd6SEpnS7XSVRFLNFRK";
 
         /// <summary>
         /// A space-separated list of OAuth 2.0 scopes this app will access.

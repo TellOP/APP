@@ -18,8 +18,8 @@ limitations under the License.
 <author>Alessandro Menti</author>
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="es.um.tellop" android:installLocation="auto" android:versionName="0.1 beta" android:versionCode="1">
-	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="24" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<application android:theme="@android:style/Theme.Material.Light" android:label="Tell-OP" android:icon="@drawable/icon"></application>
+  <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="24" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <application android:theme="@android:style/Theme.Material.Light" android:label="Tell-OP" android:icon="@drawable/icon"></application>
 </manifest>

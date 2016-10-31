@@ -92,63 +92,21 @@ namespace TellOP.DataModels.SQLiteModels
         /// <param name="word">The word to search.</param>
         /// <returns>An <see cref="IList{IWord}"/> object containing the words that were found.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
-        public static Task<IList<IWord>> Search(string word)
+        public static IList<IWord> Search(string word)
         {
             return Search(word, SupportedLanguage.English);
         }
 
         /// <summary>
-        /// Perform a search for a word in the application's SQLite database.
+        /// Hardcoded result.
         /// </summary>
-        /// <param name="word">The word to search.</param>
-        /// <param name="language">The supported language the word belongs to.</param>
-        /// <returns>An <see cref="IList{IWord}"/> object containing the words that were found.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
-        public static async Task<IList<IWord>> Search(string word, SupportedLanguage language)
+        /// <param name="word">string to be analyzed</param>
+        /// <returns>Null or the <see cref="ReadOnlyCollection{IWord}"/> object.</returns>
+        private static ReadOnlyCollection<IWord> SearchPreparse(string word)
         {
-            // Forced lowercase to avoid mismatch
-            word = word.ToLower();
-
-            string msg = "Searched word: '" + word + "'";
-
-            // my fix for incredibly stupid errors
-            if (word == "are" || word == "is" || word == "am")
-            {
-                Tools.Logger.Log("OfflineWord", msg + "\tHardcoded verb: (be as " + PartOfSpeech.Verb + ")");
-                return new ReadOnlyCollection<IWord>(new List<IWord>()
-                {
-                    new OfflineWord()
-                    {
-                        Term = "be",
-                        PartOfSpeech = PartOfSpeech.Verb,
-                        Language = SupportedLanguage.English.ToString(),
-                        JSONLevel = LanguageLevelClassification.A1,
-                        Category = "Hardcoded result"
-                    }
-                });
-            }
-
-            // my fix for incredibly stupid errors
-            if (word == "has" || word == "have")
-            {
-                Tools.Logger.Log("OfflineWord", msg + "\tHardcoded verb: (have as " + PartOfSpeech.Verb + ")");
-                return new ReadOnlyCollection<IWord>(new List<IWord>()
-                {
-                    new OfflineWord()
-                    {
-                        Term = "have",
-                        PartOfSpeech = PartOfSpeech.Verb,
-                        Language = SupportedLanguage.English.ToString(),
-                        JSONLevel = LanguageLevelClassification.A1,
-                        Category = "Hardcoded result"
-                    }
-                });
-            }
-
-            // my fix for incredibly stupid errors
             if (word == "i")
             {
-                Tools.Logger.Log("OfflineWord", msg + "\tHardcoded pronoun: (I as " + PartOfSpeech.Pronoun + ")");
+                Tools.Logger.Log("OfflineWord", "Searched word: '" + word + "'" + "\tHardcoded pronoun: (I as " + PartOfSpeech.Pronoun + ")");
                 return new ReadOnlyCollection<IWord>(new List<IWord>()
                 {
                     new OfflineWord()
@@ -162,11 +120,10 @@ namespace TellOP.DataModels.SQLiteModels
                 });
             }
 
-            // my fix for incredibly stupid errors
             int val;
             if (int.TryParse(word, out val))
             {
-                Tools.Logger.Log("OfflineWord", msg + "\tHardcoded number: (" + val + " as " + PartOfSpeech.CardinalNumber + ")");
+                Tools.Logger.Log("OfflineWord", "Searched word: '" + word + "'" + "\tHardcoded number: (" + val + " as " + PartOfSpeech.CardinalNumber + ")");
                 return new ReadOnlyCollection<IWord>(new List<IWord>()
                 {
                     new OfflineWord()
@@ -180,30 +137,61 @@ namespace TellOP.DataModels.SQLiteModels
                 });
             }
 
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="SQLiteConnection"/> object for the Word dictionary.
+        /// </summary>
+        private static SQLiteConnection WordConnection
+        {
+            get
+            {
+                return SQLiteManager.LocalWordsDictionaryConnection;
+            }
+        }
+
+        /// <summary>
+        /// Perform a search for a word in the application's SQLite database.
+        /// </summary>
+        /// <param name="word">The word to search.</param>
+        /// <param name="language">The supported language the word belongs to.</param>
+        /// <returns>An <see cref="IList{IWord}"/> object containing the words that were found.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
+        public static IList<IWord> Search(string word, SupportedLanguage language)
+        {
+            // Forced lowercase to avoid mismatch
+            word = word.ToLower();
+
+            string msg = "Searched word: '" + word + "'";
+
+            ReadOnlyCollection<IWord> preparsedResult = SearchPreparse(word);
+            if (preparsedResult != null)
+            {
+                return preparsedResult;
+            }
+
             string wordLCID = (string)new SupportedLanguageToLcidConverter().Convert(language, typeof(string), null, CultureInfo.InvariantCulture);
 
             IList<IWord> retList = new List<IWord>();
 
             // First check if any identic word exists.
-            await Task.Run(() =>
+            lock (WordConnection)
             {
-                lock (SQLiteManager.LocalWordsDictionaryConnection)
+                Expression<Func<OfflineWord, bool>> exp = w => w.Term.Equals(word);
+                var query = WordConnection.Table<OfflineWord>().Where(exp);
+
+                if (query.Count() > 0)
                 {
-                    Expression<Func<OfflineWord, bool>> exp = w => w.Term.Equals(word);
-                    var query = SQLiteManager.LocalWordsDictionaryConnection.Table<OfflineWord>().Where(exp);
-
-                    if (query.Count() > 0)
-                    {
-                        msg += "\tFound:\t";
-                    }
-
-                    foreach (OfflineWord w in query)
-                    {
-                        msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
-                        retList.Add(w);
-                    }
+                    msg += "\tFound:\t";
                 }
-            });
+
+                foreach (OfflineWord w in query)
+                {
+                    msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
+                    retList.Add(w);
+                }
+            }
 
             // If, and only if, there aren't valid results, expand the search algorithm.
             // Moreover, the word must be larger than 3 chars.(too many results otherwise).
@@ -213,7 +201,7 @@ namespace TellOP.DataModels.SQLiteModels
                 {
                     word = word.Substring(0, word.Length - 1);
                     Tools.Logger.Log("OfflineWord", msg);
-                    IList<IWord> result = await OfflineWord.Search(word, language);
+                    IList<IWord> result = OfflineWord.Search(word, language);
                     if (result.Count > 0)
                     {
                         return result;
@@ -221,6 +209,7 @@ namespace TellOP.DataModels.SQLiteModels
                 }
             }
 
+            /*
             // If, and only if, there aren't valid results, expand the search algorithm.
             // Moreover, the word must be larger than 3 chars.(too many results otherwise).
             if (retList.Count == 0 && word.Length >= 3)
@@ -251,6 +240,7 @@ namespace TellOP.DataModels.SQLiteModels
                     }
                 });
             }
+            */
 
             Tools.Logger.Log("OfflineWord", msg);
 

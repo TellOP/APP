@@ -54,6 +54,12 @@ limitations under the License.
         <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statUnknown" HorizontalOptions="CenterAndExpand"  />
         <ActivityIndicator Grid.Column="0" Grid.Row="1" x:Name="aiUnknown" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
 -->
+
+        <Label Grid.Column="0" Grid.Row="0" Text="Verbs" x:Name="statVerbsLabel" HorizontalOptions="Center" FontAttributes="Bold"  FontSize="14"  />
+        <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statVerbs" HorizontalOptions="CenterAndExpand"  />
+        <ActivityIndicator Grid.Column="0" Grid.Row="1" x:Name="aiVerbs" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+        <Image x:Name="imgReloadVerbs" Grid.Column="0" Grid.Row="1" HeightRequest="10" WidthRequest="10" />
+        
         <Label Grid.Column="1" Grid.Row="0" Text="Nouns" x:Name="statNounsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"  />
         <Label Grid.Column="1" Grid.Row="1"  Text="" x:Name="statNouns" HorizontalOptions="CenterAndExpand"  />
         <ActivityIndicator Grid.Column="1" Grid.Row="1" x:Name="aiNouns" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
@@ -65,10 +71,6 @@ limitations under the License.
         <Label Grid.Column="3" Grid.Row="0" Text="Adj." x:Name="statAdjectiveLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
         <Label Grid.Column="3" Grid.Row="1"  Text="" x:Name="statAdjective" HorizontalOptions="CenterAndExpand"  />
         <ActivityIndicator Grid.Column="3" Grid.Row="1" x:Name="aiAdjective" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
-
-        <Label Grid.Column="4" Grid.Row="0" Text="Verbs" x:Name="statVerbsLabel" HorizontalOptions="Center" FontAttributes="Bold"  FontSize="14"  />
-        <Label Grid.Column="4" Grid.Row="1"  Text="" x:Name="statVerbs" HorizontalOptions="CenterAndExpand"  />
-        <ActivityIndicator Grid.Column="4" Grid.Row="1" x:Name="aiVerbs" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
       </Grid>
     </StackLayout>
   </StackLayout>

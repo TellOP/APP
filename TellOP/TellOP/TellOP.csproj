@@ -68,10 +68,12 @@
     <Compile Include="Config\TellOPSecretsConfiguration.cs" />
     <Compile Include="DataModels\Activity\Exercise.cs" />
     <Compile Include="DataModels\Activity\ExerciseGroup.cs" />
+    <Compile Include="DataModels\Activity\ExerciseToNameConverter.cs" />
     <Compile Include="DataModels\ApiModels\ExerciseStatusJsonConverter.cs" />
     <Compile Include="DataModels\ApiModels\JsonCreationConverterExtensions.cs" />
     <Compile Include="DataModels\ApiModels\Tip.cs" />
     <Compile Include="DataModels\BaseConverter.cs" />
+    <Compile Include="DataModels\CutoffConverter.cs" />
     <Compile Include="DataModels\DictionaryMonoDirectionalConverter.cs" />
     <Compile Include="DataModels\DictionaryConverter.cs" />
     <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="DataModels\Enums\ExerciseStatusToColorConverter.cs" />
     <Compile Include="DataModels\Enums\PartOfSpeechToColorConverter.cs" />
     <Compile Include="DataModels\Enums\SupportedLanguage.cs" />
+    <Compile Include="DataModels\Enums\SupportedLanguageToNameConverter.cs" />
     <Compile Include="DataModels\Enums\SupportedLanguageToLcidConverter.cs" />
     <Compile Include="DataModels\Enums\LanguageLevelClassification.cs" />
     <Compile Include="DataModels\ApiModels\SupportedLanguageJsonConverter.cs" />
@@ -186,6 +189,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

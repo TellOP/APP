@@ -30,6 +30,6 @@ using Xamarin.Forms.Xaml;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("72bdc44f-c588-44f3-b6df-9aace7daafdd")]
-[assembly: AssemblyVersion("0.1.*")]
+[assembly: AssemblyVersion("0.2.*")]
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]

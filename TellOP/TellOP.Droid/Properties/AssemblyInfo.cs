@@ -30,7 +30,7 @@ using Xamarin.Forms.Xaml;
 [assembly: AssemblyTrademark("All trademarks belong to their respective owners.")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("0.1.*")]
+[assembly: AssemblyVersion("0.2.*")]
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
 // Disable debugging on release builds

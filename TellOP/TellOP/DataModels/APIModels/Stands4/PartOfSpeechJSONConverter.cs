@@ -14,9 +14,11 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Stands4
+namespace TellOP.DataModels.ApiModels.Stands4
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Enums;
     using Newtonsoft.Json;
 
@@ -25,30 +27,37 @@ namespace TellOP.DataModels.APIModels.Stands4
     /// </summary>
     public class PartOfSpeechJsonConverter : JsonConverter
     {
-        // TODO: replace this with something neater, such as a 2-way dictionary
-        private const string AdjectiveRepresentation = "Adj";
-        private const string AdverbRepresentation = "Adv";
-        private const string ClauseOpenerRepresentation = "ClO";
-        private const string ConjunctionRepresentation = "Conj";
-        private const string DeterminerRepresentation = "Det";
-        private const string DeterminerPronounRepresentation = "DetP";
-        private const string ExistentialParticleRepresentation = "Ex";
-        private const string ForeignWordRepresentation = "Fore";
-        private const string GenitiveRepresentation = "Gen";
-        private const string InfinitiveMarkerRepresentation = "Inf";
-        private const string InterjectionOrDiscourseMarkerRepresentation = "Int";
-        private const string LetterOfTheAlphabetRepresentation = "Lett";
-        private const string NegativeMarkerRepresentation = "Neg";
-        private const string CommonNounRepresentation = "NoC";
-        private const string ProperNounRepresentation = "NoP";
-        private const string PartOfAProperNounRepresentation = "NoP-";
-        private const string CardinalNumberRepresentation = "Num";
-        private const string OrdinalRepresentation = "Ord";
-        private const string PrepositionRepresentation = "Prep";
-        private const string PronounRepresentation = "Pron";
-        private const string UnclassifiedRepresentation = "Uncl";
-        private const string VerbRepresentation = "Verb";
-        private const string ModalVerbRepresentation = "VMod";
+        private static readonly Dictionary<string, PartOfSpeech> _converterDictionary = new Dictionary<string, PartOfSpeech>()
+        {
+            // This table must match with the one in Stands4DictionaryDefinitionController on the Web site (since
+            // Stands4 might change their APIs without notice, the matching between the returned result and the correct
+            // part of speech is done on the server side)
+            { "adjective", PartOfSpeech.Adjective },
+            { "adverb", PartOfSpeech.Adverb },
+            { "auxiliaryVerb", PartOfSpeech.AuxiliaryVerb },
+            { "cardinalNumber", PartOfSpeech.CardinalNumber },
+            { "clauseOpener", PartOfSpeech.ClauseOpener },
+            { "commonNoun", PartOfSpeech.CommonNoun },
+            { "conjunction", PartOfSpeech.Conjunction },
+            { "determiner", PartOfSpeech.Determiner },
+            { "determinerPronoun", PartOfSpeech.DeterminerPronoun },
+            { "exclamation", PartOfSpeech.Exclamation },
+            { "existentialParticle", PartOfSpeech.ExistentialParticle },
+            { "foreignWord", PartOfSpeech.ForeignWord },
+            { "genitive", PartOfSpeech.Genitive },
+            { "infinitiveMarker", PartOfSpeech.InfinitiveMarker },
+            { "interjectionOrDiscourseMarker", PartOfSpeech.InterjectionOrDiscourseMarker },
+            { "letterAsWord", PartOfSpeech.LetterAsWord },
+            { "modalVerb", PartOfSpeech.ModalVerb },
+            { "negativeMarker", PartOfSpeech.NegativeMarker },
+            { "ordinal", PartOfSpeech.Ordinal },
+            { "partOfProperNoun", PartOfSpeech.PartOfProperNoun },
+            { "preposition", PartOfSpeech.Preposition },
+            { "pronoun", PartOfSpeech.Pronoun },
+            { "properNoun", PartOfSpeech.ProperNoun },
+            { "unclassified", PartOfSpeech.Unclassified },
+            { "verb", PartOfSpeech.Verb }
+        };
 
         /// <summary>
         /// Determines whether this instance can convert the specified object type.
@@ -78,99 +87,8 @@ namespace TellOP.DataModels.APIModels.Stands4
                 throw new ArgumentNullException("reader");
             }
 
-            string stringValue = ((string)reader.Value).ToLower();
-            if (stringValue.Equals(AdjectiveRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Adjective;
-            }
-            else if (stringValue.Equals(AdverbRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Adverb;
-            }
-            else if (stringValue.Equals(ClauseOpenerRepresentation.ToLower()))
-            {
-                return PartOfSpeech.ClauseOpener;
-            }
-            else if (stringValue.Equals(ConjunctionRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Conjunction;
-            }
-            else if (stringValue.Equals(DeterminerRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Determiner;
-            }
-            else if (stringValue.Equals(DeterminerPronounRepresentation.ToLower()))
-            {
-                return PartOfSpeech.DeterminerPronoun;
-            }
-            else if (stringValue.Equals(ExistentialParticleRepresentation.ToLower()))
-            {
-                return PartOfSpeech.ExistentialParticle;
-            }
-            else if (stringValue.Equals(ForeignWordRepresentation.ToLower()))
-            {
-                return PartOfSpeech.ForeignWord;
-            }
-            else if (stringValue.Equals(GenitiveRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Genitive;
-            }
-            else if (stringValue.Equals(InfinitiveMarkerRepresentation.ToLower()))
-            {
-                return PartOfSpeech.InfinitiveMarker;
-            }
-            else if (stringValue.Equals(InterjectionOrDiscourseMarkerRepresentation.ToLower()))
-            {
-                return PartOfSpeech.InterjectionOrDiscourseMarker;
-            }
-            else if (stringValue.Equals(LetterOfTheAlphabetRepresentation.ToLower()))
-            {
-                return PartOfSpeech.LetterAsWord;
-            }
-            else if (stringValue.Equals(NegativeMarkerRepresentation.ToLower()))
-            {
-                return PartOfSpeech.NegativeMarker;
-            }
-            else if (stringValue.Equals(CommonNounRepresentation.ToLower()))
-            {
-                return PartOfSpeech.CommonNoun;
-            }
-            else if (stringValue.Equals(ProperNounRepresentation.ToLower()))
-            {
-                return PartOfSpeech.ProperNoun;
-            }
-            else if (stringValue.Equals(PartOfAProperNounRepresentation.ToLower()))
-            {
-                return PartOfSpeech.PartOfProperNoun;
-            }
-            else if (stringValue.Equals(CardinalNumberRepresentation.ToLower()))
-            {
-                return PartOfSpeech.CardinalNumber;
-            }
-            else if (stringValue.Equals(OrdinalRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Ordinal;
-            }
-            else if (stringValue.Equals(PrepositionRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Preposition;
-            }
-            else if (stringValue.Equals(PronounRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Pronoun;
-            }
-            else if (stringValue.Equals(VerbRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Verb;
-            }
-            else if (stringValue.Equals(ModalVerbRepresentation.ToLower()))
-            {
-                return PartOfSpeech.ModalVerb;
-            }
-            else
-            {
-                return PartOfSpeech.Unclassified;
-            }
+            string stringValue = (string)reader.Value;
+            return _converterDictionary.Where(x => x.Key.Equals(stringValue)).DefaultIfEmpty(new KeyValuePair<string, PartOfSpeech>(string.Empty, PartOfSpeech.Unclassified)).FirstOrDefault().Value;
         }
 
         /// <summary>
@@ -189,79 +107,7 @@ namespace TellOP.DataModels.APIModels.Stands4
             }
 
             PartOfSpeech part = (PartOfSpeech)value;
-            switch (part)
-            {
-                case PartOfSpeech.Adjective:
-                    writer.WriteValue(AdjectiveRepresentation);
-                    break;
-                case PartOfSpeech.Adverb:
-                    writer.WriteValue(AdverbRepresentation);
-                    break;
-                case PartOfSpeech.CardinalNumber:
-                    writer.WriteValue(CardinalNumberRepresentation);
-                    break;
-                case PartOfSpeech.ClauseOpener:
-                    writer.WriteValue(ClauseOpenerRepresentation);
-                    break;
-                case PartOfSpeech.CommonNoun:
-                    writer.WriteValue(CommonNounRepresentation);
-                    break;
-                case PartOfSpeech.Conjunction:
-                    writer.WriteValue(ConjunctionRepresentation);
-                    break;
-                case PartOfSpeech.Determiner:
-                    writer.WriteValue(DeterminerRepresentation);
-                    break;
-                case PartOfSpeech.DeterminerPronoun:
-                    writer.WriteValue(DeterminerPronounRepresentation);
-                    break;
-                case PartOfSpeech.ExistentialParticle:
-                    writer.WriteValue(ExistentialParticleRepresentation);
-                    break;
-                case PartOfSpeech.ForeignWord:
-                    writer.WriteValue(ForeignWordRepresentation);
-                    break;
-                case PartOfSpeech.Genitive:
-                    writer.WriteValue(GenitiveRepresentation);
-                    break;
-                case PartOfSpeech.InfinitiveMarker:
-                    writer.WriteValue(InfinitiveMarkerRepresentation);
-                    break;
-                case PartOfSpeech.InterjectionOrDiscourseMarker:
-                    writer.WriteValue(InterjectionOrDiscourseMarkerRepresentation);
-                    break;
-                case PartOfSpeech.LetterAsWord:
-                    writer.WriteValue(LetterOfTheAlphabetRepresentation);
-                    break;
-                case PartOfSpeech.ModalVerb:
-                    writer.WriteValue(ModalVerbRepresentation);
-                    break;
-                case PartOfSpeech.NegativeMarker:
-                    writer.WriteValue(NegativeMarkerRepresentation);
-                    break;
-                case PartOfSpeech.Ordinal:
-                    writer.WriteValue(OrdinalRepresentation);
-                    break;
-                case PartOfSpeech.PartOfProperNoun:
-                    writer.WriteValue(PartOfAProperNounRepresentation);
-                    break;
-                case PartOfSpeech.Preposition:
-                    writer.WriteValue(PrepositionRepresentation);
-                    break;
-                case PartOfSpeech.Pronoun:
-                    writer.WriteValue(PronounRepresentation);
-                    break;
-                case PartOfSpeech.ProperNoun:
-                    writer.WriteValue(ProperNounRepresentation);
-                    break;
-                case PartOfSpeech.Verb:
-                    writer.WriteValue(VerbRepresentation);
-                    break;
-                case PartOfSpeech.Unclassified:
-                default:
-                    writer.WriteValue(UnclassifiedRepresentation);
-                    break;
-            }
+            writer.WriteValue(_converterDictionary.Where(x => x.Value.Equals(part)).DefaultIfEmpty(new KeyValuePair<string, PartOfSpeech>(string.Empty, PartOfSpeech.Unclassified)).FirstOrDefault().Key);
         }
     }
 }

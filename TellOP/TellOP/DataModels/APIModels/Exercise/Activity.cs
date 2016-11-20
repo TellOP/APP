@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Exercise
+namespace TellOP.DataModels.ApiModels.Exercise
 {
     using Enums;
     using Newtonsoft.Json;
@@ -56,5 +56,13 @@ namespace TellOP.DataModels.APIModels.Exercise
         /// </summary>
         [JsonProperty("featured")]
         public bool Featured { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user activity associated to this exercise (its development), if any. If the user has not
+        /// completed this exercise yet, this property is <c>null</c>.
+        /// </summary>
+        [JsonProperty("userActivity")]
+        [JsonConverter(typeof(UserActivityConverter))]
+        public UserActivity UserActivity { get; set; }
     }
 }

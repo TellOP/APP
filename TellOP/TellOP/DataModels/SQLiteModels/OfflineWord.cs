@@ -25,8 +25,8 @@ namespace TellOP.DataModels.SQLiteModels
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Enums;
+    using global::SQLite;
     using Nito.AsyncEx;
-    using SQLite;
 
     /// <summary>
     /// A word extracted from the offline words list.
@@ -41,7 +41,7 @@ namespace TellOP.DataModels.SQLiteModels
         {
             this.Level = new AsyncLazy<LanguageLevelClassification>(() =>
             {
-                return this.JSONLevel;
+                return this.JsonLevel;
             });
         }
 
@@ -49,7 +49,7 @@ namespace TellOP.DataModels.SQLiteModels
         /// Gets or sets the CEFR level of this word.
         /// </summary>
         [Column("cefr_level")]
-        public LanguageLevelClassification JSONLevel { get; set; }
+        public LanguageLevelClassification JsonLevel { get; set; }
 
         /// <summary>
         /// Gets the CEFR level of this word. Used by the <see cref="IWord"/> interface.
@@ -90,18 +90,83 @@ namespace TellOP.DataModels.SQLiteModels
         /// Perform a search for a word in the application's SQLite database.
         /// </summary>
         /// <param name="word">The word to search.</param>
-        /// <returns>An <see cref="IList{IWord}"/> object containing the words that were found.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
-        public static IList<IWord> Search(string word)
+        public static async Task<IList<IWord>> Search(string word)
         {
-            return Search(word, SupportedLanguage.English);
+            return await Search(word, SupportedLanguage.English);
         }
 
         /// <summary>
-        /// Hardcoded result.
+        /// Perform a search for a word in the application's SQLite database.
         /// </summary>
-        /// <param name="word">string to be analyzed</param>
-        /// <returns>Null or the <see cref="ReadOnlyCollection{IWord}"/> object.</returns>
+        /// <param name="word">The word to search.</param>
+        /// <param name="language">The supported language the word belongs to.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
+        public static async Task<IList<IWord>> Search(string word, SupportedLanguage language)
+        {
+            // Words are stored as lowercase in the DB, so convert the search term.
+            word = word.ToLower();
+
+            string msg = "Searched word: '" + word + "'";
+
+            // Avoid looking up "simple" words like numbers or "I" in the database, just return a preparsed result
+            // instead
+            ReadOnlyCollection<IWord> preparsedResult = SearchPreparse(word);
+            if (preparsedResult != null)
+            {
+                return preparsedResult;
+            }
+
+            string wordLCID = (string)new SupportedLanguageToLcidConverter().Convert(language, typeof(string), null, CultureInfo.InvariantCulture);
+
+            IList<IWord> retList = new List<IWord>();
+
+            // First, check if there is an exact match in the database.
+            SQLiteManager dbManager = SQLiteManager.Instance;
+            Expression<Func<OfflineWord, bool>> exp = w => w.Term.Equals(word);
+            var query = dbManager.LocalWordsDictionaryConnection.Table<OfflineWord>().Where(exp);
+
+            if (await query.CountAsync() > 0)
+            {
+                msg += "\tFound:\t";
+            }
+
+            foreach (OfflineWord w in await query.ToListAsync())
+            {
+                msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
+                retList.Add(w);
+            }
+
+            // If, and only if, there aren't valid results, expand the search algorithm.
+            // Moreover, the word must be larger than 3 chars.(too many results otherwise).
+            if (retList.Count == 0 && word.Length >= 3)
+            {
+                if (word.EndsWith("s"))
+                {
+                    word = word.Substring(0, word.Length - 1);
+                    Tools.Logger.Log("OfflineWord", msg);
+                    IList<IWord> result = await Search(word, language);
+                    if (result.Count > 0)
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            Tools.Logger.Log("OfflineWord", msg);
+
+            return new ReadOnlyCollection<IWord>(retList);
+        }
+
+        /// <summary>
+        /// Perform a search in a list of preparsed, common results.
+        /// </summary>
+        /// <param name="word">The word to search.</param>
+        /// <returns>A <see cref="ReadOnlyCollection{IWord}"/> containing the word that was found, or <c>null</c> if
+        /// there is no match.</returns>
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", MessageId = "TellOP.Tools.Logger.Log(System.String,System.String)", Justification = "This affects only log strings which must not be localized")]
         private static ReadOnlyCollection<IWord> SearchPreparse(string word)
         {
             if (word == "i")
@@ -114,7 +179,7 @@ namespace TellOP.DataModels.SQLiteModels
                         Term = "I",
                         PartOfSpeech = PartOfSpeech.Pronoun,
                         Language = SupportedLanguage.English.ToString(),
-                        JSONLevel = LanguageLevelClassification.A1,
+                        JsonLevel = LanguageLevelClassification.A1,
                         Category = "Hardcoded result"
                     }
                 });
@@ -131,120 +196,13 @@ namespace TellOP.DataModels.SQLiteModels
                         Term = string.Empty + val,
                         PartOfSpeech = PartOfSpeech.CardinalNumber,
                         Language = SupportedLanguage.English.ToString(),
-                        JSONLevel = LanguageLevelClassification.A1,
+                        JsonLevel = LanguageLevelClassification.A1,
                         Category = "Hardcoded result"
                     }
                 });
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="SQLiteConnection"/> object for the Word dictionary.
-        /// </summary>
-        private static SQLiteConnection WordConnection
-        {
-            get
-            {
-                return SQLiteManager.LocalWordsDictionaryConnection;
-            }
-        }
-
-        /// <summary>
-        /// Perform a search for a word in the application's SQLite database.
-        /// </summary>
-        /// <param name="word">The word to search.</param>
-        /// <param name="language">The supported language the word belongs to.</param>
-        /// <returns>An <see cref="IList{IWord}"/> object containing the words that were found.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
-        public static IList<IWord> Search(string word, SupportedLanguage language)
-        {
-            // Forced lowercase to avoid mismatch
-            word = word.ToLower();
-
-            string msg = "Searched word: '" + word + "'";
-
-            ReadOnlyCollection<IWord> preparsedResult = SearchPreparse(word);
-            if (preparsedResult != null)
-            {
-                return preparsedResult;
-            }
-
-            string wordLCID = (string)new SupportedLanguageToLcidConverter().Convert(language, typeof(string), null, CultureInfo.InvariantCulture);
-
-            IList<IWord> retList = new List<IWord>();
-
-            // First check if any identic word exists.
-            lock (WordConnection)
-            {
-                Expression<Func<OfflineWord, bool>> exp = w => w.Term.Equals(word);
-                var query = WordConnection.Table<OfflineWord>().Where(exp);
-
-                if (query.Count() > 0)
-                {
-                    msg += "\tFound:\t";
-                }
-
-                foreach (OfflineWord w in query)
-                {
-                    msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
-                    retList.Add(w);
-                }
-            }
-
-            // If, and only if, there aren't valid results, expand the search algorithm.
-            // Moreover, the word must be larger than 3 chars.(too many results otherwise).
-            if (retList.Count == 0 && word.Length >= 3)
-            {
-                if (word.EndsWith("s"))
-                {
-                    word = word.Substring(0, word.Length - 1);
-                    Tools.Logger.Log("OfflineWord", msg);
-                    IList<IWord> result = OfflineWord.Search(word, language);
-                    if (result.Count > 0)
-                    {
-                        return result;
-                    }
-                }
-            }
-
-            /*
-            // If, and only if, there aren't valid results, expand the search algorithm.
-            // Moreover, the word must be larger than 3 chars.(too many results otherwise).
-            if (retList.Count == 0 && word.Length >= 3)
-            {
-                msg += "\tExpanding the search";
-                await Task.Run(() =>
-                {
-                    lock (SQLiteManager.LocalWordsDictionaryConnection)
-                    {
-                        // Default where clause.
-                        Expression<Func<OfflineWord, bool>> exp = w => (w.Term.StartsWith(word) || w.Term.EndsWith(word));
-                        var query = SQLiteManager.LocalWordsDictionaryConnection.Table<OfflineWord>().Where(exp);
-
-                        if (query.Count() > 0)
-                        {
-                            msg += "\tFound:\t";
-                        }
-                        else
-                        {
-                            msg += "\tNothing found";
-                        }
-
-                        foreach (OfflineWord w in query)
-                        {
-                            msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
-                            retList.Add(w);
-                        }
-                    }
-                });
-            }
-            */
-
-            Tools.Logger.Log("OfflineWord", msg);
-
-            return new ReadOnlyCollection<IWord>(retList);
         }
     }
 }

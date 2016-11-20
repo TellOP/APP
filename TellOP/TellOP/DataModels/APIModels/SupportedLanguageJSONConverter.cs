@@ -14,9 +14,11 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels
+namespace TellOP.DataModels.ApiModels
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Enums;
     using Newtonsoft.Json;
 
@@ -25,6 +27,16 @@ namespace TellOP.DataModels.APIModels
     /// </summary>
     public class SupportedLanguageJsonConverter : JsonConverter
     {
+        private static readonly Dictionary<string, SupportedLanguage> _converterDictionary = new Dictionary<string, SupportedLanguage>()
+        {
+            { "en-GB", SupportedLanguage.English },
+            { "en-US", SupportedLanguage.USEnglish },
+            { "fr-FR", SupportedLanguage.French },
+            { "de-DE", SupportedLanguage.German },
+            { "it-IT", SupportedLanguage.Italian },
+            { "es-ES", SupportedLanguage.Spanish }
+        };
+
         /// <summary>
         /// Determines whether this instance can convert the specified object type.
         /// </summary>
@@ -54,32 +66,7 @@ namespace TellOP.DataModels.APIModels
             }
 
             string stringValue = (string)reader.Value;
-            if (stringValue.Equals("en-GB"))
-            {
-                return SupportedLanguage.English;
-            }
-            else if (stringValue.Equals("en-US"))
-            {
-                return SupportedLanguage.USEnglish;
-            }
-            else if (stringValue.Equals("fr-FR"))
-            {
-                return SupportedLanguage.French;
-            }
-            else if (stringValue.Equals("de-DE"))
-            {
-                return SupportedLanguage.German;
-            }
-            else if (stringValue.Equals("it-IT"))
-            {
-                return SupportedLanguage.Italian;
-            }
-            else if (stringValue.Equals("es-ES"))
-            {
-                return SupportedLanguage.Spanish;
-            }
-
-            return string.Empty;
+            return _converterDictionary.FirstOrDefault(x => x.Key.Equals(stringValue)).Value;
         }
 
         /// <summary>
@@ -99,27 +86,7 @@ namespace TellOP.DataModels.APIModels
             }
 
             SupportedLanguage lang = (SupportedLanguage)value;
-            switch (lang)
-            {
-                case SupportedLanguage.English:
-                    writer.WriteValue("en-GB");
-                    break;
-                case SupportedLanguage.French:
-                    writer.WriteValue("fr-FR");
-                    break;
-                case SupportedLanguage.German:
-                    writer.WriteValue("de-DE");
-                    break;
-                case SupportedLanguage.Italian:
-                    writer.WriteValue("it-IT");
-                    break;
-                case SupportedLanguage.Spanish:
-                    writer.WriteValue("es-ES");
-                    break;
-                case SupportedLanguage.USEnglish:
-                    writer.WriteValue("en-US");
-                    break;
-            }
+            writer.WriteValue(_converterDictionary.FirstOrDefault(x => x.Value.Equals(lang)).Key);
         }
     }
 }

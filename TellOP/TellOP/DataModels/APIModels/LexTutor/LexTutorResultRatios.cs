@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.LexTutor
+namespace TellOP.DataModels.ApiModels.LexTutor
 {
     using Newtonsoft.Json;
 
@@ -48,24 +48,6 @@ namespace TellOP.DataModels.APIModels.LexTutor
         /// </summary>
         [JsonProperty("tokensPerType")]
         public float TokensPerType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the number of sentences in the analyzed text for this word class.
-        /// </summary>
-        [JsonProperty("sentencesInText")]
-        public int SentencesInText { get; set; }
-
-        /// <summary>
-        /// Gets or sets the average sentence length for this word class.
-        /// </summary>
-        [JsonProperty("averageSentenceLength")]
-        public float AverageSentenceLength { get; set; }
-
-        /// <summary>
-        /// Gets or sets the standard deviation of the average sentence length for this word class.
-        /// </summary>
-        [JsonProperty("averageSentenceLengthStdDev")]
-        public float AverageSentenceLengthStdDev { get; set; }
 
         /// <summary>
         /// Gets or sets the number of tokens on the list for this word class.
@@ -131,18 +113,18 @@ namespace TellOP.DataModels.APIModels.LexTutor
         /// Gets or sets the frequencies by rateable tokens for this word class.
         /// </summary>
         [JsonProperty("freqsByRateableTokens")]
-        public float FrequenciesByRateableTokens { get; set; }
+        public int FrequenciesByRateableTokens { get; set; }
 
         /// <summary>
         /// Gets or sets the mean frequency for this class.
         /// </summary>
         [JsonProperty("meanFrequency")]
-        public float MeanFrequency { get; set; }
+        public LexTutorResultValueStandardDeviation MeanFrequency { get; set; }
 
         /// <summary>
         /// Gets or sets the logarithm (in base 10) of the count index for this word class.
         /// </summary>
         [JsonProperty("countIndexLog10")]
-        public float CountIndexLog10 { get; set; }
+        public LexTutorResultValueStandardDeviation CountIndexLog10 { get; set; }
     }
 }

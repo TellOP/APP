@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels
+namespace TellOP.DataModels.ApiModels
 {
     using System;
     using System.Reflection;

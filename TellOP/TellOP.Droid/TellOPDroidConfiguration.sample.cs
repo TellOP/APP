@@ -24,14 +24,14 @@ namespace TellOP.Droid
         /// <summary>
         /// The application ID for the HockeyApp service.
         /// </summary>
-        internal const string HockeyAppId = "a8867fb1f3fa44689d85147061b358c4";
+        internal const string HockeyAppId = string.Empty;
 
         // TODO: fill in the following field with the HockeyApp secret.
 
         /// <summary>
         /// The secret for the HockeyApp service.
         /// </summary>
-        internal const string HockeyAppSecret = "";
+        internal const string HockeyAppSecret = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TellOPDroidConfiguration"/> class.

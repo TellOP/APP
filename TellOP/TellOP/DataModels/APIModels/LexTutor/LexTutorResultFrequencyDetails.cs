@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.LexTutor
+namespace TellOP.DataModels.ApiModels.LexTutor
 {
     using Newtonsoft.Json;
 
@@ -28,19 +28,19 @@ namespace TellOP.DataModels.APIModels.LexTutor
         /// Gets or sets the word families.
         /// </summary>
         [JsonProperty("families")]
-        public string Families { get; set; }
+        public LexTutorResultAbsolutePercentFrequency Families { get; set; }
 
         /// <summary>
         /// Gets or sets the word types.
         /// </summary>
         [JsonProperty("types")]
-        public string Types { get; set; }
+        public LexTutorResultAbsolutePercentFrequency Types { get; set; }
 
         /// <summary>
         /// Gets or sets the word tokens.
         /// </summary>
         [JsonProperty("tokens")]
-        public string Tokens { get; set; }
+        public LexTutorResultAbsolutePercentFrequency Tokens { get; set; }
 
         /// <summary>
         /// Gets or sets the word cumulative token.

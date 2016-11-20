@@ -17,6 +17,7 @@
 namespace TellOP.DataModels
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
     /// <summary>
@@ -36,6 +37,10 @@ namespace TellOP.DataModels
         /// <param name="culture">The culture to apply during the conversion.</param>
         /// <returns>Nothing.</returns>
         /// <exception cref="NotImplementedException">Always thrown.</exception>
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value", Justification = "Parameters are unused as this is a monodirectional converter")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "targetType", Justification = "Parameters are unused as this is a monodirectional converter")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "parameter", Justification = "Parameters are unused as this is a monodirectional converter")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "culture", Justification = "Parameters are unused as this is a monodirectional converter")]
         public new object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

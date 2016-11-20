@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Adelex
+namespace TellOP.DataModels.ApiModels.Adelex
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

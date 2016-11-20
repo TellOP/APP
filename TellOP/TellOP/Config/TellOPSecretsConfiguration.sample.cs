@@ -29,7 +29,7 @@ namespace TellOP.Config
         /// <summary>
         /// The OAuth 2.0 client id.
         /// </summary>
-        public static readonly string OAuth2ClientId = "1011a510829210912e6b9c63f4108e5b28fdc110e7dde792dfb1ee45524cc5c1f4a78";
+        public static readonly string OAuth2ClientId = string.Empty;
 
         // TODO: insert the OAuth 2.0 client secret obtained from the Tell-OP server.
         // The field is currently left empty to preserve its secrecy.
@@ -37,7 +37,7 @@ namespace TellOP.Config
         /// <summary>
         /// The OAuth 2.0 client secret.
         /// </summary>
-        public static readonly string OAuth2ClientSecret = "wTUWmekh82ATcMs8hnudYca9a9SutWPMBHN6GTyGNbG55ZUdt8tnGCw7GeV7wgd6SEpnS7XSVRFLNFRK";
+        public static readonly string OAuth2ClientSecret = string.Empty;
 
         /// <summary>
         /// A space-separated list of OAuth 2.0 scopes this app will access.

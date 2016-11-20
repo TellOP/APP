@@ -18,9 +18,10 @@ namespace TellOP.DataModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Api;
-    using APIModels;
+    using ApiModels;
     using Enums;
 
     /// <summary>
@@ -32,6 +33,7 @@ namespace TellOP.DataModels
         /// Gets a single tip asynchronously.
         /// </summary>
         /// <returns>A <see cref="Task{Tip}"/> object containing the tip as its result.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Since the operation is asynchronous, using a method is the best way")]
         public static async Task<Tip> GetSingleTipAsync()
         {
             // FIXME: allow choosing the correct language and language level

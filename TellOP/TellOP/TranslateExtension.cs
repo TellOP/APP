@@ -68,20 +68,14 @@ namespace TellOP
                 return string.Empty;
             }
 
-            ResourceManager resmgr = new ResourceManager(
-                ResourceId,
-                typeof(TranslateExtension).GetTypeInfo().Assembly);
+            ResourceManager resmgr = new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly);
 
             var translation = resmgr.GetString(this.Text, this.ci);
 
             if (translation == null)
             {
-#if DEBUG
-                throw new Exception(string.Format(CultureInfo.InvariantCulture, "Key '{0}' was not found in resources '{1}' for culture '{2}'.", this.Text, ResourceId, this.ci.Name));
-#else
                 // HACK: returns the key, which GETS DISPLAYED TO THE USER
-                translation = Text;
-#endif
+                translation = this.Text;
             }
 
             return translation;

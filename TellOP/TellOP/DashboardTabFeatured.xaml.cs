@@ -17,8 +17,11 @@
 
 namespace TellOP
 {
+    using System.Threading.Tasks;
+    using Api;
     using DataModels;
     using DataModels.Activity;
+    using Tools;
     using Xamarin.Forms;
 
     /// <summary>
@@ -48,16 +51,40 @@ namespace TellOP
         /// </summary>
         /// <param name="sender">The object sending the event.</param>
         /// <param name="e">The event parameters.</param>
-        private async void ExerciseList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void ExerciseList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            // If this handler is called when an item is deselected, bail out
-            if (e.SelectedItem == null)
-            {
-                return;
-            }
+            ((ListView)sender).SelectedItem = null;
+        }
 
-            // TODO: support dictionary searches
-            await this.Navigation.PushAsync(new EssayExerciseView((EssayExercise)e.SelectedItem));
+        /// <summary>
+        /// Called when an item in the exercise list is tapped.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void ExerciseList_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (await ConnectivityCheck.AskToEnableConnectivity(this))
+            {
+                // TODO: support dictionary searches
+                try
+                {
+                    ExerciseApi exerciseEndpoint = new ExerciseApi(App.OAuth2Account, ((EssayExercise)e.Item).Uid);
+                    EssayExercise essay = await Task.Run(async () => await exerciseEndpoint.CallEndpointAsExerciseModel()) as EssayExercise;
+                    if (essay == null)
+                    {
+                        await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Exercise_UnableToDisplay, Properties.Resources.ButtonOK);
+                    }
+                    else
+                    {
+                        await this.Navigation.PushAsync(new EssayExerciseView(essay));
+                    }
+                }
+                catch (UnsuccessfulApiCallException ex)
+                {
+                    Tools.Logger.Log("ExerciseList_ItemTapped", ex);
+                    await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Exercise_UnableToDisplay, Properties.Resources.ButtonOK);
+                }
+            }
         }
     }
 }

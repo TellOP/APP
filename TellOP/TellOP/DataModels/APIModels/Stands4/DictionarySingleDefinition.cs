@@ -15,7 +15,7 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Stands4
+namespace TellOP.DataModels.ApiModels.Stands4
 {
     using Enums;
     using Newtonsoft.Json;
@@ -49,6 +49,6 @@ namespace TellOP.DataModels.APIModels.Stands4
         /// Gets or sets the usage example for the term.
         /// </summary>
         [JsonProperty("example")]
-        public string[] Examples { get; set; } // FIXME
+        public string Example { get; set; }
     }
 }

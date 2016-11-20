@@ -15,14 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </copyright>
 <author>Mattia Zago</author>
+<author>Alessandro Menti</author>
 -->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             xmlns:datamodels="clr-namespace:TellOP.DataModels;assembly=TellOP"
+             xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
              x:Class="TellOP.ExerciseAnalysis"
-             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP">
-  <ContentPage.Title>Results</ContentPage.Title>
+             Title="{local:Translate ExerciseAnalysis_Title}">
   <ContentPage.ToolbarItems>
-    <ToolbarItem x:Name="analysisButton" Text="Repeat" Order="Primary" />
+    <ToolbarItem Text="{local:Translate ExerciseAnalysis_Refresh}" Order="Primary" Icon="Toolbar_Analysis.png" Clicked="Refresh_Clicked" />
   </ContentPage.ToolbarItems>
   <ScrollView HorizontalOptions="Fill">
     <StackLayout Orientation="Vertical" Padding="0">
@@ -33,12 +36,17 @@ limitations under the License.
         <Grid.RowDefinitions>
           <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" LineBreakMode="WordWrap" FontSize="14" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" x:Name="ExTitleLabel" />
-        <Label Grid.Row="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" x:Name="ExTitleSub"/>
+        <Label Grid.Row="0" LineBreakMode="WordWrap" FontSize="14" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Text="{Binding ExerciseTitle}" />
+        <Label Grid.Row="1" FontSize="12" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="{Binding ExerciseSubtitle}" />
       </Grid>
       
-      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_ProfileLevelTitle}" />
-      <Grid Padding="2" x:Name="LangGrid">
+      <!-- First section: Profile levels -->
+      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{local:Translate ExerciseAnalysis_ProfileLevelTitle_Contracted}" x:Name="ProfileLevelTitle">
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Tapped="Title_Tapped" />
+        </Label.GestureRecognizers>
+      </Label>
+      <Grid Padding="2" x:Name="SectionProfileLevels" IsVisible="false">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="*" />
@@ -50,63 +58,85 @@ limitations under the License.
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
           <RowDefinition Height="auto" />
-          <RowDefinition Height="auto" />
-          <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-
-        <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="Label_A1">
+        <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="A1Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="LevelFrame_Tapped" />
+          </Frame.GestureRecognizers>
           <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="A1"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="Value_A1" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Margin="0" Padding="0" x:Name="StackA1" IsVisible="False" />
+            <Label x:Name="A1Caption" Text="{local:Translate LanguageLevel_A1_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.A1}}" />
           </StackLayout>
         </Frame>
-        <Frame Padding="2" Grid.Column="1" Grid.Row="0" x:Name="Label_A2">
+        <Frame Padding="2" Grid.Column="1" Grid.Row="0" x:Name="A2Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="LevelFrame_Tapped" />
+          </Frame.GestureRecognizers>
           <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="A2"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="Value_A2" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Margin="0" Padding="0" x:Name="StackA2" IsVisible="False" />
+            <Label x:Name="A2Caption" Text="{local:Translate LanguageLevel_A2_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.A2}}" />
           </StackLayout>
         </Frame>
-        <Frame Padding="2" Grid.Column="2" Grid.Row="0" x:Name="Label_B1">
+        <Frame Padding="2" Grid.Column="2" Grid.Row="0" x:Name="B1Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="LevelFrame_Tapped" />
+          </Frame.GestureRecognizers>
           <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="B1"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="Value_B1" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Margin="0" Padding="0" x:Name="StackB1" IsVisible="False" />
+            <Label x:Name="B1Caption" Text="{local:Translate LanguageLevel_B1_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.B1}}" />
           </StackLayout>
         </Frame>
-        <Frame Padding="2" Grid.Column="3" Grid.Row="0" x:Name="Label_B2" >
+        <Frame Padding="2" Grid.Column="3" Grid.Row="0" x:Name="B2Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="LevelFrame_Tapped" />
+          </Frame.GestureRecognizers>
           <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="B2"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="Value_B2" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Margin="0" Padding="0" x:Name="StackB2" IsVisible="False" />
+            <Label x:Name="B2Caption" Text="{local:Translate LanguageLevel_B2_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.B2}}" />
           </StackLayout>
         </Frame>
-        <Frame Padding="2" Grid.Column="4" Grid.Row="0" x:Name="Label_C1">
+        <Frame Padding="2" Grid.Column="4" Grid.Row="0" x:Name="C1Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="LevelFrame_Tapped" />
+          </Frame.GestureRecognizers>
           <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="C1"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="Value_C1" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Margin="0" Padding="0" x:Name="StackC1" IsVisible="False" />
+            <Label x:Name="C1Caption" Text="{local:Translate LanguageLevel_C1_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.C1}}" />
           </StackLayout>
         </Frame>
-        <Frame Padding="2" Grid.Column="5" Grid.Row="0" x:Name="Label_C2">
+        <Frame Padding="2" Grid.Column="5" Grid.Row="0" x:Name="C2Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="LevelFrame_Tapped" />
+          </Frame.GestureRecognizers>
           <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="C2"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="Value_C2" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Margin="0" Padding="0" x:Name="StackC2" IsVisible="False" />
+            <Label x:Name="C2Caption" Text="{local:Translate LanguageLevel_C2_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.C2}}" />
           </StackLayout>
         </Frame>
-        <Frame Padding="2" Grid.Column="6" Grid.Row="0" x:Name="Label_UNKNOWN">
+        <Frame Padding="2" Grid.Column="6" Grid.Row="0" x:Name="UNKNOWNFrame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="LevelFrame_Tapped" />
+          </Frame.GestureRecognizers>
           <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="?"  FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <Label x:Name="Value_UNKNOWN" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Margin="0" Padding="0" x:Name="StackUNKNOWN" IsVisible="False" />
+            <Label x:Name="UnknownCaption" Text="{local:Translate LanguageLevel_Unknown_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.Unknown}}" />
           </StackLayout>
         </Frame>
       </Grid>
+      <TableView VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Intent="Data" x:Name="WordsByLevelTable" IsVisible="false">
+        <TableRoot>
+          <TableSection x:Name="WordsByLevelTableSection" Title="{local:Translate ExerciseAnalysis_ListOfWordsInThisCategory}">
+          </TableSection>
+        </TableRoot>
+      </TableView>
 
-      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_RelatedRatiosIndices}" />
-      <Grid>
+      <!-- Second section: LexTutor Results -->
+      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{local:Translate ExerciseAnalysis_RelatedRatiosIndices_Contracted}" x:Name="LexTutorTitle">
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Tapped="Title_Tapped" />
+        </Label.GestureRecognizers>
+      </Label>
+      <Grid x:Name="SectionLexTutorResults" IsVisible="false">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="*" />
@@ -129,15 +159,15 @@ limitations under the License.
               <RowDefinition Height="auto" />
               <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="12" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="{i18n:Translate ExerciseAnalysis_PertainingWholeText}" />
-            <Label Grid.Row="2" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_WordsInText}" />
-            <Label Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="232" x:Name="LexTutorWordsInText" />
-            <Label Grid.Row="3" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_DifferentWords}" />
-            <Label Grid.Row="3" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="125" x:Name="LexTutorDifferentWords" />
-            <Label Grid.Row="4" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TypeTokenRatio}" />
-            <Label Grid.Row="4" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="0.54" x:Name="LexTutorTypeTokenRatio" />
-            <Label Grid.Row="5" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TokensPerType}" />
-            <Label Grid.Row="5" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="1.86" x:Name="LexTutorTokensPerType" />
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="12" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="{local:Translate ExerciseAnalysis_PertainingWholeText}" />
+            <Label Grid.Row="2" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_WordsInText}" />
+            <Label Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorWordsInText.Result, StringFormat='{0:N}'}" />
+            <Label Grid.Row="3" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_DifferentWords}" />
+            <Label Grid.Row="3" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorDifferentWords.Result, StringFormat='{0:N}'}" />
+            <Label Grid.Row="4" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_TypeTokenRatio}" />
+            <Label Grid.Row="4" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorTypeTokenRatio.Result, StringFormat='{0:N}'}" />
+            <Label Grid.Row="5" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_TokensPerType}" />
+            <Label Grid.Row="5" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorTokensPerType.Result, StringFormat='{0:N}'}" />
           </Grid>
         </Frame>
 
@@ -154,39 +184,193 @@ limitations under the License.
               <RowDefinition Height="auto" />
               <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="12" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="{i18n:Translate ExerciseAnalysis_PertainingOnlistOnly}" />
-            <Label Grid.Row="2" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_Tokens}"/>
-            <Label Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="227" x:Name="LexTutorTokens" />
-            <Label Grid.Row="3" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_Types}" />
-            <Label Grid.Row="3" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="120" x:Name="LexTutorTypes" />
-            <Label Grid.Row="4" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_Families}" />
-            <Label Grid.Row="4" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="107" x:Name="LexTutorFamilies" />
-            <Label Grid.Row="5" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TokensPerFamily}" />
-            <Label Grid.Row="5" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="2.12" x:Name="LexTutorTokensPerFamily" />
-            <Label Grid.Row="6" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{i18n:Translate ExerciseAnalysis_TypesPerFamily}" />
-            <Label Grid.Row="6" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="1.12" x:Name="LexTutorTypesPerFamily" />
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="12" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Text="{local:Translate ExerciseAnalysis_PertainingOnlistOnly}" />
+            <Label Grid.Row="2" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_Tokens}"/>
+            <Label Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorTokens.Result, StringFormat='{0:N}'}" />
+            <Label Grid.Row="3" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_Types}" />
+            <Label Grid.Row="3" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorTypes.Result, StringFormat='{0:N}'}" />
+            <Label Grid.Row="4" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_Families}" />
+            <Label Grid.Row="4" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorFamilies.Result, StringFormat='{0:N}'}" />
+            <Label Grid.Row="5" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_TokensPerFamily}" />
+            <Label Grid.Row="5" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorTokensPerFamily.Result, StringFormat='{0:N}'}" />
+            <Label Grid.Row="6" Grid.Column="0" FontSize="12" HorizontalOptions="Start" Text="{local:Translate ExerciseAnalysis_TypesPerFamily}" />
+            <Label Grid.Row="6" Grid.Column="1" FontSize="12" HorizontalOptions="End" Text="{Binding LexTutorTypesPerFamily.Result, StringFormat='{0:N}'}" />
           </Grid>
         </Frame>
       </Grid>
-<!--
-      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_KFrequencyDistribution}" />
-      <Frame OutlineColor="Accent" Padding="10">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-          </Grid.RowDefinitions>
-          <Image Source="SampleGraph.png" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand"  />
-        </Grid>
-      </Frame>
--->
-      <Label FontSize="14" HorizontalOptions="Center" FontAttributes="Bold" Text="{i18n:Translate ExerciseAnalysis_ExploreText}" />
-      <StackLayout Margin="0" Padding="0" x:Name="PoSStack">
-      </StackLayout>
 
+      <!-- Third section: Explore Your Text -->
+      <Label FontSize="14" HorizontalOptions="Center" FontAttributes="Bold" Text="{local:Translate ExerciseAnalysis_ExploreText_Contracted}" x:Name="ExploreTitle">
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Tapped="Title_Tapped" />
+        </Label.GestureRecognizers>
+      </Label>
+      <Grid Padding="2" x:Name="SectionPoS" IsVisible="false">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="PoS_Unclassified_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Unclassified_Caption" Text="{local:Translate PartOfSpeech_Unclassified}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="0" x:Name="PoS_Adjective_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Adjective_Caption" Text="{local:Translate PartOfSpeech_Adjective}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="0" x:Name="PoS_Adverb_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Adverb_Caption" Text="{local:Translate PartOfSpeech_Adverb}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="1" x:Name="PoS_ClauseOpener_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_ClauseOpener_Caption" Text="{local:Translate PartOfSpeech_ClauseOpener}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="1" x:Name="PoS_Conjunction_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Conjunction_Caption" Text="{local:Translate PartOfSpeech_Conjunction}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="1" x:Name="PoS_Determiner_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Determiner_Caption" Text="{local:Translate PartOfSpeech_Determiner}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="2" x:Name="PoS_DeterminerPronoun_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_DeterminerPronoun_Caption" Text="{local:Translate PartOfSpeech_Determiner_Pronoun}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="2" x:Name="PoS_ExistentialParticle_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_ExistentialParticle_Caption" Text="{local:Translate PartOfSpeech_ExistentialParticle}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="2" x:Name="PoS_ForeignWord_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_ForeignWord_Caption" Text="{local:Translate PartOfSpeech_ForeignWord}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="3" x:Name="PoS_Genitive_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Genitive_Caption" Text="{local:Translate PartOfSpeech_Genitive}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="3" x:Name="PoS_InfinitiveMarker_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_InfinitiveMarker_Caption" Text="{local:Translate PartOfSpeech_InfinitiveMarker}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="3" x:Name="PoS_InterjectionOrDiscourseMarker_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_InterjectionOrDiscourseMarker_Caption" Text="{local:Translate PartOfSpeech_Interjection}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="4" x:Name="PoS_LetterAsWord_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_LetterAsWord_Caption" Text="{local:Translate PartOfSpeech_LetterAsWord}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="4" x:Name="PoS_NegativeMarker_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_NegativeMarker_Caption" Text="{local:Translate PartOfSpeech_NegativeMarker}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="4" x:Name="PoS_CommonNoun_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_CommonNoun_Caption" Text="{local:Translate PartOfSpeech_CommonNoun}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="5" x:Name="PoS_ProperNoun_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_ProperNoun_Caption" Text="{local:Translate PartOfSpeech_ProperNoun}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="5" x:Name="PoS_PartOfProperNoun_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_PartOfProperNoun_Caption" Text="{local:Translate PartOfSpeech_PartProperNoun}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="5" x:Name="PoS_CardinalNumber_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_CardinalNumber_Caption" Text="{local:Translate PartOfSpeech_CardinalNumber}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="6" x:Name="PoS_Ordinal_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Ordinal_Caption" Text="{local:Translate PartOfSpeech_Ordinal}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="6" x:Name="PoS_Preposition_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Preposition_Caption" Text="{local:Translate PartOfSpeech_Preposition}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="6" x:Name="PoS_Pronoun_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Pronoun_Caption" Text="{local:Translate PartOfSpeech_Pronoun}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="0" Grid.Row="7" x:Name="PoS_AuxiliaryVerb_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_AuxiliaryVerb_Caption" Text="{local:Translate PartOfSpeech_AuxiliaryVerb}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="1" Grid.Row="7" x:Name="PoS_Verb_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_Verb_Caption" Text="{local:Translate PartOfSpeech_Verb}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+        <Frame Padding="2" Grid.Column="2" Grid.Row="7" x:Name="PoS_ModalVerb_Frame">
+          <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="PoSFrame_Tapped" />
+          </Frame.GestureRecognizers>
+          <Label x:Name="PoS_ModalVerb_Caption" Text="{local:Translate PartOfSpeech_ModalVerb}" LineBreakMode="TailTruncation" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Frame>
+      </Grid>
+      <TableView VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Intent="Data" x:Name="WordsByPoSTable" IsVisible="false">
+        <TableRoot>
+          <TableSection x:Name="WordsByPoSTableSection" Title="{local:Translate ExerciseAnalysis_WordsPerPoS}">
+          </TableSection>
+        </TableRoot>
+      </TableView>
     </StackLayout>
   </ScrollView>
 </ContentPage>

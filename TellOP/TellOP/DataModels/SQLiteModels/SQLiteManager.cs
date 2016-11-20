@@ -13,56 +13,100 @@
 // limitations under the License.
 // </copyright>
 // <author>Mattia Zago</author>
+// <author>Alessandro Menti</author>
 
 namespace TellOP.DataModels.SQLiteModels
 {
-    using SQLite;
+    using System.Diagnostics.CodeAnalysis;
+    using global::SQLite;
     using Xamarin.Forms;
 
     /// <summary>
-    /// Provides static method for SQLite
+    /// A SQLite connection manager.
     /// </summary>
-    public static class SQLiteManager
+    public sealed class SQLiteManager
     {
         /// <summary>
-        /// Internal SQLite localWordsDictionary
+        /// The connection to the local words dictionary.
         /// </summary>
-        private static SQLiteConnection localWordsDictionary;
+        private SQLiteAsyncConnection _localWordsDictionary;
 
         /// <summary>
-        /// Internal SQLite localLemmasDictionary
+        /// The connection to the local lemmas dictionary.
         /// </summary>
-        private static SQLiteConnection localLemmasDictionary;
+        private SQLiteAsyncConnection _localLemmasDictionary;
 
         /// <summary>
-        /// Gets the connection object to the LocalDictionaryConnection database
+        /// Initializes a new instance of the <see cref="SQLiteManager"/> class.
         /// </summary>
-        public static SQLiteConnection LocalWordsDictionaryConnection
+        private SQLiteManager()
+        {
+        }
+
+        /// <summary>
+        /// Gets the current instance of the <see cref="SQLiteManager"/> singleton.
+        /// </summary>
+        public static SQLiteManager Instance
         {
             get
             {
-                if (localWordsDictionary == null)
-                {
-                    localWordsDictionary = DependencyService.Get<ISQLite>().GetConnection("LocalDictionary.sqlite", SQLiteOpenFlags.ReadOnly);
-                }
-
-                return localWordsDictionary;
+                return SQLiteManagerNested.Instance;
             }
         }
 
         /// <summary>
-        /// Gets the connection object to the LocalDictionary database
+        /// Gets the SQLite connection to the local words dictionary database.
         /// </summary>
-        public static SQLiteConnection LocalLemmasDictionaryConnection
+        public SQLiteAsyncConnection LocalWordsDictionaryConnection
         {
             get
             {
-                if (localLemmasDictionary == null)
+                if (this._localWordsDictionary == null)
                 {
-                    localLemmasDictionary = DependencyService.Get<ISQLite>().GetConnection("LocalLemmasDictionary.sqlite", SQLiteOpenFlags.ReadOnly);
+                    // TODO: consider | SQLiteOpenFlags.SharedCache | SQLiteOpenFlags.FullMutex if needed
+                    this._localWordsDictionary = new SQLiteAsyncConnection(DependencyService.Get<ISQLite>().GetConnectionString("LocalDictionary.sqlite"), SQLiteOpenFlags.ReadOnly, false);
                 }
 
-                return localLemmasDictionary;
+                return this._localWordsDictionary;
+            }
+        }
+
+        /// <summary>
+        /// Gets the SQLite connection to the local lemmas database.
+        /// </summary>
+        public SQLiteAsyncConnection LocalLemmasDictionaryConnection
+        {
+            get
+            {
+                if (this._localLemmasDictionary == null)
+                {
+                    // TODO: consider | SQLiteOpenFlags.SharedCache | SQLiteOpenFlags.FullMutex if needed
+                    this._localLemmasDictionary = new SQLiteAsyncConnection(DependencyService.Get<ISQLite>().GetConnectionString("LocalLemmasDictionary.sqlite"), SQLiteOpenFlags.ReadOnly, false);
+                }
+
+                return this._localLemmasDictionary;
+            }
+        }
+
+        /// <summary>
+        /// An internal nested class used to hold the current instance of the <see cref="SQLiteManager"/> singleton.
+        /// </summary>
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Needed for the singleton pattern")]
+        private class SQLiteManagerNested
+        {
+            /// <summary>
+            /// Gets the current instance of the <see cref="SQLiteManager"/> singleton.
+            /// </summary>
+            internal static readonly SQLiteManager Instance = new SQLiteManager();
+
+            /// <summary>
+            /// Initializes static members of the <see cref="SQLiteManagerNested"/> class.
+            /// </summary>
+            [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Needed for the singleton pattern")]
+            static SQLiteManagerNested()
+            {
+                // This constructor is empty, but should be left in place to tell the compiler not to mark the type
+                // as beforefieldinit. See http://csharpindepth.com/Articles/General/Beforefieldinit.aspx
             }
         }
     }

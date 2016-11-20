@@ -15,7 +15,7 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Stands4
+namespace TellOP.DataModels.ApiModels.Stands4
 {
     using System;
     using Api;
@@ -42,11 +42,11 @@ namespace TellOP.DataModels.APIModels.Stands4
 
             this.PartOfSpeech = definition.PartOfSpeech;
             this.Definition = definition.Definition;
-            this.Examples = definition.Examples;
+            this.Example = definition.Example;
             this.Term = definition.Term;
             this.Level = new AsyncLazy<LanguageLevelClassification>(async () =>
             {
-                return await WordSearchUtilities.GetMostProbable(OfflineWord.Search(this.Term, SupportedLanguage.English)).Level;
+                return await WordSearchUtilities.GetMostProbable(await OfflineWord.Search(this.Term, SupportedLanguage.English)).Level;
             });
         }
 
@@ -70,11 +70,9 @@ namespace TellOP.DataModels.APIModels.Stands4
         /// </summary>
         public string Definition { get; private set; }
 
-        // TODO: change this array to a list!
-
         /// <summary>
         /// Gets the examples obtained by the remote API.
         /// </summary>
-        public string[] Examples { get; private set; }
+        public string Example { get; private set; }
     }
 }

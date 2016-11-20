@@ -18,12 +18,13 @@ namespace TellOP
 {
     using System;
     using System.Globalization;
+    using DataModels;
     using Xamarin.Forms;
 
     /// <summary>
     /// A class for converting <c>null</c> or empty values to <c>false</c> boolean values and vice versa.
     /// </summary>
-    internal class NonNullToBooleanConverter : IValueConverter
+    public class NonNullToBooleanConverter : BaseConverter, IValueConverter
     {
         /// <summary>
         /// Converts an object to a boolean value.
@@ -40,7 +41,7 @@ namespace TellOP
             string strValue = value as string;
             if (strValue != null)
             {
-                return !string.IsNullOrEmpty((string)value);
+                return !string.IsNullOrEmpty(strValue);
             }
             else
             {

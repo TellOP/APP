@@ -62,6 +62,30 @@ namespace TellOP.Config
             }
         }
 
+        // URLs used in the client.
+
+        /// <summary>
+        /// Gets the privacy page URL.
+        /// </summary>
+        public static Uri PrivacyUrl
+        {
+            get
+            {
+                return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + "/privacy");
+            }
+        }
+
+        /// <summary>
+        /// Gets the signup page URL.
+        /// </summary>
+        public static Uri SignUpUrl
+        {
+            get
+            {
+                return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + "/register");
+            }
+        }
+
         // OAuth 2.0 endpoints.
         // The access token, authorization and redirect URLs are kept internal; since the client ID and secret are
         // internal as well, there's no need to make them public.

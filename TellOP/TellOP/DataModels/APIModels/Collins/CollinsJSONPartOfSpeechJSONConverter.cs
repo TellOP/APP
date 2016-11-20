@@ -14,9 +14,11 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Collins
+namespace TellOP.DataModels.ApiModels.Collins
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Enums;
     using Newtonsoft.Json;
 
@@ -25,17 +27,19 @@ namespace TellOP.DataModels.APIModels.Collins
     /// </summary>
     public class CollinsJsonPartOfSpeechJsonConverter : JsonConverter
     {
-        // TODO: replace this with something neater, such as a 2-way dictionary
-        private const string AdjectiveRepresentation = "adjective";
-        private const string AdverbRepresentation = "adverb";
-        private const string ConjunctionRepresentation = "conjunction";
-        private const string DeterminerRepresentation = "determiner";
-        private const string ExistentialParticleRepresentation = "exclamation";
-        private const string CommonNounRepresentation = "commonNoun";
-        private const string PrepositionRepresentation = "preposition";
-        private const string PronounRepresentation = "pronoun";
-        private const string UnclassifiedRepresentation = "unclassified";
-        private const string VerbRepresentation = "verb";
+        private static readonly Dictionary<string, PartOfSpeech> _converterDictionary = new Dictionary<string, PartOfSpeech>()
+        {
+            { "adjective", PartOfSpeech.Adjective },
+            { "adverb", PartOfSpeech.Adverb },
+            { "conjunction", PartOfSpeech.Conjunction },
+            { "determiner", PartOfSpeech.Determiner },
+            { "exclamation", PartOfSpeech.Exclamation },
+            { "commonNoun", PartOfSpeech.CommonNoun },
+            { "preposition", PartOfSpeech.Preposition },
+            { "pronoun", PartOfSpeech.Pronoun },
+            { "unclassified", PartOfSpeech.Unclassified },
+            { "verb", PartOfSpeech.Verb }
+        };
 
         /// <summary>
         /// Determines whether this instance can convert the specified object type.
@@ -66,47 +70,8 @@ namespace TellOP.DataModels.APIModels.Collins
                 throw new ArgumentNullException("reader");
             }
 
-            string stringValue = ((string)reader.Value).ToLower();
-            if (stringValue.Equals(AdjectiveRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Adjective;
-            }
-            else if (stringValue.Equals(AdverbRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Adverb;
-            }
-            else if (stringValue.Equals(ConjunctionRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Conjunction;
-            }
-            else if (stringValue.Equals(DeterminerRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Determiner;
-            }
-            else if (stringValue.Equals(ExistentialParticleRepresentation.ToLower()))
-            {
-                return PartOfSpeech.ExistentialParticle;
-            }
-            else if (stringValue.Equals(CommonNounRepresentation.ToLower()))
-            {
-                return PartOfSpeech.CommonNoun;
-            }
-            else if (stringValue.Equals(PrepositionRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Preposition;
-            }
-            else if (stringValue.Equals(PronounRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Pronoun;
-            }
-            else if (stringValue.Equals(VerbRepresentation.ToLower()))
-            {
-                return PartOfSpeech.Verb;
-            }
-            else
-            {
-                return PartOfSpeech.Unclassified;
-            }
+            string stringValue = (string)reader.Value;
+            return _converterDictionary.Where(x => x.Key.Equals(stringValue)).DefaultIfEmpty(new KeyValuePair<string, PartOfSpeech>(string.Empty, PartOfSpeech.Unclassified)).FirstOrDefault().Value;
         }
 
         /// <summary>
@@ -126,40 +91,7 @@ namespace TellOP.DataModels.APIModels.Collins
             }
 
             PartOfSpeech part = (PartOfSpeech)value;
-            switch (part)
-            {
-                case PartOfSpeech.Adjective:
-                    writer.WriteValue(AdjectiveRepresentation);
-                    break;
-                case PartOfSpeech.Adverb:
-                    writer.WriteValue(AdverbRepresentation);
-                    break;
-                case PartOfSpeech.CommonNoun:
-                    writer.WriteValue(CommonNounRepresentation);
-                    break;
-                case PartOfSpeech.Conjunction:
-                    writer.WriteValue(ConjunctionRepresentation);
-                    break;
-                case PartOfSpeech.Determiner:
-                    writer.WriteValue(DeterminerRepresentation);
-                    break;
-                case PartOfSpeech.ExistentialParticle:
-                    writer.WriteValue(ExistentialParticleRepresentation);
-                    break;
-                case PartOfSpeech.Preposition:
-                    writer.WriteValue(PrepositionRepresentation);
-                    break;
-                case PartOfSpeech.Pronoun:
-                    writer.WriteValue(PronounRepresentation);
-                    break;
-                case PartOfSpeech.Verb:
-                    writer.WriteValue(VerbRepresentation);
-                    break;
-                case PartOfSpeech.Unclassified:
-                default:
-                    writer.WriteValue(UnclassifiedRepresentation);
-                    break;
-            }
+            writer.WriteValue(_converterDictionary.Where(x => x.Value.Equals(part)).DefaultIfEmpty(new KeyValuePair<string, PartOfSpeech>(string.Empty, PartOfSpeech.Unclassified)).FirstOrDefault().Key);
         }
     }
 }

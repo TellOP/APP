@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Collins
+namespace TellOP.DataModels.ApiModels.Collins
 {
     using Newtonsoft.Json;
 

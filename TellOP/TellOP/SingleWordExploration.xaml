@@ -18,21 +18,65 @@ limitations under the License.
 -->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
              x:Class="TellOP.SingleWordExploration">
   <ScrollView>
-    <StackLayout>
-      <Label FontSize="Large" FontAttributes="Bold" x:Name="TitleLabel" HorizontalOptions="CenterAndExpand" />
-      <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
-        <Button Text="Stands4" Clicked="OpenStands4" HorizontalOptions="CenterAndExpand" />
-        <Button Text="Collins" Clicked="OpenCollins" HorizontalOptions="CenterAndExpand"/>
-        <!--<Button Text="NetSpeak" Clicked="OpenNetSpeak" HorizontalOptions="CenterAndExpand" />-->
-        <!--<Button Text="StringNet" Clicked="OpenStringNet" HorizontalOptions="CenterAndExpand"/>-->
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Button  Grid.Column="0" Grid.Row="1" x:Name="BTNShowStands4Stack" Text="{local:Translate SingleWordExploration_Stands4}" IsEnabled="true" />
+      <Button  Grid.Column="1" Grid.Row="1" x:Name="BTNShowCollinsStack" Text="{local:Translate SingleWordExploration_Collins}" IsEnabled="true" />
+      <Button  Grid.Column="2" Grid.Row="1" x:Name="BTNShowNetSpeakStack" Text="{local:Translate SingleWordExploration_NetSpeak}" IsEnabled="true" />
+
+      <StackLayout x:Name="Stands4Stack" IsVisible="false" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+        <Label Text="{local:Translate Search_TabError}" IsVisible="{Binding SearchResultsStands4.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+        <ListView x:Name="SearchListStands4" HasUnevenRows="true" ItemsSource="{Binding SearchResultsStands4.Result}" Margin="5" IsVisible="{Binding SearchResultsStands4.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
+        <RelativeLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsCollins.IsNotCompleted}">
+          <ActivityIndicator IsVisible="{Binding SearchResultsStands4.IsNotCompleted}" IsRunning="{Binding SearchResultsStands4.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+        </RelativeLayout>
       </StackLayout>
-      <StackLayout HorizontalOptions="FillAndExpand" x:Name="Stands4Stack"/>
-      <StackLayout HorizontalOptions="FillAndExpand" x:Name="CollinsStack" IsVisible="False" Padding="5"/>
-      <!--<StackLayout HorizontalOptions="FillAndExpand" x:Name="NetSpeakStack" IsVisible="False" Padding="5"/>-->
-      <!--<StackLayout HorizontalOptions="FillAndExpand" x:Name="StringNetStack" IsVisible="False" Padding="5"/>-->
-      <StackLayout HorizontalOptions="FillAndExpand" x:Name="CollocationStack" Padding="5" />
-    </StackLayout>
+
+      <StackLayout x:Name="CollinsStack" IsVisible="false" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+        <Label Text="{local:Translate Search_TabError}" IsVisible="{Binding SearchResultsCollins.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+        <ListView x:Name="SearchListCollins" HasUnevenRows="true" ItemsSource="{Binding SearchResultsCollins.Result}" Margin="5" IsVisible="{Binding SearchResultsCollins.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
+        <RelativeLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsCollins.IsNotCompleted}">
+          <ActivityIndicator IsVisible="{Binding SearchResultsCollins.IsNotCompleted}" IsRunning="{Binding SearchResultsCollins.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+        </RelativeLayout>
+      </StackLayout>
+
+      <StackLayout x:Name="NetSpeakStack" IsVisible="false" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0" Grid.Row="0" Text="{local:Translate Search_TabError}" IsVisible="{Binding SearchResultsNetSpeakPreceding.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" LineBreakMode="WordWrap" />
+          <Label Grid.Column="0" Grid.Row="0" Text="{local:Translate NetSpeak_Preceding}" FontAttributes="Bold" IsVisible="{Binding SearchResultsNetSpeakPreceding.IsCompleted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+          <Label Grid.Column="0" Grid.Row="1" Text="{Binding SearchResultsNetSpeakPreceding.Result}" IsVisible="{Binding SearchResultsNetSpeakPreceding.IsCompleted}" HorizontalTextAlignment="Start" HorizontalOptions="Start" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" LineBreakMode="WordWrap" />
+          <RelativeLayout Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsNetSpeakPreceding.IsNotCompleted}">
+            <ActivityIndicator IsVisible="{Binding SearchResultsNetSpeakPreceding.IsNotCompleted}" IsRunning="{Binding SearchResultsNetSpeakPreceding.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+          </RelativeLayout>
+
+          <Label Grid.Column="1" Grid.Row="0" Text="{local:Translate Search_TabError}" IsVisible="{Binding SearchResultsNetSpeakFollowing.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" LineBreakMode="WordWrap" />
+          <Label Grid.Column="1" Grid.Row="0" Text="{local:Translate NetSpeak_Following}" FontAttributes="Bold" IsVisible="{Binding SearchResultsNetSpeakFollowing.IsCompleted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+          <Label Grid.Column="1" Grid.Row="1" Text="{Binding SearchResultsNetSpeakFollowing.Result}" IsVisible="{Binding SearchResultsNetSpeakFollowing.IsCompleted}" HorizontalTextAlignment="Start" HorizontalOptions="Start" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" LineBreakMode="WordWrap" />
+          <RelativeLayout Grid.Column="1" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsNetSpeakPreceding.IsNotCompleted}">
+            <ActivityIndicator IsVisible="{Binding SearchResultsNetSpeakFollowing.IsNotCompleted}" IsRunning="{Binding SearchResultsNetSpeakFollowing.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+          </RelativeLayout>
+        </Grid>
+      </StackLayout>
+    </Grid>
   </ScrollView>
 </ContentPage>

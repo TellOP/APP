@@ -141,8 +141,8 @@
   <data name="ExerciseAnalysis_DifferentWords" xml:space="preserve">
     <value>Different words (types)</value>
   </data>
-  <data name="ExerciseAnalysis_ExploreText" xml:space="preserve">
-    <value>Explore your text</value>
+  <data name="ExerciseAnalysis_ExploreText_Contracted" xml:space="preserve">
+    <value>+ Explore your text</value>
   </data>
   <data name="ExerciseAnalysis_Families" xml:space="preserve">
     <value>Families</value>
@@ -156,8 +156,8 @@
   <data name="ExerciseAnalysis_PertainingWholeText" xml:space="preserve">
     <value>Pertaining to the whole text</value>
   </data>
-  <data name="ExerciseAnalysis_RelatedRatiosIndices" xml:space="preserve">
-    <value>Related ratios and indices</value>
+  <data name="ExerciseAnalysis_RelatedRatiosIndices_Contracted" xml:space="preserve">
+    <value>+ Related ratios and indices</value>
   </data>
   <data name="ExerciseAnalysis_Tokens" xml:space="preserve">
     <value>Tokens</value>
@@ -315,8 +315,8 @@
   <data name="Login_SignUpLabel" xml:space="preserve">
     <value>Sign up</value>
   </data>
-  <data name="ExerciseAnalysis_ProfileLevelTitle" xml:space="preserve">
-    <value>Profile levels</value>
+  <data name="ExerciseAnalysis_ProfileLevelTitle_Contracted" xml:space="preserve">
+    <value>+ Profile levels</value>
   </data>
   <data name="AppCredits" xml:space="preserve">
     <value>Copyright © 2016 University of Murcia
@@ -344,25 +344,14 @@ Developed by Mattia Zago and Alessandro Menti</value>
   <data name="OAuth2_AuthenticationCompleteNotAuthenticatedErrorTitle" xml:space="preserve">
     <value>Login error</value>
   </data>
-  <data name="CollinsWord_DefinitionTemplate" xml:space="preserve">
-    <value>Definitions:
-{0}</value>
+  <data name="CollinsViewCell_Related" xml:space="preserve">
+    <value>Related words</value>
   </data>
-  <data name="CollinsWord_ExamplesTemplate" xml:space="preserve">
-    <value>Examples:
-{0}</value>
+  <data name="CollinsViewCell_SeeAlso" xml:space="preserve">
+    <value>See also</value>
   </data>
-  <data name="CollinsWord_RelatedTemplate" xml:space="preserve">
-    <value>Related:
-{0}</value>
-  </data>
-  <data name="CollinsWord_SeeAlsoTemplate" xml:space="preserve">
-    <value>See also:
-{0}</value>
-  </data>
-  <data name="CollinsWord_SenseCounter" xml:space="preserve">
-    <value>Sense {0}:
-</value>
+  <data name="CollinsViewCell_SenseCounter" xml:space="preserve">
+    <value>Sense {0}</value>
   </data>
   <data name="Exercise_EssayName" xml:space="preserve">
     <value>Essay</value>
@@ -410,7 +399,8 @@ Developed by Mattia Zago and Alessandro Menti</value>
     <value>Unknown level</value>
   </data>
   <data name="LanguageLevel_Unknown_Short" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Unkn.</value>
+    <comment>Try keeping the string at a maximum length of 4/5 characters</comment>
   </data>
   <data name="EssayExercise_MinMaxWords" xml:space="preserve">
     <value>Write an essay between {0} and {1} words.</value>
@@ -469,7 +459,7 @@ This software is supported by the Erasmus+ Programme of the European Union: TELL
     <value>Operation aborted.</value>
   </data>
   <data name="EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning" xml:space="preserve">
-    <value>Another analysis is running. Aborting the operation.</value>
+    <value>Another analysis is running. Please wait until the current analysis is finished.</value>
   </data>
   <data name="EssayExerciseViewAnalyzeTextExceptionErrorGeneric" xml:space="preserve">
     <value>Error while performing the analysis.
@@ -477,7 +467,7 @@ Error message:
 </value>
   </data>
   <data name="EssayExerciseViewAnalyzeTextExceptionTextTooShort" xml:space="preserve">
-    <value>Text is too short to be analyzed. </value>
+    <value>Text is too short to be analyzed. The minimum number of words is {0} (your text has {1} words).</value>
   </data>
   <data name="EssayExerciseViewExerciseTypeNotSupported" xml:space="preserve">
     <value>The returned exercise type is not supported yet</value>
@@ -501,20 +491,24 @@ Error message:
     <value>...or...</value>
     <comment>Shown between the "Log in" button and the three links "Sign up", "About" and "Privacy"at the bottom</comment>
   </data>
-  <data name="EssayExerciseViewXAMLAdjectivesLabel" xml:space="preserve">
-    <value>Adjectives</value>
+  <data name="EssayExerciseView_Adjectives" xml:space="preserve">
+    <value>Adj.</value>
+    <comment>Keep the string short (4/5 characters)</comment>
   </data>
-  <data name="EssayExerciseViewXAMLAdverbsLabel" xml:space="preserve">
-    <value>Adverbs</value>
+  <data name="EssayExerciseView_Adverbs" xml:space="preserve">
+    <value>Adv.</value>
+    <comment>Keep the string short (4/5 characters)</comment>
   </data>
-  <data name="EssayExerciseViewXAMLNounsLabel" xml:space="preserve">
+  <data name="EssayExerciseView_Nouns" xml:space="preserve">
     <value>Nouns</value>
+    <comment>Keep the string short (4/5 characters)</comment>
   </data>
-  <data name="EssayExerciseViewXAMLVerbsLabel" xml:space="preserve">
+  <data name="EssayExerciseView_Verbs" xml:space="preserve">
     <value>Verbs</value>
+    <comment>Keep the string short (4/5 characters)</comment>
   </data>
   <data name="Dashboard_TabFeatured_Description" xml:space="preserve">
-    <value>Select an exercise from the list below to see the details.</value>
+    <value>To see the details of an exercise, select it from the list below.</value>
   </data>
   <data name="Dashboard_TabFeatured_Title" xml:space="preserve">
     <value>Featured exercises</value>
@@ -557,5 +551,169 @@ Error message:
   </data>
   <data name="Dashboard_TabHistory_Description_NoHistory" xml:space="preserve">
     <value>You have not submitted any exercises so far.</value>
+  </data>
+  <data name="MainSearch_EnterTerm" xml:space="preserve">
+    <value>Word to search for</value>
+  </data>
+  <data name="MainSearch_Title" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search_NoTermEntered_Text" xml:space="preserve">
+    <value>Please enter a search term in the search bar.</value>
+  </data>
+  <data name="Search_NoTermEntered_Title" xml:space="preserve">
+    <value>No search term entered</value>
+  </data>
+  <data name="Search_TabError" xml:space="preserve">
+    <value>An error occurred while retrieving the search results. Please try again.</value>
+  </data>
+  <data name="Stands4ViewCell_Definition" xml:space="preserve">
+    <value>Definition</value>
+  </data>
+  <data name="Stands4ViewCell_Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="BulletPoint" xml:space="preserve">
+    <value>{0}. {1}</value>
+    <comment>This string is used to render bullet points in ordered lists. {0} will be replaced by the progressive number of the point, while {1} will be replaced by the content.</comment>
+  </data>
+  <data name="Stands4ViewCell_DictionaryName_Contracted" xml:space="preserve">
+    <value>+ Stands4</value>
+    <comment>Keep the "+" at the beginning (as it shows that the definition details are contracted)</comment>
+  </data>
+  <data name="Stands4ViewCell_DictionaryName_Expanded" xml:space="preserve">
+    <value>- Stands4</value>
+    <comment>Keep the "-" at the beginning (as it shows that the definition details are expanded)</comment>
+  </data>
+  <data name="CollinsViewCell_Definition" xml:space="preserve">
+    <value>Definitions</value>
+  </data>
+  <data name="CollinsViewCell_DictionaryName_Contracted" xml:space="preserve">
+    <value>+ Collins</value>
+    <comment>Keep the "+" at the beginning (as it shows that the definition details are contracted)</comment>
+  </data>
+  <data name="CollinsViewCell_DictionaryName_Expanded" xml:space="preserve">
+    <value>- Collins</value>
+    <comment>Keep the "-" at the beginning (as it shows that the definition details are expanded)</comment>
+  </data>
+  <data name="CollinsViewCell_Example" xml:space="preserve">
+    <value>Examples</value>
+  </data>
+  <data name="Dashboard_ProfileAddedSoon" xml:space="preserve">
+    <value>The Profile page will be added soon</value>
+  </data>
+  <data name="Dashboard_SettingsAddedSoon" xml:space="preserve">
+    <value>The Settings page will be added soon</value>
+  </data>
+  <data name="EssayExerciseView_Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="EssayExerciseView_Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="EssayExerciseView_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="EssayExerciseView_ShowText" xml:space="preserve">
+    <value>Show text</value>
+  </data>
+  <data name="EssayExerciseView_Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="EssayExerciseView_Title" xml:space="preserve">
+    <value>Exercise</value>
+  </data>
+  <data name="ExerciseAnalysis_Title" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="SingleWordExploration_Collins" xml:space="preserve">
+    <value>Collins</value>
+  </data>
+  <data name="SingleWordExploration_Stands4" xml:space="preserve">
+    <value>Stands4</value>
+  </data>
+  <data name="ExerciseAnalysis_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="ExerciseAnalysis_Subtitle" xml:space="preserve">
+    <value>{0}, {1} ({2})</value>
+    <comment>{0} is the human-readable exercise type, {1} is the human-readable exercise language, {2} is the human-readable exercise CEFR level</comment>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionTextTooLongForSubmission" xml:space="preserve">
+    <value>Text is too long to be submitted. The maximum number of words for this exercise is {0} (your text has {1} words).</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionTextTooShortForSubmission" xml:space="preserve">
+    <value>Text is too short to be submitted. The minimum number of words for this exercise is {0} (your text has {1} words).</value>
+  </data>
+  <data name="EssayExerciseViewCountLabelText" xml:space="preserve">
+    <value>{0}/{1}</value>
+    <comment>Where {0} is the current number of word, {1} is the maximum number of word for the exercise.</comment>
+  </data>
+  <data name="SingleWordExploration_NetSpeak" xml:space="preserve">
+    <value>NetSpeak</value>
+  </data>
+  <data name="ExerciseAnalysis_ExploreText_Expanded" xml:space="preserve">
+    <value>- Explore your text</value>
+  </data>
+  <data name="ExerciseAnalysis_ProfileLevelTitle_Expanded" xml:space="preserve">
+    <value>- Profile levels</value>
+  </data>
+  <data name="ExerciseAnalysis_RelatedRatiosIndices_Expanded" xml:space="preserve">
+    <value>- Related ratios and indices</value>
+  </data>
+  <data name="GenericCloseSymbol" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="GenericOpenSymbol" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="Exercise_ExerciseSpecifications" xml:space="preserve">
+    <value>Exercise specifications</value>
+  </data>
+  <data name="Exercise_ExerciseSpecificationsText_WithoutReferenceText" xml:space="preserve">
+    <value>{0}</value>
+    <comment>{0} = the exercise specifications</comment>
+  </data>
+  <data name="Exercise_ExerciseSpecificationsText_WithReferenceText" xml:space="preserve">
+    <value>{0}
+
+Reference text:
+{1}</value>
+    <comment>{0} = the exercise specifications, {1} = the reference text</comment>
+  </data>
+  <data name="ButtonHide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="NetSpeak_Following" xml:space="preserve">
+    <value>List of following words</value>
+  </data>
+  <data name="NetSpeak_Preceding" xml:space="preserve">
+    <value>List of preceding words</value>
+  </data>
+  <data name="ExerciseAnalysis_EmptyPoSList" xml:space="preserve">
+    <value>This list is empty.</value>
+  </data>
+  <data name="Exercise_UnableToDisplay" xml:space="preserve">
+    <value>Unable to display the chosen exercise.</value>
+  </data>
+  <data name="ExerciseAnalysis_WordsPerPoS" xml:space="preserve">
+    <value>List of words for this part of speech:</value>
+  </data>
+  <data name="ExerciseAnalysis_ListOfWordsInThisCategory" xml:space="preserve">
+    <value>List of words in this category</value>
+  </data>
+  <data name="ConnectivityMissing_Text" xml:space="preserve">
+    <value>Enable WiFi or mobile data and try again.</value>
+  </data>
+  <data name="ConnectivityMissing_Title" xml:space="preserve">
+    <value>You are not connected to the Internet</value>
+  </data>
+  <data name="EssayExerciseView_Preposition" xml:space="preserve">
+    <value>Prep.</value>
+    <comment>Keep the string short (4/5 characters)</comment>
+  </data>
+  <data name="EssayExerciseView_Unclassified" xml:space="preserve">
+    <value>Uncl.</value>
+    <comment>Keep the string short (4/5 characters)</comment>
   </data>
 </root>

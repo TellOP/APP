@@ -15,64 +15,69 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </copyright>
 <author>Mattia Zago</author>
+<author>Alessandro Menti</author>
 -->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TellOP.EssayExerciseView">
-
-  <ContentPage.Title>Exercise</ContentPage.Title>
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             x:Class="TellOP.EssayExerciseView"
+             xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
+             Title="{local:Translate EssayExerciseView_Title}">
   <ContentPage.ToolbarItems>
-    <ToolbarItem x:Name="searchButton" Text="Search" Order="Primary" />
-    <ToolbarItem x:Name="analysisButton" Text="Analysis" Order="Primary" />
-    <ToolbarItem x:Name="submitButton" Text="Submit" Order="Secondary" />
-    <ToolbarItem x:Name="saveButton" Text="Save" Order="Secondary" />
-    <ToolbarItem x:Name="loadButton" Text="Load save" Order="Secondary" />
+    <ToolbarItem x:Name="searchButton" Text="{local:Translate EssayExerciseView_Search}" Order="Primary" Icon="Toolbar_Search.png" Clicked="SearchButton_Clicked" />
+    <ToolbarItem x:Name="analysisButton" Text="{local:Translate EssayExerciseView_Analysis}" Order="Primary" Icon="Toolbar_Analysis.png" Clicked="AnalysisButton_Clicked" />
+    <ToolbarItem x:Name="showRefTextButton" Text="{local:Translate EssayExerciseView_ShowText}" Order="Primary" Icon="Toolbar_Show.png" Clicked="ShowRefTextButton_Clicked" />
+    <ToolbarItem x:Name="submitButton" Text="{local:Translate EssayExerciseView_Submit}" Order="Secondary" Clicked="SubmitButton_Clicked" />
+    <ToolbarItem x:Name="loadButton" Text="{local:Translate EssayExerciseView_Reset}" Order="Secondary" Clicked="LoadButton_Clicked" />
   </ContentPage.ToolbarItems>
-  <StackLayout>
-    <Label x:Name="ExTitleLabel" HorizontalOptions="Center" FontSize="Medium" Text="Title" FontAttributes="Bold" Margin="5" />
-    <Label x:Name="ExDescriptionLabel" HorizontalOptions="StartAndExpand" FontSize="Small" Text="Description" FontAttributes="Italic" Margin="5,0,5,0"/>
-    <Editor Margin="0,5,0,5" x:Name="ExContentEditor" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Content" Keyboard="Text" />
-    <StackLayout VerticalOptions="End">
-      <ProgressBar HeightRequest="5" x:Name="ProgressBar" HorizontalOptions="FillAndExpand"  />
-      <Grid Margin="5">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-          <RowDefinition Height="auto" />
-          <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+  <Grid HorizontalOptions="Fill" VerticalOptions="Fill" x:Name="MainGrid">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="11*" />
+      <RowDefinition Height="2*" />
+    </Grid.RowDefinitions>
 
-        <!--
-        <Label Grid.Column="0" Grid.Row="0" Text="Words" x:Name="statWordsLabel" HorizontalOptions="Center" FontAttributes="Bold" />
-        <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statWords" HorizontalOptions="CenterAndExpand"  />
-        
-        <Label Grid.Column="0" Grid.Row="0" Text="Unknown" x:Name="statUnknownLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
-        <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statUnknown" HorizontalOptions="CenterAndExpand"  />
-        <ActivityIndicator Grid.Column="0" Grid.Row="1" x:Name="aiUnknown" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
--->
+    <Label x:Name="ExTitleLabel" HorizontalOptions="Center" VerticalOptions="Start" FontSize="Medium" FontAttributes="Bold" Margin="5" LineBreakMode="WordWrap" />
+    <Label x:Name="ExDescriptionLabel" HorizontalOptions="StartAndExpand" FontSize="Small" FontAttributes="Italic" Margin="5,0,5,0" LineBreakMode="WordWrap" />
+    <Label x:Name="ExCountLabel" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold" Margin="5,0,5,0" BackgroundColor="{Binding ExStatus, Converter={enums:ExerciseStatusToColorConverter}}" />
 
-        <Label Grid.Column="0" Grid.Row="0" Text="Verbs" x:Name="statVerbsLabel" HorizontalOptions="Center" FontAttributes="Bold"  FontSize="14"  />
-        <Label Grid.Column="0" Grid.Row="1"  Text="" x:Name="statVerbs" HorizontalOptions="CenterAndExpand"  />
-        <ActivityIndicator Grid.Column="0" Grid.Row="1" x:Name="aiVerbs" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
-        <Image x:Name="imgReloadVerbs" Grid.Column="0" Grid.Row="1" HeightRequest="10" WidthRequest="10" />
-        
-        <Label Grid.Column="1" Grid.Row="0" Text="Nouns" x:Name="statNounsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"  />
-        <Label Grid.Column="1" Grid.Row="1"  Text="" x:Name="statNouns" HorizontalOptions="CenterAndExpand"  />
-        <ActivityIndicator Grid.Column="1" Grid.Row="1" x:Name="aiNouns" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+    <Editor Margin="0,5,0,0" x:Name="ExContentEditor" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Keyboard="Text" BackgroundColor="#FAFAFA" />
 
-        <Label Grid.Column="2" Grid.Row="0" Text="Adv." x:Name="statAdverbsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
-        <Label Grid.Column="2" Grid.Row="1"  Text="" x:Name="statAdverbs" HorizontalOptions="CenterAndExpand"  />
-        <ActivityIndicator Grid.Column="2" Grid.Row="1" x:Name="aiAdverbs" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
+    <Label x:Name="statVerbsLabel" Text="{local:Translate EssayExerciseView_Verbs}" HorizontalOptions="Center" FontAttributes="Bold"  FontSize="14"  />
+    <Label x:Name="statVerbs" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
+    <ActivityIndicator  x:Name="aiVerbs" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
+    <Image x:Name="imgReloadVerbs" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
 
-        <Label Grid.Column="3" Grid.Row="0" Text="Adj." x:Name="statAdjectiveLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
-        <Label Grid.Column="3" Grid.Row="1"  Text="" x:Name="statAdjective" HorizontalOptions="CenterAndExpand"  />
-        <ActivityIndicator Grid.Column="3" Grid.Row="1" x:Name="aiAdjective" HorizontalOptions="Center" VerticalOptions="Center" Color="Black" IsRunning="false" HeightRequest="10" />
-      </Grid>
-    </StackLayout>
-  </StackLayout>
-  
+    <Label Text="{local:Translate EssayExerciseView_Nouns}" x:Name="statNounsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"  />
+    <Label x:Name="statNouns" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
+    <ActivityIndicator x:Name="aiNouns" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
+    <Image x:Name="imgReloadNouns" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
+
+    <Label Text="{local:Translate EssayExerciseView_Adverbs}" x:Name="statAdverbsLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
+    <Label x:Name="statAdverbs" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
+    <ActivityIndicator x:Name="aiAdverbs" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
+    <Image x:Name="imgReloadAdverbs" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
+
+    <Label Text="{local:Translate EssayExerciseView_Adjectives}" x:Name="statAdjectiveLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
+    <Label x:Name="statAdjective" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
+    <ActivityIndicator x:Name="aiAdjective" HorizontalOptions="Center" VerticalOptions="Start"  Color="Black" IsRunning="false" HeightRequest="12" />
+    <Image x:Name="imgReloadAdjective" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
+
+    <Label Text="{local:Translate EssayExerciseView_Preposition}" x:Name="statPrepositionLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
+    <Label x:Name="statPreposition" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+    <ActivityIndicator x:Name="aiPreposition" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
+    <Image x:Name="imgReloadPreposition" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
+
+    <Label Text="{local:Translate EssayExerciseView_Unclassified}" x:Name="statUnclassifiedLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
+    <Label x:Name="statUnclassified" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
+    <ActivityIndicator x:Name="aiUnclassified" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
+    <Image x:Name="imgReloadUnclassified" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
+
+  </Grid>
 </ContentPage>
+  

@@ -219,7 +219,6 @@ namespace TellOP.Api
                 }
             }
 
-            // TODO: check if this is admissible with POST requests.
             // Remember that parameters are passed in the POST body in Xamarin.Auth:
             // <https://github.com/xamarin/Xamarin.Auth/blob/master/src/Xamarin.Auth/Request.cs#L53>
             // <https://github.com/xamarin/Xamarin.Auth/blob/master/src/Xamarin.Auth/Request.cs#L316>
@@ -229,8 +228,9 @@ namespace TellOP.Api
                 string[] bodyParamPairs = this._postBody.Split('&');
                 foreach (string bodyParam in bodyParamPairs)
                 {
+                    // We must also URL-decode the parameters if we are performing a POST request.
                     string[] bodyParamSplit = bodyParam.Split('=');
-                    apiURIParameters.Add(bodyParamSplit[0], (bodyParamSplit.Length == 2) ? bodyParamSplit[1] : null);
+                    apiURIParameters.Add(bodyParamSplit[0], (bodyParamSplit.Length == 2) ? (this._apiMethod == HttpMethod.Post ? Uri.UnescapeDataString(bodyParamSplit[1]) : bodyParamSplit[1]) : null);
                 }
             }
 
@@ -250,6 +250,8 @@ namespace TellOP.Api
                 else
                 {
                     Tools.Logger.Log(this.GetType().ToString(), "The API call did not complete successfully. Status code: " + apiResponse.StatusCode.ToString());
+                    string response = await apiResponse.GetResponseTextAsync().ConfigureAwait(false);
+                    Tools.Logger.Log(this.GetType().ToString(), "Response: " + response);
                     throw new UnsuccessfulApiCallException("The API call did not complete successfully (status code: " + apiResponse.StatusCode + ")", null, apiResponse.StatusCode, apiResponse);
                 }
             }

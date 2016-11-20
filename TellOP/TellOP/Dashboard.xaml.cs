@@ -18,6 +18,7 @@
 namespace TellOP
 {
     using System;
+    using Tools;
     using Xamarin.Forms;
 
     /// <summary>
@@ -40,7 +41,8 @@ namespace TellOP
         /// <param name="e">The event parameters.</param>
         private async void ProfileButton_Clicked(object sender, EventArgs e)
         {
-            await this.Navigation.PushAsync(new Profile());
+            // TODO: remove when implemented
+            await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Dashboard_ProfileAddedSoon, Properties.Resources.ButtonOK);
         }
 
         /// <summary>
@@ -48,15 +50,18 @@ namespace TellOP
         /// </summary>
         /// <param name="sender">The object sending the event.</param>
         /// <param name="e">The event parameters.</param>
-        private void RefreshButton_Clicked(object sender, EventArgs e)
+        private async void RefreshButton_Clicked(object sender, EventArgs e)
         {
-            if (this.CurrentPage is DashboardTabHistory)
+            if (await ConnectivityCheck.AskToEnableConnectivity(this))
             {
-                ((DashboardTabHistory)this.CurrentPage).Refresh();
-            }
-            else if (this.CurrentPage is DashboardTabFeatured)
-            {
-                ((DashboardTabFeatured)this.CurrentPage).Refresh();
+                if (this.CurrentPage is DashboardTabHistory)
+                {
+                    ((DashboardTabHistory)this.CurrentPage).Refresh();
+                }
+                else if (this.CurrentPage is DashboardTabFeatured)
+                {
+                    ((DashboardTabFeatured)this.CurrentPage).Refresh();
+                }
             }
         }
 
@@ -67,10 +72,7 @@ namespace TellOP
         /// <param name="e">The event parameters.</param>
         private void SearchButton_Clicked(object sender, EventArgs e)
         {
-            // TODO: why are two different kind of pushes used?
-            Device.OnPlatform(
-                iOS: () => this.Navigation.PushAsync(new MainSearch()),
-                Default: () => this.Navigation.PushModalAsync(new MainSearch()));
+            this.Navigation.PushAsync(new MainSearch());
         }
 
         /// <summary>
@@ -81,7 +83,7 @@ namespace TellOP
         private async void SettingsButton_Clicked(object sender, EventArgs e)
         {
             // TODO: remove when implemented
-            await this.DisplayAlert(Properties.Resources.Error, "The Settings panel will be added soon", Properties.Resources.ButtonOK);
+            await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Dashboard_SettingsAddedSoon, Properties.Resources.ButtonOK);
         }
     }
 }

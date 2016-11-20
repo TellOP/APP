@@ -15,7 +15,7 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels
+namespace TellOP.DataModels.ApiModels
 {
     using Newtonsoft.Json;
 

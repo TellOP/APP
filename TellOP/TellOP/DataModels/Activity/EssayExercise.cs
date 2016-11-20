@@ -25,8 +25,8 @@ namespace TellOP.DataModels.Activity
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Api;
-    using APIModels.Adelex;
-    using APIModels.LexTutor;
+    using ApiModels.Adelex;
+    using ApiModels.LexTutor;
     using Enums;
     using Nito.AsyncEx;
     using SQLiteModels;
@@ -427,17 +427,18 @@ namespace TellOP.DataModels.Activity
         /// Gets a list of words according to their parts of speech.
         /// </summary>
         /// <param name="part">The part of speech the words belong to.</param>
-        /// <returns>A <see cref="Task{IDictionary}"/> containing all the words in the essay contents belonging to the
+        /// <returns>A <see cref="Task{Dictionary}"/> containing all the words in the essay contents belonging to the
         /// specified part of speech and the number of their occurrencies as its result.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return an IWord as a key")]
         public async Task<IDictionary<IWord, int>> GetWordsByPartOfSpeech(PartOfSpeech part)
         {
             List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
             return offlineAnalysis.Where(w => w.PartOfSpeech == part).GroupBy(w => w).Where(w => w.Count() >= 1).ToDictionary(w => w.Key, w => w.Count());
         }
 
-        private string PreprocessSingleWord(string token)
+        private async Task<string> PreprocessSingleWord(string token)
         {
-            string cleanToken = OfflineLemma.RetrieveBase(token);
+            string cleanToken = await OfflineLemma.RetrieveBase(token);
             if (string.IsNullOrEmpty(cleanToken) || string.IsNullOrWhiteSpace(cleanToken))
             {
                 cleanToken = token;
@@ -451,7 +452,7 @@ namespace TellOP.DataModels.Activity
             string msg = "'" + cleanToken + "' ";
             IWord w;
 
-            IList<IWord> offlineWords = OfflineWord.Search(cleanToken);
+            IList<IWord> offlineWords = await OfflineWord.Search(cleanToken);
             if (offlineWords.Count > 0)
             {
                 w = WordSearchUtilities.GetMostProbable(offlineWords);
@@ -463,14 +464,14 @@ namespace TellOP.DataModels.Activity
                 w = new OfflineWord()
                 {
                     Term = cleanToken,
-                    JSONLevel = LanguageLevelClassification.Unknown,
+                    JsonLevel = LanguageLevelClassification.Unknown,
                     PartOfSpeech = PartOfSpeech.Unclassified,
                     Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.USEnglish, typeof(string), null, CultureInfo.InvariantCulture)
                 };
             }
 
             Tools.Logger.Log("ProcessSingleWord", msg);
-            return await Task<IWord>.Run(() => { return w; });
+            return w;
         }
 
         /// <summary>
@@ -488,15 +489,16 @@ namespace TellOP.DataModels.Activity
                 // Dirty tokens
                 foreach (string token in Regex.Matches(this._essayContents, "[\\w']+").Cast<Match>().Select(m => m.Value))
                 {
-                    foreach (string cleanToken in Regex.Matches(this.PreprocessSingleWord(token), "[\\w']+").Cast<Match>().Select(m => m.Value))
+                    foreach (string cleanToken in Regex.Matches(await this.PreprocessSingleWord(token), "[\\w']+").Cast<Match>().Select(m => m.Value))
                     {
                         searchTokenTasks.Add(this.ProcessSingleWord(cleanToken));
                     }
                 }
 
-                await Task.WhenAll(searchTokenTasks);
+                IEnumerable<IWord> results = await Task.WhenAll(searchTokenTasks);
+                Tools.Logger.Log("EssayExercise", "I've waited all of them!");
 
-                foreach (IWord w in searchTokenTasks)
+                foreach (IWord w in results)
                 {
                     if (this.ExcludeFunctionalWords && (
                         w.PartOfSpeech == PartOfSpeech.ClauseOpener

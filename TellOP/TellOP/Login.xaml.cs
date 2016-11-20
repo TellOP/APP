@@ -18,6 +18,9 @@
 namespace TellOP
 {
     using System;
+    using Config;
+    using Plugin.Connectivity;
+    using Tools;
     using Xamarin.Forms;
 
     /// <summary>
@@ -31,9 +34,6 @@ namespace TellOP
         public Login()
         {
             this.InitializeComponent();
-            this.SignUp.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => Device.OpenUri(new Uri(Config.TellOPConfiguration.ServerBaseUrl.ToString() + "/register"))) });
-            this.Privacy.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => Device.OpenUri(new Uri(Config.TellOPConfiguration.ServerBaseUrl.ToString() + "/privacy"))) });
-            this.About.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(async () => await this.Navigation.PushAsync(new About())) });
         }
 
         /// <summary>
@@ -41,9 +41,42 @@ namespace TellOP
         /// </summary>
         /// <param name="sender">The object sending the event.</param>
         /// <param name="e">The event parameters.</param>
-        private void LoginButton_Clicked(object sender, EventArgs e)
+        private async void LoginButton_Clicked(object sender, EventArgs e)
         {
-            this.Navigation.PushModalAsync(new Authentication());
+            if (await ConnectivityCheck.AskToEnableConnectivity(this))
+            {
+                await this.Navigation.PushModalAsync(new Authentication());
+            }
+        }
+
+        /// <summary>
+        /// Called when the "Sign up" link is tapped.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private void SignUp_Tapped(object sender, EventArgs e)
+        {
+            Device.OpenUri(TellOPConfiguration.SignUpUrl);
+        }
+
+        /// <summary>
+        /// Called when the "About" link is tapped.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void About_Tapped(object sender, EventArgs e)
+        {
+            await this.Navigation.PushAsync(new About());
+        }
+
+        /// <summary>
+        /// Called when the "Privacy" link is tapped.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private void Privacy_Tapped(object sender, EventArgs e)
+        {
+            Device.OpenUri(TellOPConfiguration.PrivacyUrl);
         }
     }
 }

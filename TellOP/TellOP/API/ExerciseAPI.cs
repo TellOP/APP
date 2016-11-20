@@ -20,7 +20,7 @@ namespace TellOP.Api
     using System.Net.Http;
     using System.Threading.Tasks;
     using DataModels.Activity;
-    using DataModels.APIModels.Exercise;
+    using DataModels.ApiModels.Exercise;
     using Newtonsoft.Json;
     using Xamarin.Auth;
 
@@ -78,7 +78,8 @@ namespace TellOP.Api
                     Description = resultEssay.Description,
                     MinimumWords = resultEssay.MinimumWords,
                     MaximumWords = resultEssay.MaximumWords,
-                    Contents = resultEssay.PreliminaryText,
+                    PreliminaryText = resultEssay.PreliminaryText,
+                    Contents = (resultEssay.UserActivity != null) ? ((UserActivityEssay)resultEssay.UserActivity).Text : string.Empty,
                     Featured = resultEssay.Featured,
                     Uid = resultEssay.Id,
                     Language = resultEssay.Language,
@@ -87,6 +88,19 @@ namespace TellOP.Api
                 foreach (string tag in resultEssay.Tags)
                 {
                     essay.Tags.Add(tag);
+                }
+
+                UserActivity uActivity = resultEssay.UserActivity;
+                if (uActivity != null)
+                {
+                    UserActivityEssay uActivityEss = uActivity as UserActivityEssay;
+                    if (uActivityEss != null)
+                    {
+                        if (!string.IsNullOrEmpty(uActivityEss.Text))
+                        {
+                            essay.Contents = uActivityEss.Text;
+                        }
+                    }
                 }
 
                 return essay;

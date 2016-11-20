@@ -23,7 +23,7 @@ namespace TellOP.Api
     using System.Globalization;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using DataModels.APIModels;
+    using DataModels.ApiModels;
     using DataModels.Enums;
     using Newtonsoft.Json;
     using Xamarin.Auth;

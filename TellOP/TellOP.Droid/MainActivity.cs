@@ -22,12 +22,13 @@ namespace TellOP.Droid
     using global::Android.OS;
     using HockeyApp.Android;
     using HockeyApp.Android.Metrics;
+    using Xamarin.Forms.Platform.Android;
 
     /// <summary>
     /// Creates the main activity for the application.
     /// </summary>
     [Activity(Label = "Tell-OP", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+    public class MainActivity : FormsAppCompatActivity
     {
         /// <summary>
         /// Called when the main activity is created.
@@ -37,8 +38,12 @@ namespace TellOP.Droid
         {
             base.OnCreate(bundle);
 
-            CrashManager.Register(this, TellOPDroidConfiguration.HockeyAppId);
+            // Initialize the Material Design resources
+            FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
+            FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
 
+            // Initialize the HockeyApp crash and metric manager
+            CrashManager.Register(this, TellOPDroidConfiguration.HockeyAppId);
             MetricsManager.Register(this.Application, TellOPDroidConfiguration.HockeyAppId);
 
             // Check for updates (debug builds only)

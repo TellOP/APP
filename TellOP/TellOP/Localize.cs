@@ -16,6 +16,7 @@
 
 namespace TellOP
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Reflection;
     using System.Resources;
@@ -44,6 +45,7 @@ namespace TellOP
         /// <param name="key">String key.</param>
         /// <param name="comment">String comment.</param>
         /// <returns>The localized version of the string having <paramref name="key"/> as its key.</returns>
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "comment", Justification = "A resource comment is not used in the UI")]
         public static string GetString(string key, string comment)
         {
             ResourceManager temp = new ResourceManager("TellOP.Properties.Resources", typeof(Localize).GetTypeInfo().Assembly);

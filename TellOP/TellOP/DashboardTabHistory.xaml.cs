@@ -19,6 +19,7 @@ namespace TellOP
 {
     using DataModels;
     using DataModels.Activity;
+    using Tools;
     using Xamarin.Forms;
 
     /// <summary>
@@ -48,16 +49,23 @@ namespace TellOP
         /// </summary>
         /// <param name="sender">The object sending the event.</param>
         /// <param name="e">The event parameters.</param>
-        private async void HistoryList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void HistoryList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            // If this handler is called when an item is deselected, bail out
-            if (e.SelectedItem == null)
-            {
-                return;
-            }
+            ((ListView)sender).SelectedItem = null;
+        }
 
+        /// <summary>
+        /// Called when an item in the exercise list is tapped.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void HistoryList_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
             // TODO: support dictionary searches
-            await this.Navigation.PushAsync(new EssayExerciseView((EssayExercise)e.SelectedItem));
+            if (await ConnectivityCheck.AskToEnableConnectivity(this))
+            {
+                await this.Navigation.PushAsync(new EssayExerciseView((EssayExercise)e.Item));
+            }
         }
     }
 }

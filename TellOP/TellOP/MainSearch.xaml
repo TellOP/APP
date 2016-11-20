@@ -15,33 +15,44 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </copyright>
 <author>Mattia Zago</author>
+<author>Alessandro Menti</author>
 -->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TellOP.MainSearch">
-  <ContentPage.Title>Generic Search</ContentPage.Title>
-  <ContentPage.Padding>
-    <OnPlatform x:TypeArguments="Thickness"
-                iOS="10, 20, 10, 0"
-                Android="10, 0"
-                WinPhone="10" />
-  </ContentPage.Padding>
-  <Grid VerticalOptions="StartAndExpand" HorizontalOptions="Fill">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="auto" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="auto" />
-      <RowDefinition Height="auto" />
-    </Grid.RowDefinitions>
-    
-    <ActivityIndicator x:Name="AI" Grid.Row="0" Grid.Column="0" IsRunning="false" IsVisible="false"/>
-    <SearchBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="searchBar" Placeholder="Insert the search term" HorizontalOptions="Fill" />
-
-    <ScrollView Grid.Row="1" Grid.Column="0" Padding="0" Margin="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
-      <StackLayout x:Name="MainStack" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" />
-    </ScrollView>
-    
-  </Grid>
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             xmlns:viewmodels="clr-namespace:TellOP.ViewModels;assembly=TellOP"
+             x:Class="TellOP.MainSearch"
+             Title="{local:Translate MainSearch_Title}">
+  <ContentPage.Content>
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <SearchBar Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Placeholder="{local:Translate MainSearch_EnterTerm}" HorizontalOptions="Fill" SearchButtonPressed="SearchBar_SearchButtonPressed" IsEnabled="{Binding IsSearchEnabled}" /><!-- TODO: Test this binding -->
+      <Button  Grid.Column="0" Grid.Row="1" x:Name="BTNShowStands4Stack" Text="{local:Translate SingleWordExploration_Stands4}" IsEnabled="false" />
+      <Button  Grid.Column="1" Grid.Row="1" x:Name="BTNShowCollinsStack" Text="{local:Translate SingleWordExploration_Collins}" IsEnabled="false" />
+      
+      <StackLayout x:Name="Stands4Stack" IsVisible="false" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+        <Label Text="{local:Translate Search_TabError}" IsVisible="{Binding SearchResultsStands4.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+        <ListView x:Name="SearchListStands4" HasUnevenRows="true" ItemsSource="{Binding SearchResultsStands4.Result}" Margin="5" IsVisible="{Binding SearchResultsStands4.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
+        <RelativeLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsCollins.IsNotCompleted}">
+          <ActivityIndicator IsVisible="{Binding SearchResultsStands4.IsNotCompleted}" IsRunning="{Binding SearchResultsStands4.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+        </RelativeLayout>
+      </StackLayout>
+      
+      <StackLayout x:Name="CollinsStack" IsVisible="false" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+        <Label Text="{local:Translate Search_TabError}" IsVisible="{Binding SearchResultsCollins.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+        <ListView x:Name="SearchListCollins" HasUnevenRows="true" ItemsSource="{Binding SearchResultsCollins.Result}" Margin="5" IsVisible="{Binding SearchResultsCollins.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
+        <RelativeLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsCollins.IsNotCompleted}">
+          <ActivityIndicator IsVisible="{Binding SearchResultsCollins.IsNotCompleted}" IsRunning="{Binding SearchResultsCollins.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+        </RelativeLayout>
+      </StackLayout>
+    </Grid>
+  </ContentPage.Content>
 </ContentPage>

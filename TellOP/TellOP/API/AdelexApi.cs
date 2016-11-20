@@ -19,7 +19,7 @@ namespace TellOP.Api
     using System;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using DataModels.APIModels.Adelex;
+    using DataModels.ApiModels.Adelex;
     using Newtonsoft.Json;
     using Xamarin.Auth;
 

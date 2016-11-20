@@ -29,8 +29,8 @@ namespace TellOP.DataModels.Activity
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // This null check is required (for unknown reasons, the first
-            // value to be converted is null).
+            // This null check is required (since this converter might be bound to a lazily-initialized property, the
+            // first value to be converted might be null).
             if (value == null)
             {
                 return null;

@@ -32,7 +32,7 @@ namespace TellOP.DataModels
         /// <summary>
         /// Gets or sets the dictionary to be used for data conversion.
         /// </summary>
-        public Dictionary<TKey, TValue> ConverterDictionary { get; set; }
+        public Dictionary<TKey, TValue> ConverterDictionary { get; protected set; }
 
         /// <summary>
         /// Converts a value of type <typeparamref name="TKey"/> to the corresponding value of type

@@ -18,15 +18,15 @@ namespace TellOP
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Api;
-    using DataModels;
     using DataModels.Activity;
-    using DataModels.APIModels.Exercise;
+    using DataModels.ApiModels.Exercise;
     using DataModels.Enums;
-    using DataModels.SQLiteModels;
+    using Tools;
     using Xamarin.Forms;
 
     /// <summary>
@@ -34,6 +34,8 @@ namespace TellOP
     /// </summary>
     public partial class EssayExerciseView : ContentPage
     {
+        // TODO: the routines here should be made async and the code should be moved to a ViewModel where appropriate.
+
         /// <summary>
         /// EssayExercise object
         /// </summary>
@@ -48,25 +50,25 @@ namespace TellOP
         {
             if (essay == null)
             {
-                throw new ArgumentNullException("ex");
+                throw new ArgumentNullException("essay");
             }
 
             this.InitializeComponent();
 
+            this.SizeChanged += this.EssayExerciseView_SizeChanged;
+
             this.FillData(essay);
 
-            this.searchButton.Icon = "toolbar_search.png";
-            this.analysisButton.Icon = "toolbar_analysis.png";
-
-            this.imgReloadVerbs.Source = "toolbar_refresh.png";
-
-            this.analysisButton.Clicked += this.AnalysisButton_Clicked;
-            this.searchButton.Clicked += this.SearchButton_Clicked;
-            this.submitButton.Clicked += this.SubmitButton_Clicked;
-            this.saveButton.Clicked += this.SaveButton_Clicked;
-            this.loadButton.Clicked += this.LoadButton_Clicked;
+            this.imgReloadVerbs.GestureRecognizers.Add(new TapGestureRecognizer() { Command = new Command(() => this.AnalysisButton_Clicked(this.imgReloadVerbs, null)) });
+            this.imgReloadNouns.GestureRecognizers.Add(new TapGestureRecognizer() { Command = new Command(() => this.AnalysisButton_Clicked(this.imgReloadNouns, null)) });
+            this.imgReloadAdjective.GestureRecognizers.Add(new TapGestureRecognizer() { Command = new Command(() => this.AnalysisButton_Clicked(this.imgReloadAdjective, null)) });
+            this.imgReloadAdverbs.GestureRecognizers.Add(new TapGestureRecognizer() { Command = new Command(() => this.AnalysisButton_Clicked(this.imgReloadAdverbs, null)) });
+            this.imgReloadPreposition.GestureRecognizers.Add(new TapGestureRecognizer() { Command = new Command(() => this.AnalysisButton_Clicked(this.imgReloadPreposition, null)) });
+            this.imgReloadUnclassified.GestureRecognizers.Add(new TapGestureRecognizer() { Command = new Command(() => this.AnalysisButton_Clicked(this.imgReloadUnclassified, null)) });
 
             this._changeActivityIndicatorsStatus(false);
+
+            this.ShowRefTextButton_Clicked(null, null);
         }
 
         /// <summary>
@@ -98,7 +100,7 @@ namespace TellOP
         /// </summary>
         public string ExTypeOfExercise
         {
-            get { return string.Empty; /* FIXME this.ex.ToNiceString(); */ }
+            get { return Properties.Resources.Exercise_EssayName; }
         }
 
         /// <summary>
@@ -147,35 +149,158 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Event handler
+        /// Gets the exercise status.
         /// </summary>
-        /// <param name="sender">Sender param</param>
-        /// <param name="e">evet param</param>
-        private async void LoadButton_Clicked(object sender, EventArgs e)
+        public ExerciseStatus ExStatus
         {
-            try
+            get
             {
-                ExerciseApi exAPI = new ExerciseApi(App.OAuth2Account, this.ex.Uid);
-                Exercise result = await exAPI.CallEndpointAsExerciseModel();
-                if (!(result is EssayExercise))
-                {
-                    throw new NotImplementedException(Properties.Resources.EssayExerciseViewExerciseTypeNotSupported);
-                }
+                return this.ex.Status;
+            }
+        }
 
-                await this.FillData((EssayExercise)result);
-            }
-            catch (NotImplementedException ex)
+        /// <summary>
+        /// Handle the sizechanged event. Specifically detect if the device has changed orientation.
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arg.</param>
+        private void EssayExerciseView_SizeChanged(object sender, EventArgs e)
+        {
+            bool isPortrait = this.Height > this.Width;
+
+            if (isPortrait)
             {
-                // This shouldn't happen
-                await Tools.Logger.LogWithErrorMessage(this, "LoadButton_Clicked - This shouln't happen!", ex);
+                this.MainGrid.Children.Clear();
+
+                this.MainGrid.RowDefinitions = new RowDefinitionCollection()
+                {
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(20, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) } },
+                };
+
+                this.MainGrid.ColumnDefinitions = new ColumnDefinitionCollection()
+                {
+                    { new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) } },
+                    { new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) } },
+                    { new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) } },
+                    { new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) } },
+                };
+
+                this.MainGrid.Children.Add(this.ExTitleLabel, 0, 0);
+                Grid.SetColumnSpan(this.ExTitleLabel, 4);
+
+                this.MainGrid.Children.Add(this.ExDescriptionLabel, 0, 1);
+                Grid.SetColumnSpan(this.ExDescriptionLabel, 3);
+
+                this.MainGrid.Children.Add(this.ExCountLabel, 3, 1);
+
+                this.MainGrid.Children.Add(this.ExContentEditor, 0, 2);
+                Grid.SetColumnSpan(this.ExContentEditor, 4);
+
+                this.MainGrid.Children.Add(this.statVerbsLabel, 0, 3);
+                this.MainGrid.Children.Add(this.statVerbs, 0, 4);
+                this.MainGrid.Children.Add(this.aiVerbs, 0, 4);
+                this.MainGrid.Children.Add(this.imgReloadVerbs, 0, 4);
+
+                this.MainGrid.Children.Add(this.statNounsLabel, 1, 3);
+                this.MainGrid.Children.Add(this.statNouns, 1, 4);
+                this.MainGrid.Children.Add(this.aiNouns, 1, 4);
+                this.MainGrid.Children.Add(this.imgReloadNouns, 1, 4);
+
+                this.MainGrid.Children.Add(this.statAdverbsLabel, 2, 3);
+                this.MainGrid.Children.Add(this.statAdverbs, 2, 4);
+                this.MainGrid.Children.Add(this.aiAdverbs, 2, 4);
+                this.MainGrid.Children.Add(this.imgReloadAdverbs, 2, 4);
+
+                this.MainGrid.Children.Add(this.statAdjectiveLabel, 3, 3);
+                this.MainGrid.Children.Add(this.statAdjective, 3, 4);
+                this.MainGrid.Children.Add(this.aiAdjective, 3, 4);
+                this.MainGrid.Children.Add(this.imgReloadAdjective, 3, 4);
+
+                this.statPreposition.IsVisible = false;
+                this.statPrepositionLabel.IsVisible = false;
+                this.aiPreposition.IsVisible = false;
+                this.imgReloadPreposition.IsVisible = false;
+
+                this.statUnclassified.IsVisible = false;
+                this.statUnclassifiedLabel.IsVisible = false;
+                this.aiUnclassified.IsVisible = false;
+                this.imgReloadUnclassified.IsVisible = false;
             }
-            catch (UnsuccessfulApiCallException ex)
+            else
             {
-                Tools.Logger.Log(this.GetType().ToString(), "LoadButton_Clicked method", ex);
-            }
-            catch (Exception ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "LoadButton_Clicked method", ex);
+                this.MainGrid.Children.Clear();
+
+                this.MainGrid.RowDefinitions = new RowDefinitionCollection()
+                {
+                    { new RowDefinition() { Height = new GridLength(3, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(3, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                    { new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) } },
+                };
+
+                this.MainGrid.ColumnDefinitions = new ColumnDefinitionCollection()
+                {
+                    { new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) } },
+                    { new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) } },
+                    { new ColumnDefinition() { Width = new GridLength(3, GridUnitType.Star) } },
+                    { new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) } },
+                };
+
+                this.MainGrid.Children.Add(this.ExTitleLabel, 0, 0);
+                Grid.SetColumnSpan(this.ExTitleLabel, 3);
+
+                this.MainGrid.Children.Add(this.ExDescriptionLabel, 0, 1);
+                Grid.SetColumnSpan(this.ExDescriptionLabel, 2);
+
+                this.MainGrid.Children.Add(this.ExCountLabel, 3, 0);
+
+                this.MainGrid.Children.Add(this.ExContentEditor, 2, 1);
+                Grid.SetRowSpan(this.ExContentEditor, 8);
+                Grid.SetColumnSpan(this.ExContentEditor, 2);
+
+                this.MainGrid.Children.Add(this.statVerbsLabel, 0, 2);
+                this.MainGrid.Children.Add(this.statVerbs, 0, 3);
+                this.MainGrid.Children.Add(this.aiVerbs, 0, 3);
+                this.MainGrid.Children.Add(this.imgReloadVerbs, 0, 3);
+
+                this.MainGrid.Children.Add(this.statNounsLabel, 0, 4);
+                this.MainGrid.Children.Add(this.statNouns, 0, 5);
+                this.MainGrid.Children.Add(this.aiNouns, 0, 5);
+                this.MainGrid.Children.Add(this.imgReloadNouns, 0, 5);
+
+                this.MainGrid.Children.Add(this.statPrepositionLabel, 0, 6);
+                this.MainGrid.Children.Add(this.statPreposition, 0, 7);
+                this.MainGrid.Children.Add(this.aiPreposition, 0, 7);
+                this.MainGrid.Children.Add(this.imgReloadPreposition, 0, 7);
+
+                this.MainGrid.Children.Add(this.statAdverbsLabel, 1, 2);
+                this.MainGrid.Children.Add(this.statAdverbs, 1, 3);
+                this.MainGrid.Children.Add(this.aiAdverbs, 1, 3);
+                this.MainGrid.Children.Add(this.imgReloadAdverbs, 1, 3);
+
+                this.MainGrid.Children.Add(this.statAdjectiveLabel, 1, 4);
+                this.MainGrid.Children.Add(this.statAdjective, 1, 5);
+                this.MainGrid.Children.Add(this.aiAdjective, 1, 5);
+                this.MainGrid.Children.Add(this.imgReloadAdjective, 1, 5);
+
+                this.MainGrid.Children.Add(this.statUnclassifiedLabel, 1, 6);
+                this.MainGrid.Children.Add(this.statUnclassified, 1, 7);
+                this.MainGrid.Children.Add(this.aiUnclassified, 1, 7);
+                this.MainGrid.Children.Add(this.imgReloadUnclassified, 1, 7);
+
+                this.statPreposition.IsVisible = true;
+                this.statPrepositionLabel.IsVisible = true;
+
+                this.statUnclassified.IsVisible = true;
+                this.statUnclassifiedLabel.IsVisible = true;
             }
         }
 
@@ -184,37 +309,53 @@ namespace TellOP
         /// </summary>
         /// <param name="sender">Sender param</param>
         /// <param name="e">evet param</param>
-        private async void SaveButton_Clicked(object sender, EventArgs e)
+        private async void ShowRefTextButton_Clicked(object sender, EventArgs e)
         {
-            bool userChoice = await this.DisplayAlert(
-                Properties.Resources.ButtonSave,
-                Properties.Resources.UserMessageSaveAndOverrideQuestion,
-                Properties.Resources.ButtonSaveAndOverride,
-                Properties.Resources.ButtonCancel);
-            if (userChoice)
+            string messageText;
+            if (string.IsNullOrEmpty(this.ex.PreliminaryText))
+            {
+                messageText = string.Format(CultureInfo.CurrentUICulture, Properties.Resources.Exercise_ExerciseSpecificationsText_WithoutReferenceText, this.ex.Description);
+            }
+            else
+            {
+                messageText = string.Format(CultureInfo.CurrentUICulture, Properties.Resources.Exercise_ExerciseSpecificationsText_WithReferenceText, this.ex.Description, this.ex.PreliminaryText);
+            }
+
+            await this.DisplayAlert(Properties.Resources.Exercise_ExerciseSpecifications, messageText, Properties.Resources.ButtonHide);
+        }
+
+        /// <summary>
+        /// Event handler
+        /// </summary>
+        /// <param name="sender">Sender param</param>
+        /// <param name="e">evet param</param>
+        private async void LoadButton_Clicked(object sender, EventArgs e)
+        {
+            if (!await ConnectivityCheck.AskToEnableConnectivity(this))
             {
                 try
                 {
-                    // Save the current status
-                    await this.AnalyzeText();
+                    ExerciseApi exAPI = new ExerciseApi(App.OAuth2Account, this.ex.Uid);
+                    Exercise result = await exAPI.CallEndpointAsExerciseModel();
+                    if (!(result is EssayExercise))
+                    {
+                        throw new NotImplementedException(Properties.Resources.EssayExerciseViewExerciseTypeNotSupported);
+                    }
 
-                    ExerciseSubmissionApi exSubAPI = new ExerciseSubmissionApi(
-                        App.OAuth2Account,
-                        new UserActivityEssay() { ActivityId = this.ex.Uid, Text = this.ex.Contents });
-
-                    await exSubAPI.CallEndpointAsync();
+                    await this.FillData((EssayExercise)result);
                 }
-                catch (OperationCanceledException ex)
+                catch (NotImplementedException ex)
                 {
-                    await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewSaveExceptionOpCanceled, ex);
+                    // This shouldn't happen
+                    await Tools.Logger.LogWithErrorMessage(this, "LoadButton_Clicked - This shouln't happen!", ex);
                 }
                 catch (UnsuccessfulApiCallException ex)
                 {
-                    await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewSaveExceptionAPI, ex);
+                    Tools.Logger.Log(this.GetType().ToString(), "LoadButton_Clicked method", ex);
                 }
                 catch (Exception ex)
                 {
-                    await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewSaveExceptionUnknown, ex);
+                    Tools.Logger.Log(this.GetType().ToString(), "LoadButton_Clicked method", ex);
                 }
             }
         }
@@ -228,16 +369,15 @@ namespace TellOP
         {
             int count = Regex.Matches(this.ExContentEditor.Text, "\\w+").Cast<Match>().Select(match => match.Value).Count();
             double value = (count - this.ex.MinimumWords) / (double)this.ex.MaximumWords;
+            this.ExCountLabel.Text = string.Format(System.Globalization.CultureInfo.CurrentUICulture, Properties.Resources.EssayExerciseViewCountLabelText, count, this.ex.MaximumWords);
 
             if (value <= 0 || value >= 1)
             {
                 this.ex.Status = ExerciseStatus.NotCompleted;
-                // FIXME this.ProgressBar.BackgroundColor = ExerciseStatus.NotCompleted.ToColor();
             }
             else
             {
                 this.ex.Status = ExerciseStatus.Satisfactory;
-                // FIXME this.ProgressBar.BackgroundColor = ExerciseStatus.Satisfactory.ToColor();
             }
 
             if (value < 0)
@@ -247,10 +387,8 @@ namespace TellOP
 
             if (value > 1)
             {
-                value = 1;
+                value = 1d;
             }
-
-            this.ProgressBar.Progress = value;
 
             this.ex.Contents = this.ExContentEditor.Text;
         }
@@ -267,9 +405,8 @@ namespace TellOP
             this.Title = this.ExTypeOfExercise + " " + this.ExLevel;
             this.ExTitleLabel.Text = this.ExTitle;
             this.ExDescriptionLabel.Text = string.Format(Properties.Resources.EssayExercise_MinMaxWords, this.ex.MinimumWords, this.ex.MaximumWords);
-            this.ExContentEditor.Text = this.ExContent;
 
-            // FIXME this.ProgressBar.BackgroundColor = this.ex.StatusColor;
+            this.ExContentEditor.Text = this.ExContent;
 
             this.ExContentEditor.TextChanged += this.ExContentEditor_TextChanged;
 
@@ -285,6 +422,13 @@ namespace TellOP
                     Tools.Logger.Log(this.GetType().ToString(), ex);
                 }
             }
+            else
+            {
+                this.ExCountLabel.Text = string.Format(Properties.Resources.EssayExerciseViewCountLabelText, 0, this.ex.MaximumWords);
+            }
+
+            // Force relayout
+            this.EssayExerciseView_SizeChanged(null, null);
         }
 
         /// <summary>
@@ -294,7 +438,7 @@ namespace TellOP
         /// <param name="e">EventArgs param</param>
         private async void SearchButton_Clicked(object sender, EventArgs e)
         {
-            await this.Navigation.PushModalAsync(new MainSearch());
+            await this.Navigation.PushAsync(new MainSearch());
         }
 
         /// <summary>
@@ -310,7 +454,7 @@ namespace TellOP
             }
             catch (OperationCanceledException ex)
             {
-                await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewAnalysisAborted, ex);
+                await Tools.Logger.LogWithErrorMessage(this, ex.Message, ex);
             }
         }
 
@@ -318,14 +462,27 @@ namespace TellOP
         {
             try
             {
+                int numWords = Regex.Matches(this.ExContentEditor.Text, "\\w+").Cast<Match>().Select(m => m.Value).Count();
+
+                this.ExCountLabel.Text = string.Format(Properties.Resources.EssayExerciseViewCountLabelText, numWords, this.ex.MaximumWords);
+
+                if (numWords < this.ex.MinimumWords)
+                {
+                    throw new OperationCanceledException(string.Format(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShortForSubmission, this.ex.MinimumWords, numWords));
+                }
+                else if (numWords > this.ex.MaximumWords)
+                {
+                    throw new OperationCanceledException(string.Format(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooLongForSubmission, this.ex.MaximumWords, numWords));
+                }
+
                 await this.AnalyzeText();
+                await this.SaveText();
+                await this.Navigation.PushAsync(new ExerciseAnalysis(this.ex));
             }
             catch (OperationCanceledException ex)
             {
-                await Tools.Logger.LogWithErrorMessage(this, Properties.Resources.EssayExerciseViewAnalysisAborted, ex);
+                await Tools.Logger.LogWithErrorMessage(this, ex.Message, ex);
             }
-
-            this.Navigation.PushAsync(new ExerciseAnalysis(this.ex));
         }
 
         /// <summary>
@@ -350,11 +507,13 @@ namespace TellOP
             this.aiVerbs.IsRunning = activate;
             this.statVerbs.IsVisible = !activate;
 
-            /*
-            this.aiUnknown.IsVisible = activate;
-            this.aiUnknown.IsRunning = activate;
-            this.statUnknown.IsVisible = !activate;
-            */
+            this.aiPreposition.IsVisible = activate;
+            this.aiPreposition.IsRunning = activate;
+            this.statPreposition.IsVisible = !activate;
+
+            this.aiUnclassified.IsVisible = activate;
+            this.aiUnclassified.IsRunning = activate;
+            this.statUnclassified.IsVisible = !activate;
         }
 
         /// <summary>
@@ -363,22 +522,31 @@ namespace TellOP
         /// <returns>True if the operation is completed correctly</returns>
         private async Task AnalyzeText()
         {
-            if (Regex.Matches(this.ExContentEditor.Text, "\\w+").Cast<Match>().Select(m => m.Value).Count() <= this.ex.MinimumWords * 2 / 3)
+            if (string.IsNullOrWhiteSpace(this.ExContentEditor.Text))
             {
-                throw new OperationCanceledException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShort);
+                throw new AnalysisAbortedOutOfBoundsException(string.Format(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShort, this.ex.MinimumWords, 0));
+            }
+
+            int numWords = this.GetNumWords();
+
+            this.ExCountLabel.Text = string.Format(Properties.Resources.EssayExerciseViewCountLabelText, numWords, this.ex.MaximumWords);
+
+            if (numWords <= this.ex.MinimumWords * 2 / 3)
+            {
+                throw new AnalysisAbortedOutOfBoundsException(string.Format(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShort, this.ex.MinimumWords, numWords));
             }
 
             if (this._isAnotherAnalysisRunning)
             {
-                throw new OperationCanceledException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning);
-            }
-
-            if (string.IsNullOrWhiteSpace(this.ExContentEditor.Text))
-            {
-                throw new OperationCanceledException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionTextTooShort);
+                throw new AnalysisAbortedException(Properties.Resources.EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning);
             }
 
             this.imgReloadVerbs.IsVisible = false;
+            this.imgReloadNouns.IsVisible = false;
+            this.imgReloadAdverbs.IsVisible = false;
+            this.imgReloadAdjective.IsVisible = false;
+            this.imgReloadPreposition.IsVisible = false;
+            this.imgReloadUnclassified.IsVisible = false;
 
             if (this.ExContentEditor.Text.Contains("’"))
             {
@@ -423,10 +591,12 @@ namespace TellOP
 
             try
             {
-                this.statNouns.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.CommonNoun, PartOfSpeech.ProperNoun }));
+                this.statNouns.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.CommonNoun, PartOfSpeech.ProperNoun, PartOfSpeech.PartOfProperNoun }));
                 this.statAdverbs.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adverb }));
                 this.statAdjective.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Adjective }));
-                this.statVerbs.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Verb, PartOfSpeech.ModalVerb }));
+                this.statVerbs.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Verb, PartOfSpeech.ModalVerb, PartOfSpeech.AuxiliaryVerb }));
+                this.statPreposition.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Preposition }));
+                this.statUnclassified.Text = string.Format("{0:P0}", await this.ex.GetNumWordsPercentage(new List<PartOfSpeech> { PartOfSpeech.Unclassified }));
 
                 this._changeActivityIndicatorsStatus(false);
 
@@ -452,6 +622,36 @@ namespace TellOP
                     this._changeActivityIndicatorsStatus(false);
                 }
             }
+        }
+
+        private async Task SaveText()
+        {
+            try
+            {
+                int numWords = this.GetNumWords();
+
+                // If the text is within the min/max word limits, submit it to the server
+                if (numWords >= this.ex.MinimumWords && numWords <= this.ex.MaximumWords)
+                {
+                    UserActivityEssay essayActivity = new UserActivityEssay();
+                    essayActivity.ActivityId = this.ex.Uid;
+                    essayActivity.Text = this.ExContentEditor.Text;
+                    ExerciseSubmissionApi submissionEndpoint = new ExerciseSubmissionApi(App.OAuth2Account, essayActivity);
+                    await submissionEndpoint.CallEndpointAsync();
+                }
+            }
+            catch (Exception)
+            {
+                if (await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.EssayExerciseViewSaveExceptionAPI, Properties.Resources.ButtonRetry, Properties.Resources.ButtonCancel))
+                {
+                    await this.SaveText();
+                }
+            }
+        }
+
+        private int GetNumWords()
+        {
+            return Regex.Matches(this.ExContentEditor.Text, "\\w+").Cast<Match>().Select(m => m.Value).Count();
         }
     }
 }

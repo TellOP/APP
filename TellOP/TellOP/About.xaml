@@ -27,7 +27,7 @@ limitations under the License.
   <ContentPage.Content>
     <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
       <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
-        <Image VerticalOptions="Start" HeightRequest="200" HorizontalOptions="Center" Source="LOGO_black.png" />
+        <Image VerticalOptions="Start" HeightRequest="200" HorizontalOptions="Center" Source="Logo.png" />
         <Label x:Name="VersionLabel" HorizontalOptions="Start" VerticalOptions="Start" Margin="5" FontAttributes="Bold" />
         <Label HorizontalOptions="Start" VerticalOptions="Start" Margin="5" Text="{local:Translate About_CopyrightNotice}" />
         <Button x:Name="ThirdPartyLicensesButton" HorizontalOptions="Center" VerticalOptions="Start" Clicked="ThirdPartyLicensesButton_Clicked" Text="{local:Translate About_ThirdPartyLicenses}" />

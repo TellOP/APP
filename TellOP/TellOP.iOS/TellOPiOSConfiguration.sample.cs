@@ -26,14 +26,14 @@ namespace TellOP.iOS
         /// <summary>
         /// The application ID for the HockeyApp service.
         /// </summary>
-        internal const string HockeyAppId = "cbcccbfe5e014a73ba42edac352905eb";
+        internal const string HockeyAppId = string.Empty;
 
         // TODO: fill in the following field with the HockeyApp secret.
 
         /// <summary>
         /// The secret for the HockeyApp service.
         /// </summary>
-        internal const string HockeyAppSecret = "";
+        internal const string HockeyAppSecret = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TellOPiOSConfiguration"/> class.

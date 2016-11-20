@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Exercise
+namespace TellOP.DataModels.ApiModels.Exercise
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -32,10 +32,21 @@ namespace TellOP.DataModels.APIModels.Exercise
         public new const string ActivityType = "ESSAY";
 
         /// <summary>
+        /// Gets or sets the user instructions ("preliminary text") for this essay.
+        /// </summary>
+        private string _preliminaryText;
+
+        /// <summary>
         /// Gets or sets the title of the essay.
         /// </summary>
         [JsonProperty("title")]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference text for this essay.
+        /// </summary>
+        [JsonProperty("reftext")]
+        public string RefText { get; set; }
 
         /// <summary>
         /// Gets or sets the description for this essay.
@@ -66,6 +77,24 @@ namespace TellOP.DataModels.APIModels.Exercise
         /// Gets or sets the user instructions ("preliminary text") for this essay.
         /// </summary>
         [JsonProperty("text")]
-        public string PreliminaryText { get; set; }
+        public string PreliminaryText
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this._preliminaryText))
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return this._preliminaryText;
+                }
+            }
+
+            set
+            {
+                this._preliminaryText = value;
+            }
+        }
     }
 }

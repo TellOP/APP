@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels
+namespace TellOP.DataModels.ApiModels
 {
     using System;
     using Enums;
@@ -32,7 +32,6 @@ namespace TellOP.DataModels.APIModels
         /// <returns><c>true</c> if <paramref name="objectType"/> is a string, <c>false</c> otherwise.</returns>
         public override bool CanConvert(Type objectType)
         {
-            // TODO: check if this is correct
             return objectType == typeof(ExerciseStatus);
         }
 

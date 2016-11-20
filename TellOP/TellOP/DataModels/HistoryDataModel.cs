@@ -20,11 +20,12 @@ namespace TellOP.DataModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Activity;
     using Api;
-    using APIModels;
-    using APIModels.Exercise;
+    using ApiModels;
+    using ApiModels.Exercise;
     using Nito.AsyncEx;
 
     /// <summary>
@@ -58,6 +59,7 @@ namespace TellOP.DataModels
         /// <summary>
         /// Gets a read-only list containing the exercise history.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a grouping as it is needed by the ListView")]
         public INotifyTaskCompletion<ReadOnlyObservableCollection<Exercise>> ExerciseHistory
         {
             get

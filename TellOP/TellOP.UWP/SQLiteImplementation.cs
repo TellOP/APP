@@ -19,7 +19,6 @@
 namespace TellOP.UWP
 {
     using System.IO;
-    using SQLite;
 
     /// <summary>
     /// A UWP implementation of the <see cref="ISQLite"/> interface.
@@ -28,14 +27,13 @@ namespace TellOP.UWP
     {
         /// <summary>
         /// Gets a SQLite database connection given a database name. The database will be loaded from the application's
-        /// assets.
+        /// assets (and copied in an accessible position if necessary).
         /// </summary>
         /// <param name="databaseName">The database file name.</param>
-        /// <param name="openFlags">The flags to be used while opening the database.</param>
-        /// <returns>A <see cref="SQLiteConnection"/> object containing the required connection.</returns>
-        public SQLiteConnection GetConnection(string databaseName, SQLiteOpenFlags openFlags)
+        /// <returns>The required connection string.</returns>
+        public string GetConnectionString(string databaseName)
         {
-            return new SQLiteConnection(Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, databaseName), openFlags);
+            return Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, databaseName);
         }
     }
 }

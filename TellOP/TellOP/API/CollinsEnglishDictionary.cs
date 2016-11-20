@@ -17,9 +17,11 @@
 namespace TellOP.Api
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using DataModels.APIModels.Collins;
+    using DataModels.ApiModels.Collins;
     using Newtonsoft.Json;
     using Xamarin.Auth;
 
@@ -58,6 +60,28 @@ namespace TellOP.Api
         public async Task<CollinsJsonEnglishDictionary> CallEndpointAsObjectAsync()
         {
             return JsonConvert.DeserializeObject<CollinsJsonEnglishDictionary>(await this.CallEndpointAsync().ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Call the API endpoint and return a list of words.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> object having as result an <see cref="IList{CollinsWord}"/> which, in turn,
+        /// contains the list of words found during the search.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
+        public async Task<IList<CollinsWord>> CallEndpointAsCollinsWord()
+        {
+            CollinsJsonEnglishDictionary apiResult = await this.CallEndpointAsObjectAsync().ConfigureAwait(false);
+
+            // TODO: we assume that the first definition is the right one
+            if (apiResult.Results.Count > 0)
+            {
+                CollinsEnglishDictionaryGetEntry entryEndpoint = new CollinsEnglishDictionaryGetEntry(this.OAuthAccount, apiResult.Results[0].EntryId);
+                return await entryEndpoint.CallEndpointAsCollinsWord().ConfigureAwait(false);
+            }
+            else
+            {
+                return new List<CollinsWord>();
+            }
         }
     }
 }

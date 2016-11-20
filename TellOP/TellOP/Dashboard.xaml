@@ -23,11 +23,11 @@ limitations under the License.
             x:Class="TellOP.Dashboard"
             Title="{local:Translate Dashboard_Title}">
   <TabbedPage.Padding>
-    <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" WinPhone="10, 0" />
+    <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="0, 0" WinPhone="10, 0" />
   </TabbedPage.Padding>
   <TabbedPage.ToolbarItems>
-    <ToolbarItem x:Name="refreshButton" Text="{local:Translate ButtonRefresh}" Icon="toolbar_refresh.png" Order="Primary" Clicked="RefreshButton_Clicked" />
-    <ToolbarItem x:Name="searchButton" Text="{local:Translate ButtonSearch}" Icon="toolbar_search.png" Order="Primary" Clicked="SearchButton_Clicked" />
+    <ToolbarItem x:Name="refreshButton" Text="{local:Translate ButtonRefresh}" Icon="Toolbar_Refresh.png" Order="Primary" Clicked="RefreshButton_Clicked" />
+    <ToolbarItem x:Name="searchButton" Text="{local:Translate ButtonSearch}" Icon="Toolbar_Search.png" Order="Primary" Clicked="SearchButton_Clicked" />
     <ToolbarItem x:Name="profileButton" Text="{local:Translate ButtonProfile}" Order="Secondary" Clicked="ProfileButton_Clicked" />
     <ToolbarItem x:Name="settingsButton" Text="{local:Translate ButtonSettings}" Order="Secondary" Clicked="SettingsButton_Clicked" />
   </TabbedPage.ToolbarItems>

@@ -18,6 +18,7 @@ namespace TellOP.DataModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A class containing some utilities for managing word search results.
@@ -39,6 +40,7 @@ namespace TellOP.DataModels
         /// <exception cref="ArgumentNullException">Thrown in case <paramref name="wordList"/> is
         /// <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown in case <paramref name="wordList"/> is empty.</exception>
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", MessageId = "TellOP.Tools.Logger.Log(System.String,System.String)", Justification = "This affects only log strings which must not be localized")]
         public static IWord GetMostProbable(IList<IWord> wordList)
         {
             if (wordList == null)

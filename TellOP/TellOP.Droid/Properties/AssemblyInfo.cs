@@ -33,9 +33,17 @@ using Xamarin.Forms.Xaml;
 [assembly: AssemblyVersion("0.1.*")]
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
+// Disable debugging on release builds
+#if DEBUG
+[assembly: Application(Debuggable = true)]
+#else
+[assembly: Application(Debuggable = false)]
+#endif
+
 // Android permissions
+[assembly: UsesPermission(Android.Manifest.Permission.AccessNetworkState)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessWifiState)]
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
-[assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
 [assembly: UsesFeature("android.hardware.wifi", Required = false)]
 
 // The HockeyApp API 2 key

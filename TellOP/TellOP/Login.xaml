@@ -28,7 +28,7 @@ limitations under the License.
   <ContentPage.Content>
     <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
       <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-        <Image VerticalOptions="Center" HeightRequest="200" HorizontalOptions="Center" Source="LOGO_black.png" />
+        <Image VerticalOptions="Center" HeightRequest="200" HorizontalOptions="Center" Source="Logo.png" />
         <StackLayout Margin="5,15,5,5">
           <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
             <Button Text="{local:Translate Login_LoginButton}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Clicked="LoginButton_Clicked" />
@@ -37,9 +37,21 @@ limitations under the License.
         <StackLayout Margin="5,15,5,5" HorizontalOptions="Center">
           <Label HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Margin="15" Text="{local:Translate Login_Or}" />
           <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
-            <Label x:Name="SignUp" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_SignUpLabel}" />
-            <Label x:Name="About" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_AboutLabel}" />
-            <Label x:Name="Privacy" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_PrivacyLabel}" />
+            <Label HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_SignUpLabel}">
+              <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="SignUp_Tapped" />
+              </Label.GestureRecognizers>
+            </Label>
+            <Label HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_AboutLabel}">
+              <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="About_Tapped" />
+              </Label.GestureRecognizers>
+            </Label>
+            <Label HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_PrivacyLabel}">
+              <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Privacy_Tapped" />
+              </Label.GestureRecognizers>
+            </Label>
           </StackLayout>
         </StackLayout>
       </StackLayout>

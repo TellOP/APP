@@ -34,18 +34,11 @@ namespace TellOP
             this.InitializeComponent();
 
             string noticeText = string.Empty;
-            try
-            {
                 Stream noticeStream = typeof(About).GetTypeInfo().Assembly.GetManifestResourceStream("TellOP.NOTICE.html");
                 using (var reader = new StreamReader(noticeStream))
                 {
                     noticeText = reader.ReadToEnd();
                 }
-            }
-            catch (Exception)
-            {
-                noticeText = Properties.Resources.About_ThirdPartyLicenses_UnableToLoad;
-            }
 
             HtmlWebViewSource noticeHTML = new HtmlWebViewSource();
             noticeHTML.Html = noticeText;

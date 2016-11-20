@@ -24,20 +24,15 @@ limitations under the License.
              xmlns:datamodels="clr-namespace:TellOP.DataModels;assembly=TellOP"
              xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
              x:Class="TellOP.DashboardTabFeatured"
-             Title="{local:Translate Dashboard_TabFeatured}"
-             Icon="TAB_Featured.png">
+             Title="{local:Translate Dashboard_TabFeatured}">
   <ContentPage.Content>
     <Grid>
       <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
         <Label Text="{local:Translate Dashboard_TabError}" IsVisible="{Binding FeaturedExercises.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-        <ListView HasUnevenRows="true" IsGroupingEnabled="True" ItemsSource="{Binding FeaturedExercises.Result}" GroupDisplayBinding="{Binding GroupName}" GroupShortNameBinding="{Binding GroupShortName}" Header="{Binding FeaturedExercises.Result.Count}" Footer="{Binding AppTip.Result.Text}" Margin="5" IsVisible="{Binding FeaturedExercises.IsCompleted}" ItemSelected="ExerciseList_ItemSelected">
+        <ListView HasUnevenRows="true" IsGroupingEnabled="True" ItemsSource="{Binding FeaturedExercises.Result}" GroupDisplayBinding="{Binding GroupName}" GroupShortNameBinding="{Binding GroupShortName}" Header="{Binding FeaturedExercises.Result.Count}" Footer="{Binding AppTip.Result.Text}" Margin="5" IsVisible="{Binding FeaturedExercises.IsCompleted}" ItemTapped="ExerciseList_ItemTapped" ItemSelected="ExerciseList_ItemSelected">
           <ListView.ItemTemplate>
             <DataTemplate>
               <ViewCell>
-                <ViewCell.ContextActions>
-                  <MenuItem Text="{local:Translate ButtonOpen}"  />
-                  <MenuItem Text="{local:Translate ButtonDelete}" IsDestructive="True" />
-                </ViewCell.ContextActions>
                 <ContentView Margin="0,2,0,2">
                   <Grid Padding="0" BackgroundColor="{Binding Level, Converter={enums:LanguageLevelClassificationToColorConverter}}">
                     <Grid.ColumnDefinitions>

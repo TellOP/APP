@@ -28,3 +28,6 @@ TellOP/TellOP.UWP/TellOP.iOS.csproj.user
 TellOP/TellOP.UWP/*.lock.json
 TellOP/TellOP.UWP/*.nuget.props
 TellOP/TellOP.UWP/*.nuget.targets
+/TellOP/TellOP.Droid/TellOPDroidConfiguration.cs
+/TellOP/TellOP.iOS/TellOPiOSConfiguration.cs
+/TellOP/TellOP/Config/TellOPSecretsConfiguration.cs

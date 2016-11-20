@@ -18,7 +18,7 @@ namespace TellOP.Api
 {
     using System;
     using System.Net.Http;
-    using DataModels.APIModels.Exercise;
+    using DataModels.ApiModels.Exercise;
     using Xamarin.Auth;
 
     /// <summary>

@@ -17,12 +17,10 @@
 namespace TellOP
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Api;
     using DataModels;
-    using DataModels.APIModels.Collins;
-    using DataModels.APIModels.Stands4;
+    using DataModels.ApiModels.Collins;
+    using DataModels.ApiModels.Stands4;
+    using ViewModels;
     using Xamarin.Forms;
 
     /// <summary>
@@ -49,11 +47,11 @@ namespace TellOP
 
             if (word is CollinsWord)
             {
-                this.OpenCollins(null, null);
+                this.EnableDefinitionsPanel(false, true, false);
             }
             else if (word is Stands4Word)
             {
-                this.OpenStands4(null, null);
+                this.EnableDefinitionsPanel(true, false, false);
             }
         }
 
@@ -65,72 +63,76 @@ namespace TellOP
         {
             if (word == null)
             {
-                throw new ArgumentNullException("word");
+                throw new ArgumentNullException("Word cannot be null");
             }
 
             this.searchedWord = word.ToUpper();
 
+            this.BindingContext = new SearchDataModel();
             this.InitializeComponent();
+            this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
+            this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
 
             this.Title = this.searchedWord;
-            this.TitleLabel.Text = this.searchedWord;
+
+            this.BTNShowCollinsStack.Clicked += this.ShowCorrectPanel;
+            this.BTNShowStands4Stack.Clicked += this.ShowCorrectPanel;
+            this.BTNShowNetSpeakStack.Clicked += this.ShowCorrectPanel;
+
+            ((SearchDataModel)this.BindingContext).SearchForWord(word);
         }
 
-        private async Task OpenStands4(object sender, System.EventArgs e)
+        /// <summary>
+        /// Event handler for the show/hide panels logic.
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Eventargs object</param>
+        private void ShowCorrectPanel(object sender, EventArgs e)
         {
-            if (this.Stands4Stack.Children.Count == 0)
+            // Check the sender object
+            if (sender == this.BTNShowStands4Stack)
             {
-                await this._InitializeStands4Stack().ConfigureAwait(false);
+                // Change the status of Stands4, leave the other hidden
+                this.EnableDefinitionsPanel(!this.Stands4Stack.IsVisible, false, false);
             }
-
-            this.Stands4Stack.IsVisible = true;
-            this.CollinsStack.IsVisible = false;
-        }
-
-        private void OpenCollins(object sender, System.EventArgs e)
-        {
-            if (this.CollinsStack.Children.Count == 0)
+            else if (sender == this.BTNShowCollinsStack)
             {
-                this._InitializeCollinsStack();
+                // Change the status of Collins, leave the other hidden
+                this.EnableDefinitionsPanel(false, !this.CollinsStack.IsVisible, false);
             }
-
-            this.Stands4Stack.IsVisible = false;
-            this.CollinsStack.IsVisible = true;
-        }
-
-        private async Task _InitializeStands4Stack()
-        {
-            try
+            else if (sender == this.BTNShowNetSpeakStack)
             {
-                this.Stands4Stack.Children.Add(new ActivityIndicator());
-                Stands4Dictionary s4d = new Stands4Dictionary(App.OAuth2Account, this.searchedWord);
-                IList<Stands4Word> result = await s4d.CallEndpointAsStands4Word().ConfigureAwait(false);
-                foreach (Stands4Word word in result)
-                {
-                    this.Stands4Stack.Children.Add(new Stands4SearchListItemView(word));
-                }
-            }
-            catch (UnsuccessfulApiCallException ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "_InitializeStands4Stack method", ex);
-            }
-            catch (Exception ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "_InitializeStands4Stack method", ex);
+                // Change the status of Netspeak, leave the other hidden
+                this.EnableDefinitionsPanel(false, false, !this.NetSpeakStack.IsVisible);
             }
         }
 
-        private bool _InitializeCollinsStack()
+        /// <summary>
+        /// Hide or show the corresponding panel.
+        /// </summary>
+        /// <param name="stands4">If true, shows the stack and disable the button.</param>
+        /// <param name="collins">If false, hide the stack and enable the button.</param>
+        /// <param name="netspeak">Same as the others</param>
+        private void EnableDefinitionsPanel(bool stands4, bool collins, bool netspeak)
         {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "Collins Stack", ex);
-                return false;
-            }
+            this.Stands4Stack.IsVisible = stands4;
+            this.BTNShowStands4Stack.IsEnabled = !stands4;
+
+            this.CollinsStack.IsVisible = collins;
+            this.BTNShowCollinsStack.IsEnabled = !collins;
+
+            this.NetSpeakStack.IsVisible = netspeak;
+            this.BTNShowNetSpeakStack.IsEnabled = !netspeak;
+        }
+
+        /// <summary>
+        /// Called when the user taps on a result in one of the search result lists.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private void SearchList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
         }
     }
 }

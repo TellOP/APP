@@ -1,0 +1,698 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ButtonDelete" xml:space="preserve">
+    <value>Apagar</value>
+  </data>
+  <data name="ButtonOpen" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="ButtonProfile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="ButtonSearch" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="ButtonSettings" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="Dashboard_Title" xml:space="preserve">
+    <value>Painel</value>
+  </data>
+  <data name="ExerciseAnalysis_DifferentWords" xml:space="preserve">
+    <value>Palavras diferentes (tipos)</value>
+  </data>
+  <data name="ExerciseAnalysis_ExploreText_Contracted" xml:space="preserve">
+    <value>+ Explore your text</value>
+  </data>
+  <data name="ExerciseAnalysis_Families" xml:space="preserve">
+    <value>Famílias </value>
+  </data>
+  <data name="ExerciseAnalysis_KFrequencyDistribution" xml:space="preserve">
+    <value>K-frequency distribution</value>
+  </data>
+  <data name="ExerciseAnalysis_PertainingOnlistOnly" xml:space="preserve">
+    <value>Relacionado somente com a lista</value>
+  </data>
+  <data name="ExerciseAnalysis_PertainingWholeText" xml:space="preserve">
+    <value>Relacionado com todo o texto</value>
+  </data>
+  <data name="ExerciseAnalysis_RelatedRatiosIndices_Contracted" xml:space="preserve">
+    <value>+ Related ratios and indices</value>
+  </data>
+  <data name="ExerciseAnalysis_Tokens" xml:space="preserve">
+    <value>Tokens</value>
+  </data>
+  <data name="ExerciseAnalysis_TokensPerFamily" xml:space="preserve">
+    <value>Tokens per family</value>
+  </data>
+  <data name="ExerciseAnalysis_TokensPerType" xml:space="preserve">
+    <value>Tokens per type</value>
+  </data>
+  <data name="ExerciseAnalysis_Types" xml:space="preserve">
+    <value>Types</value>
+  </data>
+  <data name="ExerciseAnalysis_TypesPerFamily" xml:space="preserve">
+    <value>Types per family</value>
+  </data>
+  <data name="ExerciseAnalysis_TypeTokenRatio" xml:space="preserve">
+    <value>Type-token ratio</value>
+  </data>
+  <data name="ExerciseAnalysis_WordsInText" xml:space="preserve">
+    <value>Words in text (tokens)</value>
+  </data>
+  <data name="PartOfSpeech_Adjective" xml:space="preserve">
+    <value>Adjetivo</value>
+  </data>
+  <data name="PartOfSpeech_Adverb" xml:space="preserve">
+    <value>Advérbio</value>
+  </data>
+  <data name="PartOfSpeech_CardinalNumber" xml:space="preserve">
+    <value>Cardinal number</value>
+  </data>
+  <data name="PartOfSpeech_ClauseOpener" xml:space="preserve">
+    <value>Clause opener</value>
+  </data>
+  <data name="PartOfSpeech_CommonNoun" xml:space="preserve">
+    <value>Common noun</value>
+  </data>
+  <data name="PartOfSpeech_Conjunction" xml:space="preserve">
+    <value>Conjunção</value>
+  </data>
+  <data name="PartOfSpeech_Determiner" xml:space="preserve">
+    <value>Determinante</value>
+  </data>
+  <data name="PartOfSpeech_Determiner_Pronoun" xml:space="preserve">
+    <value>Determinante/Pronome</value>
+  </data>
+  <data name="PartOfSpeech_ExistentialParticle" xml:space="preserve">
+    <value>Existential particle</value>
+  </data>
+  <data name="PartOfSpeech_ForeignWord" xml:space="preserve">
+    <value>Foreign word</value>
+  </data>
+  <data name="PartOfSpeech_Genitive" xml:space="preserve">
+    <value>Genitivo</value>
+  </data>
+  <data name="PartOfSpeech_InfinitiveMarker" xml:space="preserve">
+    <value>Infinitive marker</value>
+  </data>
+  <data name="PartOfSpeech_Interjection" xml:space="preserve">
+    <value>Interjection or discourse marker</value>
+  </data>
+  <data name="PartOfSpeech_LetterAsWord" xml:space="preserve">
+    <value>Letter of the alphabet treated as a word</value>
+  </data>
+  <data name="PartOfSpeech_ModalVerb" xml:space="preserve">
+    <value>Modal verb</value>
+  </data>
+  <data name="PartOfSpeech_NegativeMarker" xml:space="preserve">
+    <value>Negative marker</value>
+  </data>
+  <data name="PartOfSpeech_Ordinal" xml:space="preserve">
+    <value>Ordinal</value>
+  </data>
+  <data name="PartOfSpeech_PartProperNoun" xml:space="preserve">
+    <value>Part of a proper noun (United Kingdom, Los Angeles, New Zealand...)</value>
+  </data>
+  <data name="PartOfSpeech_Preposition" xml:space="preserve">
+    <value>Preposition</value>
+  </data>
+  <data name="PartOfSpeech_Pronoun" xml:space="preserve">
+    <value>Pronoun</value>
+  </data>
+  <data name="PartOfSpeech_ProperNoun" xml:space="preserve">
+    <value>Proper noun</value>
+  </data>
+  <data name="PartOfSpeech_Unclassified" xml:space="preserve">
+    <value>Unclassified</value>
+  </data>
+  <data name="PartOfSpeech_Unrecognized" xml:space="preserve">
+    <value>Unrecognized term</value>
+  </data>
+  <data name="PartOfSpeech_Verb" xml:space="preserve">
+    <value>Verb</value>
+  </data>
+  <data name="Dashboard_TabHistory" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="Dashboard_TabFeatured" xml:space="preserve">
+    <value>Featured</value>
+  </data>
+  <data name="Dashboard_TabStats" xml:space="preserve">
+    <value>Stats</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OAuth2_AuthenticationError" xml:space="preserve">
+    <value>The authentication process did not complete successfully. Please try again.</value>
+  </data>
+  <data name="OAuth2_AuthenticationErrorTitle" xml:space="preserve">
+    <value>Login error</value>
+  </data>
+  <data name="OAuth2_RequestTokenError" xml:space="preserve">
+    <value>An error occurred while trying to authenticating you. Please try again.</value>
+  </data>
+  <data name="OAuth2_RequestTokenErrorTitle" xml:space="preserve">
+    <value>Login error</value>
+  </data>
+  <data name="InternetConnectionRequiredError" xml:space="preserve">
+    <value>An Internet connection is required to use Tell-OP. Please connect and try again.</value>
+  </data>
+  <data name="InternetConnectionRequiredErrorTitle" xml:space="preserve">
+    <value>Internet connection required</value>
+  </data>
+  <data name="Login_LoginButton" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Login_RegisterButton" xml:space="preserve">
+    <value>Register a new account</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="OAuth2_Title" xml:space="preserve">
+    <value>Login to Tell-OP</value>
+  </data>
+  <data name="Profile_DisplayName" xml:space="preserve">
+    <value>Name and surname</value>
+  </data>
+  <data name="Profile_Email" xml:space="preserve">
+    <value>E-mail address</value>
+  </data>
+  <data name="Profile_LanguageLevel" xml:space="preserve">
+    <value>Language level</value>
+  </data>
+  <data name="Profile_Title" xml:space="preserve">
+    <value>User profile</value>
+  </data>
+  <data name="Login_AboutLabel" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Login_PrivacyLabel" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Login_SignUpLabel" xml:space="preserve">
+    <value>Sign up</value>
+  </data>
+  <data name="ExerciseAnalysis_ProfileLevelTitle_Contracted" xml:space="preserve">
+    <value>+ Profile levels</value>
+  </data>
+  <data name="AppCredits" xml:space="preserve">
+    <value>Copyright © 2016 University of Murcia
+
+Developed by Mattia Zago and Alessandro Menti</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Tell-OP</value>
+  </data>
+  <data name="API_UserDataError" xml:space="preserve">
+    <value>An error occurred while retrieving your profile data from the server. Please try again.</value>
+  </data>
+  <data name="API_UserDataErrorTitle" xml:space="preserve">
+    <value>Profile data retrieval error</value>
+  </data>
+  <data name="API_UserDataJSONError" xml:space="preserve">
+    <value>An error occurred while reading your profile data retrieved from the server. Please try again.</value>
+  </data>
+  <data name="API_UserDataJSONErrorTitle" xml:space="preserve">
+    <value>Profile data retrieval error</value>
+  </data>
+  <data name="OAuth2_AuthenticationCompleteNotAuthenticatedError" xml:space="preserve">
+    <value>An error occurred while trying to log you in. Please try again.</value>
+  </data>
+  <data name="OAuth2_AuthenticationCompleteNotAuthenticatedErrorTitle" xml:space="preserve">
+    <value>Login error</value>
+  </data>
+  <data name="CollinsViewCell_Related" xml:space="preserve">
+    <value>Related words</value>
+  </data>
+  <data name="CollinsViewCell_SeeAlso" xml:space="preserve">
+    <value>See also</value>
+  </data>
+  <data name="CollinsViewCell_SenseCounter" xml:space="preserve">
+    <value>Sense {0}</value>
+  </data>
+  <data name="Exercise_EssayName" xml:space="preserve">
+    <value>Essay</value>
+  </data>
+  <data name="Exercise_GenericName" xml:space="preserve">
+    <value>Exercise</value>
+  </data>
+  <data name="LanguageLevel_A1_Long" xml:space="preserve">
+    <value>A1 level (breakthrough)</value>
+  </data>
+  <data name="LanguageLevel_A1_Short" xml:space="preserve">
+    <value>A1</value>
+  </data>
+  <data name="LanguageLevel_A2_Long" xml:space="preserve">
+    <value>A2 level (waystage)</value>
+  </data>
+  <data name="LanguageLevel_A2_Short" xml:space="preserve">
+    <value>A2</value>
+  </data>
+  <data name="LanguageLevel_B1_Long" xml:space="preserve">
+    <value>B1 level (threshold)</value>
+  </data>
+  <data name="LanguageLevel_B1_Short" xml:space="preserve">
+    <value>B1</value>
+  </data>
+  <data name="LanguageLevel_B2_Long" xml:space="preserve">
+    <value>B2 level (vantage)</value>
+  </data>
+  <data name="LanguageLevel_B2_Short" xml:space="preserve">
+    <value>B2</value>
+  </data>
+  <data name="LanguageLevel_C1_Long" xml:space="preserve">
+    <value>C1 level (effective operational proficiency)</value>
+  </data>
+  <data name="LanguageLevel_C1_Short" xml:space="preserve">
+    <value>C1</value>
+  </data>
+  <data name="LanguageLevel_C2_Long" xml:space="preserve">
+    <value>C2 level (mastery)</value>
+  </data>
+  <data name="LanguageLevel_C2_Short" xml:space="preserve">
+    <value>C2</value>
+  </data>
+  <data name="LanguageLevel_Unknown_Long" xml:space="preserve">
+    <value>Unknown level</value>
+  </data>
+  <data name="LanguageLevel_Unknown_Short" xml:space="preserve">
+    <value>Unkn.</value>
+    <comment>Try keeping the string at a maximum length of 4/5 characters</comment>
+  </data>
+  <data name="EssayExercise_MinMaxWords" xml:space="preserve">
+    <value>Write an essay between {0} and {1} words.</value>
+  </data>
+  <data name="UnexpectedException_Text" xml:space="preserve">
+    <value>An unexpected error occurred.
+
+Please contact the developers, telling them the exact steps you performed in the application, so that they will be able to fix it.</value>
+  </data>
+  <data name="UnexpectedException_Title" xml:space="preserve">
+    <value>An unexpected error occurred</value>
+  </data>
+  <data name="UnexpectedException_WithDetails_Text" xml:space="preserve">
+    <value>An unexpected error occurred.
+
+Please contact the developers, telling them the exact steps you performed in the application, so that they will be able to fix it.
+
+Error details: {0}</value>
+  </data>
+  <data name="About_CopyrightNotice" xml:space="preserve">
+    <value>Copyright © 2016 University of Murcia
+
+This software is supported by the Erasmus+ Programme of the European Union: TELL-OP - Transforming European Learner Language into Learning Opportunities A KA200 Higher Education Strategic Partnership 2014‐1‐ES01‐KA203-004782.</value>
+  </data>
+  <data name="About_ThirdPartyLicenses" xml:space="preserve">
+    <value>View third-party licenses</value>
+  </data>
+  <data name="About_ThirdPartyLicensesTitle" xml:space="preserve">
+    <value>Third-party licenses</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>About Tell-OP</value>
+  </data>
+  <data name="About_Version" xml:space="preserve">
+    <value>Version: {0}</value>
+  </data>
+  <data name="About_ThirdPartyLicenses_UnableToLoad" xml:space="preserve">
+    <value>Unable to load the third-party license notices.</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ButtonRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ButtonSaveAndOverride" xml:space="preserve">
+    <value>Save and override</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="EssayExerciseViewAnalysisAborted" xml:space="preserve">
+    <value>Operation aborted.</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionAnotherAnalysisIsRunning" xml:space="preserve">
+    <value>Another analysis is running. Please wait until the current analysis is finished.</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionErrorGeneric" xml:space="preserve">
+    <value>Error while performing the analysis.
+Error message:
+</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionTextTooShort" xml:space="preserve">
+    <value>Text is too short to be analyzed. The minimum number of words is {0} (your text has {1} words).</value>
+  </data>
+  <data name="EssayExerciseViewExerciseTypeNotSupported" xml:space="preserve">
+    <value>The returned exercise type is not supported yet</value>
+  </data>
+  <data name="EssayExerciseViewSaveExceptionAPI" xml:space="preserve">
+    <value>Error while saving the exercise in the database.</value>
+  </data>
+  <data name="EssayExerciseViewSaveExceptionOpCanceled" xml:space="preserve">
+    <value>Analysis aborted</value>
+  </data>
+  <data name="EssayExerciseViewSaveExceptionUnknown" xml:space="preserve">
+    <value>Unknown exception.</value>
+  </data>
+  <data name="EssayExerciseViewStringContentError" xml:space="preserve">
+    <value>EssayExerciseView supports only string content at this time</value>
+  </data>
+  <data name="UserMessageSaveAndOverrideQuestion" xml:space="preserve">
+    <value>Do you want to save and override the previous content?</value>
+  </data>
+  <data name="Login_Or" xml:space="preserve">
+    <value>...or...</value>
+    <comment>Shown between the "Log in" button and the three links "Sign up", "About" and "Privacy"at the bottom</comment>
+  </data>
+  <data name="EssayExerciseViewXAMLAdjectivesLabel" xml:space="preserve">
+    <value>Adjectives</value>
+  </data>
+  <data name="EssayExerciseViewXAMLAdverbsLabel" xml:space="preserve">
+    <value>Adverbs</value>
+  </data>
+  <data name="EssayExerciseViewXAMLNounsLabel" xml:space="preserve">
+    <value>Nouns</value>
+  </data>
+  <data name="EssayExerciseViewXAMLVerbsLabel" xml:space="preserve">
+    <value>Verbs</value>
+  </data>
+  <data name="Dashboard_TabFeatured_Description" xml:space="preserve">
+    <value>Select an exercise from the list below to see the details.</value>
+  </data>
+  <data name="Dashboard_TabFeatured_Title" xml:space="preserve">
+    <value>Featured exercises</value>
+  </data>
+  <data name="Dashboard_TabError" xml:space="preserve">
+    <value>An error occurred while trying to load the data. Press the Refresh button to try again.</value>
+  </data>
+  <data name="PartOfSpeech_AuxiliaryVerb" xml:space="preserve">
+    <value>Auxiliary verb</value>
+  </data>
+  <data name="PartOfSpeech_Exclamation" xml:space="preserve">
+    <value>Exclamation</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Language_USEnglish" xml:space="preserve">
+    <value>U.S. English</value>
+  </data>
+  <data name="Dashboard_TabHistory_Description" xml:space="preserve">
+    <value>You can access all exercises you already submitted from this page.</value>
+  </data>
+  <data name="Dashboard_TabHistory_Title" xml:space="preserve">
+    <value>Submitted exercises</value>
+  </data>
+  <data name="Dashboard_TabFeatured_Description_NoFeatured" xml:space="preserve">
+    <value>There are no featured exercises at this time.</value>
+  </data>
+  <data name="Dashboard_TabHistory_Description_NoHistory" xml:space="preserve">
+    <value>You have not submitted any exercises so far.</value>
+  </data>
+  <data name="MainSearch_EnterTerm" xml:space="preserve">
+    <value>Word to search for</value>
+  </data>
+  <data name="MainSearch_Title" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search_NoTermEntered_Text" xml:space="preserve">
+    <value>Please enter a search term in the search bar.</value>
+  </data>
+  <data name="Search_NoTermEntered_Title" xml:space="preserve">
+    <value>No search term entered</value>
+  </data>
+  <data name="Search_TabError" xml:space="preserve">
+    <value>An error occurred while retrieving the search results. Please try again.</value>
+  </data>
+  <data name="Stands4ViewCell_Definition" xml:space="preserve">
+    <value>Definition</value>
+  </data>
+  <data name="Stands4ViewCell_Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="BulletPoint" xml:space="preserve">
+    <value>{0}. {1}</value>
+    <comment>This string is used to render bullet points in ordered lists. {0} will be replaced by the progressive number of the point, while {1} will be replaced by the content.</comment>
+  </data>
+  <data name="Stands4ViewCell_DictionaryName_Contracted" xml:space="preserve">
+    <value>+ Stands4</value>
+    <comment>Keep the "+" at the beginning (as it shows that the definition details are contracted)</comment>
+  </data>
+  <data name="Stands4ViewCell_DictionaryName_Expanded" xml:space="preserve">
+    <value>- Stands4</value>
+    <comment>Keep the "-" at the beginning (as it shows that the definition details are expanded)</comment>
+  </data>
+  <data name="CollinsViewCell_Definition" xml:space="preserve">
+    <value>Definitions</value>
+  </data>
+  <data name="CollinsViewCell_DictionaryName_Contracted" xml:space="preserve">
+    <value>+ Collins</value>
+    <comment>Keep the "+" at the beginning (as it shows that the definition details are contracted)</comment>
+  </data>
+  <data name="CollinsViewCell_DictionaryName_Expanded" xml:space="preserve">
+    <value>- Collins</value>
+    <comment>Keep the "-" at the beginning (as it shows that the definition details are expanded)</comment>
+  </data>
+  <data name="CollinsViewCell_Example" xml:space="preserve">
+    <value>Examples</value>
+  </data>
+  <data name="Dashboard_ProfileAddedSoon" xml:space="preserve">
+    <value>The Profile page will be added soon</value>
+  </data>
+  <data name="Dashboard_SettingsAddedSoon" xml:space="preserve">
+    <value>The Settings page will be added soon</value>
+  </data>
+  <data name="EssayExerciseView_Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="EssayExerciseView_Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="EssayExerciseView_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="EssayExerciseView_ShowText" xml:space="preserve">
+    <value>Show text</value>
+  </data>
+  <data name="EssayExerciseView_Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="EssayExerciseView_Title" xml:space="preserve">
+    <value>Exercise</value>
+  </data>
+  <data name="ExerciseAnalysis_Title" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="SingleWordExploration_Collins" xml:space="preserve">
+    <value>Collins</value>
+  </data>
+  <data name="SingleWordExploration_Stands4" xml:space="preserve">
+    <value>Stands4</value>
+  </data>
+  <data name="ExerciseAnalysis_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="ExerciseAnalysis_Subtitle" xml:space="preserve">
+    <value>{0}, {1} ({2})</value>
+    <comment>{0} is the human-readable exercise type, {1} is the human-readable exercise language, {2} is the human-readable exercise CEFR level</comment>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionTextTooLongForSubmission" xml:space="preserve">
+    <value>Text is too long to be submitted. The maximum number of words for this exercise is {0} (your text has {1} words).</value>
+  </data>
+  <data name="EssayExerciseViewAnalyzeTextExceptionTextTooShortForSubmission" xml:space="preserve">
+    <value>Text is too short to be submitted. The minimum number of words for this exercise is {0} (your text has {1} words).</value>
+  </data>
+  <data name="EssayExerciseViewCountLabelText" xml:space="preserve">
+    <value>{0}/{1}</value>
+    <comment>Where {0} is the current number of word, {1} is the maximum number of word for the exercise.</comment>
+  </data>
+  <data name="SingleWordExploration_NetSpeak" xml:space="preserve">
+    <value>NetSpeak</value>
+  </data>
+  <data name="ExerciseAnalysis_ExploreText_Expanded" xml:space="preserve">
+    <value>- Explore your text</value>
+  </data>
+  <data name="ExerciseAnalysis_ProfileLevelTitle_Expanded" xml:space="preserve">
+    <value>- Profile levels</value>
+  </data>
+  <data name="ExerciseAnalysis_RelatedRatiosIndices_Expanded" xml:space="preserve">
+    <value>- Related ratios and indices</value>
+  </data>
+  <data name="GenericCloseSymbol" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="GenericOpenSymbol" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="Exercise_ExerciseSpecifications" xml:space="preserve">
+    <value>Exercise specifications</value>
+  </data>
+  <data name="Exercise_ExerciseSpecificationsText_WithoutReferenceText" xml:space="preserve">
+    <value>{0}</value>
+    <comment>{0} = the exercise specifications</comment>
+  </data>
+  <data name="Exercise_ExerciseSpecificationsText_WithReferenceText" xml:space="preserve">
+    <value>{0}
+
+Reference text:
+{1}</value>
+    <comment>{0} = the exercise specifications, {1} = the reference text</comment>
+  </data>
+  <data name="ButtonHide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="NetSpeak_Following" xml:space="preserve">
+    <value>List of following words</value>
+  </data>
+  <data name="NetSpeak_Preceding" xml:space="preserve">
+    <value>List of preceding words</value>
+  </data>
+  <data name="ExerciseAnalysis_EmptyPoSList" xml:space="preserve">
+    <value>This list is empty.</value>
+  </data>
+  <data name="Exercise_UnableToDisplay" xml:space="preserve">
+    <value>Unable to display the chosen exercise.</value>
+  </data>
+  <data name="ExerciseAnalysis_WordsPerPoS" xml:space="preserve">
+    <value>List of words for this part of speech:</value>
+  </data>
+</root>

@@ -20,12 +20,13 @@ namespace TellOP.DataModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Activity;
     using Api;
-    using APIModels;
+    using ApiModels;
     using Enums;
     using Nito.AsyncEx;
 
@@ -37,7 +38,7 @@ namespace TellOP.DataModels
         /// <summary>
         /// A read-only list of featured exercises.
         /// </summary>
-        private INotifyTaskCompletion<ReadOnlyObservableCollection<ExerciseGroup>> _featuredExercises;
+        private INotifyTaskCompletion<ReadOnlyObservableCollection<Grouping<Exercise>>> _featuredExercises;
 
         /// <summary>
         /// A single random tip.
@@ -60,7 +61,8 @@ namespace TellOP.DataModels
         /// <summary>
         /// Gets a read-only list of featured exercises.
         /// </summary>
-        public INotifyTaskCompletion<ReadOnlyObservableCollection<ExerciseGroup>> FeaturedExercises
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a grouping as it is needed by the ListView")]
+        public INotifyTaskCompletion<ReadOnlyObservableCollection<Grouping<Exercise>>> FeaturedExercises
         {
             get
             {
@@ -104,7 +106,7 @@ namespace TellOP.DataModels
         /// Refreshes the list of featured exercises asynchronously.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private static async Task<ReadOnlyObservableCollection<ExerciseGroup>> GetFeaturedExercisesAsync()
+        private static async Task<ReadOnlyObservableCollection<Grouping<Exercise>>> GetFeaturedExercisesAsync()
         {
             ExerciseFeaturedApi featuredEndpoint = new ExerciseFeaturedApi(App.OAuth2Account);
             IList<Exercise> featuredExercises = await Task.Run(async () => await featuredEndpoint.CallEndpointAsExerciseModel());
@@ -112,9 +114,9 @@ namespace TellOP.DataModels
             // Group the exercises by their CEFR level.
             LanguageLevelClassificationToLongDescriptionConverter longDescConverter = new LanguageLevelClassificationToLongDescriptionConverter();
             LanguageLevelClassificationToHtmlParamConverter htmlParamConverter = new LanguageLevelClassificationToHtmlParamConverter();
-            IEnumerable<ExerciseGroup> featuredByGroup = from ex in featuredExercises group ex by ex.Level into exSameLevel select new ExerciseGroup((string)longDescConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), (string)htmlParamConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), exSameLevel.ToList());
+            IEnumerable<Grouping<Exercise>> featuredByGroup = from ex in featuredExercises group ex by ex.Level into exSameLevel select new Grouping<Exercise>((string)longDescConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), (string)htmlParamConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), exSameLevel.ToList());
 
-            return new ReadOnlyObservableCollection<ExerciseGroup>(new ObservableCollection<ExerciseGroup>(featuredByGroup));
+            return new ReadOnlyObservableCollection<Grouping<Exercise>>(new ObservableCollection<Grouping<Exercise>>(featuredByGroup));
         }
     }
 }

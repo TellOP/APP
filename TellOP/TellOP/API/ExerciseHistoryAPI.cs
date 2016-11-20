@@ -20,7 +20,7 @@ namespace TellOP.Api
     using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using DataModels.APIModels.Exercise;
+    using DataModels.ApiModels.Exercise;
     using Newtonsoft.Json;
     using Xamarin.Auth;
 

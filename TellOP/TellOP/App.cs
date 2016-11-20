@@ -59,6 +59,20 @@ namespace TellOP
             // Set the certificate verifier
             DependencyService.Get<ICertificateVerifier>().SetCertificateVerifier();
 
+            // Automatically mark all unobserved task exceptions as observed after logging them.
+            // TODO: this is a temporary fix put in place until more extensive investigation reveals why some
+            // INotifyTaskCompletion exceptions are not caught by NotifyTaskCompletion (maybe because they are inside
+            // inner tasks?)
+            TaskScheduler.UnobservedTaskException += (sender, args) =>
+            {
+                foreach (Exception ex in args.Exception.InnerExceptions)
+                {
+                    Tools.Logger.Log(sender.GetType().ToString(), "Unhandled task exception", ex);
+                }
+
+                args.SetObserved();
+            };
+
             // Show the main page
             loginPage = new NavigationPage(new Login());
             this.MainPage = loginPage;

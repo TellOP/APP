@@ -14,7 +14,7 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Exercise
+namespace TellOP.DataModels.ApiModels.Exercise
 {
     using System;
     using Newtonsoft.Json.Linq;

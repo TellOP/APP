@@ -21,13 +21,11 @@ namespace TellOP
     /// <summary>
     /// Platform-specific authentication page.
     /// </summary>
-    /// <remarks>This class is overridden in each platform-specific project;
-    /// do not alter it.</remarks>
+    /// <remarks>This class is overridden in each platform-specific project; do not alter it.</remarks>
     public partial class Authentication : ContentPage
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Authentication"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="Authentication"/> class.
         /// </summary>
         public Authentication()
         {

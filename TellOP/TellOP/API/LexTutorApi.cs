@@ -21,7 +21,7 @@ namespace TellOP.Api
     using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using DataModels.APIModels.LexTutor;
+    using DataModels.ApiModels.LexTutor;
     using Newtonsoft.Json;
     using Xamarin.Auth;
 

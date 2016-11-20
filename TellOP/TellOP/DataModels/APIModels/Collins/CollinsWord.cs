@@ -15,11 +15,10 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.APIModels.Collins
+namespace TellOP.DataModels.ApiModels.Collins
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using Enums;
     using Nito.AsyncEx;
     using SQLiteModels;
@@ -71,77 +70,8 @@ namespace TellOP.DataModels.APIModels.Collins
             this.Url = url;
             this.Level = new AsyncLazy<LanguageLevelClassification>(async () =>
             {
-                return await WordSearchUtilities.GetMostProbable(OfflineWord.Search(this.Term, SupportedLanguage.English)).Level;
+                return await WordSearchUtilities.GetMostProbable(await OfflineWord.Search(this.Term, SupportedLanguage.English)).Level;
             });
-        }
-
-        /// <summary>
-        /// Gets the content of the definition for this word.
-        /// </summary>
-        public string Content
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-
-                for (int senseCounter = 0; senseCounter < this._collinsEntry.Senses.Count; ++senseCounter)
-                {
-                    sb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, Properties.Resources.CollinsWord_SenseCounter, senseCounter);
-                    if (this._collinsEntry.Senses[senseCounter].Definitions.Count > 0)
-                    {
-                        StringBuilder dsb = new StringBuilder();
-                        int defCounter = 1;
-                        foreach (string definition in this._collinsEntry.Senses[senseCounter].Definitions)
-                        {
-                            dsb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "{0}. {1}\r\n", defCounter, definition);
-                            ++defCounter;
-                        }
-
-                        sb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, Properties.Resources.CollinsWord_DefinitionTemplate, dsb.ToString());
-                    }
-
-                    if (this._collinsEntry.Senses[senseCounter].Examples.Count > 0)
-                    {
-                        StringBuilder esb = new StringBuilder();
-                        int exCounter = 1;
-                        foreach (string example in this._collinsEntry.Senses[senseCounter].Examples)
-                        {
-                            esb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "{0}. {1}\r\n", exCounter, example);
-                            ++exCounter;
-                        }
-
-                        sb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, Properties.Resources.CollinsWord_ExamplesTemplate, esb.ToString());
-                    }
-
-                    if (this._collinsEntry.Senses[senseCounter].SeeAlso.Count > 0)
-                    {
-                        StringBuilder sasb = new StringBuilder();
-                        int saCounter = 1;
-                        foreach (CollinsJsonLinkedWord seeAlso in this._collinsEntry.Senses[senseCounter].SeeAlso)
-                        {
-                            sasb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "{0}. {1}\r\n", saCounter, seeAlso.Content);
-                            ++saCounter;
-                        }
-
-                        sb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, Properties.Resources.CollinsWord_ExamplesTemplate, sasb.ToString());
-                    }
-
-                    if (this._collinsEntry.Senses[senseCounter].Related.Count > 0)
-                    {
-                        StringBuilder rsb = new StringBuilder();
-                        int rCounter = 1;
-                        foreach (CollinsJsonLinkedWord related in this._collinsEntry.Senses[senseCounter].Related)
-                        {
-                            rsb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "{0}. {1}\r\n", rCounter, related.Content);
-                            ++rCounter;
-                        }
-
-                        sb.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, Properties.Resources.CollinsWord_ExamplesTemplate, rsb.ToString());
-                    }
-                }
-
-                return sb.ToString();
-            }
         }
 
         /// <summary>
@@ -166,7 +96,7 @@ namespace TellOP.DataModels.APIModels.Collins
         }
 
         /// <summary>
-        /// Gets the <see cref="Content"/> parsed as multiple senses.
+        /// Gets the definition content parsed as multiple senses.
         /// </summary>
         public IList<CollinsWordDefinitionSense> Senses
         {

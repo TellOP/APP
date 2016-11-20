@@ -20,6 +20,7 @@ namespace TellOP.Tools
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Xamarin.Forms;
 
@@ -50,6 +51,7 @@ namespace TellOP.Tools
         /// </summary>
         /// <param name="caller">A string identifying the logger.</param>
         /// <param name="ex">The exception to log.</param>
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", MessageId = "TellOP.Tools.Logger.Log(System.String,System.String,System.Exception)", Justification = "This affects only log strings which must not be localized")]
         public static void Log(string caller, Exception ex)
         {
             Log(caller, "An exception occurred.", ex);
@@ -61,8 +63,10 @@ namespace TellOP.Tools
         /// <param name="caller">A string identifying the logger.</param>
         /// <param name="message">The message to log.</param>
         /// <param name="ex">The exception associated to the message.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "General catch used to prevent exceptions from causing crashes in an exception handling routine")]
         public static void Log(string caller, string message, Exception ex)
         {
+            HockeyAppLog(caller, message, ex);
             if (caller == null || string.IsNullOrEmpty(message) || string.IsNullOrWhiteSpace(message))
             {
                 // Do not throw an ArgumentNullException (the logger will probably be used in "difficult" situations
@@ -77,7 +81,10 @@ namespace TellOP.Tools
 
                 try
                 {
-                    Debug.WriteLineIf(ex != null, "Exception: " + ex.ToString());
+                    if (ex != null)
+                    {
+                        Debug.WriteLine("Exception: " + ex.ToString());
+                    }
                 }
                 catch (Exception)
                 {
@@ -91,22 +98,15 @@ namespace TellOP.Tools
 
                 try
                 {
-                    Debug.WriteLineIf(ex != null, "Exception: " + ex.ToString());
+                    if (ex != null)
+                    {
+                        Debug.WriteLine("Exception: " + ex.ToString());
+                    }
                 }
                 catch (Exception)
                 {
                 }
             }
-
-            // Track the event in HockeyApp on supported platforms
-            Action trackInHockeyApp = new Action(() =>
-            {
-                if (!HockeyApp.MetricsManager.Disabled)
-                {
-                    HockeyApp.MetricsManager.TrackEvent("logMessage", new Dictionary<string, string> { { "caller", caller }, { "message", message }, { "exception", (ex != null ? ex.ToString() : string.Empty) } }, new Dictionary<string, double>());
-                }
-            });
-            Device.OnPlatform(trackInHockeyApp, trackInHockeyApp, null, null);
         }
 
         /// <summary>
@@ -122,6 +122,32 @@ namespace TellOP.Tools
         {
             Log(caller.GetType().ToString(), message, ex);
             await caller.DisplayAlert(Properties.Resources.Error, message, Properties.Resources.ButtonOK);
+        }
+
+        /// <summary>
+        /// Log any exception on HockeyApp.
+        /// </summary>
+        /// <param name="caller">A string identifying the logger.</param>
+        /// <param name="message">The message to log.</param>
+        /// <param name="ex">The exception associated to the message.</param>
+        private static void HockeyAppLog(string caller, string message, Exception ex)
+        {
+            if (ex == null)
+            {
+                // If the exception is null, don't track the log.
+                return;
+            }
+
+            // Track the event in HockeyApp on supported platforms
+            Action trackInHockeyApp = new Action(() =>
+            {
+                if (!HockeyApp.MetricsManager.Disabled)
+                {
+                    HockeyApp.MetricsManager.TrackEvent("[" + ex.GetType().ToString() + "] " + caller, new Dictionary<string, string> { { "caller", caller }, { "message", message }, { "exception", (ex != null ? ex.ToString() : string.Empty) } }, new Dictionary<string, double>());
+                    Debug.WriteLine("[" + caller + "] Exception registered on HockeyApp");
+                }
+            });
+            Device.OnPlatform(trackInHockeyApp, trackInHockeyApp, null, null);
         }
     }
 }

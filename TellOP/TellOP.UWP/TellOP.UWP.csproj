@@ -109,6 +109,9 @@
       <Link>LocalLemmasDictionaryLocalLemmasDictionary.sqlite</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Logo.png" />
+    <Content Include="Toolbar_Refresh_Black.png" />
+    <Content Include="Toolbar_Show.png" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -130,28 +133,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BTN_hide24.png" />
-    <Content Include="BTN_show24.png" />
     <Content Include="IntroScreen.png" />
-    <Content Include="LOGO_white.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LOGO_black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="SampleGraph.png" />
-    <Content Include="TAB_Featured.png" />
-    <Content Include="TAB_History.png" />
-    <Content Include="TAB_Stats.png" />
-    <Content Include="toolbar_analysis.png" />
-    <Content Include="toolbar_send.png" />
-    <Content Include="toolbar_spellcheck.png" />
-    <Content Include="toolbar_profile.png" />
-    <Content Include="toolbar_search.png" />
-    <Content Include="toolbar_settings.png" />
-    <Content Include="toolbar_refresh.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Toolbar_Analysis.png" />
+    <Content Include="Toolbar_Refresh.png" />
+    <Content Include="Toolbar_Search.png" />
     <Content Include="Assets\NewStoreLogo.scale-100.png" />
     <Content Include="Assets\NewStoreLogo.scale-125.png" />
     <Content Include="Assets\NewStoreLogo.scale-150.png" />

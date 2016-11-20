@@ -17,16 +17,13 @@
 
 namespace TellOP
 {
-    using System;
-    using System.Collections.Generic;
-    using Api;
-    using DataModels.APIModels.Collins;
-    using DataModels.APIModels.Stands4;
-    using ViewModels.Collins;
+    using DataModels;
+    using Tools;
+    using ViewModels;
     using Xamarin.Forms;
 
     /// <summary>
-    /// Main search page.
+    /// Word search page.
     /// </summary>
     public partial class MainSearch : ContentPage
     {
@@ -35,86 +32,97 @@ namespace TellOP
         /// </summary>
         public MainSearch()
         {
+            this.BindingContext = new SearchDataModel();
             this.InitializeComponent();
-            this.searchBar.SearchButtonPressed +=
-                this.SearchBar_SearchButtonPressed;
+            this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
+            this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
+
+            this.BTNShowCollinsStack.Clicked += this.ShowCorrectPanel;
+            this.BTNShowStands4Stack.Clicked += this.ShowCorrectPanel;
         }
 
         /// <summary>
-         /// Turn on/off the activity indicator
-         /// </summary>
-         /// <param name="running">True = on</param>
-        public void SwitchActivityIndicator(bool running)
+        /// Event handler for the show/hide panels logic.
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Eventargs object</param>
+        private void ShowCorrectPanel(object sender, System.EventArgs e)
         {
-            this.AI.IsRunning = running;
-            this.AI.IsVisible = running;
-            if (running)
+            // The buttons are in XOR, invert the status
+            if (this.BTNShowStands4Stack.IsEnabled ^ this.BTNShowCollinsStack.IsEnabled)
             {
-                Grid.SetColumn(this.searchBar, 1);
-                Grid.SetColumnSpan(this.searchBar, 1);
+                this.EnableDefinitionsPanel(!this.Stands4Stack.IsVisible, !this.CollinsStack.IsVisible);
             }
             else
             {
-                Grid.SetColumn(this.searchBar, 0);
-                Grid.SetColumnSpan(this.searchBar, 2);
+                // Check the sender object
+                if (sender == this.BTNShowStands4Stack)
+                {
+                    // Change the status of Stands4, leave the other unchanged
+                    this.EnableDefinitionsPanel(!this.Stands4Stack.IsVisible, this.CollinsStack.IsVisible);
+                }
+                else
+                {
+                    // Change the status of Collins, leave the other unchanged
+                    this.EnableDefinitionsPanel(this.Stands4Stack.IsVisible, !this.CollinsStack.IsVisible);
+                }
             }
         }
 
         /// <summary>
-        /// Event handler for search button
+        /// Hide or show the corresponding panel.
         /// </summary>
-        /// <param name="sender">Search bar sender object</param>
-        /// <param name="e">EventArgs param</param>
-        private async void SearchBar_SearchButtonPressed(object sender, EventArgs e)
+        /// <param name="stands4">If true, shows the stack and disable the button.</param>
+        /// <param name="collins">If false, hide the stack and enable the button.</param>
+        private void EnableDefinitionsPanel(bool stands4, bool collins)
         {
-            string word = ((SearchBar)sender).Text;
-            this.MainStack.Children.Clear();
-            try
-            {
-                this.SwitchActivityIndicator(true);
-                Stands4Dictionary s4d = new Stands4Dictionary(App.OAuth2Account, word);
-                IList<Stands4Word> s4wResult = await s4d.CallEndpointAsStands4Word().ConfigureAwait(false);
-                foreach (Stands4Word w in s4wResult)
-                {
-                    this.MainStack.Children.Add(new Stands4SearchListItemView(w));
-                }
+            this.Stands4Stack.IsVisible = stands4;
+            this.BTNShowStands4Stack.IsEnabled = !stands4;
 
-                this.SwitchActivityIndicator(false);
-            }
-            catch (UnsuccessfulApiCallException ex)
+            this.CollinsStack.IsVisible = collins;
+            this.BTNShowCollinsStack.IsEnabled = !collins;
+        }
+
+        /// <summary>
+        /// Called when the user taps on "Search" in the search bar.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void SearchBar_SearchButtonPressed(object sender, System.EventArgs e)
+        {
+            SearchBar searchBar = (SearchBar)sender;
+
+            // Note: this warning might not appear on Android platforms where null/empty/whitespace strings are already
+            // handled and refused by the component itself.
+            if (string.IsNullOrWhiteSpace(searchBar.Text))
             {
-                Tools.Logger.Log(this.GetType().ToString(), "Stands4 Exception", ex);
-                this.SwitchActivityIndicator(false);
-            }
-            catch (Exception ex)
-            {
-                Tools.Logger.Log(this.GetType().ToString(), "Stands4 Exception", ex);
-                this.SwitchActivityIndicator(false);
+                await this.DisplayAlert(Properties.Resources.Search_NoTermEntered_Title, Properties.Resources.Search_NoTermEntered_Text, Properties.Resources.ButtonOK);
+                return;
             }
 
-            try
+            if (await ConnectivityCheck.AskToEnableConnectivity(this))
             {
-                this.SwitchActivityIndicator(true);
-                CollinsEnglishDictionary dictionaryAPI = new CollinsEnglishDictionary(App.OAuth2Account, word);
-                CollinsJsonEnglishDictionary result = await dictionaryAPI.CallEndpointAsObjectAsync().ConfigureAwait(false);
+                ((SearchDataModel)this.BindingContext).SearchForWord(searchBar.Text);
 
-                // Create a panel, but avoid the remote call
-                foreach (CollinsJsonEnglishDictionarySingleResult entry in result.Results)
-                {
-                    this.MainStack.Children.Add(new CollinsEntriesWrapper(entry));
-                }
+                // Hide both panels, enable the buttons
+                this.EnableDefinitionsPanel(false, false);
+            }
+        }
 
-                this.SwitchActivityIndicator(false);
-            }
-            catch (UnsuccessfulApiCallException ex)
+        /// <summary>
+        /// Called when the user taps on a result in one of the search result lists.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private void SearchList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (((SearchDataModel)this.BindingContext).IsSearchEnabled)
             {
-                Tools.Logger.Log(this.GetType().ToString(), "Collins Exception", ex);
-                this.SwitchActivityIndicator(false);
+                ((ListView)sender).SelectedItem = null;
             }
-            catch (Exception ex)
+            else
             {
-                Tools.Logger.Log(this.GetType().ToString(), "Collins Exception", ex);
-                this.SwitchActivityIndicator(false);
+                // TODO: display alert?
             }
         }
     }

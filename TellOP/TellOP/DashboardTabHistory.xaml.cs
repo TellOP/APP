@@ -61,7 +61,7 @@ namespace TellOP
         /// <param name="e">The event parameters.</param>
         private async void HistoryList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            // TODO: support dictionary searches
+            // TODO: support other exercise types
             if (await ConnectivityCheck.AskToEnableConnectivity(this))
             {
                 await this.Navigation.PushAsync(new EssayExerciseView((EssayExercise)e.Item));

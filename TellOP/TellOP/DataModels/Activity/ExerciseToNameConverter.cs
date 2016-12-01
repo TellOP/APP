@@ -43,7 +43,12 @@ namespace TellOP.DataModels.Activity
                 return Properties.Resources.Exercise_EssayName;
             }
 
-            // TODO: support dictionary searches
+            if (exType.Equals(typeof(DictionarySearchExercise)))
+            {
+                return Properties.Resources.Exercise_DictionarySearchName;
+            }
+
+            // TODO: support other exercise types
             return Properties.Resources.Exercise_GenericName;
         }
 

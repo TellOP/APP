@@ -21,6 +21,7 @@ namespace TellOP.DataModels
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading.Tasks;
     using Activity;
     using Api;
@@ -109,8 +110,11 @@ namespace TellOP.DataModels
             List<Exercise> historyWithResults = new List<Exercise>();
             ExerciseHistoryApi historyEndpoint = new ExerciseHistoryApi(App.OAuth2Account);
 
-            IList<UserActivity> history = new List<UserActivity>();
+            IEnumerable<UserActivity> history = new List<UserActivity>();
             history = await Task.Run(async () => await historyEndpoint.CallEndpointAsObjectAsync());
+
+            // Remove dictionary searches (they are not meant to be displayed in the list).
+            history = history.Where(x => x.GetType() != typeof(DictionarySearchExercise));
 
             // Preload all exercises in the list to improve performance.
             ExerciseApi exerciseEndpoint;

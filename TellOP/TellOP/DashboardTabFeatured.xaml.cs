@@ -65,7 +65,7 @@ namespace TellOP
         {
             if (await ConnectivityCheck.AskToEnableConnectivity(this))
             {
-                // TODO: support dictionary searches
+                // TODO: support other exercise types
                 try
                 {
                     ExerciseApi exerciseEndpoint = new ExerciseApi(App.OAuth2Account, ((EssayExercise)e.Item).Uid);

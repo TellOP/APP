@@ -109,7 +109,10 @@ namespace TellOP.DataModels
         private static async Task<ReadOnlyObservableCollection<Grouping<Exercise>>> GetFeaturedExercisesAsync()
         {
             ExerciseFeaturedApi featuredEndpoint = new ExerciseFeaturedApi(App.OAuth2Account);
-            IList<Exercise> featuredExercises = await Task.Run(async () => await featuredEndpoint.CallEndpointAsExerciseModel());
+            IEnumerable<Exercise> featuredExercises = await Task.Run(async () => await featuredEndpoint.CallEndpointAsExerciseModel());
+
+            // Remove dictionary searches (they are not meant to be displayed in the list).
+            featuredExercises = featuredExercises.Where(x => x.GetType() != typeof(DictionarySearchExercise));
 
             // Group the exercises by their CEFR level.
             LanguageLevelClassificationToLongDescriptionConverter longDescConverter = new LanguageLevelClassificationToLongDescriptionConverter();

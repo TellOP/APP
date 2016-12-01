@@ -29,6 +29,7 @@ namespace TellOP.DataModels
     using Api;
     using ApiModels;
     using ApiModels.Collins;
+    using ApiModels.Exercise;
     using ApiModels.Stands4;
     using Nito.AsyncEx;
 
@@ -37,6 +38,11 @@ namespace TellOP.DataModels
     /// </summary>
     public class SearchDataModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// The database ID of the U.S. English "dictionary search" activity.
+        /// </summary>
+        private const int USEnglishDictionarySearchID = 21;
+
         /// <summary>
         /// A read-only list of Stands4 dictionary search results.
         /// </summary>
@@ -163,6 +169,7 @@ namespace TellOP.DataModels
         /// <param name="word">The word to search for.</param>
         public void SearchForWord(string word)
         {
+            // TODO: the dictionary search is recorded in the first call. Perhaps find a better design?
             this.SearchResultsStands4 = NotifyTaskCompletion.Create(SearchForWordStands4Async(word));
             this.SearchResultsCollins = NotifyTaskCompletion.Create(SearchForWordCollinsAsync(word));
             this.SearchResultsNetSpeakPreceding = NotifyTaskCompletion.Create(SearchForWordNetSpeakPrecedingAsync(word));
@@ -170,7 +177,7 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
-        /// Searches for a given word asynchronously in the Stands4 dictionary.
+        /// Records the dictionary search, then searches for a given word asynchronously in the Stands4 dictionary.
         /// </summary>
         /// <param name="word">The word to search for.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -181,6 +188,25 @@ namespace TellOP.DataModels
             {
                 Tools.Logger.Log("SearchForWordStands4Async", "Null or whitespace. Return an empty list");
                 return new ReadOnlyObservableCollection<IWord>(new ObservableCollection<IWord>());
+            }
+
+            UserActivityDictionarySearch dictSearch = new UserActivityDictionarySearch()
+            {
+                ActivityId = USEnglishDictionarySearchID,
+                Word = word
+            };
+            ExerciseSubmissionApi dictSearchSubmissionEndpoint = new ExerciseSubmissionApi(App.OAuth2Account, dictSearch);
+            Task dictSearchSubmissionTask = Task.Run(async () => await dictSearchSubmissionEndpoint.CallEndpointAsync());
+            await dictSearchSubmissionTask;
+            if (dictSearchSubmissionTask.IsFaulted)
+            {
+                // Prevent the inner exception from terminating the program.
+                foreach (Exception ex in dictSearchSubmissionTask.Exception.InnerExceptions)
+                {
+                    Tools.Logger.Log(typeof(SearchDataModel).ToString(), "Inner task exception while submitting the search to the dictionary search endpoint. Ignoring.", ex);
+                }
+
+                Tools.Logger.Log(typeof(SearchDataModel).ToString(), "Task exception while submitting the search to the dictionary search endpoint. Ignoring.", dictSearchSubmissionTask.Exception);
             }
 
             Stands4Dictionary stands4Endpoint = new Stands4Dictionary(App.OAuth2Account, word);

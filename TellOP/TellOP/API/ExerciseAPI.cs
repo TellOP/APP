@@ -106,7 +106,33 @@ namespace TellOP.Api
                 return essay;
             }
 
-            // TODO: support dictionary searches
+            if (activity.GetType() == typeof(ActivityDictionarySearch))
+            {
+                ActivityDictionarySearch resultDictSearch = (ActivityDictionarySearch)activity;
+                DictionarySearchExercise dictionarySearch = new DictionarySearchExercise()
+                {
+                    Featured = resultDictSearch.Featured,
+                    Uid = resultDictSearch.Id,
+                    Language = resultDictSearch.Language,
+                    Level = resultDictSearch.Level
+                };
+
+                UserActivity uActivity = resultDictSearch.UserActivity;
+                if (uActivity != null)
+                {
+                    UserActivityDictionarySearch uActivityDs = uActivity as UserActivityDictionarySearch;
+                    if (uActivityDs != null)
+                    {
+                        if (!string.IsNullOrEmpty(uActivityDs.Word))
+                        {
+                            dictionarySearch.Word = uActivityDs.Word;
+                        }
+                    }
+                }
+
+                return dictionarySearch;
+            }
+
             throw new NotImplementedException("The returned exercise type is not supported yet");
         }
 

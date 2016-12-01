@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Config\TellOPConfiguration.cs" />
     <Compile Include="Config\TellOPSecretsConfiguration.cs" />
+    <Compile Include="DataModels\Activity\DictionarySearchExercise.cs" />
     <Compile Include="DataModels\Activity\Exercise.cs" />
     <Compile Include="DataModels\Activity\ExerciseToNameConverter.cs" />
     <Compile Include="DataModels\ApiModels\Collins\CollinsJsonLinkedWordListToHumanReadableStringConverter.cs" />

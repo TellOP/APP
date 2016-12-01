@@ -1,4 +1,4 @@
-﻿// <copyright file="UserActivityDictionarySearch.cs" company="University of Murcia">
+﻿// <copyright file="DictionarySearchExercise.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,32 +14,17 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.ApiModels.Exercise
+namespace TellOP.DataModels.Activity
 {
-    using System;
-    using Newtonsoft.Json;
-
     /// <summary>
-    /// A dictionary search submitted by the user to the Tell-OP Web service.
+    /// A dictionary search fictitious exercise (so that the existing exercise
+    /// infrastructure can be kept and used effectively).
     /// </summary>
-    [JsonObject]
-    public class UserActivityDictionarySearch : UserActivity
+    public class DictionarySearchExercise : Exercise
     {
-        /// <summary>
-        /// The JSON representation of the user activity type.
-        /// </summary>
-        public new const string UserActivityType = "DICT_SEARCH";
-
         /// <summary>
         /// Gets or sets the word that was searched for.
         /// </summary>
-        [JsonProperty("word")]
         public string Word { get; set; }
-
-        /// <summary>
-        /// Gets or sets the time and date the word was searched for.
-        /// </summary>
-        [JsonProperty("timestamp")]
-        public DateTime Timestamp { get; set; }
     }
 }

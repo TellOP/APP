@@ -716,4 +716,7 @@ Reference text:
     <value>Uncl.</value>
     <comment>Keep the string short (4/5 characters)</comment>
   </data>
+  <data name="Exercise_DictionarySearchName" xml:space="preserve">
+    <value>Dictionary search</value>
+  </data>
 </root>

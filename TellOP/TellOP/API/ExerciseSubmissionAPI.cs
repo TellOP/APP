@@ -54,14 +54,15 @@ namespace TellOP.Api
 
             this.PostBody = "id=" + Uri.EscapeDataString(activity.ActivityId.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
-            UserActivityEssay essay = activity as UserActivityEssay;
-            if (essay != null)
+            if (activity is UserActivityEssay)
             {
+                UserActivityEssay essay = activity as UserActivityEssay;
                 this.PostBody += "&type=" + UserActivityEssay.UserActivityType + "&text=" + Uri.EscapeDataString(essay.Text);
             }
             else if (activity is UserActivityDictionarySearch)
             {
-                this.PostBody += "&type=" + UserActivityDictionarySearch.UserActivityType;
+                UserActivityDictionarySearch dictSearch = activity as UserActivityDictionarySearch;
+                this.PostBody += "&type=" + UserActivityDictionarySearch.UserActivityType + "&word=" + Uri.EscapeDataString(dictSearch.Word);
             }
             else
             {

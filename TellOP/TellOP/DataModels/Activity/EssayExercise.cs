@@ -466,7 +466,7 @@ namespace TellOP.DataModels.Activity
                     Term = cleanToken,
                     JsonLevel = LanguageLevelClassification.Unknown,
                     PartOfSpeech = PartOfSpeech.Unclassified,
-                    Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.USEnglish, typeof(string), null, CultureInfo.InvariantCulture)
+                    Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.English, typeof(string), null, CultureInfo.InvariantCulture)
                 };
             }
 
@@ -512,7 +512,6 @@ namespace TellOP.DataModels.Activity
                         || w.PartOfSpeech == PartOfSpeech.NegativeMarker
                         || w.PartOfSpeech == PartOfSpeech.CardinalNumber
                         || w.PartOfSpeech == PartOfSpeech.Ordinal
-                        || w.PartOfSpeech == PartOfSpeech.Preposition
                         || w.PartOfSpeech == PartOfSpeech.Pronoun
                         || w.PartOfSpeech == PartOfSpeech.ModalVerb))
                     {

@@ -50,5 +50,17 @@ namespace TellOP.DataModels.ApiModels.Stands4
         /// </summary>
         [JsonProperty("example")]
         public string Example { get; set; }
+
+        /// <summary>
+        /// Gets or sets the synonyms for the term.
+        /// </summary>
+        [JsonProperty("synonyms")]
+        public string Synonyms { get; set; }
+
+        /// <summary>
+        /// Gets or sets the antonyms for the term.
+        /// </summary>
+        [JsonProperty("antonyms")]
+        public string Antonyms { get; set; }
     }
 }

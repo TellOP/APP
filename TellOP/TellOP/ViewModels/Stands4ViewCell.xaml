@@ -59,11 +59,17 @@ limitations under the License.
           <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
           </Grid.RowDefinitions>
           <Label Grid.Column="0" Grid.Row="0" Text="{local:Translate Stands4ViewCell_Definition}" FontSize="14" FontAttributes="Bold" />
           <Label Grid.Column="1" Grid.Row="0" Text="{Binding Definition}" FontSize="14" LineBreakMode="WordWrap" />
           <Label Grid.Column="0" Grid.Row="1" Text="{local:Translate Stands4ViewCell_Example}" FontSize="14" FontAttributes="Bold" IsVisible="{Binding Example, Converter={local:NonNullToBooleanConverter}" />
           <Label Grid.Column="1" Grid.Row="1" Text="{Binding Example}" FontSize="14" LineBreakMode="WordWrap" IsVisible="{Binding Example, Converter={local:NonNullToBooleanConverter}" />
+          <Label Grid.Column="0" Grid.Row="2" Text="{local:Translate Stands4ViewCell_Synonyms}" FontSize="14" FontAttributes="Bold" IsVisible="{Binding Synonyms, Converter={local:NonNullToBooleanConverter}" />
+          <Label Grid.Column="1" Grid.Row="2" Text="{Binding Synonyms}" FontSize="14" LineBreakMode="WordWrap" IsVisible="{Binding Synonyms, Converter={local:NonNullToBooleanConverter}" />
+          <Label Grid.Column="0" Grid.Row="3" Text="{local:Translate Stands4ViewCell_Antonyms}" FontSize="14" FontAttributes="Bold" IsVisible="{Binding Antonyms, Converter={local:NonNullToBooleanConverter}" />
+          <Label Grid.Column="1" Grid.Row="3" Text="{Binding Antonyms}" FontSize="14" LineBreakMode="WordWrap" IsVisible="{Binding Antonyms, Converter={local:NonNullToBooleanConverter}" />
         </Grid>
       </Grid>
     </ContentView>

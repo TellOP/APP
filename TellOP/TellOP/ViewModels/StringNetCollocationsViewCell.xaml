@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+<copyright file="StringNetCollocationsViewCell.xaml" company="University of Murcia">
+Copyright © 2016 University of Murcia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</copyright>
+<author>Mattia Zago</author>
+<author>Alessandro Menti</author>
+-->
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          x:Class="TellOP.ViewModels.StringNetCollocationsViewCell"
+          xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+          xmlns:apimodels="clr-namespace:TellOP.DataModels.ApiModels;assembly=TellOP"
+          xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP">
+  <ViewCell.View>
+    <ContentView Margin="0,2,0,2">
+      <Grid Padding="5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="2*" />
+          <ColumnDefinition Width="3*" />
+          <ColumnDefinition Width="3*" />
+          <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label x:Name="SpoilerIndicator" Text="{local:Translate StringNetViewCell_Contracted}" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
+          </Label.GestureRecognizers>
+        </Label>
+        <!--
+        <Label Text="{local:Translate StringNetViewCell_Collocation}" Grid.Column="1" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Start">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
+          </Label.GestureRecognizers>
+        </Label>
+        -->
+        <Label x:Name="CollocationText" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Collocation}" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" FontAttributes="Bold" FontSize="14">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
+          </Label.GestureRecognizers>
+        </Label>
+        <Label Text="{local:Translate StringNetViewCell_Frequency}" Grid.Column="3" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Start" FontSize="14">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
+          </Label.GestureRecognizers>
+        </Label>
+        <Label Grid.Column="4" Grid.Row="0" Text="{Binding Frequency}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="14">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
+          </Label.GestureRecognizers>
+        </Label>
+        <Label x:Name="SpoilerExampleLabel" Grid.Column="1" Grid.Row="1" IsVisible="false" Text="{local:Translate StringNetViewCell_Example}" FontSize="12" FontAttributes="Bold" />
+        <Label x:Name="SpoilerExampleText" Grid.Column="2" Grid.Row="1" IsVisible="false" Grid.ColumnSpan="3" Text="{Binding Sample}" FontSize="12" />
+      </Grid>
+    </ContentView>
+  </ViewCell.View>
+</ViewCell>

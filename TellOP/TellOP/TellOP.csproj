@@ -47,7 +47,7 @@
     <Compile Include="Api\ExerciseHistoryApi.cs" />
     <Compile Include="Api\ExerciseSubmissionApi.cs" />
     <Compile Include="Api\Tips.cs" />
-    <Compile Include="Api\StringNet.cs" />
+    <Compile Include="Api\StringNetApi.cs" />
     <Compile Include="Api\NetSpeakPreceding.cs" />
     <Compile Include="Api\NetSpeakFollowing.cs" />
     <Compile Include="Api\AdelexApi.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultAbsolutePercentFrequency.cs" />
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultValueStandardDeviation.cs" />
     <Compile Include="DataModels\ApiModels\StringListToHumanReadableListConverter.cs" />
+    <Compile Include="DataModels\ApiModels\StringNet\StringNetSplit.cs" />
     <Compile Include="DataModels\ApiModels\Tip.cs" />
     <Compile Include="DataModels\BaseConverter.cs" />
     <Compile Include="DataModels\CutoffConverter.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultFrequencyLevels.cs" />
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultRatios.cs" />
     <Compile Include="DataModels\ApiModels\Stands4\Stands4WordNotFoundException.cs" />
-    <Compile Include="DataModels\ApiModels\StringNet.cs" />
+    <Compile Include="DataModels\ApiModels\StringNet\StringNetCollocations.cs" />
     <Compile Include="DataModels\Enums\LanguageLevelClassificationToShortDescriptionConverter.cs" />
     <Compile Include="DataModels\Enums\LanguageLevelClassificationToLongDescriptionConverter.cs" />
     <Compile Include="DataModels\Enums\LanguageLevelClassificationToColorConverter.cs" />
@@ -221,6 +222,9 @@
     <Compile Include="TranslateExtension.cs" />
     <Compile Include="ViewModels\CollinsViewCell.xaml.cs">
       <DependentUpon>CollinsViewCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\StringNetCollocationsViewCell.xaml.cs">
+      <DependentUpon>StringNetCollocationsViewCell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Stands4ViewCell.xaml.cs">
       <DependentUpon>Stands4ViewCell.xaml</DependentUpon>
@@ -374,6 +378,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ViewModels\CollinsViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ViewModels\StringNetCollocationsViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

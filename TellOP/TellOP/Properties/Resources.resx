@@ -719,4 +719,57 @@ Reference text:
   <data name="Exercise_DictionarySearchName" xml:space="preserve">
     <value>Dictionary search</value>
   </data>
+  <data name="EssayExerciseView_Load" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="EssayExerciseView_ResetAlertMessage" xml:space="preserve">
+    <value>Do you really want to reset the current exercise content?</value>
+  </data>
+  <data name="EssayExerciseView_ResetAlertTitle" xml:space="preserve">
+    <value>Reset the current exercise</value>
+  </data>
+  <data name="MainSearch_HowTo" xml:space="preserve">
+    <value>Tap on the buttons below to show/hide definitions and search results.</value>
+  </data>
+  <data name="MainSearch_StringNet_CollocationsAfterTitle" xml:space="preserve">
+    <value>List of words that appears after "{0}".</value>
+    <comment>{0} represents the searched word.</comment>
+  </data>
+  <data name="MainSearch_StringNet_CollocationsBeforeTitle" xml:space="preserve">
+    <value>List of words that appears before "{0}".</value>
+    <comment>{0} represents the searched word.</comment>
+  </data>
+  <data name="SingleWordExploration_StringNet" xml:space="preserve">
+    <value>Collocations</value>
+  </data>
+  <data name="StringNetViewCell_Collocation" xml:space="preserve">
+    <value>Collocation</value>
+  </data>
+  <data name="StringNetViewCell_Contracted" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="StringNetViewCell_Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="StringNetViewCell_Expanded" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="StringNetViewCell_Frequency" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="SingleWordExploration_CollinsDefinitionsTitle" xml:space="preserve">
+    <value>Collins Definitions</value>
+  </data>
+  <data name="SingleWordExploration_Definitions" xml:space="preserve">
+    <value>Definitions</value>
+  </data>
+  <data name="SingleWordExploration_Stands4DefinitionsTitle" xml:space="preserve">
+    <value>Stands4 Definitions</value>
+  </data>
+  <data name="Stands4ViewCell_Antonyms" xml:space="preserve">
+    <value>Antonyms</value>
+  </data>
+  <data name="Stands4ViewCell_Synonyms" xml:space="preserve">
+    <value>Synonyms</value>
+  </data>
 </root>

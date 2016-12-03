@@ -44,6 +44,8 @@ namespace TellOP.DataModels.ApiModels.Stands4
             this.Definition = definition.Definition;
             this.Example = definition.Example;
             this.Term = definition.Term;
+            this.Synonyms = definition.Synonyms;
+            this.Antonyms = definition.Antonyms;
             this.Level = new AsyncLazy<LanguageLevelClassification>(async () =>
             {
                 return await WordSearchUtilities.GetMostProbable(await OfflineWord.Search(this.Term, SupportedLanguage.English)).Level;
@@ -74,5 +76,15 @@ namespace TellOP.DataModels.ApiModels.Stands4
         /// Gets the examples obtained by the remote API.
         /// </summary>
         public string Example { get; private set; }
+
+        /// <summary>
+        /// Gets the synonyms obtained by the remote API.
+        /// </summary>
+        public string Synonyms { get; private set; }
+
+        /// <summary>
+        /// Gets the antonyms obtained by the remote API.
+        /// </summary>
+        public string Antonyms { get; private set; }
     }
 }

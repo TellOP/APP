@@ -28,7 +28,8 @@ limitations under the License.
     <ToolbarItem x:Name="analysisButton" Text="{local:Translate EssayExerciseView_Analysis}" Order="Primary" Icon="Toolbar_Analysis.png" Clicked="AnalysisButton_Clicked" />
     <ToolbarItem x:Name="showRefTextButton" Text="{local:Translate EssayExerciseView_ShowText}" Order="Primary" Icon="Toolbar_Show.png" Clicked="ShowRefTextButton_Clicked" />
     <ToolbarItem x:Name="submitButton" Text="{local:Translate EssayExerciseView_Submit}" Order="Secondary" Clicked="SubmitButton_Clicked" />
-    <ToolbarItem x:Name="loadButton" Text="{local:Translate EssayExerciseView_Reset}" Order="Secondary" Clicked="LoadButton_Clicked" />
+    <ToolbarItem x:Name="loadButton" Text="{local:Translate EssayExerciseView_Load}" Order="Secondary" Clicked="LoadButton_Clicked" />
+    <ToolbarItem x:Name="resetButton" Text="{local:Translate EssayExerciseView_Reset}" Order="Secondary" Clicked="ResetButton_Clicked" />
   </ContentPage.ToolbarItems>
   <Grid HorizontalOptions="Fill" VerticalOptions="Fill" x:Name="MainGrid">
     <Grid.ColumnDefinitions>

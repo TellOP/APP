@@ -167,6 +167,7 @@ namespace TellOP
         private void EssayExerciseView_SizeChanged(object sender, EventArgs e)
         {
             bool isPortrait = this.Height > this.Width;
+            bool isTextEditorEmpty = string.IsNullOrWhiteSpace(this.ExContentEditor.Text);
 
             if (isPortrait)
             {
@@ -229,6 +230,16 @@ namespace TellOP
                 this.statUnclassifiedLabel.IsVisible = false;
                 this.aiUnclassified.IsVisible = false;
                 this.imgReloadUnclassified.IsVisible = false;
+
+                // Hide labels and show the recompute indicator
+                this.statAdjective.IsVisible = !isTextEditorEmpty;
+                this.imgReloadAdjective.IsVisible = isTextEditorEmpty;
+                this.statAdverbs.IsVisible = !isTextEditorEmpty;
+                this.imgReloadAdverbs.IsVisible = isTextEditorEmpty;
+                this.statNouns.IsVisible = !isTextEditorEmpty;
+                this.imgReloadNouns.IsVisible = isTextEditorEmpty;
+                this.statVerbs.IsVisible = !isTextEditorEmpty;
+                this.imgReloadVerbs.IsVisible = isTextEditorEmpty;
             }
             else
             {
@@ -301,6 +312,20 @@ namespace TellOP
 
                 this.statUnclassified.IsVisible = true;
                 this.statUnclassifiedLabel.IsVisible = true;
+
+                // Hide labels and show the recompute indicator
+                this.statAdjective.IsVisible = !isTextEditorEmpty;
+                this.imgReloadAdjective.IsVisible = isTextEditorEmpty;
+                this.statAdverbs.IsVisible = !isTextEditorEmpty;
+                this.imgReloadAdverbs.IsVisible = isTextEditorEmpty;
+                this.statNouns.IsVisible = !isTextEditorEmpty;
+                this.imgReloadNouns.IsVisible = isTextEditorEmpty;
+                this.statVerbs.IsVisible = !isTextEditorEmpty;
+                this.imgReloadVerbs.IsVisible = isTextEditorEmpty;
+                this.statPreposition.IsVisible = !isTextEditorEmpty;
+                this.imgReloadPreposition.IsVisible = isTextEditorEmpty;
+                this.statUnclassified.IsVisible = !isTextEditorEmpty;
+                this.imgReloadUnclassified.IsVisible = isTextEditorEmpty;
             }
         }
 
@@ -361,6 +386,35 @@ namespace TellOP
         }
 
         /// <summary>
+        /// Resets the current exercise status.
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">Event arg</param>
+        private async void ResetButton_Clicked(object sender, EventArgs e)
+        {
+            if (await this.DisplayAlert(Properties.Resources.EssayExerciseView_ResetAlertTitle, Properties.Resources.EssayExerciseView_ResetAlertMessage, Properties.Resources.ButtonOK, Properties.Resources.ButtonCancel))
+            {
+                this.ExContentEditor.Text = string.Empty;
+                this.ExContentEditor_TextChanged(null, null);
+                this._changeActivityIndicatorsStatus(false); // Stop Activity Indicators.
+
+                // Hide labels and show the recompute indicator
+                this.statAdjective.IsVisible = false;
+                this.imgReloadAdjective.IsVisible = true;
+                this.statAdverbs.IsVisible = false;
+                this.imgReloadAdverbs.IsVisible = true;
+                this.statNouns.IsVisible = false;
+                this.imgReloadNouns.IsVisible = true;
+                this.statVerbs.IsVisible = false;
+                this.imgReloadVerbs.IsVisible = true;
+                this.statPreposition.IsVisible = false;
+                this.imgReloadPreposition.IsVisible = true;
+                this.statUnclassified.IsVisible = false;
+                this.imgReloadUnclassified.IsVisible = true;
+            }
+        }
+
+        /// <summary>
         /// Event handler for the changed text
         /// </summary>
         /// <param name="sender">Sender object</param>
@@ -380,17 +434,21 @@ namespace TellOP
                 this.ex.Status = ExerciseStatus.Satisfactory;
             }
 
-            if (value < 0)
-            {
-                value = 0d;
-            }
-
-            if (value > 1)
-            {
-                value = 1d;
-            }
-
             this.ex.Contents = this.ExContentEditor.Text;
+
+            // Hide labels and show the recompute indicator
+            this.statAdjective.IsVisible = false;
+            this.imgReloadAdjective.IsVisible = true;
+            this.statAdverbs.IsVisible = false;
+            this.imgReloadAdverbs.IsVisible = true;
+            this.statNouns.IsVisible = false;
+            this.imgReloadNouns.IsVisible = true;
+            this.statVerbs.IsVisible = false;
+            this.imgReloadVerbs.IsVisible = true;
+            this.statPreposition.IsVisible = false;
+            this.imgReloadPreposition.IsVisible = true;
+            this.statUnclassified.IsVisible = false;
+            this.imgReloadUnclassified.IsVisible = true;
         }
 
         /// <summary>

@@ -17,6 +17,7 @@
 
 namespace TellOP
 {
+    using Api;
     using DataModels;
     using Tools;
     using ViewModels;
@@ -36,9 +37,11 @@ namespace TellOP
             this.InitializeComponent();
             this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
             this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
+            this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+            this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
 
-            this.BTNShowCollinsStack.Clicked += this.ShowCorrectPanel;
-            this.BTNShowStands4Stack.Clicked += this.ShowCorrectPanel;
+            this.BTNShowDefinitions.Clicked += this.ShowCorrectPanel;
+            this.BTNShowStringNetStack.Clicked += this.ShowCorrectPanel;
         }
 
         /// <summary>
@@ -48,39 +51,31 @@ namespace TellOP
         /// <param name="e">Eventargs object</param>
         private void ShowCorrectPanel(object sender, System.EventArgs e)
         {
-            // The buttons are in XOR, invert the status
-            if (this.BTNShowStands4Stack.IsEnabled ^ this.BTNShowCollinsStack.IsEnabled)
+            // Check the sender object
+            if (sender == this.BTNShowDefinitions)
             {
-                this.EnableDefinitionsPanel(!this.Stands4Stack.IsVisible, !this.CollinsStack.IsVisible);
+                // Change the status of Stands4, leave the other hidden
+                this.EnableDefinitionsPanel(!this.DefinitionsStack.IsVisible, false);
             }
-            else
+            else if (sender == this.BTNShowStringNetStack)
             {
-                // Check the sender object
-                if (sender == this.BTNShowStands4Stack)
-                {
-                    // Change the status of Stands4, leave the other unchanged
-                    this.EnableDefinitionsPanel(!this.Stands4Stack.IsVisible, this.CollinsStack.IsVisible);
-                }
-                else
-                {
-                    // Change the status of Collins, leave the other unchanged
-                    this.EnableDefinitionsPanel(this.Stands4Stack.IsVisible, !this.CollinsStack.IsVisible);
-                }
+                // Change the status of StringNet, leave the other hidden
+                this.EnableDefinitionsPanel(false, !this.StringNetStack.IsVisible);
             }
         }
 
         /// <summary>
         /// Hide or show the corresponding panel.
         /// </summary>
-        /// <param name="stands4">If true, shows the stack and disable the button.</param>
-        /// <param name="collins">If false, hide the stack and enable the button.</param>
-        private void EnableDefinitionsPanel(bool stands4, bool collins)
+        /// <param name="stands4">If true, shows the Stands4 stack and disable the button.</param>
+        /// <param name="stringnet">If true, shows the StringNet stack and disable the button.</param>
+        private void EnableDefinitionsPanel(bool stands4, bool stringnet)
         {
-            this.Stands4Stack.IsVisible = stands4;
-            this.BTNShowStands4Stack.IsEnabled = !stands4;
+            this.DefinitionsStack.IsVisible = stands4;
+            this.BTNShowDefinitions.IsEnabled = !stands4;
 
-            this.CollinsStack.IsVisible = collins;
-            this.BTNShowCollinsStack.IsEnabled = !collins;
+            this.StringNetStack.IsVisible = stringnet;
+            this.BTNShowStringNetStack.IsEnabled = !stringnet;
         }
 
         /// <summary>
@@ -104,9 +99,12 @@ namespace TellOP
             {
                 ((SearchDataModel)this.BindingContext).SearchForWord(searchBar.Text);
 
-                // Hide both panels, enable the buttons
-                this.EnableDefinitionsPanel(false, false);
+                // Hide all panels, enable the buttons
+                this.EnableDefinitionsPanel(true, false);
             }
+
+            this.StringNetAfterTitle.Text = string.Format(Properties.Resources.MainSearch_StringNet_CollocationsAfterTitle, searchBar.Text);
+            this.StringNetBeforeTitle.Text = string.Format(Properties.Resources.MainSearch_StringNet_CollocationsBeforeTitle, searchBar.Text);
         }
 
         /// <summary>

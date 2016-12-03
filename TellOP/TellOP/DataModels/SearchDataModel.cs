@@ -32,6 +32,7 @@ namespace TellOP.DataModels
     using ApiModels.Exercise;
     using ApiModels.Stands4;
     using Nito.AsyncEx;
+    using ApiModels.StringNet;
 
     /// <summary>
     /// The data model for featured exercises.
@@ -39,9 +40,9 @@ namespace TellOP.DataModels
     public class SearchDataModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// The database ID of the U.S. English "dictionary search" activity.
+        /// The database ID of the British English "dictionary search" activity.
         /// </summary>
-        private const int USEnglishDictionarySearchID = 21;
+        private const int BritishEnglishDictionarySearchID = 21;
 
         /// <summary>
         /// A read-only list of Stands4 dictionary search results.
@@ -62,6 +63,11 @@ namespace TellOP.DataModels
         /// A read-only list of NetSpeak dictionary search results.
         /// </summary>
         private INotifyTaskCompletion<string> _searchResultsNetSpeakFollowing;
+
+        /// <summary>
+        /// A read-only list of StringNet dictionary search results.
+        /// </summary>
+        private INotifyTaskCompletion<StringNetSplit> _searchResultsStringNet;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchDataModel"/> class.
@@ -149,6 +155,24 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
+        /// Gets a read-only list of StringNet collocation search results for the word typed in the search box.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a collection of IWords")]
+        public INotifyTaskCompletion<StringNetSplit> SearchResultsStringNet
+        {
+            get
+            {
+                return this._searchResultsStringNet;
+            }
+
+            private set
+            {
+                this._searchResultsStringNet = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SearchResultsStringNet"));
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the search bar is running or not.
         /// TODO: test binding
         /// </summary>
@@ -159,7 +183,8 @@ namespace TellOP.DataModels
                 return this.SearchResultsCollins.IsCompleted &&
                        this.SearchResultsStands4.IsCompleted &&
                        this.SearchResultsNetSpeakFollowing.IsCompleted &&
-                       this.SearchResultsNetSpeakPreceding.IsCompleted;
+                       this.SearchResultsNetSpeakPreceding.IsCompleted &&
+                       this.SearchResultsStringNet.IsCompleted;
             }
         }
 
@@ -174,6 +199,57 @@ namespace TellOP.DataModels
             this.SearchResultsCollins = NotifyTaskCompletion.Create(SearchForWordCollinsAsync(word));
             this.SearchResultsNetSpeakPreceding = NotifyTaskCompletion.Create(SearchForWordNetSpeakPrecedingAsync(word));
             this.SearchResultsNetSpeakFollowing = NotifyTaskCompletion.Create(SearchForWordNetSpeakFollowingAsync(word));
+            this.SearchResultsStringNet = NotifyTaskCompletion.Create(SearchForWordStringNetAsync(word));
+
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await SaveDictionarySearchAsync(word);
+                }
+                catch (AggregateException ae)
+                {
+                    ae.Handle(ex =>
+                    {
+                        Tools.Logger.Log("SaveDictionaryExternalHandler", ex);
+                        return true; // Handled
+                    });
+                }
+            });
+        }
+
+        /// <summary>
+        /// Save the current search online.
+        /// </summary>
+        /// <param name="word">String searched</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private static async Task SaveDictionarySearchAsync(string word)
+        {
+            UserActivityDictionarySearch dictSearch = new UserActivityDictionarySearch()
+            {
+                ActivityId = BritishEnglishDictionarySearchID,
+                Word = word
+            };
+            Tools.Logger.Log("DictionaryLog", "Start logging procedure (ID: " + dictSearch.ActivityId + ", Word: " + dictSearch.Word + ")");
+            ExerciseSubmissionApi dictSearchSubmissionEndpoint = new ExerciseSubmissionApi(App.OAuth2Account, dictSearch);
+
+            Tools.Logger.Log("DictionaryLog", "Send data to the server");
+            Task dictSearchSubmissionTask = Task.Run(async () => await dictSearchSubmissionEndpoint.CallEndpointAsync());
+            await dictSearchSubmissionTask;
+            if (dictSearchSubmissionTask.IsFaulted)
+            {
+                Tools.Logger.Log("DictionaryLog", "Exception", dictSearchSubmissionTask.Exception);
+
+                // Prevent the inner exception from terminating the program.
+                foreach (Exception ex in dictSearchSubmissionTask.Exception.InnerExceptions)
+                {
+                    Tools.Logger.Log("DictionaryLog", "Inner exception", ex);
+                }
+            }
+            else
+            {
+                Tools.Logger.Log("DictionaryLog", "Data received. Everything is OK!");
+            }
         }
 
         /// <summary>
@@ -188,25 +264,6 @@ namespace TellOP.DataModels
             {
                 Tools.Logger.Log("SearchForWordStands4Async", "Null or whitespace. Return an empty list");
                 return new ReadOnlyObservableCollection<IWord>(new ObservableCollection<IWord>());
-            }
-
-            UserActivityDictionarySearch dictSearch = new UserActivityDictionarySearch()
-            {
-                ActivityId = USEnglishDictionarySearchID,
-                Word = word
-            };
-            ExerciseSubmissionApi dictSearchSubmissionEndpoint = new ExerciseSubmissionApi(App.OAuth2Account, dictSearch);
-            Task dictSearchSubmissionTask = Task.Run(async () => await dictSearchSubmissionEndpoint.CallEndpointAsync());
-            await dictSearchSubmissionTask;
-            if (dictSearchSubmissionTask.IsFaulted)
-            {
-                // Prevent the inner exception from terminating the program.
-                foreach (Exception ex in dictSearchSubmissionTask.Exception.InnerExceptions)
-                {
-                    Tools.Logger.Log(typeof(SearchDataModel).ToString(), "Inner task exception while submitting the search to the dictionary search endpoint. Ignoring.", ex);
-                }
-
-                Tools.Logger.Log(typeof(SearchDataModel).ToString(), "Task exception while submitting the search to the dictionary search endpoint. Ignoring.", dictSearchSubmissionTask.Exception);
             }
 
             Stands4Dictionary stands4Endpoint = new Stands4Dictionary(App.OAuth2Account, word);
@@ -304,6 +361,26 @@ namespace TellOP.DataModels
             IList<CollinsWord> collinsResult = await Task.Run(async () => await collinsEndpoint.CallEndpointAsCollinsWord());
             Tools.Logger.Log("SearchForWordCollinsAsync", "Data received");
             return new ReadOnlyObservableCollection<IWord>(new ObservableCollection<IWord>(collinsResult));
+        }
+
+        /// <summary>
+        /// Searches for a given word asynchronously in the Stringnet database.
+        /// </summary>
+        /// <param name="word">The word to search for.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private static async Task<StringNetSplit> SearchForWordStringNetAsync(string word)
+        {
+            Tools.Logger.Log("SearchForWordStringNetAsync", "Start search");
+            if (string.IsNullOrWhiteSpace(word))
+            {
+                Tools.Logger.Log("SearchForWordStringNetAsync", "Null or whitespace. Return an empty list");
+                return null;
+            }
+
+            StringNetApi snapi = new StringNetApi(App.OAuth2Account, word);
+            StringNetSplit result = await Task.Run(async () => await snapi.CallEndpointAsObjectAsync());
+            Tools.Logger.Log("SearchForWordStringNetAsync", "Data received");
+            return result;
         }
     }
 }

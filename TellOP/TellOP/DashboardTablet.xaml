@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+<copyright file="DashboardTablet.xaml" company="University of Murcia">
+Copyright © 2016 University of Murcia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</copyright>
+<author>Mattia Zago</author>
+<author>Alessandro Menti</author>
+-->
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+            x:Class="TellOP.DashboardTablet"
+            Title="{local:Translate Dashboard_Title}">
+  <ContentPage.Padding>
+    <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="0, 0" WinPhone="10, 0" />
+  </ContentPage.Padding>
+  <ContentPage.ToolbarItems>
+    <ToolbarItem x:Name="refreshButton" Text="{local:Translate ButtonRefresh}" Order="Primary" Clicked="RefreshButton_Clicked" />
+    <ToolbarItem x:Name="searchButton" Text="{local:Translate ButtonSearch}" Order="Primary" Clicked="SearchButton_Clicked" />
+    <ToolbarItem x:Name="profileButton" Text="{local:Translate ButtonProfile}" Order="Primary" Clicked="ProfileButton_Clicked" />
+    <ToolbarItem x:Name="settingsButton" Text="{local:Translate ButtonSettings}" Order="Primary" Clicked="SettingsButton_Clicked" />
+  </ContentPage.ToolbarItems>
+  <Grid x:Name="MainGrid" Padding="5">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="auto" />
+    </Grid.RowDefinitions>
+
+    <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding AppTip.Result.Text}" HorizontalOptions="CenterAndExpand" FontAttributes="Italic" Margin="5" />
+  
+  </Grid>
+</ContentPage>

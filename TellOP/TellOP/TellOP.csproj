@@ -66,6 +66,15 @@
     </Compile>
     <Compile Include="Config\TellOPConfiguration.cs" />
     <Compile Include="Config\TellOPSecretsConfiguration.cs" />
+    <Compile Include="DashboardFeaturedAsGrid.xaml.cs">
+      <DependentUpon>DashboardFeaturedAsGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardHistoryAsGrid.xaml.cs">
+      <DependentUpon>DashboardHistoryAsGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardTablet.xaml.cs">
+      <DependentUpon>DashboardTablet.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModels\Activity\DictionarySearchExercise.cs" />
     <Compile Include="DataModels\Activity\Exercise.cs" />
     <Compile Include="DataModels\Activity\ExerciseToNameConverter.cs" />
@@ -384,6 +393,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ViewModels\StringNetCollocationsViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DashboardTablet.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DashboardFeaturedAsGrid.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DashboardHistoryAsGrid.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

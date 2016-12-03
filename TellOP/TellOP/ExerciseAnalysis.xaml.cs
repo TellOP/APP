@@ -40,6 +40,8 @@ namespace TellOP
         /// <param name="ex">The <see cref="EssayExercise"/> containing the exercise to be analyzed.</param>
         public ExerciseAnalysis(EssayExercise ex)
         {
+            ex.ExcludeFunctionalWords = false;
+
             ExerciseAnalysisDataModel binding = new ExerciseAnalysisDataModel(ex);
             this.BindingContext = binding;
             this.InitializeComponent();

@@ -766,6 +766,12 @@ Reference text:
   <data name="SingleWordExploration_Stands4DefinitionsTitle" xml:space="preserve">
     <value>Stands4 Definitions</value>
   </data>
+  <data name="EssayExerciseView_ExSupportTextContentError" xml:space="preserve">
+    <value>This exercise doesn't have any preliminary text.</value>
+  </data>
+  <data name="EssayExerciseView_ExSupportTextLabel" xml:space="preserve">
+    <value>Preliminary Text</value>
+  </data>
   <data name="Stands4ViewCell_Antonyms" xml:space="preserve">
     <value>Antonyms</value>
   </data>

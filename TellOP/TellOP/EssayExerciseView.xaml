@@ -49,6 +49,9 @@ limitations under the License.
 
     <Editor Margin="0,5,0,0" x:Name="ExContentEditor" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Keyboard="Text" BackgroundColor="#FAFAFA" />
 
+    <Label x:Name="ExSupportTextLabel" Text="{local:Translate EssayExerciseView_ExSupportTextLabel}" HorizontalOptions="StartAndExpand" FontSize="Small" FontAttributes="Italic" Margin="5,0,5,0" LineBreakMode="WordWrap" />
+    <Label x:Name="ExSupportTextContent" HorizontalOptions="StartAndExpand" FontSize="Small" FontAttributes="Italic" Margin="5,0,5,0" LineBreakMode="WordWrap" />
+
     <Label x:Name="statVerbsLabel" Text="{local:Translate EssayExerciseView_Verbs}" HorizontalOptions="Center" FontAttributes="Bold"  FontSize="14"  />
     <Label x:Name="statVerbs" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" />
     <ActivityIndicator  x:Name="aiVerbs" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
@@ -69,6 +72,7 @@ limitations under the License.
     <ActivityIndicator x:Name="aiAdjective" HorizontalOptions="Center" VerticalOptions="Start"  Color="Black" IsRunning="false" HeightRequest="12" />
     <Image x:Name="imgReloadAdjective" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
 
+    <!-- Not always displayed elements -->
     <Label Text="{local:Translate EssayExerciseView_Preposition}" x:Name="statPrepositionLabel" HorizontalOptions="Center" FontAttributes="Bold" FontSize="14"   />
     <Label x:Name="statPreposition" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
     <ActivityIndicator x:Name="aiPreposition" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
@@ -79,6 +83,48 @@ limitations under the License.
     <ActivityIndicator x:Name="aiUnclassified" HorizontalOptions="Center" VerticalOptions="Start" Color="Black" IsRunning="false" HeightRequest="12" />
     <Image x:Name="imgReloadUnclassified" HeightRequest="12" WidthRequest="12" VerticalOptions="Start" Source="Toolbar_Refresh_Black.png" />
 
+    <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="A1Frame">
+      <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Label x:Name="A1Caption" Text="{local:Translate LanguageLevel_A1_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label x:Name="A1Content" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+      </StackLayout>
+    </Frame>
+
+    <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="A2Frame">
+      <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Label x:Name="A2Caption" Text="{local:Translate LanguageLevel_A2_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label x:Name="A2Content" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+      </StackLayout>
+    </Frame>
+    
+    <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="B1Frame">
+      <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Label x:Name="B1Caption" Text="{local:Translate LanguageLevel_B1_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label x:Name="B1Content" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+      </StackLayout>
+    </Frame>
+
+    <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="B2Frame">
+      <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Label x:Name="B2Caption" Text="{local:Translate LanguageLevel_B2_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label x:Name="B2Content" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+      </StackLayout>
+    </Frame>
+    
+    <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="C1Frame">
+      <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Label x:Name="C1Caption" Text="{local:Translate LanguageLevel_C1_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label x:Name="C1Content" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+      </StackLayout>
+    </Frame>
+
+    <Frame Padding="2" Grid.Column="0" Grid.Row="0" x:Name="C2Frame">
+      <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Label x:Name="C2Caption" Text="{local:Translate LanguageLevel_C2_Short}" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label x:Name="C2Content" FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+      </StackLayout>
+    </Frame>
+    
   </Grid>
 </ContentPage>
   

@@ -534,6 +534,24 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This exercise doesn&apos;t have any preliminary text..
+        /// </summary>
+        public static string EssayExerciseView_ExSupportTextContentError {
+            get {
+                return ResourceManager.GetString("EssayExerciseView_ExSupportTextContentError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preliminary Text.
+        /// </summary>
+        public static string EssayExerciseView_ExSupportTextLabel {
+            get {
+                return ResourceManager.GetString("EssayExerciseView_ExSupportTextLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reload.
         /// </summary>
         public static string EssayExerciseView_Load {

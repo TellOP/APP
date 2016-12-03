@@ -116,7 +116,14 @@ namespace TellOP
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        App.Current.MainPage = new NavigationPage(new Dashboard());
+                        if (Device.Idiom == TargetIdiom.Tablet || Device.Idiom == TargetIdiom.Desktop)
+                        {
+                            App.Current.MainPage = new NavigationPage(new DashboardTablet());
+                        }
+                        else
+                        {
+                            App.Current.MainPage = new NavigationPage(new Dashboard());
+                        }
                     });
                 });
             }

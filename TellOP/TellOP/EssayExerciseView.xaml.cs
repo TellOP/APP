@@ -1380,21 +1380,21 @@ namespace TellOP
 
                 if (Device.Idiom == TargetIdiom.Tablet || Device.Idiom == TargetIdiom.Desktop)
                 {
-                    int A1Count = (await this.ex.LevelClassification)[LanguageLevelClassification.A1].Count;
-                    int A2Count = (await this.ex.LevelClassification)[LanguageLevelClassification.A2].Count;
-                    int B1Count = (await this.ex.LevelClassification)[LanguageLevelClassification.B1].Count;
-                    int B2Count = (await this.ex.LevelClassification)[LanguageLevelClassification.B2].Count;
-                    int C1Count = (await this.ex.LevelClassification)[LanguageLevelClassification.C1].Count;
-                    int C2Count = (await this.ex.LevelClassification)[LanguageLevelClassification.C2].Count;
+                    int a1Count = (await this.ex.LevelClassification)[LanguageLevelClassification.A1].Count;
+                    int a2Count = (await this.ex.LevelClassification)[LanguageLevelClassification.A2].Count;
+                    int b1Count = (await this.ex.LevelClassification)[LanguageLevelClassification.B1].Count;
+                    int b2Count = (await this.ex.LevelClassification)[LanguageLevelClassification.B2].Count;
+                    int c1Count = (await this.ex.LevelClassification)[LanguageLevelClassification.C1].Count;
+                    int c2Count = (await this.ex.LevelClassification)[LanguageLevelClassification.C2].Count;
 
-                    int tot = A1Count + A2Count + B1Count + B2Count + C1Count + C2Count;
+                    int tot = a1Count + a2Count + b1Count + b2Count + c1Count + c2Count;
 
-                    this.A1Content.Text = string.Format("{0:P0}", A1Count / tot);
-                    this.A2Content.Text = string.Format("{0:P0}", A2Count / tot);
-                    this.B1Content.Text = string.Format("{0:P0}", B1Count / tot);
-                    this.B2Content.Text = string.Format("{0:P0}", B2Count / tot);
-                    this.C1Content.Text = string.Format("{0:P0}", C1Count / tot);
-                    this.C2Content.Text = string.Format("{0:P0}", C2Count / tot);
+                    this.A1Content.Text = string.Format("{0:P0}", a1Count / tot);
+                    this.A2Content.Text = string.Format("{0:P0}", a2Count / tot);
+                    this.B1Content.Text = string.Format("{0:P0}", b1Count / tot);
+                    this.B2Content.Text = string.Format("{0:P0}", b2Count / tot);
+                    this.C1Content.Text = string.Format("{0:P0}", c1Count / tot);
+                    this.C2Content.Text = string.Format("{0:P0}", c2Count / tot);
                 }
 
                 this._changeActivityIndicatorsStatus(false);

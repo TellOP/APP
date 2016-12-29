@@ -54,6 +54,7 @@ limitations under the License.
             </Label>
           </StackLayout>
         </StackLayout>
+        <Button Text="Tutorial" Clicked="TurorialButton_Clicked" />
       </StackLayout>
     </ScrollView>
   </ContentPage.Content>

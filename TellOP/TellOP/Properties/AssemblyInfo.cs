@@ -29,6 +29,6 @@ using Xamarin.Forms.Xaml;
 [assembly: AssemblyTrademark("All trademarks belong to their respective owners.")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyVersion("0.3.*")]
+[assembly: AssemblyVersion("0.4.*")]
 [assembly: ComVisible(false)]
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]

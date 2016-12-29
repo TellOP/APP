@@ -31,8 +31,8 @@ namespace TellOP.DataModels
     using ApiModels.Collins;
     using ApiModels.Exercise;
     using ApiModels.Stands4;
-    using Nito.AsyncEx;
     using ApiModels.StringNet;
+    using Nito.AsyncEx;
 
     /// <summary>
     /// The data model for featured exercises.

@@ -354,7 +354,7 @@ Developed by Mattia Zago and Alessandro Menti</value>
     <value>Sense {0}</value>
   </data>
   <data name="Exercise_EssayName" xml:space="preserve">
-    <value>Essay</value>
+    <value>Exercise</value>
   </data>
   <data name="Exercise_GenericName" xml:space="preserve">
     <value>Exercise</value>
@@ -366,7 +366,7 @@ Developed by Mattia Zago and Alessandro Menti</value>
     <value>A1</value>
   </data>
   <data name="LanguageLevel_A2_Long" xml:space="preserve">
-    <value>A2 level (waystage)</value>
+    <value>A2 level (intermediate)</value>
   </data>
   <data name="LanguageLevel_A2_Short" xml:space="preserve">
     <value>A2</value>
@@ -378,7 +378,7 @@ Developed by Mattia Zago and Alessandro Menti</value>
     <value>B1</value>
   </data>
   <data name="LanguageLevel_B2_Long" xml:space="preserve">
-    <value>B2 level (vantage)</value>
+    <value>B2 level (advanced)</value>
   </data>
   <data name="LanguageLevel_B2_Short" xml:space="preserve">
     <value>B2</value>
@@ -403,7 +403,7 @@ Developed by Mattia Zago and Alessandro Menti</value>
     <comment>Try keeping the string at a maximum length of 4/5 characters</comment>
   </data>
   <data name="EssayExercise_MinMaxWords" xml:space="preserve">
-    <value>Write an essay between {0} and {1} words.</value>
+    <value>Write a text between {0} and {1} words.</value>
   </data>
   <data name="UnexpectedException_Text" xml:space="preserve">
     <value>An unexpected error occurred.

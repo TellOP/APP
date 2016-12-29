@@ -498,7 +498,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Write an essay between {0} and {1} words..
+        ///   Looks up a localized string similar to Write a text between {0} and {1} words..
         /// </summary>
         public static string EssayExercise_MinMaxWords {
             get {
@@ -779,7 +779,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Essay.
+        ///   Looks up a localized string similar to Exercise.
         /// </summary>
         public static string Exercise_EssayName {
             get {
@@ -1160,7 +1160,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A2 level (waystage).
+        ///   Looks up a localized string similar to A2 level (intermediate).
         /// </summary>
         public static string LanguageLevel_A2_Long {
             get {
@@ -1196,7 +1196,7 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to B2 level (vantage).
+        ///   Looks up a localized string similar to B2 level (advanced).
         /// </summary>
         public static string LanguageLevel_B2_Long {
             get {

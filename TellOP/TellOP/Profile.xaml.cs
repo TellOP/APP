@@ -17,6 +17,7 @@
 namespace TellOP
 {
     using System;
+    using System.Threading.Tasks;
     using Xamarin.Forms;
 
     /// <summary>
@@ -30,31 +31,31 @@ namespace TellOP
         public Profile()
         {
             this.InitializeComponent();
-            this.RetrieveUserInformation();
+
+            //this.RetrieveUserInformation();
 
             this.refreshButton.Clicked += this.RefreshButton_Clicked;
             this.settingsButton.Clicked += this.SettingsButton_Clicked;
         }
 
-        private void SettingsButton_Clicked(object sender, EventArgs e)
+        private async void SettingsButton_Clicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            await Tools.Logger.LogWithErrorMessage(this, "This feature is currently under development.", new NotImplementedException());
         }
 
-        private void DashboardButton_Clicked(object sender, EventArgs e)
+        private async void DashboardButton_Clicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            await Tools.Logger.LogWithErrorMessage(this, "This feature is currently under development.", new NotImplementedException());
         }
 
-        private void RefreshButton_Clicked(object sender, EventArgs e)
+        private async void RefreshButton_Clicked(object sender, EventArgs e)
         {
-            this.RetrieveUserInformation();
+            await this.RetrieveUserInformation();
         }
 
-        private void RetrieveUserInformation()
+        private async Task RetrieveUserInformation()
         {
-            // FIXME
-            throw new NotImplementedException();
+            await Tools.Logger.LogWithErrorMessage(this, "This feature is currently under development.", new NotImplementedException());
         }
     }
 }

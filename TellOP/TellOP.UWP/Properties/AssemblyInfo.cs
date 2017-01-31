@@ -27,7 +27,7 @@ using Xamarin.Forms.Xaml;
 [assembly: AssemblyCopyright("Copyright © 2016 University of Murcia")]
 [assembly: AssemblyTrademark("All trademarks belong to their respective owners.")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("0.4.*")]
+[assembly: AssemblyVersion("0.5.*")]
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]

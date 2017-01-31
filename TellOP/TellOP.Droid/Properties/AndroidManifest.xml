@@ -17,7 +17,7 @@ limitations under the License.
 <author>Mattia Zago</author>
 <author>Alessandro Menti</author>
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="es.um.tellop" android:installLocation="auto" android:versionName="0.4 beta" android:versionCode="5">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="es.um.tellop" android:installLocation="auto" android:versionName="0.5 beta" android:versionCode="6">
 	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="24" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

@@ -32,7 +32,7 @@ namespace TellOP
         {
             this.InitializeComponent();
 
-            //this.RetrieveUserInformation();
+            // this.RetrieveUserInformation();
 
             this.refreshButton.Clicked += this.RefreshButton_Clicked;
             this.settingsButton.Clicked += this.SettingsButton_Clicked;
@@ -40,12 +40,12 @@ namespace TellOP
 
         private async void SettingsButton_Clicked(object sender, EventArgs e)
         {
-            await Tools.Logger.LogWithErrorMessage(this, "This feature is currently under development.", new NotImplementedException());
+            await this.Navigation.PushAsync(new SettingsPage());
         }
 
-        private async void DashboardButton_Clicked(object sender, EventArgs e)
+        private void DashboardButton_Clicked(object sender, EventArgs e)
         {
-            await Tools.Logger.LogWithErrorMessage(this, "This feature is currently under development.", new NotImplementedException());
+            this.Navigation.PopAsync();
         }
 
         private async void RefreshButton_Clicked(object sender, EventArgs e)

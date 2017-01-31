@@ -16,7 +16,7 @@
 
 namespace TellOP.DataModels.ApiModels.Exercise
 {
-    using Enums;
+    using DataModels.Enums;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 

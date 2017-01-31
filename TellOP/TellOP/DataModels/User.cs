@@ -16,7 +16,7 @@
 
 namespace TellOP.DataModels
 {
-    using Enums;
+    using DataModels.Enums;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 

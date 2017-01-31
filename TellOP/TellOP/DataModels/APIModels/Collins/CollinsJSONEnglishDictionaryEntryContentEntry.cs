@@ -18,7 +18,7 @@ namespace TellOP.DataModels.ApiModels.Collins
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Enums;
+    using DataModels.Enums;
     using Newtonsoft.Json;
 
     /// <summary>

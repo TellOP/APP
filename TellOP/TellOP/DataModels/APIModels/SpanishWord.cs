@@ -1,4 +1,4 @@
-// <copyright file="DictionarySingleDefinition.cs" company="University of Murcia">
+﻿// <copyright file="SpanishWord.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,52 +15,55 @@
 // <author>Mattia Zago</author>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.ApiModels.Stands4
+namespace TellOP.DataModels.ApiModels
 {
+    using Api;
     using DataModels.Enums;
     using Newtonsoft.Json;
+    using Nito.AsyncEx;
 
     /// <summary>
-    /// A JSON object representing a single definition returned by the Stands4 Dictionary Definitions endpoint.
+    /// A word returned by the <see cref="SpanishPOSTagger"/> API controller.
     /// </summary>
     [JsonObject]
-    public class DictionarySingleDefinition
+    public class SpanishWord : IWord
     {
         /// <summary>
-        /// Gets or sets the term that was searched for.
+        /// Gets or sets the CEFR level of this word.
         /// </summary>
-        [JsonProperty("term")]
-        public string Term { get; set; }
+        public AsyncLazy<LanguageLevelClassification> Level { get; set; }
 
         /// <summary>
-        /// Gets or sets the definition of the term.
+        /// Gets or sets the part of speech this term is categorized into.
         /// </summary>
-        [JsonProperty("definition")]
-        public string Definition { get; set; }
-
-        /// <summary>
-        /// Gets or sets the part of speech the term belongs to.
-        /// </summary>
-        [JsonProperty("partofspeech")]
+        [JsonProperty("pos")]
         [JsonConverter(typeof(PartOfSpeechJsonConverter))]
         public PartOfSpeech PartOfSpeech { get; set; }
 
         /// <summary>
-        /// Gets or sets the usage example for the term.
+        /// Gets or sets the string representation of this word.
         /// </summary>
-        [JsonProperty("example")]
+        [JsonProperty("token")]
+        public string Term { get; set; }
+
+        /// <summary>
+        /// Gets or sets the definition obtained by the remote API.
+        /// </summary>
+        public string Definition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the examples obtained by the remote API.
+        /// </summary>
         public string Example { get; set; }
 
         /// <summary>
-        /// Gets or sets the synonyms for the term.
+        /// Gets or sets the synonyms obtained by the remote API.
         /// </summary>
-        [JsonProperty("synonyms")]
         public string Synonyms { get; set; }
 
         /// <summary>
-        /// Gets or sets the antonyms for the term.
+        /// Gets or sets the antonyms obtained by the remote API.
         /// </summary>
-        [JsonProperty("antonyms")]
         public string Antonyms { get; set; }
     }
 }

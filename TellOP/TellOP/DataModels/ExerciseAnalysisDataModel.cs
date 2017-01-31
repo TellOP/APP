@@ -25,7 +25,7 @@ namespace TellOP.DataModels
     using System.Globalization;
     using System.Threading.Tasks;
     using Activity;
-    using Enums;
+    using DataModels.Enums;
     using Nito.AsyncEx;
 
     /// <summary>

@@ -16,42 +16,45 @@
 
 namespace TellOP.DataModels.Enums
 {
-    using System;
-
     /// <summary>
-    /// Static extensions for <see cref="SupportedLanguage"/>.
+    /// A list of languages supported by the application (in exercises, etc.).
     /// </summary>
     public static class SupportedLanguageExtension
     {
         /// <summary>
-        /// Given a supported language, return the corresponding LCID.
+        /// Returns the LCID string.
         /// </summary>
-        /// <param name="language">An element of the
-        /// <see cref="SupportedLanguage"/> enumeration.</param>
-        /// <returns>The LCID corresponding to the given language.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if
-        /// <paramref name="language"/> is not an element of
-        /// <see cref="SupportedLanguage"/>.</exception>
-        public static string GetLCID(SupportedLanguage language)
+        /// <param name="language">Supported language enum</param>
+        /// <returns>LCID string</returns>
+        public static string ToLCID(this SupportedLanguage language)
         {
             switch (language)
             {
-                case SupportedLanguage.English:
-                    return "en-GB";
-                case SupportedLanguage.USEnglish:
-                    return "en-US";
-                case SupportedLanguage.French:
-                    return "fr-FR";
-                case SupportedLanguage.German:
-                    return "de-DE";
-                case SupportedLanguage.Italian:
-                    return "it-IT";
-                case SupportedLanguage.Spanish:
-                    return "es-ES";
-                default:
-                    throw new ArgumentOutOfRangeException(
-                        "language",
-                        "The supported language is not in the SupportedLanguage enum");
+                case SupportedLanguage.English: return "en-GB";
+                case SupportedLanguage.USEnglish: return "en-US";
+                case SupportedLanguage.French: return "fr-FR";
+                case SupportedLanguage.German: return "de-DE";
+                case SupportedLanguage.Italian: return "it-IT";
+                case SupportedLanguage.Spanish: return "es-ES";
+                default: return "en-GB";
+            }
+        }
+
+        /// <summary>
+        /// Returns the enum from the corresponding LCID string.
+        /// </summary>
+        /// <param name="languageLCID">Supported language LCID</param>
+        /// <returns>Enum</returns>
+        public static SupportedLanguage FromLCID(string languageLCID)
+        {
+            switch (languageLCID)
+            {
+                case "en-GB": default: return SupportedLanguage.English;
+                case "en-US": return SupportedLanguage.USEnglish;
+                case "fr-FR": return SupportedLanguage.French;
+                case "de-DE": return SupportedLanguage.German;
+                case "it-IT": return SupportedLanguage.Italian;
+                case "es-ES": return SupportedLanguage.Spanish;
             }
         }
     }

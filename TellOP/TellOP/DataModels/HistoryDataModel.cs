@@ -93,6 +93,15 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
+        /// Return true iff the task are completed.
+        /// </summary>
+        /// <returns>True iff the task are completed.</returns>
+        public bool CanRefresh()
+        {
+            return this.ExerciseHistory.IsCompleted && this.AppTip.IsCompleted;
+        }
+
+        /// <summary>
         /// Refreshes the exercise history.
         /// </summary>
         public void RefreshHistory()

@@ -17,7 +17,7 @@
 
 namespace TellOP.DataModels.Activity
 {
-    using Enums;
+    using DataModels.Enums;
 
     /// <summary>
     /// An exercise.

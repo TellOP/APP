@@ -16,12 +16,14 @@
 // <author>Alessandro Menti</author>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TellOP.Api;
 using TellOP.DataModels;
+using TellOP.DataModels.Enums;
 using Xamarin.Auth;
 using Xamarin.Forms;
 
@@ -43,6 +45,23 @@ namespace TellOP
         /// The login page.
         /// </summary>
         private static NavigationPage loginPage;
+
+        /// <summary>
+        /// The actived languages dictionary.
+        /// </summary>
+        private static IDictionary<SupportedLanguage, bool> activeLanguages = new Dictionary<SupportedLanguage, bool>()
+        {
+            { SupportedLanguage.English, true },
+            { SupportedLanguage.Spanish, false },
+            { SupportedLanguage.German, false },
+            { SupportedLanguage.Italian, false },
+            { SupportedLanguage.French, false },
+        };
+
+        /// <summary>
+        /// The search language.
+        /// </summary>
+        private static SupportedLanguage activeSearchLanguage = SupportedLanguage.English;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
@@ -83,6 +102,27 @@ namespace TellOP
         /// utilities.
         /// </summary>
         public static ILocalize LocalizationUtils { get; private set; }
+
+        /// <summary>
+        /// Gets the active languages.
+        /// </summary>
+        public static IDictionary<SupportedLanguage, bool> ActiveLanguages
+        {
+            get { return App.activeLanguages; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the use wants the advanced functionalities.
+        /// </summary>
+        public static bool WantsAdvancedReports { get; set; } = true;
+
+        /// <summary>
+        /// Gets the activer seach language.
+        /// </summary>
+        public static SupportedLanguage ActiveSearchLanguage
+        {
+            get { return App.activeSearchLanguage; }
+        }
 
         /// <summary>
         /// Gets or sets the OAuth 2.0 account associated to this app.
@@ -249,6 +289,122 @@ namespace TellOP
             auth.AllowCancel = false;
             auth.Title = TellOP.Properties.Resources.OAuth2_Title;
             return auth;
+        }
+
+        /// <summary>
+        /// Toggle on/off the selected language.
+        /// </summary>
+        /// <param name="language">Selected language</param>
+        /// <param name="status">On/Off switch</param>
+        public void ToggleActiveLanguage(SupportedLanguage language, bool status)
+        {
+            activeLanguages[language] = status;
+            this.StoreProperty(language.ToLCID(), status.ToString());
+        }
+
+        /// <summary>
+        /// Change the current selected language.
+        /// </summary>
+        /// <param name="language">Selected language</param>
+        public void ChangeSelectedLanguage(SupportedLanguage language)
+        {
+            App.activeSearchLanguage = language;
+            this.StoreProperty("Search", language.ToLCID());
+        }
+
+        /// <summary>
+        /// Reloads all the language settings from the App current properties.
+        /// </summary>
+        public void ReloadLanguagesFromProperties()
+        {
+            string value = string.Empty;
+            IDictionary<SupportedLanguage, bool> clone = new Dictionary<SupportedLanguage, bool>(App.ActiveLanguages);
+            foreach (var lang in clone)
+            {
+                value = this.LoadProperty(lang.Key.ToLCID());
+                if (string.IsNullOrEmpty(value))
+                {
+                    Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing '" + lang.Key.ToLCID() + "' property. Adding it with value '" + lang.Value.ToString() + "'");
+                    this.StoreProperty(lang.Key.ToLCID(), lang.Value.ToString());
+                }
+                else
+                {
+                    Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Loading '" + lang.Key.ToLCID() + "' property with value '" + value + "'");
+                    this.ToggleActiveLanguage(lang.Key, bool.Parse(value));
+                }
+            }
+
+            value = this.LoadProperty("Search");
+            if (string.IsNullOrEmpty(this.LoadProperty("Search")))
+            {
+                Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing 'Search' property. Adding it with value '" + App.activeSearchLanguage.ToLCID() + "'");
+                this.StoreProperty("Search", App.activeSearchLanguage.ToLCID());
+            }
+            else
+            {
+                Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Loading 'Search' property with value '" + value + "'");
+                this.ChangeSelectedLanguage(SupportedLanguageExtension.FromLCID(value));
+            }
+        }
+
+        /// <summary>
+        /// Method OnStart.
+        /// </summary>
+        protected override void OnStart()
+        {
+            this.ReloadLanguagesFromProperties();
+        }
+
+        /// <summary>
+        /// App OnSleep.
+        /// </summary>
+        protected override void OnSleep()
+        {
+            // DO NOTHING
+        }
+
+        /// <summary>
+        /// App OnResume.
+        /// </summary>
+        protected override void OnResume()
+        {
+            this.ReloadLanguagesFromProperties();
+        }
+
+        /// <summary>
+        /// Saves a string in the App current properties.
+        /// </summary>
+        /// <param name="key">Key value</param>
+        /// <param name="value">Value string</param>
+        private void StoreProperty(string key, string value)
+        {
+            if (App.Current.Properties.ContainsKey(key))
+            {
+                App.Current.Properties[key] = value;
+            }
+            else
+            {
+                App.Current.Properties.Add(key, value);
+            }
+
+            App.Current.SavePropertiesAsync();
+        }
+
+        /// <summary>
+        /// Retrieves a string from the App current properties.
+        /// </summary>
+        /// <param name="key">Key param</param>
+        /// <returns>Value string</returns>
+        private string LoadProperty(string key)
+        {
+            if (App.Current.Properties.ContainsKey(key))
+            {
+                return (string)App.Current.Properties[key];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

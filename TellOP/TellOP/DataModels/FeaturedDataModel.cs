@@ -17,6 +17,7 @@
 
 namespace TellOP.DataModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -27,7 +28,7 @@ namespace TellOP.DataModels
     using Activity;
     using Api;
     using ApiModels;
-    using Enums;
+    using DataModels.Enums;
     using Nito.AsyncEx;
 
     /// <summary>
@@ -94,6 +95,15 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
+        /// Return true iff the task are completed.
+        /// </summary>
+        /// <returns>True iff the task are completed.</returns>
+        public bool CanRefresh()
+        {
+            return this.FeaturedExercises.IsCompleted && this.AppTip.IsCompleted;
+        }
+
+        /// <summary>
         /// Refreshes the list of featured exercises and the list of tips.
         /// </summary>
         public void RefreshExercises()
@@ -109,10 +119,13 @@ namespace TellOP.DataModels
         private static async Task<ReadOnlyObservableCollection<Grouping<Exercise>>> GetFeaturedExercisesAsync()
         {
             ExerciseFeaturedApi featuredEndpoint = new ExerciseFeaturedApi(App.OAuth2Account);
-            IEnumerable<Exercise> featuredExercises = await Task.Run(async () => await featuredEndpoint.CallEndpointAsExerciseModel());
+            IEnumerable<Exercise> featuredExercises;
+            try
+            {
+                featuredExercises = await Task.Run(async () => await featuredEndpoint.CallEndpointAsExerciseModel());
 
-            // Remove dictionary searches (they are not meant to be displayed in the list).
-            featuredExercises = featuredExercises.Where(x => x.GetType() != typeof(DictionarySearchExercise));
+                // Remove dictionary searches (they are not meant to be displayed in the list).
+                featuredExercises = featuredExercises.Where(x => x.GetType() != typeof(DictionarySearchExercise));
 
             // Group the exercises by their CEFR level.
             LanguageLevelClassificationToLongDescriptionConverter longDescConverter = new LanguageLevelClassificationToLongDescriptionConverter();
@@ -120,6 +133,17 @@ namespace TellOP.DataModels
             IEnumerable<Grouping<Exercise>> featuredByGroup = from ex in featuredExercises group ex by ex.Level into exSameLevel select new Grouping<Exercise>((string)longDescConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), (string)htmlParamConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), exSameLevel.ToList());
 
             return new ReadOnlyObservableCollection<Grouping<Exercise>>(new ObservableCollection<Grouping<Exercise>>(featuredByGroup));
+            }
+            catch (AggregateException ex)
+            {
+                ex.Handle(x =>
+                {
+                    Tools.Logger.Log("FeaturedExercise", ex);
+                    return true;
+                });
+            }
+
+            return new ReadOnlyObservableCollection<Grouping<Exercise>>(new ObservableCollection<Grouping<Exercise>>());
         }
     }
 }

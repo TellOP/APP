@@ -17,6 +17,7 @@
 
 namespace TellOP
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Api;
     using DataModels;
@@ -41,9 +42,17 @@ namespace TellOP
         /// <summary>
         /// Refreshes the exercise list.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CS4014:Await.Warning", Justification = "Need to run the code async without awaiting the result.")]
         public void Refresh()
         {
-            ((FeaturedDataModel)this.BindingContext).RefreshExercises();
+            if (((FeaturedDataModel)this.BindingContext).CanRefresh())
+            {
+                ((FeaturedDataModel)this.BindingContext).RefreshExercises();
+            }
+            else
+            {
+                Logger.LogWithErrorMessage(this, "Cannot refresh while another operation is running.", new System.Exception("Cannot refresh the exercise."));
+            }
         }
 
         /// <summary>

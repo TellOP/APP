@@ -1,4 +1,4 @@
-﻿// <copyright file="ExerciseStatusJsonConverter.cs" company="University of Murcia">
+﻿// <copyright file="SupportedLanguageJsonConverter.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +14,28 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.ApiModels
+namespace TellOP.DataModels.Enums
 {
     using System;
-    using DataModels.Enums;
+    using System.Collections.Generic;
+    using System.Linq;
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Converts a value of the <see cref="ExerciseStatus"/> enumeration to its JSON representation and vice versa.
+    /// Converts a <see cref="SupportedLanguage"/> object to its JSON representation and vice versa.
     /// </summary>
-    public class ExerciseStatusJsonConverter : JsonConverter
+    public class SupportedLanguageJsonConverter : JsonConverter
     {
+        private static readonly Dictionary<string, SupportedLanguage> _converterDictionary = new Dictionary<string, SupportedLanguage>()
+        {
+            { "en-GB", SupportedLanguage.English },
+            { "en-US", SupportedLanguage.USEnglish },
+            { "fr-FR", SupportedLanguage.French },
+            { "de-DE", SupportedLanguage.German },
+            { "it-IT", SupportedLanguage.Italian },
+            { "es-ES", SupportedLanguage.Spanish }
+        };
+
         /// <summary>
         /// Determines whether this instance can convert the specified object type.
         /// </summary>
@@ -32,11 +43,11 @@ namespace TellOP.DataModels.ApiModels
         /// <returns><c>true</c> if <paramref name="objectType"/> is a string, <c>false</c> otherwise.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(ExerciseStatus);
+            return objectType == typeof(string);
         }
 
         /// <summary>
-        /// Converts a JSON representation, used by the exercise API endpoints, of an <see cref="ExerciseStatus"/>
+        /// Converts a JSON representation, used by the exercise API endpoints, of a <see cref="SupportedLanguage"/>
         /// enumeration value to a string.
         /// </summary>
         /// <param name="reader">A <see cref="JsonReader"/> object used to translate the JSON representation of the
@@ -44,7 +55,7 @@ namespace TellOP.DataModels.ApiModels
         /// <param name="objectType">The object type.</param>
         /// <param name="existingValue">The existing value of the object being read.</param>
         /// <param name="serializer">The calling serializer.</param>
-        /// <returns>The value of the <see cref="ExerciseStatus"/> enumeration corresponding to the given JSON
+        /// <returns>The value of the <see cref="SupportedLanguage"/> enumeration corresponding to the given JSON
         /// representation.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -53,29 +64,14 @@ namespace TellOP.DataModels.ApiModels
                 throw new ArgumentNullException("reader");
             }
 
-            bool? checkValue = (bool?)reader.Value;
-            if (!checkValue.HasValue)
-            {
-                return ExerciseStatus.NotCompleted;
-            }
-            else
-            {
-                bool val = (bool)checkValue;
-                if (val)
-                {
-                    return ExerciseStatus.Satisfactory;
-                }
-                else
-                {
-                    return ExerciseStatus.Unsatisfactory;
-                }
-            }
+            string stringValue = (string)reader.Value;
+            return _converterDictionary.FirstOrDefault(x => x.Key.Equals(stringValue)).Value;
         }
 
         /// <summary>
-        /// Converts an <see cref="ExerciseStatus"/> enum value to its JSON representation used by the exercise API
-        /// endpoints. If <paramref name="value"/> is not an <see cref="ExerciseStatus"/> object, the conversion is not
-        /// performed.
+        /// Converts a <see cref="SupportedLanguage"/> enum value to its JSON representation used by the exercise API
+        /// endpoints. If <paramref name="value"/> is not a <see cref="SupportedLanguage"/> object, the conversion is
+        /// not performed.
         /// </summary>
         /// <param name="writer">A <see cref="JsonWriter"/> object used to translate the object to its JSON
         /// representation.</param>
@@ -88,19 +84,8 @@ namespace TellOP.DataModels.ApiModels
                 throw new ArgumentNullException("writer");
             }
 
-            ExerciseStatus es = (ExerciseStatus)value;
-            switch (es)
-            {
-                case ExerciseStatus.NotCompleted:
-                    writer.WriteValue((bool?)null);
-                    break;
-                case ExerciseStatus.Satisfactory:
-                    writer.WriteValue(true);
-                    break;
-                case ExerciseStatus.Unsatisfactory:
-                    writer.WriteValue(false);
-                    break;
-            }
+            SupportedLanguage lang = (SupportedLanguage)value;
+            writer.WriteValue(_converterDictionary.FirstOrDefault(x => x.Value.Equals(lang)).Key);
         }
     }
 }

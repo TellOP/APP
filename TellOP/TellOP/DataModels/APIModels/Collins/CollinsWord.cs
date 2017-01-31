@@ -19,7 +19,7 @@ namespace TellOP.DataModels.ApiModels.Collins
 {
     using System;
     using System.Collections.Generic;
-    using Enums;
+    using DataModels.Enums;
     using Nito.AsyncEx;
     using SQLiteModels;
 

@@ -46,6 +46,7 @@ limitations under the License.
           <TapGestureRecognizer Tapped="Title_Tapped" />
         </Label.GestureRecognizers>
       </Label>
+      <Label HorizontalOptions="CenterAndExpand" IsVisible="false" x:Name="ErrorProfileLevel" TextColor="#F44336" FontAttributes="Italic" />
       <Grid Padding="2" x:Name="SectionProfileLevels" IsVisible="false">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
@@ -122,6 +123,7 @@ limitations under the License.
             <Label FontSize="14" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="{Binding LevelClassificationDistribution.Result, Converter={datamodels:LevelClassificationDistributionConverter}, ConverterParameter={x:Static enums:LanguageLevelClassification.Unknown}}" />
           </StackLayout>
         </Frame>
+
       </Grid>
       <TableView VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Intent="Data" x:Name="WordsByLevelTable" IsVisible="false">
         <TableRoot>
@@ -136,6 +138,8 @@ limitations under the License.
           <TapGestureRecognizer Tapped="Title_Tapped" />
         </Label.GestureRecognizers>
       </Label>
+      <Label HorizontalOptions="CenterAndExpand" IsVisible="false" x:Name="ErrorLexTutor" FontAttributes="Italic" />
+      
       <Grid x:Name="SectionLexTutorResults" IsVisible="false">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />

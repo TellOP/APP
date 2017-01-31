@@ -22,6 +22,7 @@ namespace TellOP
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
+    using System.Threading.Tasks;
     using DataModels;
     using DataModels.Activity;
     using DataModels.Enums;
@@ -35,12 +36,18 @@ namespace TellOP
     public partial class ExerciseAnalysis : ContentPage
     {
         /// <summary>
+        /// Current Language
+        /// </summary>
+        private SupportedLanguage currentLanguage;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ExerciseAnalysis"/> class.
         /// </summary>
         /// <param name="ex">The <see cref="EssayExercise"/> containing the exercise to be analyzed.</param>
         public ExerciseAnalysis(EssayExercise ex)
         {
             ex.ExcludeFunctionalWords = false;
+            this.currentLanguage = ex.Language;
 
             ExerciseAnalysisDataModel binding = new ExerciseAnalysisDataModel(ex);
             this.BindingContext = binding;
@@ -81,7 +88,30 @@ namespace TellOP
         {
             if (await ConnectivityCheck.AskToEnableConnectivity(this))
             {
-                await this.Navigation.PushAsync(new SingleWordExploration(((OfflineWord)e.Item).Term));
+                await this.CallSearchPage(((IWord)e.Item).Term);
+            }
+        }
+
+        /// <summary>
+        /// Call the search page optimized for the multi language.
+        /// </summary>
+        /// <param name="term">Search Term</param>
+        /// <returns>Awaitable object</returns>
+        private async Task CallSearchPage(string term)
+        {
+            switch (this.currentLanguage)
+            {
+                case SupportedLanguage.Spanish:
+                    {
+                        await this.Navigation.PushAsync(new MainSearch(term));
+                        return;
+                    }
+
+                default:
+                    {
+                        await this.Navigation.PushAsync(new SingleWordExploration(term));
+                        return;
+                    }
             }
         }
 
@@ -102,11 +132,11 @@ namespace TellOP
 
                 if (senderCell.BindingContext is IWord)
                 {
-                    await this.Navigation.PushAsync(new SingleWordExploration(((IWord)senderCell.BindingContext).Term));
+                    await this.CallSearchPage(((IWord)senderCell.BindingContext).Term);
                 }
                 else
                 {
-                    await this.Navigation.PushAsync(new SingleWordExploration(senderCell.Text));
+                    await this.CallSearchPage(senderCell.Text);
                 }
             }
         }
@@ -136,11 +166,13 @@ namespace TellOP
         {
             if (sender == this.ProfileLevelTitle)
             {
-                this.EnablePanels(!this.SectionProfileLevels.IsVisible, false, false);
+                // Needs || to include the errors in the logic.
+                this.EnablePanels(!(this.SectionProfileLevels.IsVisible || this.ErrorProfileLevel.IsVisible), false, false);
             }
             else if (sender == this.LexTutorTitle)
             {
-                this.EnablePanels(false, !this.SectionLexTutorResults.IsVisible, false);
+                // Needs || to include the errors in the logic.
+                this.EnablePanels(false, !(this.SectionLexTutorResults.IsVisible || this.ErrorLexTutor.IsVisible), false);
             }
             else if (sender == this.ExploreTitle)
             {
@@ -156,19 +188,73 @@ namespace TellOP
         /// <param name="explore">Show/hide the explore panel.</param>
         private async void EnablePanels(bool profile, bool lextutor, bool explore)
         {
-            this.SectionProfileLevels.IsVisible = profile;
-            this.WordsByLevelTable.IsVisible = profile;
-            this.ProfileLevelTitle.Text = profile ? Properties.Resources.ExerciseAnalysis_ProfileLevelTitle_Expanded : Properties.Resources.ExerciseAnalysis_ProfileLevelTitle_Contracted;
+            var e = ((ExerciseAnalysisDataModel)this.BindingContext).Exercise;
 
-            // Initialize the list on the first tap.
-            if (profile == true && this.WordsByLevelTableSection.Count == 0)
+            if (profile)
             {
-                await ((ExerciseAnalysisDataModel)this.BindingContext).LevelClassification.Task;
-                this.FillLevelList(((ExerciseAnalysisDataModel)this.BindingContext).LevelClassification.Result[LanguageLevelClassification.A1]);
+                try
+                {
+                    // Initialize the list on the first tap.
+                    if (this.WordsByLevelTableSection.Count == 0)
+                    {
+                        await ((ExerciseAnalysisDataModel)this.BindingContext).LevelClassification.Task;
+                        this.FillLevelList(((ExerciseAnalysisDataModel)this.BindingContext).LevelClassification.Result[LanguageLevelClassification.A1]);
+                    }
+
+                    this.SectionProfileLevels.IsVisible = true;
+                    this.WordsByLevelTable.IsVisible = true;
+                    this.ProfileLevelTitle.Text = Properties.Resources.ExerciseAnalysis_ProfileLevelTitle_Expanded;
+                    this.ErrorProfileLevel.IsVisible = false;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is KeyNotFoundException && e.Language != SupportedLanguage.English && e.Language != SupportedLanguage.USEnglish)
+                    {
+                        this.ErrorProfileLevel.Text = string.Format(Properties.Resources.ExerciseAnalysis_ErrorLanguageUnsupported, e.Language.ToString());
+                        Logger.Log(ex.GetType() + ":" + e.Language, "User requested an unsupported language");
+                    }
+                    else
+                    {
+                        this.ErrorProfileLevel.Text = Properties.Resources.UnexpectedException_Text;
+                        Logger.Log("ExerciseAnalysis-EnablePanels", ex);
+                    }
+
+                    this.SectionProfileLevels.IsVisible = false;
+                    this.WordsByLevelTable.IsVisible = false;
+                    this.ProfileLevelTitle.Text = Properties.Resources.ExerciseAnalysis_ProfileLevelTitle_Expanded;
+                    this.ErrorProfileLevel.IsVisible = true;
+                }
+            }
+            else
+            {
+                this.SectionProfileLevels.IsVisible = false;
+                this.WordsByLevelTable.IsVisible = false;
+                this.ProfileLevelTitle.Text = Properties.Resources.ExerciseAnalysis_ProfileLevelTitle_Contracted;
+                this.ErrorProfileLevel.IsVisible = false;
             }
 
-            this.SectionLexTutorResults.IsVisible = lextutor;
-            this.LexTutorTitle.Text = lextutor ? Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Expanded : Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Contracted;
+            if (App.WantsAdvancedReports && (e.Language == SupportedLanguage.English || e.Language == SupportedLanguage.USEnglish))
+            {
+                this.SectionLexTutorResults.IsVisible = lextutor;
+                this.LexTutorTitle.Text = lextutor ? Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Expanded : Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Contracted;
+                this.ErrorLexTutor.IsVisible = false;
+            }
+            else
+            {
+                this.SectionLexTutorResults.IsVisible = false;
+                this.SectionLexTutorResults.IsEnabled = false;
+                this.LexTutorTitle.Text = lextutor ? Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Expanded : Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Contracted;
+                if (e.Language != SupportedLanguage.English && e.Language != SupportedLanguage.USEnglish)
+                {
+                    this.ErrorLexTutor.Text = string.Format(Properties.Resources.ExerciseAnalysis_ErrorLanguageUnsupported, e.Language.ToString());
+                }
+                else
+                {
+                    this.ErrorLexTutor.Text = Properties.Resources.ExerciseAnalysis_ErrorEnableAdvancedFunctionalities;
+                }
+
+                this.ErrorLexTutor.IsVisible = lextutor;
+            }
 
             this.SectionPoS.IsVisible = explore;
             this.WordsByPoSTable.IsVisible = explore;

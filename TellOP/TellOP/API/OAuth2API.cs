@@ -20,9 +20,11 @@ namespace TellOP.Api
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using DataModels.Enums;
     using Xamarin.Auth;
 
     /// <summary>
@@ -217,6 +219,11 @@ namespace TellOP.Api
 
                     apiURIParameters.Add(paramSplit[0], (paramSplit.Length == 2) ? paramSplit[1] : null);
                 }
+            }
+
+            foreach (KeyValuePair<SupportedLanguage, bool> lang in App.ActiveLanguages.Where(kp => kp.Value))
+            {
+                apiURIParameters.Add(lang.Key.ToLCID(), "1");
             }
 
             // Remember that parameters are passed in the POST body in Xamarin.Auth:

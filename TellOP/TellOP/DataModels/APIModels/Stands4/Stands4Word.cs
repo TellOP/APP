@@ -19,7 +19,7 @@ namespace TellOP.DataModels.ApiModels.Stands4
 {
     using System;
     using Api;
-    using Enums;
+    using DataModels.Enums;
     using Nito.AsyncEx;
     using SQLiteModels;
 

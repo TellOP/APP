@@ -17,6 +17,7 @@
 
 namespace TellOP
 {
+    using System.Diagnostics.CodeAnalysis;
     using DataModels;
     using DataModels.Activity;
     using Tools;
@@ -39,9 +40,17 @@ namespace TellOP
         /// <summary>
         /// Refreshes the exercise history list.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CS4014:Await.Warning", Justification = "Need to run the code async without awaiting the result.")]
         public void Refresh()
         {
-            ((HistoryDataModel)this.BindingContext).RefreshHistory();
+            if (((HistoryDataModel)this.BindingContext).CanRefresh())
+            {
+                ((HistoryDataModel)this.BindingContext).RefreshHistory();
+            }
+            else
+            {
+                Logger.LogWithErrorMessage(this, "Cannot refresh history while another operation is running.", new System.Exception("Cannot refresh history."));
+            }
         }
 
         /// <summary>

@@ -19,6 +19,7 @@ namespace TellOP
 {
     using Api;
     using DataModels;
+    using DataModels.Enums;
     using Tools;
     using ViewModels;
     using Xamarin.Forms;
@@ -33,12 +34,132 @@ namespace TellOP
         /// </summary>
         public MainSearch()
         {
-            this.BindingContext = new SearchDataModel();
+            switch (App.ActiveSearchLanguage)
+            {
+                case SupportedLanguage.Spanish:
+                    {
+                        this.BindingContext = new SpanishSearchDataModel();
+                        break;
+                    }
+
+                case SupportedLanguage.English:
+                case SupportedLanguage.USEnglish:
+                default:
+                    {
+                        this.BindingContext = new EnglishSearchDataModel();
+                        break;
+                    }
+            }
+
             this.InitializeComponent();
-            this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
-            this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
-            this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
-            this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+
+            switch (App.ActiveSearchLanguage)
+            {
+                case SupportedLanguage.Spanish:
+                    {
+                        this.SearchListOxford.ItemTemplate = new DataTemplate(typeof(OxfordViewCell));
+                        this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+                        this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+
+                        this.DefinitionsStack.Children.Remove(this.Stands4ElementsGroup);
+                        this.DefinitionsStack.Children.Remove(this.CollinsElementsGroup);
+
+                        this.Stands4ElementsGroup.IsVisible = false;
+                        this.Stands4ElementsGroup.IsEnabled = false;
+                        this.CollinsElementsGroup.IsVisible = false;
+                        this.CollinsElementsGroup.IsEnabled = false;
+
+                        this.Title += " " + Properties.Resources.Language_Spanish;
+                        break;
+                    }
+
+                case SupportedLanguage.English:
+                case SupportedLanguage.USEnglish:
+                default:
+                    {
+                        this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
+                        this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
+                        this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+                        this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+
+                        this.DefinitionsStack.Children.Remove(this.OxfordElementsGroup);
+
+                        this.OxfordElementsGroup.IsVisible = false;
+                        this.OxfordElementsGroup.IsEnabled = false;
+
+                        this.Title += " " + Properties.Resources.Language_English;
+                        break;
+                    }
+            }
+
+            this.BTNShowDefinitions.Clicked += this.ShowCorrectPanel;
+            this.BTNShowStringNetStack.Clicked += this.ShowCorrectPanel;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainSearch"/> class.
+        /// </summary>
+        /// <param name="term">Term to be searched</param>
+        public MainSearch(string term)
+        {
+            switch (App.ActiveSearchLanguage)
+            {
+                case SupportedLanguage.Spanish:
+                    {
+                        this.BindingContext = new SpanishSearchDataModel();
+                        break;
+                    }
+
+                case SupportedLanguage.English:
+                case SupportedLanguage.USEnglish:
+                default:
+                    {
+                        this.BindingContext = new EnglishSearchDataModel();
+                        break;
+                    }
+            }
+
+            this.InitializeComponent();
+            this.SearchBar.Text = term;
+
+            switch (App.ActiveSearchLanguage)
+            {
+                case SupportedLanguage.Spanish:
+                    {
+                        this.SearchListOxford.ItemTemplate = new DataTemplate(typeof(OxfordViewCell));
+                        this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+                        this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+
+                        this.DefinitionsStack.Children.Remove(this.Stands4ElementsGroup);
+                        this.DefinitionsStack.Children.Remove(this.CollinsElementsGroup);
+
+                        this.Stands4ElementsGroup.IsVisible = false;
+                        this.Stands4ElementsGroup.IsEnabled = false;
+                        this.CollinsElementsGroup.IsVisible = false;
+                        this.CollinsElementsGroup.IsEnabled = false;
+
+                        this.Title += " " + Properties.Resources.Language_Spanish;
+                        break;
+                    }
+
+                case SupportedLanguage.English:
+                case SupportedLanguage.USEnglish:
+                default:
+                    {
+                        this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
+                        this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
+                        this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+                        this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+
+                        this.DefinitionsStack.Children.Remove(this.OxfordElementsGroup);
+
+                        this.OxfordElementsGroup.IsVisible = false;
+                        this.OxfordElementsGroup.IsEnabled = false;
+
+                        this.Title += " " + Properties.Resources.Language_English;
+                        break;
+                    }
+            }
 
             this.BTNShowDefinitions.Clicked += this.ShowCorrectPanel;
             this.BTNShowStringNetStack.Clicked += this.ShowCorrectPanel;
@@ -97,7 +218,7 @@ namespace TellOP
 
             if (await ConnectivityCheck.AskToEnableConnectivity(this))
             {
-                ((SearchDataModel)this.BindingContext).SearchForWord(searchBar.Text);
+                ((ISearchDataModel)this.BindingContext).SearchForWord(searchBar.Text);
 
                 // Hide all panels, enable the buttons
                 this.EnableDefinitionsPanel(true, false);
@@ -114,7 +235,7 @@ namespace TellOP
         /// <param name="e">The event parameters.</param>
         private void SearchList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            if (((SearchDataModel)this.BindingContext).IsSearchEnabled)
+            if (((ISearchDataModel)this.BindingContext).IsSearchEnabled)
             {
                 ((ListView)sender).SelectedItem = null;
             }

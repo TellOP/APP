@@ -854,6 +854,24 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to enable this feature in the profile settings..
+        /// </summary>
+        public static string ExerciseAnalysis_ErrorEnableAdvancedFunctionalities {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_ErrorEnableAdvancedFunctionalities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not yet supported..
+        /// </summary>
+        public static string ExerciseAnalysis_ErrorLanguageUnsupported {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_ErrorLanguageUnsupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Explore your text.
         /// </summary>
         public static string ExerciseAnalysis_ExploreText_Contracted {
@@ -886,6 +904,15 @@ namespace TellOP.Properties {
         public static string ExerciseAnalysis_KFrequencyDistribution {
             get {
                 return ResourceManager.GetString("ExerciseAnalysis_KFrequencyDistribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language level classification.
+        /// </summary>
+        public static string ExerciseAnalysis_LanguageLevelClassification {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_LanguageLevelClassification", resourceCulture);
             }
         }
         
@@ -1030,6 +1057,15 @@ namespace TellOP.Properties {
         public static string ExerciseAnalysis_TypeTokenRatio {
             get {
                 return ResourceManager.GetString("ExerciseAnalysis_TypeTokenRatio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percent.
+        /// </summary>
+        public static string ExerciseAnalysis_WordPercent {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_WordPercent", resourceCulture);
             }
         }
         
@@ -1457,6 +1493,51 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Definitions.
+        /// </summary>
+        public static string OxfordViewCell_Definition {
+            get {
+                return ResourceManager.GetString("OxfordViewCell_Definition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to + Oxford.
+        /// </summary>
+        public static string OxfordViewCell_DictionaryName_Contracted {
+            get {
+                return ResourceManager.GetString("OxfordViewCell_DictionaryName_Contracted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Oxford.
+        /// </summary>
+        public static string OxfordViewCell_DictionaryName_Expanded {
+            get {
+                return ResourceManager.GetString("OxfordViewCell_DictionaryName_Expanded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Examples.
+        /// </summary>
+        public static string OxfordViewCell_Example {
+            get {
+                return ResourceManager.GetString("OxfordViewCell_Example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sense {0}.
+        /// </summary>
+        public static string OxfordViewCell_SenseCounter {
+            get {
+                return ResourceManager.GetString("OxfordViewCell_SenseCounter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjective.
         /// </summary>
         public static string PartOfSpeech_Adjective {
@@ -1754,6 +1835,33 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to At least one language must be enabled. By disabling &apos;{0}&apos; you will enable &apos;{1}&apos; as default..
+        /// </summary>
+        public static string SettingPageQuestionMessage {
+            get {
+                return ResourceManager.GetString("SettingPageQuestionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning! One language is required..
+        /// </summary>
+        public static string SettingPageQuestionTitle {
+            get {
+                return ResourceManager.GetString("SettingPageQuestionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is the default language. You cannot disable it without enabling another language first..
+        /// </summary>
+        public static string SettingPageWarningDefaultLanguage {
+            get {
+                return ResourceManager.GetString("SettingPageWarningDefaultLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collins.
         /// </summary>
         public static string SingleWordExploration_Collins {
@@ -1786,6 +1894,24 @@ namespace TellOP.Properties {
         public static string SingleWordExploration_NetSpeak {
             get {
                 return ResourceManager.GetString("SingleWordExploration_NetSpeak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oxford.
+        /// </summary>
+        public static string SingleWordExploration_Oxford {
+            get {
+                return ResourceManager.GetString("SingleWordExploration_Oxford", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oxford Definitions.
+        /// </summary>
+        public static string SingleWordExploration_OxfordDefinitionsTitle {
+            get {
+                return ResourceManager.GetString("SingleWordExploration_OxfordDefinitionsTitle", resourceCulture);
             }
         }
         

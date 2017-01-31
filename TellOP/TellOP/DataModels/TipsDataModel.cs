@@ -22,7 +22,7 @@ namespace TellOP.DataModels
     using System.Threading.Tasks;
     using Api;
     using ApiModels;
-    using Enums;
+    using DataModels.Enums;
 
     /// <summary>
     /// Static functions used by data models for application tips management.

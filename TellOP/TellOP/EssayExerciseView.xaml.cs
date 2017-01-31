@@ -18,6 +18,7 @@ namespace TellOP
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -46,6 +47,7 @@ namespace TellOP
         /// Initializes a new instance of the <see cref="EssayExerciseView"/> class.
         /// </summary>
         /// <param name="essay">EssayExercise object</param>
+        [SuppressMessage("Microsoft.Design", "CS4014:Await.Warning", Justification = "Need to run the code async without awaiting the result.")]
         public EssayExerciseView(EssayExercise essay)
         {
             if (essay == null)
@@ -1177,7 +1179,7 @@ namespace TellOP
 
             this.ex = essex;
 
-            this.Title = this.ExTypeOfExercise + " " + this.ExLevel;
+            this.Title = this.ExLanguage.ToString() + " " + this.ExLevel;
             this.ExTitleLabel.Text = this.ExTitle;
             this.ExDescriptionLabel.Text = string.Format(Properties.Resources.EssayExercise_MinMaxWords, this.ex.MinimumWords, this.ex.MaximumWords);
 
@@ -1297,10 +1299,9 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Perform a full analysis
+        /// Prepare the text for the analysis.
         /// </summary>
-        /// <returns>True if the operation is completed correctly</returns>
-        private async Task AnalyzeText()
+        private void PreparseText()
         {
             if (string.IsNullOrWhiteSpace(this.ExContentEditor.Text))
             {
@@ -1363,10 +1364,19 @@ namespace TellOP
                 this.ExContentEditor.Text = this.ExContentEditor.Text.Replace("”", "\"");
             }
 
-            Tools.Logger.Log(this.GetType().ToString(), "Replace all the contractions");
+            Logger.Log(this.GetType().ToString(), "Replace all the contractions");
+        }
+
+        /// <summary>
+        /// Perform a full analysis of a text.
+        /// </summary>
+        /// <returns>True if the operation is completed correctly</returns>
+        private async Task AnalyzeText()
+        {
+            this.PreparseText();
 
             // FIXME this.ex.Contents = OfflineWord.ReplaceAllEnglishContractions(this.ExContentEditor.Text.ToLower());
-            Tools.Logger.Log(this.GetType().ToString(), "Start new offline analysis.");
+            Logger.Log(this.GetType().ToString(), "Start new offline analysis.");
             this._changeActivityIndicatorsStatus(true);
 
             try
@@ -1403,7 +1413,7 @@ namespace TellOP
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this.GetType().ToString(), "Offline analysis didn't exit correctly.", ex);
+                Logger.Log(this.GetType().ToString(), "Offline analysis didn't exit correctly.", ex);
 
                 bool userChoice = await this.DisplayAlert(
                     Properties.Resources.Error,

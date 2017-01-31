@@ -47,9 +47,6 @@ limitations under the License.
 
       <Label Grid.Row="3" Grid.Column="0" Text="{i18n:Translate Profile_LanguageLevel}" FontAttributes="Bold" />
       <Label x:Name="languageLevelLabel" Grid.Row="2" Grid.Column="1" />
-
-      
-      
     </Grid>
   </StackLayout>
   

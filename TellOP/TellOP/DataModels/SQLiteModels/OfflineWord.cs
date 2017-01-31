@@ -24,7 +24,7 @@ namespace TellOP.DataModels.SQLiteModels
     using System.Globalization;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Enums;
+    using DataModels.Enums;
     using global::SQLite;
     using Nito.AsyncEx;
 

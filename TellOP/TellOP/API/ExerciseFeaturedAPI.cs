@@ -62,16 +62,24 @@ namespace TellOP.Api
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
         public async Task<IList<Exercise>> CallEndpointAsExerciseModel()
         {
-            IList<Activity> resultList = await this.CallEndpointAsObjectAsync().ConfigureAwait(false);
-
-            List<Exercise> convertedResultList = new List<Exercise>();
-
-            foreach (Activity result in resultList)
+            try
             {
-                convertedResultList.Add(ExerciseApi.ConvertActivityToExercise(result));
+                IList<Activity> resultList = await this.CallEndpointAsObjectAsync().ConfigureAwait(false);
+                List<Exercise> convertedResultList = new List<Exercise>();
+
+                foreach (Activity result in resultList)
+                {
+                    convertedResultList.Add(ExerciseApi.ConvertActivityToExercise(result));
+                }
+
+                return convertedResultList;
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(this.GetType().ToString(), ex);
             }
 
-            return convertedResultList;
+            return new List<Exercise>();
         }
     }
 }

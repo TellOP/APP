@@ -778,4 +778,49 @@ Reference text:
   <data name="Stands4ViewCell_Synonyms" xml:space="preserve">
     <value>Synonyms</value>
   </data>
+  <data name="ExerciseAnalysis_ErrorEnableAdvancedFunctionalities" xml:space="preserve">
+    <value>You need to enable this feature in the profile settings.</value>
+  </data>
+  <data name="ExerciseAnalysis_ErrorLanguageUnsupported" xml:space="preserve">
+    <value>{0} is not yet supported.</value>
+    <comment>{0} is the language, e.g. Spanish</comment>
+  </data>
+  <data name="OxfordViewCell_Definition" xml:space="preserve">
+    <value>Definitions</value>
+  </data>
+  <data name="OxfordViewCell_DictionaryName_Contracted" xml:space="preserve">
+    <value>+ Oxford</value>
+  </data>
+  <data name="OxfordViewCell_DictionaryName_Expanded" xml:space="preserve">
+    <value>- Oxford</value>
+  </data>
+  <data name="OxfordViewCell_Example" xml:space="preserve">
+    <value>Examples</value>
+  </data>
+  <data name="OxfordViewCell_SenseCounter" xml:space="preserve">
+    <value>Sense {0}</value>
+  </data>
+  <data name="SingleWordExploration_Oxford" xml:space="preserve">
+    <value>Oxford</value>
+  </data>
+  <data name="SingleWordExploration_OxfordDefinitionsTitle" xml:space="preserve">
+    <value>Oxford Definitions</value>
+  </data>
+  <data name="SettingPageQuestionMessage" xml:space="preserve">
+    <value>At least one language must be enabled. By disabling '{0}' you will enable '{1}' as default.</value>
+    <comment>{0} represents the current language, {1} the default language (English)</comment>
+  </data>
+  <data name="SettingPageQuestionTitle" xml:space="preserve">
+    <value>Warning! One language is required.</value>
+  </data>
+  <data name="SettingPageWarningDefaultLanguage" xml:space="preserve">
+    <value>{0} is the default language. You cannot disable it without enabling another language first.</value>
+    <comment>{0} is the default language (English)</comment>
+  </data>
+  <data name="ExerciseAnalysis_LanguageLevelClassification" xml:space="preserve">
+    <value>Language level classification</value>
+  </data>
+  <data name="ExerciseAnalysis_WordPercent" xml:space="preserve">
+    <value>Percent</value>
+  </data>
 </root>

@@ -17,9 +17,10 @@
 namespace TellOP.DataModels
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
-    using Enums;
+    using DataModels.Enums;
     using Xamarin.Forms;
 
     /// <summary>
@@ -37,17 +38,25 @@ namespace TellOP.DataModels
         /// <returns>The target value corresponding to the given source value.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
+            try
             {
+                if (value == null || ((ICollection)value).Count == 0)
+                {
+                    return string.Empty;
+                }
+
+                LanguageLevelClassification llc = (LanguageLevelClassification)parameter;
+
+                CultureInfo tmp = (CultureInfo)culture.Clone();
+                tmp.NumberFormat.PercentDecimalDigits = 0;
+
+                return ((Dictionary<LanguageLevelClassification, float>)value)[llc].ToString("P", tmp);
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(this.GetType().ToString(), ex);
                 return string.Empty;
             }
-
-            LanguageLevelClassification llc = (LanguageLevelClassification)parameter;
-
-            CultureInfo tmp = (CultureInfo)culture.Clone();
-            tmp.NumberFormat.PercentDecimalDigits = 0;
-
-            return ((Dictionary<LanguageLevelClassification, float>)value)[llc].ToString("P", tmp);
         }
 
         /// <summary>

@@ -18,6 +18,8 @@ namespace TellOP.Config
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// A class containing the Tell-OP base URI and endpoint URI building functions.
@@ -42,6 +44,13 @@ namespace TellOP.Config
             { "TellOP.API.StringNet", "/api/v1/resource/stringnet" },
             { "TellOP.API.Tips", "/api/v1/app/tips" },
             { "TellOP.API.UserProfile", "/api/v1/app/profile" },
+            { "TellOP.API.SpanishPOSTagger", "/api/v1/resource/estagger" },
+            { "TellOP.API.OxfordDictionary.English", "/api/v1/resource/oxford/en" },
+            { "TellOP.API.OxfordDictionary.USEnglish", "/api/v1/resource/oxford/en" },
+            { "TellOP.API.OxfordDictionary.French", "/api/v1/resource/oxford/fr" },
+            { "TellOP.API.OxfordDictionary.German", "/api/v1/resource/oxford/de" },
+            { "TellOP.API.OxfordDictionary.Italian", "/api/v1/resource/oxford/it" },
+            { "TellOP.API.OxfordDictionary.Spanish", "/api/v1/resource/oxford/es" },
         };
 
         /// <summary>
@@ -178,7 +187,15 @@ namespace TellOP.Config
         /// <exception cref="KeyNotFoundException">Thrown if the key is missing or misspelled.</exception>
         public static string GetEndpoint(string fullyQualifiedApiClassName)
         {
-            return TellOPSecretsConfiguration.ServerBaseUrl + _serverEndpoints[fullyQualifiedApiClassName];
+            try
+            {
+                return TellOPSecretsConfiguration.ServerBaseUrl + _serverEndpoints[fullyQualifiedApiClassName];
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log("TellOPConfiguration:GetEndpoint", "You requested '" + fullyQualifiedApiClassName + "', but these are the values:\n" + string.Join("\n", _serverEndpoints.Select(x => x.Key + "\t=> " + x.Value).ToArray()), ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -190,7 +207,7 @@ namespace TellOP.Config
         /// <exception cref="KeyNotFoundException">Thrown if the key is missing or misspelled.</exception>
         public static Uri GetEndpointAsUri(string fullyQualifiedApiClassName)
         {
-            return new Uri(TellOPSecretsConfiguration.ServerBaseUrl + _serverEndpoints[fullyQualifiedApiClassName]);
+            return new Uri(GetEndpoint(fullyQualifiedApiClassName));
         }
     }
 }

@@ -1,4 +1,4 @@
-// <copyright file="CollinsJsonPartOfSpeechJsonConverter.cs" company="University of Murcia">
+// <copyright file="PartOfSpeechJsonConverter.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,29 +14,47 @@
 // </copyright>
 // <author>Alessandro Menti</author>
 
-namespace TellOP.DataModels.ApiModels.Collins
+namespace TellOP.DataModels.Enums
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using DataModels.Enums;
     using Newtonsoft.Json;
 
     /// <summary>
     /// A converter between <see cref="PartOfSpeech"/> enum values and their JSON string representation.
     /// </summary>
-    public class CollinsJsonPartOfSpeechJsonConverter : JsonConverter
+    public class PartOfSpeechJsonConverter : JsonConverter
     {
         private static readonly Dictionary<string, PartOfSpeech> _converterDictionary = new Dictionary<string, PartOfSpeech>()
         {
+            // This table must match with the one in Stands4DictionaryDefinitionController on the Web site (since
+            // Stands4 might change their APIs without notice, the matching between the returned result and the correct
+            // part of speech is done on the server side)
+            // This is also used by the Spanish PoS tagger.
             { "adjective", PartOfSpeech.Adjective },
             { "adverb", PartOfSpeech.Adverb },
+            { "auxiliaryVerb", PartOfSpeech.AuxiliaryVerb },
+            { "cardinalNumber", PartOfSpeech.CardinalNumber },
+            { "clauseOpener", PartOfSpeech.ClauseOpener },
+            { "commonNoun", PartOfSpeech.CommonNoun },
             { "conjunction", PartOfSpeech.Conjunction },
             { "determiner", PartOfSpeech.Determiner },
+            { "determinerPronoun", PartOfSpeech.DeterminerPronoun },
             { "exclamation", PartOfSpeech.Exclamation },
-            { "commonNoun", PartOfSpeech.CommonNoun },
+            { "existentialParticle", PartOfSpeech.ExistentialParticle },
+            { "foreignWord", PartOfSpeech.ForeignWord },
+            { "genitive", PartOfSpeech.Genitive },
+            { "infinitiveMarker", PartOfSpeech.InfinitiveMarker },
+            { "interjectionOrDiscourseMarker", PartOfSpeech.InterjectionOrDiscourseMarker },
+            { "letterAsWord", PartOfSpeech.LetterAsWord },
+            { "modalVerb", PartOfSpeech.ModalVerb },
+            { "negativeMarker", PartOfSpeech.NegativeMarker },
+            { "ordinal", PartOfSpeech.Ordinal },
+            { "partOfProperNoun", PartOfSpeech.PartOfProperNoun },
             { "preposition", PartOfSpeech.Preposition },
             { "pronoun", PartOfSpeech.Pronoun },
+            { "properNoun", PartOfSpeech.ProperNoun },
             { "unclassified", PartOfSpeech.Unclassified },
             { "verb", PartOfSpeech.Verb }
         };
@@ -53,8 +71,7 @@ namespace TellOP.DataModels.ApiModels.Collins
         }
 
         /// <summary>
-        /// Converts a JSON representation, used by the Collins API endpoints, of a <see cref="PartOfSpeech"/> object
-        /// to a .NET object.
+        /// Converts a JSON representation, used by Stands4, of a <see cref="PartOfSpeech"/> object to a .NET object.
         /// </summary>
         /// <param name="reader">A <see cref="JsonReader"/> object used to translate the JSON representation of the
         /// object to the object itself.</param>
@@ -75,9 +92,8 @@ namespace TellOP.DataModels.ApiModels.Collins
         }
 
         /// <summary>
-        /// Converts a <see cref="PartOfSpeech"/> enum value to its JSON representation used by the Collins API
-        /// endpoints. If <paramref name="value"/> is not a <see cref="PartOfSpeech"/> object, the conversion is not
-        /// performed.
+        /// Converts a <see cref="PartOfSpeech"/> enum value to its JSON representation used by Stands4. If
+        /// <paramref name="value"/> is not a <see cref="PartOfSpeech"/> object, the conversion is not performed.
         /// </summary>
         /// <param name="writer">A <see cref="JsonWriter"/> object used to translate the object to its JSON
         /// representation.</param>

@@ -46,6 +46,8 @@
     <Compile Include="Api\ExerciseFeaturedApi.cs" />
     <Compile Include="Api\ExerciseHistoryApi.cs" />
     <Compile Include="Api\ExerciseSubmissionApi.cs" />
+    <Compile Include="Api\OxfordDictionaryAPI.cs" />
+    <Compile Include="Api\SpanishPOSTagger.cs" />
     <Compile Include="Api\Tips.cs" />
     <Compile Include="Api\StringNetApi.cs" />
     <Compile Include="Api\NetSpeakPreceding.cs" />
@@ -84,6 +86,8 @@
     <Compile Include="DataModels\ApiModels\JsonCreationConverterExtensions.cs" />
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultAbsolutePercentFrequency.cs" />
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultValueStandardDeviation.cs" />
+    <Compile Include="DataModels\ApiModels\OxfordWord.cs" />
+    <Compile Include="DataModels\ApiModels\SpanishWord.cs" />
     <Compile Include="DataModels\ApiModels\StringListToHumanReadableListConverter.cs" />
     <Compile Include="DataModels\ApiModels\StringNet\StringNetSplit.cs" />
     <Compile Include="DataModels\ApiModels\Tip.cs" />
@@ -91,6 +95,8 @@
     <Compile Include="DataModels\CutoffConverter.cs" />
     <Compile Include="DataModels\DictionaryMonoDirectionalConverter.cs" />
     <Compile Include="DataModels\DictionaryConverter.cs" />
+    <Compile Include="DataModels\ISearchDataModel.cs" />
+    <Compile Include="DataModels\SpanishSearchDataModel.cs" />
     <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
     <Compile Include="DataModels\ApiModels\Adelex\AdelexResultEntry.cs" />
     <Compile Include="DataModels\ApiModels\Adelex\AdelexToken.cs" />
@@ -124,19 +130,21 @@
     <Compile Include="DataModels\Enums\LanguageLevelClassificationToColorConverter.cs" />
     <Compile Include="DataModels\Enums\LanguageLevelClassificationToHtmlParamConverter.cs" />
     <Compile Include="DataModels\Enums\PartOfSpeech.cs" />
-    <Compile Include="DataModels\ApiModels\Stands4\PartOfSpeechJsonConverter.cs" />
+    <Compile Include="DataModels\Enums\PartOfSpeechJsonConverter.cs" />
     <Compile Include="DataModels\ApiModels\Stands4\Stands4Word.cs" />
     <Compile Include="DataModels\Enums\ExerciseStatusToColorConverter.cs" />
     <Compile Include="DataModels\Enums\PartOfSpeechToColorConverter.cs" />
+    <Compile Include="DataModels\Enums\SupportedLanguageExtension.cs" />
     <Compile Include="DataModels\Enums\SupportedLanguage.cs" />
+    <Compile Include="DataModels\Enums\LanguageLevelClassificationJsonConverter.cs" />
     <Compile Include="DataModels\Enums\SupportedLanguageToNameConverter.cs" />
     <Compile Include="DataModels\Enums\SupportedLanguageToLcidConverter.cs" />
     <Compile Include="DataModels\Enums\LanguageLevelClassification.cs" />
-    <Compile Include="DataModels\ApiModels\SupportedLanguageJsonConverter.cs" />
+    <Compile Include="DataModels\Enums\SupportedLanguageJsonConverter.cs" />
     <Compile Include="DataModels\ExerciseAnalysisDataModel.cs" />
     <Compile Include="DataModels\Grouping.cs" />
-    <Compile Include="DataModels\SearchDataModel.cs" />
-    <Compile Include="DataModels\SQLiteModels\OfflineLemma.cs" />
+    <Compile Include="DataModels\EnglishSearchDataModel.cs" />
+    <Compile Include="DataModels\SQLiteModels\OfflineLemmaEN.cs" />
     <Compile Include="DataModels\SQLiteModels\SQLiteManager.cs" />
     <Compile Include="DataModels\WordSearchUtilities.cs" />
     <Compile Include="ICertificateVerifier.cs" />
@@ -147,6 +155,9 @@
     <Compile Include="OAuthAccountStoreFactory.cs" />
     <Compile Include="DataModels\LevelClassificationDistributionConverter.cs" />
     <Compile Include="Preconditions.cs" />
+    <Compile Include="SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -228,9 +239,13 @@
     <Compile Include="Tools\AnalysisAbortedException.cs" />
     <Compile Include="Tools\ConnectivityCheck.cs" />
     <Compile Include="Tools\Logger.cs" />
+    <Compile Include="Tools\StringUtils.cs" />
     <Compile Include="TranslateExtension.cs" />
     <Compile Include="Tutorial.xaml.cs">
       <DependentUpon>Tutorial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\OxfordViewCell.xaml.cs">
+      <DependentUpon>OxfordViewCell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CollinsViewCell.xaml.cs">
       <DependentUpon>CollinsViewCell.xaml</DependentUpon>
@@ -420,6 +435,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tutorial.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ViewModels\OxfordViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

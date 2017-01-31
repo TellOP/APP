@@ -41,7 +41,7 @@ namespace TellOP
         /// <param name="e">The event parameters.</param>
         private async void ProfileButton_Clicked(object sender, EventArgs e)
         {
-            await this.Navigation.PushAsync(new Profile());
+            await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Dashboard_ProfileAddedSoon, Properties.Resources.ButtonOK);
         }
 
         /// <summary>
@@ -81,8 +81,7 @@ namespace TellOP
         /// <param name="e">The event parameters.</param>
         private async void SettingsButton_Clicked(object sender, EventArgs e)
         {
-            // TODO: remove when implemented
-            await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Dashboard_SettingsAddedSoon, Properties.Resources.ButtonOK);
+            await this.Navigation.PushAsync(new SettingsPage());
         }
     }
 }

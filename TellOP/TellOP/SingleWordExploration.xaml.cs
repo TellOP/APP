@@ -68,7 +68,7 @@ namespace TellOP
 
             this.searchedWord = word.ToUpper();
 
-            this.BindingContext = new SearchDataModel();
+            this.BindingContext = new EnglishSearchDataModel();
             this.InitializeComponent();
             this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
             this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
@@ -79,7 +79,7 @@ namespace TellOP
             this.BTNShowStands4Stack.Clicked += this.ShowCorrectPanel;
             this.BTNShowNetSpeakStack.Clicked += this.ShowCorrectPanel;
 
-            ((SearchDataModel)this.BindingContext).SearchForWord(word);
+            ((EnglishSearchDataModel)this.BindingContext).SearchForWord(word);
         }
 
         /// <summary>

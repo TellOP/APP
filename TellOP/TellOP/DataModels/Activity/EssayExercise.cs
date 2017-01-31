@@ -25,9 +25,10 @@ namespace TellOP.DataModels.Activity
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Api;
+    using ApiModels;
     using ApiModels.Adelex;
     using ApiModels.LexTutor;
-    using Enums;
+    using DataModels.Enums;
     using Nito.AsyncEx;
     using SQLiteModels;
 
@@ -438,7 +439,7 @@ namespace TellOP.DataModels.Activity
 
         private async Task<string> PreprocessSingleWord(string token)
         {
-            string cleanToken = await OfflineLemma.RetrieveBase(token);
+            string cleanToken = await OfflineLemmaEN.RetrieveBase(token);
             if (string.IsNullOrEmpty(cleanToken) || string.IsNullOrWhiteSpace(cleanToken))
             {
                 cleanToken = token;
@@ -452,26 +453,58 @@ namespace TellOP.DataModels.Activity
             string msg = "'" + cleanToken + "' ";
             IWord w;
 
-            IList<IWord> offlineWords = await OfflineWord.Search(cleanToken);
-            if (offlineWords.Count > 0)
+            if (this.Language == SupportedLanguage.English)
             {
-                w = WordSearchUtilities.GetMostProbable(offlineWords);
-            }
-            else
-            {
-                // TODO: find a better way to add a word that is not found in the database.
-                msg += "SearchCount is zero, so I'm creating a new word with an unclassified part of speech and an unknown language level";
-                w = new OfflineWord()
+                IList<IWord> offlineWords = await OfflineWord.Search(cleanToken);
+                if (offlineWords.Count > 0)
                 {
-                    Term = cleanToken,
-                    JsonLevel = LanguageLevelClassification.Unknown,
-                    PartOfSpeech = PartOfSpeech.Unclassified,
-                    Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.English, typeof(string), null, CultureInfo.InvariantCulture)
-                };
+                    w = WordSearchUtilities.GetMostProbable(offlineWords);
+                }
+                else
+                {
+                    // TODO: find a better way to add a word that is not found in the database.
+                    msg += "SearchCount is zero, so I'm creating a new word with an unclassified part of speech and an unknown language level";
+                    w = new OfflineWord()
+                    {
+                        Term = cleanToken,
+                        JsonLevel = LanguageLevelClassification.Unknown,
+                        PartOfSpeech = PartOfSpeech.Unclassified,
+                        Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.English, typeof(string), null, CultureInfo.InvariantCulture)
+                    };
+                }
+
+                Tools.Logger.Log("ProcessSingleWord", msg);
+                return w;
+            }
+            else if (this.Language == SupportedLanguage.English)
+            {
+                Tools.Logger.Log("ProcessSingleWord", "Call remote SpanishTagger");
+                SpanishPOSTagger es_tagger = new SpanishPOSTagger(App.OAuth2Account, cleanToken);
+                IList<SpanishWord> results = await es_tagger.CallEndpointAsObjectAsync();
+                Tools.Logger.Log("ProcessSingleWord", "Got the results!");
+                try
+                {
+                    return results.First();
+                }
+                catch (Exception)
+                {
+                    return new OfflineWord()
+                    {
+                        Term = cleanToken,
+                        JsonLevel = LanguageLevelClassification.Unknown,
+                        PartOfSpeech = PartOfSpeech.Unclassified,
+                        Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.Spanish, typeof(string), null, CultureInfo.InvariantCulture)
+                    };
+                }
             }
 
-            Tools.Logger.Log("ProcessSingleWord", msg);
-            return w;
+            return new OfflineWord()
+            {
+                Term = cleanToken,
+                JsonLevel = LanguageLevelClassification.Unknown,
+                PartOfSpeech = PartOfSpeech.Unclassified,
+                Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.English, typeof(string), null, CultureInfo.InvariantCulture)
+            };
         }
 
         /// <summary>
@@ -484,80 +517,99 @@ namespace TellOP.DataModels.Activity
             {
                 List<IWord> analysisCache = new List<IWord>();
 
-                IList<Task<IWord>> searchTokenTasks = new List<Task<IWord>>();
-
-                // Dirty tokens
-                foreach (string token in Regex.Matches(this._essayContents, "[\\w']+").Cast<Match>().Select(m => m.Value))
+                if (this.Language == SupportedLanguage.English)
                 {
-                    foreach (string cleanToken in Regex.Matches(await this.PreprocessSingleWord(token), "[\\w']+").Cast<Match>().Select(m => m.Value))
+                    IList<Task<IWord>> searchTokenTasks = new List<Task<IWord>>();
+
+                    // Dirty tokens
+                    foreach (string token in Regex.Matches(this._essayContents, "[\\w']+").Cast<Match>().Select(m => m.Value))
                     {
-                        searchTokenTasks.Add(this.ProcessSingleWord(cleanToken));
+                        foreach (string cleanToken in Regex.Matches(await this.PreprocessSingleWord(token), "[\\w']+").Cast<Match>().Select(m => m.Value))
+                        {
+                            searchTokenTasks.Add(this.ProcessSingleWord(cleanToken));
+                        }
+                    }
+
+                    IEnumerable<IWord> results = await Task.WhenAll(searchTokenTasks);
+
+                    Tools.Logger.Log("EssayExercise", "I've waited all of them!");
+                    foreach (IWord w in results)
+                    {
+                        if (this.ExcludeFunctionalWords && (
+                            w.PartOfSpeech == PartOfSpeech.ClauseOpener
+                            || w.PartOfSpeech == PartOfSpeech.Conjunction
+                            || w.PartOfSpeech == PartOfSpeech.Determiner
+                            || w.PartOfSpeech == PartOfSpeech.DeterminerPronoun
+                            || w.PartOfSpeech == PartOfSpeech.ExistentialParticle
+                            || w.PartOfSpeech == PartOfSpeech.Genitive
+                            || w.PartOfSpeech == PartOfSpeech.InfinitiveMarker
+                            || w.PartOfSpeech == PartOfSpeech.InterjectionOrDiscourseMarker
+                            || w.PartOfSpeech == PartOfSpeech.NegativeMarker
+                            || w.PartOfSpeech == PartOfSpeech.CardinalNumber
+                            || w.PartOfSpeech == PartOfSpeech.Ordinal
+                            || w.PartOfSpeech == PartOfSpeech.Pronoun
+                            || w.PartOfSpeech == PartOfSpeech.ModalVerb))
+                        {
+                            continue;
+                        }
+                        analysisCache.Add(w);
                     }
                 }
-
-                IEnumerable<IWord> results = await Task.WhenAll(searchTokenTasks);
-                Tools.Logger.Log("EssayExercise", "I've waited all of them!");
-
-                foreach (IWord w in results)
+                else if (this.Language == SupportedLanguage.Spanish)
                 {
-                    if (this.ExcludeFunctionalWords && (
-                        w.PartOfSpeech == PartOfSpeech.ClauseOpener
-                        || w.PartOfSpeech == PartOfSpeech.Conjunction
-                        || w.PartOfSpeech == PartOfSpeech.Determiner
-                        || w.PartOfSpeech == PartOfSpeech.DeterminerPronoun
-                        || w.PartOfSpeech == PartOfSpeech.ExistentialParticle
-                        || w.PartOfSpeech == PartOfSpeech.Genitive
-                        || w.PartOfSpeech == PartOfSpeech.InfinitiveMarker
-                        || w.PartOfSpeech == PartOfSpeech.InterjectionOrDiscourseMarker
-                        || w.PartOfSpeech == PartOfSpeech.NegativeMarker
-                        || w.PartOfSpeech == PartOfSpeech.CardinalNumber
-                        || w.PartOfSpeech == PartOfSpeech.Ordinal
-                        || w.PartOfSpeech == PartOfSpeech.Pronoun
-                        || w.PartOfSpeech == PartOfSpeech.ModalVerb))
-                    {
-                        continue;
-                    }
-                    analysisCache.Add(w);
+                    Tools.Logger.Log("EssayExerciseES", "Call remote SpanishTagger");
+                    SpanishPOSTagger es_tagger = new SpanishPOSTagger(App.OAuth2Account, this._essayContents);
+                    IList<SpanishWord> results = await es_tagger.CallEndpointAsObjectAsync();
+                    Tools.Logger.Log("EssayExerciseES", "Got the results!");
+                    analysisCache.AddRange(results);
                 }
 
                 return analysisCache;
             });
             this.LevelClassification = new AsyncLazy<Dictionary<LanguageLevelClassification, List<IWord>>>(async () =>
             {
-                List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
-                Dictionary<LanguageLevelClassification, List<IWord>> result = new Dictionary<LanguageLevelClassification, List<IWord>>();
+                if (this.Language == SupportedLanguage.English)
+                {
+                    List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
+                    Dictionary<LanguageLevelClassification, List<IWord>> result = new Dictionary<LanguageLevelClassification, List<IWord>>();
 
-                foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
-                {
-                    result.Add(level, new List<IWord>());
+                    foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
+                    {
+                        result.Add(level, new List<IWord>());
+                    }
+                    foreach (IWord word in offlineAnalysis)
+                    {
+                        LanguageLevelClassification level = await word.Level;
+                        result[level].Add(word);
+                    }
+                    return result;
                 }
-                foreach (IWord word in offlineAnalysis)
-                {
-                    LanguageLevelClassification level = await word.Level;
-                    result[level].Add(word);
-                }
-                return result;
+                return new Dictionary<LanguageLevelClassification, List<IWord>>();
             });
             this.LevelClassificationDistribution = new AsyncLazy<Dictionary<LanguageLevelClassification, float>>(async () =>
             {
-                // TODO: check for any possible loss of precision
-                List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
-                Dictionary<LanguageLevelClassification, float> result = new Dictionary<LanguageLevelClassification, float>();
+                if (this.Language == SupportedLanguage.English)
+                {
+                    // TODO: check for any possible loss of precision
+                    List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;
+                    Dictionary<LanguageLevelClassification, float> result = new Dictionary<LanguageLevelClassification, float>();
 
-                foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
-                {
-                    result.Add(level, 0);
+                    foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
+                    {
+                        result.Add(level, 0);
+                    }
+                    foreach (IWord word in offlineAnalysis)
+                    {
+                        LanguageLevelClassification level = await word.Level;
+                        result[level] = result[level] + 1;
+                    }
+                    foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
+                    {
+                        result[level] = result[level] / (float)offlineAnalysis.Count;
+                    }
+                    return result;
                 }
-                foreach (IWord word in offlineAnalysis)
-                {
-                    LanguageLevelClassification level = await word.Level;
-                    result[level] = result[level] + 1;
-                }
-                foreach (LanguageLevelClassification level in Enum.GetValues(typeof(LanguageLevelClassification)))
-                {
-                    result[level] = result[level] / (float)offlineAnalysis.Count;
-                }
-                return result;
+                return new Dictionary<LanguageLevelClassification, float>();
             });
             this.NumWords = new AsyncLazy<int>(async () =>
             {

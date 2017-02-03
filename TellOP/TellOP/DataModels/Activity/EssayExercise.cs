@@ -563,6 +563,14 @@ namespace TellOP.DataModels.Activity
                     Tools.Logger.Log("EssayExerciseES", "Got the results!");
                     analysisCache.AddRange(results);
                 }
+                else if (this.Language == SupportedLanguage.German)
+                {
+                    Tools.Logger.Log("EssayExerciseDE", "Call remote GermanTagger");
+                    GermanPOSTagger de_tagger = new GermanPOSTagger(App.OAuth2Account, this._essayContents);
+                    IList<GermanWord> results = await de_tagger.CallEndpointAsObjectAsync();
+                    Tools.Logger.Log("EssayExerciseDE", "Got the results!");
+                    analysisCache.AddRange(results);
+                }
 
                 return analysisCache;
             });
@@ -611,6 +619,7 @@ namespace TellOP.DataModels.Activity
                 }
                 return new Dictionary<LanguageLevelClassification, float>();
             });
+
             this.NumWords = new AsyncLazy<int>(async () =>
             {
                 List<IWord> offlineAnalysis = await this.OfflineAnalysisResult;

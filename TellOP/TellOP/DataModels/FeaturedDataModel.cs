@@ -127,12 +127,12 @@ namespace TellOP.DataModels
                 // Remove dictionary searches (they are not meant to be displayed in the list).
                 featuredExercises = featuredExercises.Where(x => x.GetType() != typeof(DictionarySearchExercise));
 
-            // Group the exercises by their CEFR level.
-            LanguageLevelClassificationToLongDescriptionConverter longDescConverter = new LanguageLevelClassificationToLongDescriptionConverter();
-            LanguageLevelClassificationToHtmlParamConverter htmlParamConverter = new LanguageLevelClassificationToHtmlParamConverter();
-            IEnumerable<Grouping<Exercise>> featuredByGroup = from ex in featuredExercises group ex by ex.Level into exSameLevel select new Grouping<Exercise>((string)longDescConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), (string)htmlParamConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), exSameLevel.ToList());
+                // Group the exercises by their CEFR level.
+                LanguageLevelClassificationToLongDescriptionConverter longDescConverter = new LanguageLevelClassificationToLongDescriptionConverter();
+                LanguageLevelClassificationToHtmlParamConverter htmlParamConverter = new LanguageLevelClassificationToHtmlParamConverter();
+                IEnumerable<Grouping<Exercise>> featuredByGroup = from ex in featuredExercises group ex by ex.Level into exSameLevel select new Grouping<Exercise>((string)longDescConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), (string)htmlParamConverter.Convert(exSameLevel.Key, typeof(string), null, CultureInfo.CurrentCulture), exSameLevel.ToList());
 
-            return new ReadOnlyObservableCollection<Grouping<Exercise>>(new ObservableCollection<Grouping<Exercise>>(featuredByGroup));
+                return new ReadOnlyObservableCollection<Grouping<Exercise>>(new ObservableCollection<Grouping<Exercise>>(featuredByGroup));
             }
             catch (AggregateException ex)
             {

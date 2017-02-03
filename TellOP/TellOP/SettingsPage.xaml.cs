@@ -27,11 +27,31 @@ namespace TellOP
     /// </summary>
     public partial class SettingsPage : ContentPage
     {
+
+        /// <summary>
+        /// If True will hide the menu.
+        /// </summary>
+        private bool HideMenu = false;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsPage"/> class.
         /// </summary>
         public SettingsPage()
         {
+            this.InitializeComponent();
+
+            this.SetUpButtons();
+
+            this.refreshButton.Clicked += this.RefreshButton_Clicked;
+            this.profileButton.Clicked += this.Profile_Clicked;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsPage"/> class.
+        /// </summary>
+        public SettingsPage(bool hideMenu)
+        {
+            this.HideMenu = hideMenu;
             this.InitializeComponent();
 
             this.SetUpButtons();
@@ -56,6 +76,7 @@ namespace TellOP
             this.SelectedLanguage.Items.Clear();
             this.SelectedLanguage.Items.Add(Properties.Resources.Language_English);
             this.SelectedLanguage.Items.Add(Properties.Resources.Language_Spanish);
+            this.SelectedLanguage.Items.Add(Properties.Resources.Language_German);
             this.SelectedLanguage.SelectedIndex = this.SelectedLanguage.Items.IndexOf(App.ActiveSearchLanguage.ToString());
 
             this.SelectedLanguage.SelectedIndexChanged += this.SelectedLanguage_SelectedIndexChanged;
@@ -75,6 +96,18 @@ namespace TellOP
             else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_Spanish)
             {
                 ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.Spanish);
+            }
+            else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_German)
+            {
+                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.German);
+            }
+            else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_French)
+            {
+                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.French);
+            }
+            else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_Italian)
+            {
+                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.Italian);
             }
         }
 
@@ -105,17 +138,24 @@ namespace TellOP
                                   && !App.ActiveLanguages[SupportedLanguage.French]
                                   && !App.ActiveLanguages[SupportedLanguage.Italian];
 
-                bool answer = await this.DisplayAlert(
-                    Properties.Resources.SettingPageQuestionTitle,
-                    string.Format(Properties.Resources.SettingPageQuestionMessage, Properties.Resources.Language_Spanish, Properties.Resources.Language_English),
-                    Properties.Resources.ButtonOK,
-                    Properties.Resources.ButtonCancel);
-
-                if (answer)
+                if (cannotDisable)
                 {
-                    ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.English, true);
+                    bool answer = await this.DisplayAlert(
+                        Properties.Resources.SettingPageQuestionTitle,
+                        string.Format(Properties.Resources.SettingPageQuestionMessage, Properties.Resources.Language_Spanish, Properties.Resources.Language_English),
+                        Properties.Resources.ButtonOK,
+                        Properties.Resources.ButtonCancel);
+
+                    if (answer)
+                    {
+                        ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.English, true);
+                        ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.Spanish, ((Switch)sender).IsToggled);
+                        this.ToggleButtons();
+                    }
+                }
+                else
+                {
                     ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.Spanish, ((Switch)sender).IsToggled);
-                    this.ToggleButtons();
                 }
             }
             else
@@ -158,6 +198,10 @@ namespace TellOP
                         ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.German, ((Switch)sender).IsToggled);
                     }
                 }
+                else
+                {
+                    ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.German, ((Switch)sender).IsToggled);
+                }
             }
             else
             {
@@ -198,6 +242,10 @@ namespace TellOP
                     {
                         ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.French, ((Switch)sender).IsToggled);
                     }
+                }
+                else
+                {
+                    ((App)App.Current).ToggleActiveLanguage(SupportedLanguage.French, ((Switch)sender).IsToggled);
                 }
             }
             else
@@ -290,7 +338,14 @@ namespace TellOP
         /// <param name="e">Event arg</param>
         private async void Profile_Clicked(object sender, EventArgs e)
         {
-            await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Dashboard_ProfileAddedSoon, Properties.Resources.ButtonOK);
+            if (this.HideMenu)
+            {
+                Tools.Logger.LogWithErrorMessage(this, "You must perform the login before using this function.", new UnauthorizedAccessException("You must perform the login before using this function"));
+            }
+            else
+            {
+                await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Dashboard_ProfileAddedSoon, Properties.Resources.ButtonOK);
+            }
         }
 
         /// <summary>
@@ -300,7 +355,14 @@ namespace TellOP
         /// <param name="e">Event arg</param>
         private void DashboardButton_Clicked(object sender, EventArgs e)
         {
-            this.Navigation.PopAsync();
+            if (this.HideMenu)
+            {
+                Tools.Logger.LogWithErrorMessage(this, "You must perform the login before using this function.", new UnauthorizedAccessException("You must perform the login before using this function"));
+            }
+            else
+            {
+                this.Navigation.PopAsync();
+            }
         }
 
         /// <summary>

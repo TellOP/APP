@@ -16,6 +16,7 @@
 
 namespace TellOP.Config
 {
+    using DataModels.Enums;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -32,8 +33,10 @@ namespace TellOP.Config
         private static Dictionary<string, string> _serverEndpoints = new Dictionary<string, string>()
         {
             { "TellOP.API.Adelex", "/api/v1/resource/adelex" },
-            { "TellOP.API.CollinsEnglishDictionary", "/api/v1/resource/collins" },
-            { "TellOP.API.CollinsEnglishDictionaryGetEntry", "/api/v1/resource/collinsgetentry" },
+            { "TellOP.API.CollinsDictionary." + SupportedLanguage.English.ToLCID(), "/api/v1/resource/collins" },
+            { "TellOP.API.CollinsDictionaryGetEntry." + SupportedLanguage.English.ToLCID(), "/api/v1/resource/collinsgetentry" },
+            { "TellOP.API.CollinsDictionary." + SupportedLanguage.German.ToLCID(), "/api/v1/resource/collinsde" },
+            { "TellOP.API.CollinsDictionaryGetEntry." + SupportedLanguage.German.ToLCID(), "/api/v1/resource/collinsdegetentry" },
             { "TellOP.API.Exercise", "/api/v1/app/exercise" },
             { "TellOP.API.ExerciseFeatured", "/api/v1/app/featured" },
             { "TellOP.API.ExerciseHistory", "/api/v1/app/history" },
@@ -45,6 +48,7 @@ namespace TellOP.Config
             { "TellOP.API.Tips", "/api/v1/app/tips" },
             { "TellOP.API.UserProfile", "/api/v1/app/profile" },
             { "TellOP.API.SpanishPOSTagger", "/api/v1/resource/estagger" },
+            { "TellOP.API.GermanPOSTagger", "/api/v1/resource/detagger" },
             { "TellOP.API.OxfordDictionary.English", "/api/v1/resource/oxford/en" },
             { "TellOP.API.OxfordDictionary.USEnglish", "/api/v1/resource/oxford/en" },
             { "TellOP.API.OxfordDictionary.French", "/api/v1/resource/oxford/fr" },

@@ -20,6 +20,7 @@ namespace TellOP
     using Api;
     using DataModels;
     using DataModels.Enums;
+    using System;
     using Tools;
     using ViewModels;
     using Xamarin.Forms;
@@ -34,66 +35,14 @@ namespace TellOP
         /// </summary>
         public MainSearch()
         {
-            switch (App.ActiveSearchLanguage)
-            {
-                case SupportedLanguage.Spanish:
-                    {
-                        this.BindingContext = new SpanishSearchDataModel();
-                        break;
-                    }
-
-                case SupportedLanguage.English:
-                case SupportedLanguage.USEnglish:
-                default:
-                    {
-                        this.BindingContext = new EnglishSearchDataModel();
-                        break;
-                    }
-            }
-
+            this.PreInitialize();
             this.InitializeComponent();
-
-            switch (App.ActiveSearchLanguage)
-            {
-                case SupportedLanguage.Spanish:
-                    {
-                        this.SearchListOxford.ItemTemplate = new DataTemplate(typeof(OxfordViewCell));
-                        this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
-                        this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
-
-                        this.DefinitionsStack.Children.Remove(this.Stands4ElementsGroup);
-                        this.DefinitionsStack.Children.Remove(this.CollinsElementsGroup);
-
-                        this.Stands4ElementsGroup.IsVisible = false;
-                        this.Stands4ElementsGroup.IsEnabled = false;
-                        this.CollinsElementsGroup.IsVisible = false;
-                        this.CollinsElementsGroup.IsEnabled = false;
-
-                        this.Title += " " + Properties.Resources.Language_Spanish;
-                        break;
-                    }
-
-                case SupportedLanguage.English:
-                case SupportedLanguage.USEnglish:
-                default:
-                    {
-                        this.SearchListStands4.ItemTemplate = new DataTemplate(typeof(Stands4ViewCell));
-                        this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
-                        this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
-                        this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
-
-                        this.DefinitionsStack.Children.Remove(this.OxfordElementsGroup);
-
-                        this.OxfordElementsGroup.IsVisible = false;
-                        this.OxfordElementsGroup.IsEnabled = false;
-
-                        this.Title += " " + Properties.Resources.Language_English;
-                        break;
-                    }
-            }
+            this.PostInitialize();
 
             this.BTNShowDefinitions.Clicked += this.ShowCorrectPanel;
             this.BTNShowStringNetStack.Clicked += this.ShowCorrectPanel;
+            this.settingsButton.Clicked += this.SettingsButton_Clicked;
+            this.refreshButton.Clicked += this.RefreshButton_Clicked;
         }
 
         /// <summary>
@@ -101,6 +50,24 @@ namespace TellOP
         /// </summary>
         /// <param name="term">Term to be searched</param>
         public MainSearch(string term)
+        {
+            this.PreInitialize();
+            this.InitializeComponent();
+            this.SearchBar.Text = term;
+            this.PostInitialize();
+
+            this.BTNShowDefinitions.Clicked += this.ShowCorrectPanel;
+            this.BTNShowStringNetStack.Clicked += this.ShowCorrectPanel;
+            this.settingsButton.Clicked += this.SettingsButton_Clicked;
+            this.refreshButton.Clicked += this.RefreshButton_Clicked;
+
+            this.SearchBar_SearchButtonPressed(this.SearchBar, null);
+        }
+
+        /// <summary>
+        /// Pre-initialization process.
+        /// </summary>
+        private void PreInitialize()
         {
             switch (App.ActiveSearchLanguage)
             {
@@ -110,6 +77,12 @@ namespace TellOP
                         break;
                     }
 
+                case SupportedLanguage.German:
+                    {
+                        this.BindingContext = new GermanSearchDataModel();
+                        break;
+                    }
+
                 case SupportedLanguage.English:
                 case SupportedLanguage.USEnglish:
                 default:
@@ -118,10 +91,13 @@ namespace TellOP
                         break;
                     }
             }
+        }
 
-            this.InitializeComponent();
-            this.SearchBar.Text = term;
-
+        /// <summary>
+        /// Post initialization process.
+        /// </summary>
+        private void PostInitialize()
+        {
             switch (App.ActiveSearchLanguage)
             {
                 case SupportedLanguage.Spanish:
@@ -138,7 +114,23 @@ namespace TellOP
                         this.CollinsElementsGroup.IsVisible = false;
                         this.CollinsElementsGroup.IsEnabled = false;
 
-                        this.Title += " " + Properties.Resources.Language_Spanish;
+                        this.Title = Properties.Resources.MainSearch_Title + " " + Properties.Resources.Language_Spanish;
+                        break;
+                    }
+
+                case SupportedLanguage.German:
+                    {
+                        this.SearchListCollins.ItemTemplate = new DataTemplate(typeof(CollinsViewCell));
+                        this.SearchListStringNetBefore.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+                        this.SearchListStringNetAfter.ItemTemplate = new DataTemplate(typeof(StringNetCollocationsViewCell));
+
+                        this.DefinitionsStack.Children.Remove(this.OxfordElementsGroup);
+                        this.DefinitionsStack.Children.Remove(this.Stands4ElementsGroup);
+
+                        this.OxfordElementsGroup.IsVisible = false;
+                        this.OxfordElementsGroup.IsEnabled = false;
+
+                        this.Title = Properties.Resources.MainSearch_Title + " " + Properties.Resources.Language_German;
                         break;
                     }
 
@@ -156,13 +148,33 @@ namespace TellOP
                         this.OxfordElementsGroup.IsVisible = false;
                         this.OxfordElementsGroup.IsEnabled = false;
 
-                        this.Title += " " + Properties.Resources.Language_English;
+                        this.Title = Properties.Resources.MainSearch_Title + " " + Properties.Resources.Language_English;
                         break;
                     }
             }
+        }
 
-            this.BTNShowDefinitions.Clicked += this.ShowCorrectPanel;
-            this.BTNShowStringNetStack.Clicked += this.ShowCorrectPanel;
+        /// <summary>
+        /// Settings button handler.
+        /// </summary>
+        /// <param name="sender">Button object</param>
+        /// <param name="e">Event Args</param>
+        private async void SettingsButton_Clicked(object sender, EventArgs e)
+        {
+            await this.Navigation.PushAsync(new SettingsPage());
+            this.PreInitialize();
+            this.PostInitialize();
+        }
+
+        /// <summary>
+        /// Refresh event handler.
+        /// </summary>
+        /// <param name="sender">Button object</param>
+        /// <param name="e">Event Args</param>
+        private void RefreshButton_Clicked(object sender, EventArgs e)
+        {
+            this.PreInitialize();
+            this.PostInitialize();
         }
 
         /// <summary>

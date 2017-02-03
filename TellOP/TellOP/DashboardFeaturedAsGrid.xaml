@@ -27,7 +27,7 @@ limitations under the License.
              HorizontalOptions="CenterAndExpand"
              VerticalOptions="StartAndExpand">
   <Label Text="{local:Translate Dashboard_TabFeatured_Title}" HorizontalTextAlignment="Center" FontSize="20" />
-  <Label Text="{local:Translate Dashboard_TabError}" IsVisible="{Binding FeaturedExercises.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+  <Label Text="{Binding FeaturedExercises.ErrorMessage}" IsVisible="{Binding FeaturedExercises.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
   <ListView HasUnevenRows="true" IsGroupingEnabled="True" ItemsSource="{Binding FeaturedExercises.Result}" GroupDisplayBinding="{Binding GroupName}" GroupShortNameBinding="{Binding GroupShortName}" Header="{Binding FeaturedExercises.Result.Count}" Margin="5" IsVisible="{Binding FeaturedExercises.IsCompleted}" ItemTapped="ExerciseList_ItemTapped" ItemSelected="ExerciseList_ItemSelected">
     <ListView.ItemTemplate>
       <DataTemplate>

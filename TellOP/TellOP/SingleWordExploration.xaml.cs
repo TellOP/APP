@@ -18,6 +18,7 @@ namespace TellOP
 {
     using System;
     using DataModels;
+    using DataModels.ApiModels;
     using DataModels.ApiModels.Collins;
     using DataModels.ApiModels.Stands4;
     using ViewModels;

@@ -26,6 +26,9 @@ namespace TellOP
     /// </summary>
     public partial class DashboardTablet : ContentPage
     {
+        private DashboardFeaturedAsGrid featureGrid;
+        private DashboardHistoryAsGrid historyGrid;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DashboardTablet"/> class.
         /// </summary>
@@ -33,8 +36,10 @@ namespace TellOP
         {
             this.InitializeComponent();
 
-            this.MainGrid.Children.Add(new DashboardFeaturedAsGrid(this), 0, 0);
-            this.MainGrid.Children.Add(new DashboardHistoryAsGrid(this), 1, 0);
+            this.featureGrid = new DashboardFeaturedAsGrid(this);
+            this.historyGrid = new DashboardHistoryAsGrid(this);
+            this.MainGrid.Children.Add(this.featureGrid, 0, 0);
+            this.MainGrid.Children.Add(this.historyGrid, 1, 0);
         }
 
         /// <summary>
@@ -56,16 +61,15 @@ namespace TellOP
         {
             if (await ConnectivityCheck.AskToEnableConnectivity(this))
             {
-                /* FIXME
-                if (this.CurrentPage is DashboardTabHistory)
+                if (this.featureGrid.GetBindingContext().CanRefresh())
                 {
-                    ((DashboardTabHistory)this.CurrentPage).Refresh();
+                    this.featureGrid.GetBindingContext().RefreshExercises();
                 }
-                else if (this.CurrentPage is DashboardTabFeatured)
+
+                if (this.historyGrid.GetBindingContext().CanRefresh())
                 {
-                    ((DashboardTabFeatured)this.CurrentPage).Refresh();
+                    this.historyGrid.GetBindingContext().RefreshHistory();
                 }
-                */
             }
         }
 
@@ -86,8 +90,7 @@ namespace TellOP
         /// <param name="e">The event parameters.</param>
         private async void SettingsButton_Clicked(object sender, EventArgs e)
         {
-            // TODO: remove when implemented
-            await this.DisplayAlert(Properties.Resources.Error, Properties.Resources.Dashboard_SettingsAddedSoon, Properties.Resources.ButtonOK);
+            await this.Navigation.PushAsync(new SettingsPage());
         }
     }
 }

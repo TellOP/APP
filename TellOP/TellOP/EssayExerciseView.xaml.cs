@@ -55,6 +55,20 @@ namespace TellOP
                 throw new ArgumentNullException("essay");
             }
 
+            switch (essay.Language)
+            {
+                case SupportedLanguage.Spanish:
+                    ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.Spanish);
+                    break;
+                case SupportedLanguage.German:
+                    ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.German);
+                    break;
+
+                default:
+                    ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.English);
+                    break;
+            }
+
             this.InitializeComponent();
 
             this.SizeChanged += this.EssayExerciseView_SizeChanged;

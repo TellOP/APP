@@ -52,6 +52,11 @@ limitations under the License.
                 <TapGestureRecognizer Tapped="Privacy_Tapped" />
               </Label.GestureRecognizers>
             </Label>
+            <Label HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="5" Text="{local:Translate Login_SettingsLabel}">
+              <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Settings_Tapped" />
+              </Label.GestureRecognizers>
+            </Label>
           </StackLayout>
         </StackLayout>
         <Button Text="Tutorial" Clicked="TurorialButton_Clicked" />

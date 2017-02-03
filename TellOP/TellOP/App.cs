@@ -61,7 +61,7 @@ namespace TellOP
         /// <summary>
         /// The search language.
         /// </summary>
-        private static SupportedLanguage activeSearchLanguage = SupportedLanguage.English;
+        private static SupportedLanguage activeSearchLanguage = SupportedLanguage.German;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.

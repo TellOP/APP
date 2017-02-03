@@ -1,4 +1,4 @@
-﻿// <copyright file="EnglishSearchDataModel.cs" company="University of Murcia">
+﻿// <copyright file="GermanSearchDataModel.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,17 +37,12 @@ namespace TellOP.DataModels
     /// <summary>
     /// The data model for featured exercises.
     /// </summary>
-    public class EnglishSearchDataModel : ISearchDataModel
+    public class GermanSearchDataModel : ISearchDataModel
     {
         /// <summary>
         /// The database ID of the British English "dictionary search" activity.
         /// </summary>
-        private const int BritishEnglishDictionarySearchID = 90;
-
-        /// <summary>
-        /// A read-only list of Stands4 dictionary search results.
-        /// </summary>
-        private INotifyTaskCompletion<ReadOnlyObservableCollection<IWord>> _searchResultsStands4;
+        private const int GermanDictionarySearchID = 92;
 
         /// <summary>
         /// A read-only list of Collins dictionary search results.
@@ -70,9 +65,9 @@ namespace TellOP.DataModels
         private INotifyTaskCompletion<StringNetSplit> _searchResultsStringNet;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnglishSearchDataModel"/> class.
+        /// Initializes a new instance of the <see cref="GermanSearchDataModel"/> class.
         /// </summary>
-        public EnglishSearchDataModel()
+        public GermanSearchDataModel()
         {
             this.SearchForWord(string.Empty);
         }
@@ -81,24 +76,6 @@ namespace TellOP.DataModels
         /// Fired when a property is changed.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Gets a read-only list of Stands4 dictionary search results for the word typed in the search box.
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a collection of IWords")]
-        public INotifyTaskCompletion<ReadOnlyObservableCollection<IWord>> SearchResultsStands4
-        {
-            get
-            {
-                return this._searchResultsStands4;
-            }
-
-            private set
-            {
-                this._searchResultsStands4 = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SearchResultsStands4"));
-            }
-        }
 
         /// <summary>
         /// Gets a read-only list of Collins dictionary search results for the word typed in the search box.
@@ -181,7 +158,6 @@ namespace TellOP.DataModels
             get
             {
                 return this.SearchResultsCollins.IsCompleted &&
-                       this.SearchResultsStands4.IsCompleted &&
                        this.SearchResultsNetSpeakFollowing.IsCompleted &&
                        this.SearchResultsNetSpeakPreceding.IsCompleted &&
                        this.SearchResultsStringNet.IsCompleted;
@@ -195,7 +171,6 @@ namespace TellOP.DataModels
         public void SearchForWord(string word)
         {
             // TODO: the dictionary search is recorded in the first call. Perhaps find a better design?
-            this.SearchResultsStands4 = NotifyTaskCompletion.Create(SearchForWordStands4Async(word));
             this.SearchResultsCollins = NotifyTaskCompletion.Create(SearchForWordCollinsAsync(word));
             this.SearchResultsNetSpeakPreceding = NotifyTaskCompletion.Create(SearchForWordNetSpeakPrecedingAsync(word));
             this.SearchResultsNetSpeakFollowing = NotifyTaskCompletion.Create(SearchForWordNetSpeakFollowingAsync(word));
@@ -227,7 +202,7 @@ namespace TellOP.DataModels
         {
             UserActivityDictionarySearch dictSearch = new UserActivityDictionarySearch()
             {
-                ActivityId = BritishEnglishDictionarySearchID,
+                ActivityId = GermanDictionarySearchID,
                 Word = word
             };
             Tools.Logger.Log("DictionaryLog", "Start logging procedure (ID: " + dictSearch.ActivityId + ", Word: " + dictSearch.Word + ")");
@@ -250,27 +225,6 @@ namespace TellOP.DataModels
             {
                 Tools.Logger.Log("DictionaryLog", "Data received. Everything is OK!");
             }
-        }
-
-        /// <summary>
-        /// Records the dictionary search, then searches for a given word asynchronously in the Stands4 dictionary.
-        /// </summary>
-        /// <param name="word">The word to search for.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private static async Task<ReadOnlyObservableCollection<IWord>> SearchForWordStands4Async(string word)
-        {
-            Tools.Logger.Log("SearchForWordStands4Async", "Start search");
-            if (string.IsNullOrWhiteSpace(word))
-            {
-                Tools.Logger.Log("SearchForWordStands4Async", "Null or whitespace. Return an empty list");
-                return new ReadOnlyObservableCollection<IWord>(new ObservableCollection<IWord>());
-            }
-
-            Stands4Dictionary stands4Endpoint = new Stands4Dictionary(App.OAuth2Account, word);
-            IList<Stands4Word> stands4Result = await Task.Run(async () => await stands4Endpoint.CallEndpointAsStands4Word());
-            Tools.Logger.Log("SearchForWordStands4Async", "Data received");
-
-            return new ReadOnlyObservableCollection<IWord>(new ObservableCollection<IWord>(stands4Result));
         }
 
         /// <summary>
@@ -357,7 +311,7 @@ namespace TellOP.DataModels
                 return new ReadOnlyObservableCollection<IWord>(new ObservableCollection<IWord>());
             }
 
-            CollinsDictionary collinsEndpoint = new CollinsDictionary(App.OAuth2Account, word);
+            CollinsDictionary collinsEndpoint = new CollinsDictionary(App.OAuth2Account, word, Enums.SupportedLanguage.German);
             IList<CollinsWord> collinsResult = await Task.Run(async () => await collinsEndpoint.CallEndpointAsCollinsWord());
             Tools.Logger.Log("SearchForWordCollinsAsync", "Data received");
             return new ReadOnlyObservableCollection<IWord>(new ObservableCollection<IWord>(collinsResult));

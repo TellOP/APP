@@ -47,6 +47,7 @@
     <Compile Include="Api\ExerciseHistoryApi.cs" />
     <Compile Include="Api\ExerciseSubmissionApi.cs" />
     <Compile Include="Api\OxfordDictionaryAPI.cs" />
+    <Compile Include="Api\GermanPOSTagger.cs" />
     <Compile Include="Api\SpanishPOSTagger.cs" />
     <Compile Include="Api\Tips.cs" />
     <Compile Include="Api\StringNetApi.cs" />
@@ -58,8 +59,8 @@
     <Compile Include="Api\UserProfile.cs" />
     <Compile Include="Api\LexTutorApi.cs" />
     <Compile Include="Api\Stands4Dictionary.cs" />
-    <Compile Include="Api\CollinsEnglishDictionaryGetEntry.cs" />
-    <Compile Include="Api\CollinsEnglishDictionary.cs" />
+    <Compile Include="Api\CollinsDictionaryGetEntry.cs" />
+    <Compile Include="Api\CollinsDictionary.cs" />
     <Compile Include="Api\OAuth2Api.cs" />
     <Compile Include="Api\UnsuccessfulApiCallException.cs" />
     <Compile Include="App.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultAbsolutePercentFrequency.cs" />
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultValueStandardDeviation.cs" />
     <Compile Include="DataModels\ApiModels\OxfordWord.cs" />
+    <Compile Include="DataModels\ApiModels\GermanWord.cs" />
     <Compile Include="DataModels\ApiModels\SpanishWord.cs" />
     <Compile Include="DataModels\ApiModels\StringListToHumanReadableListConverter.cs" />
     <Compile Include="DataModels\ApiModels\StringNet\StringNetSplit.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="DataModels\CutoffConverter.cs" />
     <Compile Include="DataModels\DictionaryMonoDirectionalConverter.cs" />
     <Compile Include="DataModels\DictionaryConverter.cs" />
+    <Compile Include="DataModels\GermanSearchDataModel.cs" />
     <Compile Include="DataModels\ISearchDataModel.cs" />
     <Compile Include="DataModels\SpanishSearchDataModel.cs" />
     <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
@@ -102,12 +105,12 @@
     <Compile Include="DataModels\ApiModels\Adelex\AdelexToken.cs" />
     <Compile Include="DataModels\ApiModels\ApiErrorResponse.cs" />
     <Compile Include="DataModels\ApiModels\Collins\CollinsWordDefinitionSense.cs" />
-    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionary.cs" />
-    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntry.cs" />
-    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntryContent.cs" />
-    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntryContentEntry.cs" />
-    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionaryEntryRelated.cs" />
-    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonEnglishDictionarySingleResult.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonDictionary.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonDictionaryEntry.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonDictionaryEntryContent.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonDictionaryEntryContentEntry.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonDictionaryEntryRelated.cs" />
+    <Compile Include="DataModels\ApiModels\Collins\CollinsJsonDictionarySingleResult.cs" />
     <Compile Include="DataModels\ApiModels\Collins\CollinsWord.cs" />
     <Compile Include="DataModels\ApiModels\Collins\CollinsWordSearchException.cs" />
     <Compile Include="DataModels\ApiModels\Collins\CollinsJsonLinkedWord.cs" />

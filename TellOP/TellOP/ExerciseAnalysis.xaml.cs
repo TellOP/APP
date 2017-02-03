@@ -102,6 +102,7 @@ namespace TellOP
             switch (this.currentLanguage)
             {
                 case SupportedLanguage.Spanish:
+                case SupportedLanguage.German:
                     {
                         await this.Navigation.PushAsync(new MainSearch(term));
                         return;

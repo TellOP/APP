@@ -22,7 +22,7 @@ namespace TellOP.DataModels.ApiModels.Collins
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A meaning (sense) of an <see cref="CollinsJsonEnglishDictionaryEntryContentEntry"/>.
+    /// A meaning (sense) of an <see cref="CollinsJsonDictionaryEntryContentEntry"/>.
     /// </summary>
     [JsonObject]
     public class CollinsWordDefinitionSense

@@ -88,5 +88,15 @@ namespace TellOP
         {
             Device.OpenUri(TellOPConfiguration.PrivacyUrl);
         }
+
+        /// <summary>
+        /// Called when the "Settings" link is tapped.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event parameters.</param>
+        private async void Settings_Tapped(object sender, EventArgs e)
+        {
+            await this.Navigation.PushAsync(new SettingsPage(true));
+        }
     }
 }

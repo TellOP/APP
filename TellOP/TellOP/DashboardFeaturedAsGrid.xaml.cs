@@ -46,6 +46,15 @@ namespace TellOP
         }
 
         /// <summary>
+        /// Retrieve the binding context.
+        /// </summary>
+        /// <returns><see cref="FeaturedDataModel"/> Binding Context</returns>
+        public FeaturedDataModel GetBindingContext()
+        {
+            return (FeaturedDataModel)this.BindingContext;
+        }
+
+        /// <summary>
         /// Refreshes the exercise list.
         /// </summary>
         public void Refresh()

@@ -823,4 +823,7 @@ Reference text:
   <data name="ExerciseAnalysis_WordPercent" xml:space="preserve">
     <value>Percent</value>
   </data>
+  <data name="Login_SettingsLabel" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

@@ -27,7 +27,7 @@ limitations under the License.
              Title="{local:Translate Dashboard_TabHistory}">
   <ContentPage.Content>
     <Grid>
-      <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
+      <!--<ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">-->
         <Label Text="{local:Translate Dashboard_TabError}" IsVisible="{Binding ExerciseHistory.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
         <ListView HasUnevenRows="true" ItemsSource="{Binding ExerciseHistory.Result}" Header="{Binding ExerciseHistory.Result.Count}" Footer="{Binding AppTip.Result.Text}" Margin="5" IsVisible="{Binding ExerciseHistory.IsCompleted}" ItemTapped="HistoryList_ItemTapped" ItemSelected="HistoryList_ItemSelected">
           <ListView.ItemTemplate>
@@ -75,7 +75,7 @@ limitations under the License.
             </DataTemplate>
           </ListView.HeaderTemplate>
         </ListView>
-      </ScrollView>
+      <!--</ScrollView>-->
       <RelativeLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         <ActivityIndicator IsVisible="{Binding ExerciseHistory.IsNotCompleted}" IsRunning="{Binding ExerciseHistory.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
       </RelativeLayout>

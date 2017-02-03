@@ -44,6 +44,15 @@ namespace TellOP
         }
 
         /// <summary>
+        /// Retrieve the binding context
+        /// </summary>
+        /// <returns><see cref="HistoryDataModel"/> Binding Context</returns>
+        public HistoryDataModel GetBindingContext()
+        {
+            return (HistoryDataModel)this.BindingContext;
+        }
+
+        /// <summary>
         /// Refreshes the exercise history list.
         /// </summary>
         public void Refresh()

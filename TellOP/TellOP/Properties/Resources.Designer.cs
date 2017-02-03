@@ -1349,6 +1349,15 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Login_SettingsLabel {
+            get {
+                return ResourceManager.GetString("Login_SettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign up.
         /// </summary>
         public static string Login_SignUpLabel {

@@ -31,18 +31,18 @@ namespace TellOP.DataModels.ApiModels.Collins
         /// <summary>
         /// Cache for the remote Collins word entry.
         /// </summary>
-        private CollinsJsonEnglishDictionaryEntryContentEntry _collinsEntry;
+        private CollinsJsonDictionaryEntryContentEntry _collinsEntry;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CollinsWord"/> class.
         /// </summary>
-        /// <param name="entry">The <see cref="CollinsJsonEnglishDictionaryEntryContentEntry"/> corresponding to this
+        /// <param name="entry">The <see cref="CollinsJsonDictionaryEntryContentEntry"/> corresponding to this
         /// word.</param>
         /// <param name="id">The unique ID of this word.</param>
         /// <param name="label">The label (word name) of this word.</param>
         /// <param name="url">The URL pointing to the page on the Collins Dictionary Web site where the definition can
         /// be seen.</param>
-        public CollinsWord(CollinsJsonEnglishDictionaryEntryContentEntry entry, string id, string label, Uri url)
+        public CollinsWord(CollinsJsonDictionaryEntryContentEntry entry, string id, string label, Uri url)
         {
             if (entry == null)
             {

@@ -30,23 +30,39 @@ namespace TellOP.DataModels
     public static class TipsDataModel
     {
         /// <summary>
+        /// Caches the tips in order to avoid redownloading them.
+        /// </summary>
+        private static IList<Tip> tipsCache = new List<Tip>();
+
+        /// <summary>
         /// Gets a single tip asynchronously.
         /// </summary>
         /// <returns>A <see cref="Task{Tip}"/> object containing the tip as its result.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Since the operation is asynchronous, using a method is the best way")]
         public static async Task<Tip> GetSingleTipAsync()
         {
-            // FIXME: allow choosing the correct language and language level
-            Tips tipsEndpoint = new Tips(App.OAuth2Account, SupportedLanguage.English, LanguageLevelClassification.B1);
-            IList<Tip> applicationTips = await Task.Run(async () => await tipsEndpoint.CallEndpointAsObjectAsync());
-
-            if (applicationTips.Count == 0)
+            if (TipsDataModel.tipsCache.Count == 0)
             {
-                return null;
+                // FIXME: allow choosing the correct language and language level
+                Tips tipsEndpoint = new Tips(App.OAuth2Account, SupportedLanguage.English, LanguageLevelClassification.B1);
+                TipsDataModel.tipsCache = await Task.Run(async () => await tipsEndpoint.CallEndpointAsObjectAsync());
             }
 
-            Random rnd = new Random();
-            return applicationTips[rnd.Next(applicationTips.Count - 1)];
+            int choosen = new Random().Next(TipsDataModel.tipsCache.Count - 1);
+
+            if (TipsDataModel.tipsCache.Count == 0)
+            {
+                Tools.Logger.Log("TipsController", "Empty list, something went wrong.");
+                return new Tip()
+                {
+                    Id = -1,
+                    Text = "An error occurred. Please report this message to the dev team.",
+                };
+            }
+            else
+            {
+                return TipsDataModel.tipsCache[choosen];
+            }
         }
     }
 }

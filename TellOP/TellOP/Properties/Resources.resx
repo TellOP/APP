@@ -826,4 +826,46 @@ Reference text:
   <data name="Login_SettingsLabel" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Settings_ActiveSearchLanguage" xml:space="preserve">
+    <value>Change active search language</value>
+  </data>
+  <data name="Settings_AdvancedFeatures" xml:space="preserve">
+    <value>Enable advanced features</value>
+  </data>
+  <data name="Settings_AdvancedFeatures_LexTutor" xml:space="preserve">
+    <value>Display advanced result</value>
+  </data>
+  <data name="Settings_EnabledLanguages" xml:space="preserve">
+    <value>Change enabled languages</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Contracted" xml:space="preserve">
+    <value>+ Most Common Word Analysis</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Expanded" xml:space="preserve">
+    <value>- Most Common Word Analysis</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Families" xml:space="preserve">
+    <value>Families</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Frequency" xml:space="preserve">
+    <value>Freq.</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Offlist" xml:space="preserve">
+    <value>Offlist</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Percentage" xml:space="preserve">
+    <value>Perc.</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Tokens" xml:space="preserve">
+    <value>Tokens</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ExerciseAnalysis_Families_Types" xml:space="preserve">
+    <value>Types</value>
+  </data>
 </root>

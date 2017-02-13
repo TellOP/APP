@@ -98,7 +98,7 @@
     <Compile Include="DataModels\DictionaryMonoDirectionalConverter.cs" />
     <Compile Include="DataModels\DictionaryConverter.cs" />
     <Compile Include="DataModels\GermanSearchDataModel.cs" />
-    <Compile Include="DataModels\ISearchDataModel.cs" />
+    <Compile Include="DataModels\Interfaces\ISearchDataModel.cs" />
     <Compile Include="DataModels\SpanishSearchDataModel.cs" />
     <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
     <Compile Include="DataModels\ApiModels\Adelex\AdelexResultEntry.cs" />
@@ -375,6 +375,13 @@
       <Link>stylecop.json</Link>
     </AdditionalFiles>
     <None Include="app.config" />
+    <None Include="DataModels\Class Diagrams\CollinsPackage.cd" />
+    <None Include="DataModels\Class Diagrams\OtherDictionariesClassDiagram.cd" />
+    <None Include="DataModels\Class Diagrams\Stands4ClassDiagram.cd" />
+    <None Include="DataModels\Class Diagrams\LanguageLevelClassificationClassDiagram.cd" />
+    <None Include="DataModels\Class Diagrams\PartOfSpeechClassDiagram.cd" />
+    <None Include="DataModels\Class Diagrams\SupportedLanguageClassDiagram.cd" />
+    <None Include="DataModels\Class Diagrams\IWordExtensionsClassDiagram.cd" />
     <None Include="project.json" />
     <None Include="TellOP.ruleset" />
   </ItemGroup>

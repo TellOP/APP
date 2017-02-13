@@ -35,5 +35,14 @@ namespace TellOP.DataModels.ApiModels.LexTutor
         /// </summary>
         [JsonProperty("percent")]
         public float Percent { get; set; }
+
+        /// <summary>
+        /// Check if this class is zero.
+        /// </summary>
+        /// <returns>True if AbsoluteFrequency is zero</returns>
+        public bool IsZero()
+        {
+            return this.AbsoluteFrequency == 0;
+        }
     }
 }

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsWord" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="2.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAABGAABQAAAAQA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsWord.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Stands4.Stands4Word" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="2.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAgAAAAABEBAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\Stands4\Stands4Word.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.GermanWord" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="6" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAgAAAAABEBAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\GermanWord.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.OxfordWord" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="6" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAQAAAgAABAABEAAAQAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\OxfordWord.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.SpanishWord" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="6" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAgAAAAABEBAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\SpanishWord.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TellOP.DataModels.SQLiteModels.OfflineWord">
+    <Position X="9.25" Y="2.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABACAAAAAAAAAAAAAAAAgAAAAABEAAAAAEgCAA=</HashCode>
+      <FileName>DataModels\SQLiteModels\OfflineWord.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="TellOP.DataModels.IWord">
+    <Position X="3.75" Y="1" Width="4.25" />
+    <AssociationLine Name="PartOfSpeech" Type="TellOP.DataModels.Enums.PartOfSpeech">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.162" Y="-0.388" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAABEAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\Interfaces\IWord.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+  </Interface>
+  <Enum Name="TellOP.DataModels.Enums.PartOfSpeech" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CYAAAABCAgJAAAAAALQAAAAAAIAAIBACCQBAEACICQA=</HashCode>
+      <FileName>DataModels\Enums\PartOfSpeech.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

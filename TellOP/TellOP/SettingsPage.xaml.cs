@@ -31,7 +31,7 @@ namespace TellOP
         /// <summary>
         /// If True will hide the menu.
         /// </summary>
-        private bool HideMenu = false;
+        private bool hideMenu = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsPage"/> class.
@@ -49,9 +49,10 @@ namespace TellOP
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsPage"/> class.
         /// </summary>
+        /// <param name="hideMenu">If true hides the menu</param>
         public SettingsPage(bool hideMenu)
         {
-            this.HideMenu = hideMenu;
+            this.hideMenu = hideMenu;
             this.InitializeComponent();
 
             this.SetUpButtons();
@@ -73,6 +74,8 @@ namespace TellOP
             this.SwitchSpanish.Toggled += this.SwitchSpanish_Toggled;
             this.SwitchItalian.Toggled += this.SwitchItalian_Toggled;
 
+            this.SwitchAdvancedResult.Toggled += this.SwitchAdvancedResult_Toggled;
+
             this.SelectedLanguage.Items.Clear();
             this.SelectedLanguage.Items.Add(Properties.Resources.Language_English);
             this.SelectedLanguage.Items.Add(Properties.Resources.Language_Spanish);
@@ -80,6 +83,16 @@ namespace TellOP
             this.SelectedLanguage.SelectedIndex = this.SelectedLanguage.Items.IndexOf(App.ActiveSearchLanguage.ToString());
 
             this.SelectedLanguage.SelectedIndexChanged += this.SelectedLanguage_SelectedIndexChanged;
+        }
+
+        /// <summary>
+        /// Event handler for the advanced functionalities switch.
+        /// </summary>
+        /// <param name="sender">Advanced functionalities switch.</param>
+        /// <param name="e">Toggled event arg.</param>
+        private void SwitchAdvancedResult_Toggled(object sender, ToggledEventArgs e)
+        {
+            ((App)App.Current).ToggleAdvancedFunctionalities(((Switch)sender).IsToggled);
         }
 
         /// <summary>
@@ -338,7 +351,7 @@ namespace TellOP
         /// <param name="e">Event arg</param>
         private async void Profile_Clicked(object sender, EventArgs e)
         {
-            if (this.HideMenu)
+            if (this.hideMenu)
             {
                 Tools.Logger.LogWithErrorMessage(this, "You must perform the login before using this function.", new UnauthorizedAccessException("You must perform the login before using this function"));
             }
@@ -355,7 +368,7 @@ namespace TellOP
         /// <param name="e">Event arg</param>
         private void DashboardButton_Clicked(object sender, EventArgs e)
         {
-            if (this.HideMenu)
+            if (this.hideMenu)
             {
                 Tools.Logger.LogWithErrorMessage(this, "You must perform the login before using this function.", new UnauthorizedAccessException("You must perform the login before using this function"));
             }

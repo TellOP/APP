@@ -191,5 +191,47 @@
   <ItemGroup>
     <BundleResource Include="Resources\Toolbar_Refresh_Black.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Analysis%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Analysis%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Analysis_max.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Refresh%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Refresh%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Refresh_Black%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Refresh_Black%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Refresh_max.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Search%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Search%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Search_max.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Show%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Show%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Toolbar_Show_max.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -17,6 +17,7 @@
 namespace TellOP.DataModels.ApiModels.LexTutor
 {
     using Newtonsoft.Json;
+    using System.Collections.Generic;
 
     /// <summary>
     /// LexTutor word frequency levels.
@@ -95,5 +96,81 @@ namespace TellOP.DataModels.ApiModels.LexTutor
         /// </summary>
         [JsonProperty("total")]
         public LexTutorResultFrequencyDetails Total { get; set; }
+
+        /// <summary>
+        /// Returns the list of non-zero families.
+        /// </summary>
+        /// <returns>A list of families</returns>
+        public IDictionary<int, LexTutorResultFrequencyDetails> GetNonZeroFamilies()
+        {
+            Dictionary<int, LexTutorResultFrequencyDetails> result = new Dictionary<int, LexTutorResultFrequencyDetails>();
+
+            if (this.K0Words != null && !this.K0Words.IsZero())
+            {
+                result.Add(0, this.K0Words);
+            }
+
+            if (this.K1Words != null && !this.K1Words.IsZero())
+            {
+                result.Add(1, this.K1Words);
+            }
+
+            if (this.K2Words != null && !this.K2Words.IsZero())
+            {
+                result.Add(0, this.K2Words);
+            }
+
+            if (this.K3Words != null && !this.K3Words.IsZero())
+            {
+                result.Add(0, this.K3Words);
+            }
+
+            if (this.K4Words != null && !this.K4Words.IsZero())
+            {
+                result.Add(0, this.K4Words);
+            }
+
+            if (this.K5Words != null && !this.K5Words.IsZero())
+            {
+                result.Add(0, this.K5Words);
+            }
+
+            if (this.K6Words != null && !this.K6Words.IsZero())
+            {
+                result.Add(0, this.K6Words);
+            }
+
+            if (this.K7Words != null && !this.K7Words.IsZero())
+            {
+                result.Add(0, this.K7Words);
+            }
+
+            if (this.K8Words != null && !this.K8Words.IsZero())
+            {
+                result.Add(0, this.K8Words);
+            }
+
+            if (this.K9Words != null && !this.K9Words.IsZero())
+            {
+                result.Add(0, this.K9Words);
+            }
+
+            if (this.K9Words != null && !this.K9Words.IsZero())
+            {
+                result.Add(0, this.K9Words);
+            }
+
+            if (this.OffList != null && !this.OffList.IsZero())
+            {
+                result.Add(-1, this.OffList);
+            }
+
+            if (this.Total != null && !this.Total.IsZero())
+            {
+                result.Add(-2, this.Total);
+            }
+
+            return result;
+        }
     }
 }

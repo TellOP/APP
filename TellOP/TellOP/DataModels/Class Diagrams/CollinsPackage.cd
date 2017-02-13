@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="TellOP.Api.OAuth2Api" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAIAAIAAAMAAAAAAAAAAAAEAgAAAAAAEAA=</HashCode>
+      <FileName>Api\OAuth2Api.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.Api.CollinsDictionary">
+    <Position X="2.75" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Api\CollinsDictionary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.Api.CollinsDictionaryGetEntry">
+    <Position X="0.5" Y="3" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Api\CollinsDictionaryGetEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionary">
+    <Position X="7.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAgAAAQACAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsJsonDictionary.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Results" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionarySingleResult">
+    <Position X="11" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCAAAAAQA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsJsonDictionarySingleResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionaryEntry">
+    <Position X="9" Y="3.5" Width="3.25" />
+    <AssociationLine Name="Content" Type="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionaryEntryContent">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.336" Y="0.191" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAADAAAAEgAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsJsonDictionaryEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Content" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionaryEntryContent" Collapsed="true">
+    <Position X="9" Y="5.75" Width="3.25" />
+    <AssociationLine Name="Entries" Type="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionaryEntryContentEntry">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.825" Y="0.145" Height="0.182" Width="3.549" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Related" Type="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionaryEntryRelated" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.25" Y="6.031" />
+        <Point X="12.786" Y="6.031" />
+        <Point X="12.786" Y="4.364" />
+        <Point X="13.938" Y="4.364" />
+        <Point X="13.938" Y="5.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-2.791" Y="0.378" Height="0.182" Width="3.516" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsJsonDictionaryEntryContent.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Entries" />
+      <Property Name="Related" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionaryEntryContentEntry">
+    <Position X="9" Y="6.75" Width="3.25" />
+    <AssociationLine Name="Senses" Type="TellOP.DataModels.ApiModels.Collins.CollinsWordDefinitionSense">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.11" Y="0.06" Height="0.182" Width="4" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsJsonDictionaryEntryContentEntry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Senses" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsJsonDictionaryEntryRelated">
+    <Position X="13.5" Y="5.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsJsonDictionaryEntryRelated.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsWordDefinitionSense">
+    <Position X="5.25" Y="8" Width="3.25" />
+    <AssociationLine Name="Related" Type="TellOP.DataModels.ApiModels.Collins.CollinsJsonLinkedWord">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.5" Y="0.424" Height="0.182" Width="2.748" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="SeeAlso" Type="TellOP.DataModels.ApiModels.Collins.CollinsJsonLinkedWord">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.673" Y="0.122" Height="0.182" Width="2.814" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAABAAAAAAAAAABAAAAAAAQAAEAAA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsWordDefinitionSense.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Word" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Related" />
+      <Property Name="SeeAlso" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsJsonLinkedWord">
+    <Position X="5.25" Y="10" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsJsonLinkedWord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Collins.CollinsWord">
+    <Position X="13.5" Y="8.5" Width="3.25" />
+    <AssociationLine Name="Senses" Type="TellOP.DataModels.ApiModels.Collins.CollinsWordDefinitionSense">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.11" Y="0.06" Height="0.182" Width="3.997" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAABGAABQAAAAQA=</HashCode>
+      <FileName>DataModels\ApiModels\Collins\CollinsWord.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Senses" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="TellOP.DataModels.Enums.PartOfSpeech" Collapsed="true">
+    <Position X="13.5" Y="7.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>CYAAAABCAgJAAAAAALQAAAAAAIAAIBACCQBAEACICQA=</HashCode>
+      <FileName>DataModels\Enums\PartOfSpeech.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

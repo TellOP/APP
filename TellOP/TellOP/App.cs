@@ -112,9 +112,9 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the use wants the advanced functionalities.
+        /// Gets a value indicating whether the use wants the advanced functionalities.
         /// </summary>
-        public static bool WantsAdvancedReports { get; set; } = true;
+        public static bool WantsAdvancedReports { get; private set; } = true;
 
         /// <summary>
         /// Gets the activer seach language.
@@ -313,6 +313,16 @@ namespace TellOP
         }
 
         /// <summary>
+        /// Sets the flag for showing/hiding the advanced functionalities.
+        /// </summary>
+        /// <param name="flag">If true, shows the advanced results.</param>
+        public void ToggleAdvancedFunctionalities(bool flag)
+        {
+            App.WantsAdvancedReports = flag;
+            this.StoreProperty("AdvancedFunctionalities", flag ? bool.TrueString : bool.FalseString);
+        }
+
+        /// <summary>
         /// Reloads all the language settings from the App current properties.
         /// </summary>
         public void ReloadLanguagesFromProperties()
@@ -334,8 +344,9 @@ namespace TellOP
                 }
             }
 
+            value = string.Empty;
             value = this.LoadProperty("Search");
-            if (string.IsNullOrEmpty(this.LoadProperty("Search")))
+            if (string.IsNullOrEmpty(value))
             {
                 Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing 'Search' property. Adding it with value '" + App.activeSearchLanguage.ToLCID() + "'");
                 this.StoreProperty("Search", App.activeSearchLanguage.ToLCID());
@@ -344,6 +355,25 @@ namespace TellOP
             {
                 Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Loading 'Search' property with value '" + value + "'");
                 this.ChangeSelectedLanguage(SupportedLanguageExtension.FromLCID(value));
+            }
+
+            bool advFunct = false;
+            try
+            {
+                if (string.IsNullOrEmpty(this.LoadProperty("AdvancedFunctionalities")))
+                {
+                    Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing 'AdvancedFunctionalities' property. Adding it with value '" + App.WantsAdvancedReports + "'");
+                    this.StoreProperty("AdvancedFunctionalities", advFunct ? bool.TrueString : bool.FalseString);
+                }
+
+                advFunct = bool.Parse(this.LoadProperty("AdvancedFunctionalities"));
+                Tools.Logger.Log("App.ReloadProperties", "Loading 'AdvancedFunctionalities' property with value '" + (advFunct ? bool.TrueString : bool.FalseString) + "'");
+                this.ToggleAdvancedFunctionalities(advFunct);
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing 'AdvancedFunctionalities' property. Adding it with value '" + App.WantsAdvancedReports + "'", ex);
+                this.StoreProperty("AdvancedFunctionalities", advFunct ? bool.TrueString : bool.FalseString);
             }
         }
 

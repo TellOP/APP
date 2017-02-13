@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TellOP.Dashboard">
+    <Position X="6.5" Y="2.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAABAAAAAAAEABAAAAAAAAAA=</HashCode>
+      <FileName>Dashboard.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DashboardTabFeatured">
+    <Position X="6.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DashboardTabFeatured.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DashboardTabHistory">
+    <Position X="10" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAIAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DashboardTabHistory.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.MainSearch">
+    <Position X="2.75" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAIgAAQAAEABAAACAAAAAA=</HashCode>
+      <FileName>MainSearch.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

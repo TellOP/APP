@@ -148,6 +148,7 @@ limitations under the License.
         <Grid.RowDefinitions>
           <RowDefinition Height="auto" />
           <RowDefinition Height="auto" />
+          <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Frame Padding="10,5,10,10" Grid.Column="0" Grid.Row="1" BackgroundColor="#FFF176">
@@ -202,8 +203,154 @@ limitations under the License.
           </Grid>
         </Frame>
       </Grid>
+      
+      <!-- Third section: LexTutor Families -->
+      <Label FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" Text="{local:Translate ExerciseAnalysis_Families_Contracted}" x:Name="LexTutorFamiliesTitle">
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Tapped="Title_Tapped" />
+        </Label.GestureRecognizers>
+      </Label>
+      <Label HorizontalOptions="CenterAndExpand" IsVisible="false" x:Name="ErrorLexTutorFamilies" FontAttributes="Italic" />
+      <StackLayout x:Name="SectionLexTutorFamiliesResults" HorizontalOptions="Fill" IsVisible="false" Margin="5">
+        <Grid HorizontalOptions="Fill">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="auto" />
+          </Grid.RowDefinitions>
 
-      <!-- Third section: Explore Your Text -->
+          <Label Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Text="{local:Translate ExerciseAnalysis_Families_Families}" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" />
+          <Label Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Text="{local:Translate ExerciseAnalysis_Families_Types}" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" />
+          <Label Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="2" Text="{local:Translate ExerciseAnalysis_Families_Tokens}" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" />
+
+          <BoxView Grid.Row="0" Grid.Column="1" Grid.RowSpan="15" BackgroundColor="#BBDEFB" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Center"/>
+          <BoxView Grid.Row="0" Grid.Column="4" Grid.RowSpan="15" BackgroundColor="#BBDEFB" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Center"/>
+          <BoxView Grid.Row="0" Grid.Column="7" Grid.RowSpan="15" BackgroundColor="#BBDEFB" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Center"/>
+          <BoxView Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="10" BackgroundColor="#BBDEFB" HeightRequest="1" VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+
+          <Label Grid.Row="1" Grid.Column="0" Text="{local:Translate ExerciseAnalysis_Families_Name}" FontSize="12" HorizontalOptions="Center" FontAttributes="Bold" />
+          <Label Grid.Row="1" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Frequency}" FontAttributes="Italic"/>
+          <Label Grid.Row="1" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Percentage}" FontAttributes="Italic"/>
+          <Label Grid.Row="1" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Frequency}" FontAttributes="Italic"/>
+          <Label Grid.Row="1" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Percentage}" FontAttributes="Italic"/>
+          <Label Grid.Row="1" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Frequency}" FontAttributes="Italic"/>
+          <Label Grid.Row="1" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Percentage}" FontAttributes="Italic"/>
+
+          <Label Grid.Row="2" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-1" FontAttributes="Bold"/>
+          <Label Grid.Row="2" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK1.Result.Families.AbsoluteFrequency}"/>
+          <Label Grid.Row="2" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK1.Result.Families.Percent}"/>
+          <Label Grid.Row="2" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK1.Result.Types.AbsoluteFrequency}" />
+          <Label Grid.Row="2" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK1.Result.Types.Percent}" />
+          <Label Grid.Row="2" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK1.Result.Tokens.AbsoluteFrequency}" />
+          <Label Grid.Row="2" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK1.Result.Tokens.Percent}" />
+
+          <Label Grid.Row="3" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-2" FontAttributes="Bold"/>
+          <Label Grid.Row="3" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK2.Result.Families.AbsoluteFrequency}"/>
+          <Label Grid.Row="3" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK2.Result.Families.Percent}"/>
+          <Label Grid.Row="3" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK2.Result.Types.AbsoluteFrequency}"/>
+          <Label Grid.Row="3" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK2.Result.Types.Percent}"/>
+          <Label Grid.Row="3" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK2.Result.Tokens.AbsoluteFrequency}"/>
+          <Label Grid.Row="3" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK2.Result.Tokens.Percent}"/>
+
+          <Label Grid.Row="4" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-3" FontAttributes="Bold" />
+          <Label Grid.Row="4" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK3.Result.Families.AbsoluteFrequency}" />
+          <Label Grid.Row="4" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK3.Result.Families.Percent}" />
+          <Label Grid.Row="4" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK3.Result.Types.AbsoluteFrequency}" />
+          <Label Grid.Row="4" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK3.Result.Types.Percent}" />
+          <Label Grid.Row="4" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK3.Result.Tokens.AbsoluteFrequency}" />
+          <Label Grid.Row="4" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK3.Result.Tokens.Percent}" />
+
+          <Label Grid.Row="5" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-4" FontAttributes="Bold"/>
+          <Label Grid.Row="5" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK4.Result.Families.AbsoluteFrequency}"/>
+          <Label Grid.Row="5" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK4.Result.Families.Percent}"/>
+          <Label Grid.Row="5" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK4.Result.Types.AbsoluteFrequency}"/>
+          <Label Grid.Row="5" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK4.Result.Types.Percent}"/>
+          <Label Grid.Row="5" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK4.Result.Tokens.AbsoluteFrequency}"/>
+          <Label Grid.Row="5" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK4.Result.Tokens.Percent}"/>
+
+          <Label Grid.Row="7" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-5" FontAttributes="Bold" />
+          <Label Grid.Row="7" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK5.Result.Families.AbsoluteFrequency}" />
+          <Label Grid.Row="7" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK5.Result.Families.Percent}" />
+          <Label Grid.Row="7" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK5.Result.Types.AbsoluteFrequency}" />
+          <Label Grid.Row="7" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK5.Result.Types.Percent}" />
+          <Label Grid.Row="7" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK5.Result.Tokens.AbsoluteFrequency}" />
+          <Label Grid.Row="7" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK5.Result.Tokens.Percent}" />
+
+          <Label Grid.Row="8" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-6" FontAttributes="Bold"/>
+          <Label Grid.Row="8" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK6.Result.Families.AbsoluteFrequency}"/>
+          <Label Grid.Row="8" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK6.Result.Families.Percent}"/>
+          <Label Grid.Row="8" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK6.Result.Types.AbsoluteFrequency}"/>
+          <Label Grid.Row="8" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK6.Result.Types.Percent}"/>
+          <Label Grid.Row="8" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK6.Result.Tokens.AbsoluteFrequency}"/>
+          <Label Grid.Row="8" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK6.Result.Tokens.Percent}"/>
+
+          <Label Grid.Row="9" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-7" FontAttributes="Bold" />
+          <Label Grid.Row="9" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK7.Result.Families.AbsoluteFrequency}" />
+          <Label Grid.Row="9" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK7.Result.Families.Percent}" />
+          <Label Grid.Row="9" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK7.Result.Types.AbsoluteFrequency}" />
+          <Label Grid.Row="9" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK7.Result.Types.Percent}" />
+          <Label Grid.Row="9" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK7.Result.Tokens.AbsoluteFrequency}" />
+          <Label Grid.Row="9" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK7.Result.Tokens.Percent}" />
+
+          <Label Grid.Row="10" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-8" FontAttributes="Bold"/>
+          <Label Grid.Row="10" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK8.Result.Families.AbsoluteFrequency}"/>
+          <Label Grid.Row="10" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK8.Result.Families.Percent}"/>
+          <Label Grid.Row="10" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK8.Result.Types.AbsoluteFrequency}"/>
+          <Label Grid.Row="10" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK8.Result.Types.Percent}"/>
+          <Label Grid.Row="10" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK8.Result.Tokens.AbsoluteFrequency}"/>
+          <Label Grid.Row="10" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK8.Result.Tokens.Percent}"/>
+
+          <Label Grid.Row="11" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="K-9" FontAttributes="Bold" />
+          <Label Grid.Row="11" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK9.Result.Families.AbsoluteFrequency}" />
+          <Label Grid.Row="11" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK9.Result.Families.Percent}" />
+          <Label Grid.Row="11" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK9.Result.Types.AbsoluteFrequency}" />
+          <Label Grid.Row="11" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK9.Result.Types.Percent}" />
+          <Label Grid.Row="11" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK9.Result.Tokens.AbsoluteFrequency}" />
+          <Label Grid.Row="11" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyK9.Result.Tokens.Percent}" />
+
+          <Label Grid.Row="12" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Offlist}" FontAttributes="Bold"/>
+          <Label Grid.Row="12" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyOfflist.Result.Families.AbsoluteFrequency}"/>
+          <Label Grid.Row="12" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyOfflist.Result.Families.Percent}"/>
+          <Label Grid.Row="12" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyOfflist.Result.Types.AbsoluteFrequency}"/>
+          <Label Grid.Row="12" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyOfflist.Result.Types.Percent}"/>
+          <Label Grid.Row="12" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyOfflist.Result.Tokens.AbsoluteFrequency}"/>
+          <Label Grid.Row="12" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyOfflist.Result.Tokens.Percent}"/>
+
+          <Label Grid.Row="14" Grid.Column="0" FontSize="10" HorizontalOptions="Center" Text="{local:Translate ExerciseAnalysis_Families_Total}" FontAttributes="Bold"/>
+          <Label Grid.Row="14" Grid.Column="2" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyTotal.Result.Families.AbsoluteFrequency}"  FontAttributes="Bold"/>
+          <Label Grid.Row="14" Grid.Column="3" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyTotal.Result.Families.Percent}"  FontAttributes="Bold"/>
+          <Label Grid.Row="14" Grid.Column="5" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyTotal.Result.Types.AbsoluteFrequency}"  FontAttributes="Bold"/>
+          <Label Grid.Row="14" Grid.Column="6" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyTotal.Result.Types.Percent}"  FontAttributes="Bold"/>
+          <Label Grid.Row="14" Grid.Column="8" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyTotal.Result.Tokens.AbsoluteFrequency}"  FontAttributes="Bold"/>
+          <Label Grid.Row="14" Grid.Column="9" FontSize="10" HorizontalOptions="Center" Text="{Binding LexTutorFamilyTotal.Result.Tokens.Percent}"  FontAttributes="Bold"/>
+        </Grid>
+      </StackLayout>
+
+      <!-- Fourth section: Explore Your Text -->
       <Label FontSize="14" HorizontalOptions="Center" FontAttributes="Bold" Text="{local:Translate ExerciseAnalysis_ExploreText_Contracted}" x:Name="ExploreTitle">
         <Label.GestureRecognizers>
           <TapGestureRecognizer Tapped="Title_Tapped" />

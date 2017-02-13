@@ -168,16 +168,21 @@ namespace TellOP
             if (sender == this.ProfileLevelTitle)
             {
                 // Needs || to include the errors in the logic.
-                this.EnablePanels(!(this.SectionProfileLevels.IsVisible || this.ErrorProfileLevel.IsVisible), false, false);
+                this.EnablePanels(!(this.SectionProfileLevels.IsVisible || this.ErrorProfileLevel.IsVisible), false, false, false);
             }
             else if (sender == this.LexTutorTitle)
             {
                 // Needs || to include the errors in the logic.
-                this.EnablePanels(false, !(this.SectionLexTutorResults.IsVisible || this.ErrorLexTutor.IsVisible), false);
+                this.EnablePanels(false, !(this.SectionLexTutorResults.IsVisible || this.ErrorLexTutor.IsVisible), false, false);
+            }
+            else if (sender == this.LexTutorFamiliesTitle)
+            {
+                // Needs || to include the errors in the logic.
+                this.EnablePanels(false, false, !(this.SectionLexTutorFamiliesResults.IsVisible || this.ErrorLexTutorFamilies.IsVisible), false);
             }
             else if (sender == this.ExploreTitle)
             {
-                this.EnablePanels(false, false, !this.WordsByPoSTable.IsVisible);
+                this.EnablePanels(false, false, false, !this.WordsByPoSTable.IsVisible);
             }
         }
 
@@ -186,8 +191,9 @@ namespace TellOP
         /// </summary>
         /// <param name="profile">Show/hide the profile panel.</param>
         /// <param name="lextutor">Show/hide the lextutor panel.</param>
+        /// <param name="families">Show/hide the lextutor families panel.</param>
         /// <param name="explore">Show/hide the explore panel.</param>
-        private async void EnablePanels(bool profile, bool lextutor, bool explore)
+        private async void EnablePanels(bool profile, bool lextutor, bool families, bool explore)
         {
             var e = ((ExerciseAnalysisDataModel)this.BindingContext).Exercise;
 
@@ -239,6 +245,10 @@ namespace TellOP
                 this.SectionLexTutorResults.IsVisible = lextutor;
                 this.LexTutorTitle.Text = lextutor ? Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Expanded : Properties.Resources.ExerciseAnalysis_RelatedRatiosIndices_Contracted;
                 this.ErrorLexTutor.IsVisible = false;
+
+                this.SectionLexTutorFamiliesResults.IsVisible = families;
+                this.LexTutorFamiliesTitle.Text = families ? Properties.Resources.ExerciseAnalysis_Families_Expanded : Properties.Resources.ExerciseAnalysis_Families_Contracted;
+                this.ErrorLexTutorFamilies.IsVisible = false;
             }
             else
             {
@@ -255,6 +265,20 @@ namespace TellOP
                 }
 
                 this.ErrorLexTutor.IsVisible = lextutor;
+
+                this.SectionLexTutorFamiliesResults.IsVisible = false;
+                this.SectionLexTutorFamiliesResults.IsEnabled = false;
+                this.LexTutorFamiliesTitle.Text = lextutor ? Properties.Resources.ExerciseAnalysis_Families_Expanded : Properties.Resources.ExerciseAnalysis_Families_Contracted;
+                if (e.Language != SupportedLanguage.English && e.Language != SupportedLanguage.USEnglish)
+                {
+                    this.ErrorLexTutorFamilies.Text = string.Format(Properties.Resources.ExerciseAnalysis_ErrorLanguageUnsupported, e.Language.ToString());
+                }
+                else
+                {
+                    this.ErrorLexTutorFamilies.Text = Properties.Resources.ExerciseAnalysis_ErrorEnableAdvancedFunctionalities;
+                }
+
+                this.ErrorLexTutorFamilies.IsVisible = families;
             }
 
             this.SectionPoS.IsVisible = explore;

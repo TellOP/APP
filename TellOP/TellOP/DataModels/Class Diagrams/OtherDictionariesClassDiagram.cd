@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="TellOP.DataModels.ApiModels.StringNet.StringNetCollocations">
+    <Position X="11" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\StringNet\StringNetCollocations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.StringNet.StringNetSplit" Collapsed="true">
+    <Position X="11" Y="2.75" Width="2.75" />
+    <AssociationLine Name="Before" Type="TellOP.DataModels.ApiModels.StringNet.StringNetCollocations" FixedFromPoint="true">
+      <Path>
+        <Point X="13.375" Y="3.312" />
+        <Point X="13.375" Y="4" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.18" Y="0.391" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="After" Type="TellOP.DataModels.ApiModels.StringNet.StringNetCollocations">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.471" Y="0.152" Height="0.182" Width="2.685" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAQAA=</HashCode>
+      <FileName>DataModels\ApiModels\StringNet\StringNetSplit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Before" />
+      <Property Name="After" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.GermanWord" BaseTypeListCollapsed="true">
+    <Position X="2" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAgAAAAABEBAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\GermanWord.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.OxfordWord" BaseTypeListCollapsed="true">
+    <Position X="5" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAQAAAgAABAABEAAAQAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\OxfordWord.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.SpanishWord" BaseTypeListCollapsed="true">
+    <Position X="8" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAgAAAAABEBAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\SpanishWord.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.NetSpeak">
+    <Position X="14" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\NetSpeak.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="TellOP.DataModels.Enums.PartOfSpeech" Collapsed="true">
+    <Position X="5" Y="5.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>CYAAAABCAgJAAAAAALQAAAAAAIAAIBACCQBAEACICQA=</HashCode>
+      <FileName>DataModels\Enums\PartOfSpeech.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

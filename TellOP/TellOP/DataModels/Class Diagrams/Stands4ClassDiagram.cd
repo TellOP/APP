@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="TellOP.DataModels.ApiModels.Stands4.DictionarySingleDefinition">
+    <Position X="1.5" Y="1.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAgAAAAAAEBAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\Stands4\DictionarySingleDefinition.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TellOP.DataModels.ApiModels.Stands4.Stands4Word" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="1.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAIAAAAAAgAAAAABEBAAAAAAAAI=</HashCode>
+      <FileName>DataModels\ApiModels\Stands4\Stands4Word.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PartOfSpeech" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TellOP.DataModels.Stands4WordNotFoundException">
+    <Position X="4.5" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\ApiModels\Stands4\Stands4WordNotFoundException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="TellOP.DataModels.Enums.PartOfSpeech" Collapsed="true">
+    <Position X="4.5" Y="0.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>CYAAAABCAgJAAAAAALQAAAAAAIAAIBACCQBAEACICQA=</HashCode>
+      <FileName>DataModels\Enums\PartOfSpeech.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

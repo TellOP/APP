@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="TellOP.DataModels.Enums.SupportedLanguageExtension">
+    <Position X="2.25" Y="4" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAQAAAA=</HashCode>
+      <FileName>DataModels\Enums\SupportedLanguageExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DataModels.Enums.SupportedLanguageJsonConverter">
+    <Position X="9" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAgAACAA=</HashCode>
+      <FileName>DataModels\Enums\SupportedLanguageJsonConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DataModels.Enums.SupportedLanguageToLcidConverter">
+    <Position X="5.5" Y="4.5" Width="3" />
+    <InheritanceLine Type="TellOP.DataModels.DictionaryConverter&lt;TKey, TValue&gt;" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.5" Y="2.25" />
+        <Point X="8.812" Y="2.25" />
+        <Point X="8.812" Y="5.312" />
+        <Point X="8.5" Y="5.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\Enums\SupportedLanguageToLcidConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TellOP.DataModels.Enums.SupportedLanguageToNameConverter">
+    <Position X="5.5" Y="3" Width="3" />
+    <InheritanceLine Type="TellOP.DataModels.DictionaryConverter&lt;TKey, TValue&gt;" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.5" Y="2.5" />
+        <Point X="8.734" Y="2.5" />
+        <Point X="8.734" Y="3.688" />
+        <Point X="8.5" Y="3.688" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\Enums\SupportedLanguageToNameConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Newtonsoft.Json.JsonConverter" Collapsed="true">
+    <Position X="9" Y="2" Width="3" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TellOP.DataModels.DictionaryConverter&lt;TKey, TValue&gt;" Collapsed="true">
+    <Position X="5.5" Y="2" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\DictionaryConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="TellOP.DataModels.Enums.SupportedLanguage">
+    <Position X="2.25" Y="2" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACQAAAAAAAAQAAAgAAABAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>DataModels\Enums\SupportedLanguage.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

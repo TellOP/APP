@@ -47,5 +47,16 @@ namespace TellOP.DataModels.ApiModels.LexTutor
         /// </summary>
         [JsonProperty("cumulativeToken")]
         public string CumulativeToken { get; set; }
+
+        /// <summary>
+        /// Check if this family is zero.
+        /// </summary>
+        /// <returns>True if families, tokens and types are zero.</returns>
+        public bool IsZero()
+        {
+            return this.Families.IsZero()
+                && this.Types.IsZero()
+                && this.Tokens.IsZero();
+        }
     }
 }

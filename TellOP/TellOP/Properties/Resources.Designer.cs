@@ -899,6 +899,96 @@ namespace TellOP.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Most Common Word Analysis.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Contracted {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Contracted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Most Common Word Analysis.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Expanded {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Expanded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Families.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Families {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Families", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Freq..
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Frequency {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Frequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Name {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offlist.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Offlist {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Offlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Perc..
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Percentage {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Percentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tokens.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Tokens {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Tokens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Total {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types.
+        /// </summary>
+        public static string ExerciseAnalysis_Families_Types {
+            get {
+                return ResourceManager.GetString("ExerciseAnalysis_Families_Types", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to K-frequency distribution.
         /// </summary>
         public static string ExerciseAnalysis_KFrequencyDistribution {
@@ -1867,6 +1957,42 @@ namespace TellOP.Properties {
         public static string SettingPageWarningDefaultLanguage {
             get {
                 return ResourceManager.GetString("SettingPageWarningDefaultLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change active search language.
+        /// </summary>
+        public static string Settings_ActiveSearchLanguage {
+            get {
+                return ResourceManager.GetString("Settings_ActiveSearchLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable advanced features.
+        /// </summary>
+        public static string Settings_AdvancedFeatures {
+            get {
+                return ResourceManager.GetString("Settings_AdvancedFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display advanced result.
+        /// </summary>
+        public static string Settings_AdvancedFeatures_LexTutor {
+            get {
+                return ResourceManager.GetString("Settings_AdvancedFeatures_LexTutor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change enabled languages.
+        /// </summary>
+        public static string Settings_EnabledLanguages {
+            get {
+                return ResourceManager.GetString("Settings_EnabledLanguages", resourceCulture);
             }
         }
         

@@ -1,4 +1,4 @@
-// <copyright file="IWord.cs" company="University of Murcia">
+﻿// <copyright file="ISearchDataModel.cs" company="University of Murcia">
 // Copyright © 2016 University of Murcia
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +13,25 @@
 // limitations under the License.
 // </copyright>
 // <author>Mattia Zago</author>
-// <author>Alessandro Menti</author>
 
 namespace TellOP.DataModels
 {
-    using Enums;
-    using Nito.AsyncEx;
+    using System.ComponentModel;
 
     /// <summary>
-    /// A single word used in the exercises.
+    /// Interface for any search data model.
     /// </summary>
-    public interface IWord
+    public interface ISearchDataModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// Gets the string representation of the term.
+        /// Gets a value indicating whether the search is enabled or not.
         /// </summary>
-        string Term { get; }
+        bool IsSearchEnabled { get; }
 
         /// <summary>
-        /// Gets the part of speech this term is categorized into.
+        /// Search for a word
         /// </summary>
-        PartOfSpeech PartOfSpeech { get; }
-
-        /// <summary>
-        /// Gets the CEFR level of this word.
-        /// </summary>
-        AsyncLazy<LanguageLevelClassification> Level { get; }
+        /// <param name="word">Term to be searched.</param>
+        void SearchForWord(string word);
     }
 }

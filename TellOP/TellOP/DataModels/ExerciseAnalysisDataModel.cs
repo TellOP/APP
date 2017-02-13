@@ -27,6 +27,7 @@ namespace TellOP.DataModels
     using Activity;
     using DataModels.Enums;
     using Nito.AsyncEx;
+    using ApiModels.LexTutor;
 
     /// <summary>
     /// The essay exercise analysis data model.
@@ -107,6 +108,51 @@ namespace TellOP.DataModels
         /// A read-only list of words appearing in the text grouped by language level.
         /// </summary>
         private INotifyTaskCompletion<ReadOnlyObservableCollection<Grouping<IWord>>> _wordsInTextByLevel;
+
+        /// <summary>
+        /// Lext Tutor Family K1
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK1;
+        /// <summary>
+        /// Lext Tutor Family K2
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK2;
+        /// <summary>
+        /// Lext Tutor Family K3
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK3;
+        /// <summary>
+        /// Lext Tutor Family K4
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK4;
+        /// <summary>
+        /// Lext Tutor Family K5
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK5;
+        /// <summary>
+        /// Lext Tutor Family K6
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK6;
+        /// <summary>
+        /// Lext Tutor Family K7
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK7;
+        /// <summary>
+        /// Lext Tutor Family K8
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK8;
+        /// <summary>
+        /// Lext Tutor Family K9
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK9;
+        /// <summary>
+        /// Lext Tutor Family Offlist
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyOfflist;
+        /// <summary>
+        /// Lext Tutor Family Total
+        /// </summary>
+        private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyTotal;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExerciseAnalysisDataModel"/> class.
@@ -402,6 +448,193 @@ namespace TellOP.DataModels
         }
 
         /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK1
+        {
+            get
+            {
+                return this._lexTutorFamilyK1;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK1 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK1"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK2
+        {
+            get
+            {
+                return this._lexTutorFamilyK2;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK2 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK2"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK3
+        {
+            get
+            {
+                return this._lexTutorFamilyK3;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK3 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK3"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK4
+        {
+            get
+            {
+                return this._lexTutorFamilyK4;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK4 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK4"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK5
+        {
+            get
+            {
+                return this._lexTutorFamilyK5;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK5 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK5"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK6
+        {
+            get
+            {
+                return this._lexTutorFamilyK6;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK6 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK6"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK7
+        {
+            get
+            {
+                return this._lexTutorFamilyK7;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK7 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK7"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK8
+        {
+            get
+            {
+                return this._lexTutorFamilyK8;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK8 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK8"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyK9
+        {
+            get
+            {
+                return this._lexTutorFamilyK9;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyK9 = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyK9"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyOfflist
+        {
+            get
+            {
+                return this._lexTutorFamilyOfflist;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyOfflist = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyOfflist"));
+            }
+        }
+
+        /// <summary>
+        /// Gets the family class.
+        /// </summary>
+        public INotifyTaskCompletion<LexTutorResultFrequencyDetails> LexTutorFamilyTotal
+        {
+            get
+            {
+                return this._lexTutorFamilyTotal;
+            }
+
+            private set
+            {
+                this._lexTutorFamilyTotal = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LexTutorFamilyTotal"));
+            }
+        }
+
+        /// <summary>
         /// Refreshes the exercise analysis.
         /// </summary>
         public void RefreshAnalysis()
@@ -419,6 +652,17 @@ namespace TellOP.DataModels
             this.LexTutorTypesPerFamily = NotifyTaskCompletion.Create(this.GetLexTutorTypesPerFamilyAsync());
             this.WordsInTextByPartOfSpeech = NotifyTaskCompletion.Create(this.GetWordsInTextByPartOfSpeechAsync());
             this.WordsInTextByLevel = NotifyTaskCompletion.Create(this.GetWordsInTextByLevelAsync());
+            this.LexTutorFamilyK1 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK1());
+            this.LexTutorFamilyK2 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK2());
+            this.LexTutorFamilyK3 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK3());
+            this.LexTutorFamilyK4 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK4());
+            this.LexTutorFamilyK5 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK5());
+            this.LexTutorFamilyK6 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK6());
+            this.LexTutorFamilyK7 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK7());
+            this.LexTutorFamilyK8 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK8());
+            this.LexTutorFamilyK9 = NotifyTaskCompletion.Create(this.GetLexTutorFamilyK9());
+            this.LexTutorFamilyOfflist = NotifyTaskCompletion.Create(this.GetLexTutorFamilyOfflist());
+            this.LexTutorFamilyTotal = NotifyTaskCompletion.Create(this.GetLexTutorFamilyTotal());
         }
 
         /// <summary>
@@ -695,6 +939,105 @@ namespace TellOP.DataModels
             }
 
             return new ReadOnlyObservableCollection<Grouping<IWord>>(new ObservableCollection<Grouping<IWord>>(wordGroups));
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK1()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K1Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK2()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K2Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK3()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K3Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK4()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K4Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK5()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K5Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK6()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K6Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK7()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K7Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK8()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K8Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyK9()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.K9Words;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyOfflist()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.OffList;
+        }
+
+        /// <summary>
+        /// Gets the family.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private async Task<LexTutorResultFrequencyDetails> GetLexTutorFamilyTotal()
+        {
+            return (await this._exercise.LexTutorResult).FrequencyLevels.Total;
         }
     }
 }

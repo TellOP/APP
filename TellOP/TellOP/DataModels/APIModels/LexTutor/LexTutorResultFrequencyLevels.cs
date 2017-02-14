@@ -16,8 +16,8 @@
 
 namespace TellOP.DataModels.ApiModels.LexTutor
 {
-    using Newtonsoft.Json;
     using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// LexTutor word frequency levels.

@@ -17,8 +17,6 @@
 namespace TellOP
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using DataModels.Enums;
     using Xamarin.Forms;
 
@@ -27,7 +25,6 @@ namespace TellOP
     /// </summary>
     public partial class SettingsPage : ContentPage
     {
-
         /// <summary>
         /// If True will hide the menu.
         /// </summary>
@@ -54,6 +51,8 @@ namespace TellOP
         {
             this.hideMenu = hideMenu;
             this.InitializeComponent();
+
+            ((App)App.Current).ReloadLanguagesFromProperties();
 
             this.SetUpButtons();
 
@@ -104,23 +103,23 @@ namespace TellOP
         {
             if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_English)
             {
-                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.English);
+                ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.English);
             }
             else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_Spanish)
             {
-                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.Spanish);
+                ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.Spanish);
             }
             else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_German)
             {
-                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.German);
+                ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.German);
             }
             else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_French)
             {
-                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.French);
+                ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.French);
             }
             else if (((Picker)sender).Items[((Picker)sender).SelectedIndex] == Properties.Resources.Language_Italian)
             {
-                ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.Italian);
+                ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.Italian);
             }
         }
 
@@ -134,6 +133,8 @@ namespace TellOP
             this.SwitchGerman.IsToggled = App.ActiveLanguages[SupportedLanguage.German];
             this.SwitchFrench.IsToggled = App.ActiveLanguages[SupportedLanguage.French];
             this.SwitchItalian.IsToggled = App.ActiveLanguages[SupportedLanguage.Italian];
+
+            this.SwitchAdvancedResult.IsToggled = App.WantsAdvancedReports;
         }
 
         /// <summary>

@@ -26,7 +26,6 @@ namespace TellOP
     using DataModels;
     using DataModels.Activity;
     using DataModels.Enums;
-    using DataModels.SQLiteModels;
     using Tools;
     using Xamarin.Forms;
 

@@ -16,11 +16,10 @@
 
 namespace TellOP.Config
 {
-    using DataModels.Enums;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
+    using DataModels.Enums;
 
     /// <summary>
     /// A class containing the Tell-OP base URI and endpoint URI building functions.

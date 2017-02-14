@@ -18,7 +18,6 @@ namespace TellOP.ViewModels
 {
     using System;
     using DataModels.ApiModels;
-    using DataModels.ApiModels.Collins;
     using Xamarin.Forms;
 
     /// <summary>

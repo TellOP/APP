@@ -61,7 +61,7 @@ namespace TellOP
         /// <summary>
         /// The search language.
         /// </summary>
-        private static SupportedLanguage activeSearchLanguage = SupportedLanguage.German;
+        private static SupportedLanguage activeSearchLanguage = SupportedLanguage.English;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
@@ -306,7 +306,7 @@ namespace TellOP
         /// Change the current selected language.
         /// </summary>
         /// <param name="language">Selected language</param>
-        public void ChangeSelectedLanguage(SupportedLanguage language)
+        public void ChangeSelectedSearchLanguage(SupportedLanguage language)
         {
             App.activeSearchLanguage = language;
             this.StoreProperty("Search", language.ToLCID());
@@ -334,7 +334,7 @@ namespace TellOP
                 value = this.LoadProperty(lang.Key.ToLCID());
                 if (string.IsNullOrEmpty(value))
                 {
-                    Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing '" + lang.Key.ToLCID() + "' property. Adding it with value '" + lang.Value.ToString() + "'");
+                    Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing '" + lang.Key.ToLCID() + "' property. Adding it with default value '" + lang.Value.ToString() + "'");
                     this.StoreProperty(lang.Key.ToLCID(), lang.Value.ToString());
                 }
                 else
@@ -354,7 +354,7 @@ namespace TellOP
             else
             {
                 Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Loading 'Search' property with value '" + value + "'");
-                this.ChangeSelectedLanguage(SupportedLanguageExtension.FromLCID(value));
+                this.ChangeSelectedSearchLanguage(SupportedLanguageExtension.FromLCID(value));
             }
 
             bool advFunct = false;
@@ -372,8 +372,8 @@ namespace TellOP
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Missing 'AdvancedFunctionalities' property. Adding it with value '" + App.WantsAdvancedReports + "'", ex);
-                this.StoreProperty("AdvancedFunctionalities", advFunct ? bool.TrueString : bool.FalseString);
+                Tools.Logger.Log("App.ReloadLanguagesFromProperties", "Exception. Force it with value '" + App.WantsAdvancedReports + "'", ex);
+                this.ToggleAdvancedFunctionalities(advFunct);
             }
         }
 

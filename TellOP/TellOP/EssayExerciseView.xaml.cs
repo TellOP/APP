@@ -58,14 +58,14 @@ namespace TellOP
             switch (essay.Language)
             {
                 case SupportedLanguage.Spanish:
-                    ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.Spanish);
+                    ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.Spanish);
                     break;
                 case SupportedLanguage.German:
-                    ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.German);
+                    ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.German);
                     break;
 
                 default:
-                    ((App)App.Current).ChangeSelectedLanguage(SupportedLanguage.English);
+                    ((App)App.Current).ChangeSelectedSearchLanguage(SupportedLanguage.English);
                     break;
             }
 

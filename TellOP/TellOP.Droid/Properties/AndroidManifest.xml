@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- 
-<copyright file="AndroidManifest.xml" company="University of Murcia">
-Copyright © 2016 University of Murcia
+<copyright file="AndroidManifest.xml" company="University of Murcia">Copyright © 2016 University of Murcia
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,14 +12,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-</copyright>
-<author>Mattia Zago</author>
-<author>Alessandro Menti</author>
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="es.um.tellop" android:installLocation="auto" android:versionName="0.6 beta" android:versionCode="7">
-	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="24" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:theme="@style/TellOPTheme" android:label="Tell-OP" android:icon="@drawable/icon"></application>
+</copyright><author>Mattia Zago</author><author>Alessandro Menti</author>-->
+<manifest android:installLocation="auto" android:versionCode="8" android:versionName="0.7 beta" package="es.um.tellop" xmlns:android="http://schemas.android.com/apk/res/android">
+	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="24"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<application android:icon="@drawable/icon" android:label="Tell-OP" android:theme="@style/TellOPTheme"/>
 </manifest>

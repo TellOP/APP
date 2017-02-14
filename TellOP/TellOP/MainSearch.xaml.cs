@@ -17,10 +17,9 @@
 
 namespace TellOP
 {
-    using Api;
+    using System;
     using DataModels;
     using DataModels.Enums;
-    using System;
     using Tools;
     using ViewModels;
     using Xamarin.Forms;

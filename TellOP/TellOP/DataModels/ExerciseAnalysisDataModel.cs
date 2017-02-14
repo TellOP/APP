@@ -113,42 +113,52 @@ namespace TellOP.DataModels
         /// Lext Tutor Family K1
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK1;
+
         /// <summary>
         /// Lext Tutor Family K2
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK2;
+
         /// <summary>
         /// Lext Tutor Family K3
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK3;
+
         /// <summary>
         /// Lext Tutor Family K4
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK4;
+
         /// <summary>
         /// Lext Tutor Family K5
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK5;
+
         /// <summary>
         /// Lext Tutor Family K6
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK6;
+
         /// <summary>
         /// Lext Tutor Family K7
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK7;
+
         /// <summary>
         /// Lext Tutor Family K8
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK8;
+
         /// <summary>
         /// Lext Tutor Family K9
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyK9;
+
         /// <summary>
         /// Lext Tutor Family Offlist
         /// </summary>
         private INotifyTaskCompletion<LexTutorResultFrequencyDetails> _lexTutorFamilyOfflist;
+
         /// <summary>
         /// Lext Tutor Family Total
         /// </summary>

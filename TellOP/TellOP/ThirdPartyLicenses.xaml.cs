@@ -16,7 +16,6 @@
 
 namespace TellOP
 {
-    using System;
     using System.IO;
     using System.Reflection;
     using Xamarin.Forms;

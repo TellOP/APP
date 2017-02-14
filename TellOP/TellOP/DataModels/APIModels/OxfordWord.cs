@@ -16,7 +16,6 @@
 
 namespace TellOP.DataModels.ApiModels
 {
-    using System;
     using System.Collections.Generic;
     using Enums;
     using Newtonsoft.Json;

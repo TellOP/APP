@@ -30,7 +30,6 @@ namespace TellOP.DataModels
     using ApiModels;
     using ApiModels.Collins;
     using ApiModels.Exercise;
-    using ApiModels.Stands4;
     using ApiModels.StringNet;
     using Nito.AsyncEx;
 
@@ -175,7 +174,7 @@ namespace TellOP.DataModels
             this.SearchResultsNetSpeakPreceding = NotifyTaskCompletion.Create(SearchForWordNetSpeakPrecedingAsync(word));
             this.SearchResultsNetSpeakFollowing = NotifyTaskCompletion.Create(SearchForWordNetSpeakFollowingAsync(word));
             this.SearchResultsStringNet = NotifyTaskCompletion.Create(SearchForWordStringNetAsync(word));
-
+            /*
             Task.Run(async () =>
             {
                 try
@@ -191,6 +190,7 @@ namespace TellOP.DataModels
                     });
                 }
             });
+            */
         }
 
         /// <summary>

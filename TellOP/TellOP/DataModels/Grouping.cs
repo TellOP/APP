@@ -19,7 +19,6 @@ namespace TellOP.DataModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using DataModels;
 
     /// <summary>
     /// A class used to enable groups in ListView (XAML).

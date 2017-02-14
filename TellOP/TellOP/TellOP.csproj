@@ -374,7 +374,9 @@
     <AdditionalFiles Include="..\..\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DataModels\Class Diagrams\CollinsPackage.cd" />
     <None Include="DataModels\Class Diagrams\OtherDictionariesClassDiagram.cd" />
     <None Include="DataModels\Class Diagrams\Stands4ClassDiagram.cd" />

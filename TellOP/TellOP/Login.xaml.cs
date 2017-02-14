@@ -19,7 +19,6 @@ namespace TellOP
 {
     using System;
     using Config;
-    using Plugin.Connectivity;
     using Tools;
     using Xamarin.Forms;
 

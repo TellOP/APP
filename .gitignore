@@ -31,3 +31,5 @@ TellOP/TellOP.UWP/*.nuget.targets
 /TellOP/TellOP.Droid/TellOPDroidConfiguration.cs
 /TellOP/TellOP.iOS/TellOPiOSConfiguration.cs
 /TellOP/TellOP/Config/TellOPSecretsConfiguration.cs
+/TellOP/TellOP.UWP/*.pfx
+/TellOP/TellOP.UWP/Package.StoreAssociation.xml

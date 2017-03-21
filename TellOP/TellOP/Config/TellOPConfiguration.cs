@@ -47,6 +47,7 @@ namespace TellOP.Config
             { "TellOP.API.Tips", "/api/v1/app/tips" },
             { "TellOP.API.UserProfile", "/api/v1/app/profile" },
             { "TellOP.API.SpanishPOSTagger", "/api/v1/resource/estagger" },
+            { "TellOP.API.EnglishPOSTagger", "/api/v1/resource/entagger" },
             { "TellOP.API.GermanPOSTagger", "/api/v1/resource/detagger" },
             { "TellOP.API.OxfordDictionary.English", "/api/v1/resource/oxford/en" },
             { "TellOP.API.OxfordDictionary.USEnglish", "/api/v1/resource/oxford/en" },
@@ -54,6 +55,7 @@ namespace TellOP.Config
             { "TellOP.API.OxfordDictionary.German", "/api/v1/resource/oxford/de" },
             { "TellOP.API.OxfordDictionary.Italian", "/api/v1/resource/oxford/it" },
             { "TellOP.API.OxfordDictionary.Spanish", "/api/v1/resource/oxford/es" },
+            { "TellOP.API.CEFRTagger", "/api/v1/resource/cefr" },
         };
 
         /// <summary>

@@ -22,7 +22,6 @@ namespace TellOP.DataModels.Activity
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Api;
     using ApiModels;
@@ -437,76 +436,6 @@ namespace TellOP.DataModels.Activity
             return offlineAnalysis.Where(w => w.PartOfSpeech == part).GroupBy(w => w).Where(w => w.Count() >= 1).ToDictionary(w => w.Key, w => w.Count());
         }
 
-        private async Task<string> PreprocessSingleWord(string token)
-        {
-            string cleanToken = await OfflineLemmaEN.RetrieveBase(token);
-            if (string.IsNullOrEmpty(cleanToken) || string.IsNullOrWhiteSpace(cleanToken))
-            {
-                cleanToken = token;
-            }
-
-            return cleanToken;
-        }
-
-        private async Task<IWord> ProcessSingleWord(string cleanToken)
-        {
-            string msg = "'" + cleanToken + "' ";
-            IWord w;
-
-            if (this.Language == SupportedLanguage.English)
-            {
-                IList<IWord> offlineWords = await OfflineWord.Search(cleanToken);
-                if (offlineWords.Count > 0)
-                {
-                    w = WordSearchUtilities.GetMostProbable(offlineWords);
-                }
-                else
-                {
-                    // TODO: find a better way to add a word that is not found in the database.
-                    msg += "SearchCount is zero, so I'm creating a new word with an unclassified part of speech and an unknown language level";
-                    w = new OfflineWord()
-                    {
-                        Term = cleanToken,
-                        JsonLevel = LanguageLevelClassification.Unknown,
-                        PartOfSpeech = PartOfSpeech.Unclassified,
-                        Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.English, typeof(string), null, CultureInfo.InvariantCulture)
-                    };
-                }
-
-                Tools.Logger.Log("ProcessSingleWord", msg);
-                return w;
-            }
-            else if (this.Language == SupportedLanguage.English)
-            {
-                Tools.Logger.Log("ProcessSingleWord", "Call remote SpanishTagger");
-                SpanishPOSTagger es_tagger = new SpanishPOSTagger(App.OAuth2Account, cleanToken);
-                IList<SpanishWord> results = await es_tagger.CallEndpointAsObjectAsync();
-                Tools.Logger.Log("ProcessSingleWord", "Got the results!");
-                try
-                {
-                    return results.First();
-                }
-                catch (Exception)
-                {
-                    return new OfflineWord()
-                    {
-                        Term = cleanToken,
-                        JsonLevel = LanguageLevelClassification.Unknown,
-                        PartOfSpeech = PartOfSpeech.Unclassified,
-                        Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.Spanish, typeof(string), null, CultureInfo.InvariantCulture)
-                    };
-                }
-            }
-
-            return new OfflineWord()
-            {
-                Term = cleanToken,
-                JsonLevel = LanguageLevelClassification.Unknown,
-                PartOfSpeech = PartOfSpeech.Unclassified,
-                Language = (string)new SupportedLanguageToLcidConverter().Convert(SupportedLanguage.English, typeof(string), null, CultureInfo.InvariantCulture)
-            };
-        }
-
         /// <summary>
         /// Initializes or reinitializes all properties which can be extracted from an offline analysis of the text.
         /// </summary>
@@ -519,41 +448,12 @@ namespace TellOP.DataModels.Activity
 
                 if (this.Language == SupportedLanguage.English)
                 {
-                    IList<Task<IWord>> searchTokenTasks = new List<Task<IWord>>();
+                    Tools.Logger.Log("CEFRTagger", "Call remote SpanishTagger");
+                    CEFRTagger en_tagger = new CEFRTagger(App.OAuth2Account, this._essayContents);
+                    IList<CEFRWord> results = await en_tagger.CallEndpointAsObjectAsync();
 
-                    // Dirty tokens
-                    foreach (string token in Regex.Matches(this._essayContents, "[\\w']+").Cast<Match>().Select(m => m.Value))
-                    {
-                        foreach (string cleanToken in Regex.Matches(await this.PreprocessSingleWord(token), "[\\w']+").Cast<Match>().Select(m => m.Value))
-                        {
-                            searchTokenTasks.Add(this.ProcessSingleWord(cleanToken));
-                        }
-                    }
-
-                    IEnumerable<IWord> results = await Task.WhenAll(searchTokenTasks);
-
-                    Tools.Logger.Log("EssayExercise", "I've waited all of them!");
-                    foreach (IWord w in results)
-                    {
-                        if (this.ExcludeFunctionalWords && (
-                            w.PartOfSpeech == PartOfSpeech.ClauseOpener
-                            || w.PartOfSpeech == PartOfSpeech.Conjunction
-                            || w.PartOfSpeech == PartOfSpeech.Determiner
-                            || w.PartOfSpeech == PartOfSpeech.DeterminerPronoun
-                            || w.PartOfSpeech == PartOfSpeech.ExistentialParticle
-                            || w.PartOfSpeech == PartOfSpeech.Genitive
-                            || w.PartOfSpeech == PartOfSpeech.InfinitiveMarker
-                            || w.PartOfSpeech == PartOfSpeech.InterjectionOrDiscourseMarker
-                            || w.PartOfSpeech == PartOfSpeech.NegativeMarker
-                            || w.PartOfSpeech == PartOfSpeech.CardinalNumber
-                            || w.PartOfSpeech == PartOfSpeech.Ordinal
-                            || w.PartOfSpeech == PartOfSpeech.Pronoun
-                            || w.PartOfSpeech == PartOfSpeech.ModalVerb))
-                        {
-                            continue;
-                        }
-                        analysisCache.Add(w);
-                    }
+                    Tools.Logger.Log("CEFRTagger", "Got the results!");
+                    analysisCache.AddRange(results);
                 }
                 else if (this.Language == SupportedLanguage.Spanish)
                 {
@@ -617,7 +517,17 @@ namespace TellOP.DataModels.Activity
                     }
                     return result;
                 }
-                return new Dictionary<LanguageLevelClassification, float>();
+
+                return new Dictionary<LanguageLevelClassification, float>()
+                {
+                    { LanguageLevelClassification.A1, float.NaN },
+                    { LanguageLevelClassification.A2, float.NaN },
+                    { LanguageLevelClassification.B1, float.NaN },
+                    { LanguageLevelClassification.B2, float.NaN },
+                    { LanguageLevelClassification.C1, float.NaN },
+                    { LanguageLevelClassification.C2, float.NaN },
+                    { LanguageLevelClassification.Unknown, float.NaN },
+                };
             });
 
             this.NumWords = new AsyncLazy<int>(async () =>

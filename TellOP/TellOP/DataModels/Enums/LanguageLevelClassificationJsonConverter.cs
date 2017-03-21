@@ -44,6 +44,13 @@ namespace TellOP.DataModels.Enums
             { "c2", LanguageLevelClassification.C2 },
             { "unknown", LanguageLevelClassification.Unknown },
             { "u", LanguageLevelClassification.Unknown },
+            { "0", LanguageLevelClassification.A1 },
+            { "1", LanguageLevelClassification.A2 },
+            { "2", LanguageLevelClassification.B1 },
+            { "3", LanguageLevelClassification.B2 },
+            { "4", LanguageLevelClassification.C1 },
+            { "5", LanguageLevelClassification.C2 },
+            { "6", LanguageLevelClassification.Unknown },
         };
 
         /// <summary>
@@ -82,7 +89,7 @@ namespace TellOP.DataModels.Enums
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log("LanguageLevelClassificationConverter", "Apparently something didn't work correctly.", ex);
+                Tools.Logger.Log("LanguageLevelClassificationConverter:85 (" + stringValue + ")", "Apparently something didn't work correctly.", ex);
                 return LanguageLevelClassification.Unknown;
             }
         }
@@ -102,15 +109,14 @@ namespace TellOP.DataModels.Enums
             {
                 throw new ArgumentNullException("writer");
             }
-
-            LanguageLevelClassification level = (LanguageLevelClassification)value;
             try
             {
+                LanguageLevelClassification level = (LanguageLevelClassification)value;
                 writer.WriteValue(_converterDictionary.First(x => x.Value.Equals(level)).Key);
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log("LanguageLevelClassificationConverter", "Apparently something didn't work correctly.", ex);
+                Tools.Logger.Log("LanguageLevelClassificationConverter:113", "Apparently something didn't work correctly.", ex);
                 writer.WriteValue(LanguageLevelClassification.Unknown);
             }
         }

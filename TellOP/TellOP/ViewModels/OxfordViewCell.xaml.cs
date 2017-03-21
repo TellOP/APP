@@ -65,6 +65,12 @@ namespace TellOP.ViewModels
         {
             this.DetailsPanel.IsVisible = !this.DetailsPanel.IsVisible;
             this.DictLabel.Text = this.DetailsPanel.IsVisible ? Properties.Resources.OxfordViewCell_DictionaryName_Expanded : Properties.Resources.OxfordViewCell_DictionaryName_Contracted;
+            this.ForceUpdateSize();
+        }
+
+        private void Handle_Tapped(object sender, EventArgs e)
+        {
+            this.ForceUpdateSize();
         }
 
         /// <summary>

@@ -99,7 +99,11 @@ namespace TellOP
                 this.C1Frame.BackgroundColor = (Color)langToColorConverter.Convert(LanguageLevelClassification.C1, typeof(Color), null, CultureInfo.CurrentUICulture);
                 this.C2Frame.BackgroundColor = (Color)langToColorConverter.Convert(LanguageLevelClassification.C2, typeof(Color), null, CultureInfo.CurrentUICulture);
 
-                this.ExSupportTextContent.Text = string.IsNullOrWhiteSpace(this.ex.PreliminaryText) ? Properties.Resources.EssayExerciseView_ExSupportTextContentError : this.ex.PreliminaryText;
+                this.ExSupportTextContent_text.Text = this.ex.Description + "\n" + (string.IsNullOrWhiteSpace(this.ex.PreliminaryText) ? Properties.Resources.EssayExerciseView_ExSupportTextContentError : this.ex.PreliminaryText);
+            }
+            else
+            {
+                this.ExSupportTextContent_text.Text = string.IsNullOrWhiteSpace(this.ex.PreliminaryText) ? Properties.Resources.EssayExerciseView_ExSupportTextContentError : this.ex.PreliminaryText;
             }
         }
 
@@ -1074,7 +1078,10 @@ namespace TellOP
                 messageText = string.Format(CultureInfo.CurrentUICulture, Properties.Resources.Exercise_ExerciseSpecificationsText_WithReferenceText, this.ex.Description, this.ex.PreliminaryText);
             }
 
-            await this.DisplayAlert(Properties.Resources.Exercise_ExerciseSpecifications, messageText, Properties.Resources.ButtonHide);
+            if (Device.Idiom != TargetIdiom.Desktop && Device.Idiom != TargetIdiom.Tablet)
+            {
+                await this.DisplayAlert(Properties.Resources.Exercise_ExerciseSpecifications, messageText, Properties.Resources.ButtonHide);
+            }
         }
 
         /// <summary>
@@ -1411,7 +1418,7 @@ namespace TellOP
                     int c1Count = (await this.ex.LevelClassification)[LanguageLevelClassification.C1].Count;
                     int c2Count = (await this.ex.LevelClassification)[LanguageLevelClassification.C2].Count;
 
-                    int tot = a1Count + a2Count + b1Count + b2Count + c1Count + c2Count;
+                    float tot = a1Count + a2Count + b1Count + b2Count + c1Count + c2Count;
 
                     this.A1Content.Text = string.Format("{0:P0}", a1Count / tot);
                     this.A2Content.Text = string.Format("{0:P0}", a2Count / tot);

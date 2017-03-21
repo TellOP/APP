@@ -22,7 +22,8 @@ limitations under the License.
           x:Class="TellOP.ViewModels.Stands4ViewCell"
           xmlns:local="clr-namespace:TellOP;assembly=TellOP"
           xmlns:apimodels="clr-namespace:TellOP.DataModels.ApiModels;assembly=TellOP"
-          xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP">
+          xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
+          Tapped="Handle_Tapped">
   <ViewCell.View>
     <ContentView Margin="0,2,0,2">
       <Grid Padding="0">

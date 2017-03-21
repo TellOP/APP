@@ -98,21 +98,7 @@ namespace TellOP
         /// <returns>Awaitable object</returns>
         private async Task CallSearchPage(string term)
         {
-            switch (this.currentLanguage)
-            {
-                case SupportedLanguage.Spanish:
-                case SupportedLanguage.German:
-                    {
-                        await this.Navigation.PushAsync(new MainSearch(term));
-                        return;
-                    }
-
-                default:
-                    {
-                        await this.Navigation.PushAsync(new SingleWordExploration(term));
-                        return;
-                    }
-            }
+            await this.Navigation.PushAsync(new MainSearch(term));
         }
 
         /// <summary>
@@ -775,9 +761,9 @@ namespace TellOP
                     ++rowCount;
                 }
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                Tools.Logger.Log("ExerciseAnalysis.FillPoSList", "PoS " + group + " not found.", ex);
+                // Tools.Logger.Log("ExerciseAnalysis.FillPoSList", "PoS " + group + " not found.", ex);
                 this.WordsByPoSTableSection.Clear();
                 this.WordsByPoSTableSection.Add(new TextCell() { Text = Properties.Resources.ExerciseAnalysis_EmptyPoSList });
                 rowCount = 1;

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             xmlns:viewmodels="clr-namespace:TellOP.ViewModels;assembly=TellOP"
+             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP"
+             x:Class="TellOP.SearchCollinsTab">
+  <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" x:Name="CollinsElementsGroup">
+    <SearchBar Placeholder="{local:Translate MainSearch_EnterTerm}" HorizontalOptions="Fill" SearchButtonPressed="SearchBar_SearchButtonPressed" IsEnabled="{Binding IsSearchEnabled}" x:Name="SearchBar" />
+
+    <Label Text="{Binding SearchResultsCollins.ErrorMessage}" IsVisible="{Binding SearchResultsCollins.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+    <Label x:Name="CollinsTitle" Text="{local:Translate SingleWordExploration_CollinsDefinitionsTitle}" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" BackgroundColor="#FFFDE7" />
+    <ListView x:Name="SearchListCollins" HasUnevenRows="true" ItemsSource="{Binding SearchResultsCollins.Result}" Margin="5" IsVisible="{Binding SearchResultsCollins.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
+    <RelativeLayout HorizontalOptions="Center" VerticalOptions="StartAndExpand" IsVisible="{Binding SearchResultsCollins.IsNotCompleted}">
+      <ActivityIndicator IsVisible="{Binding SearchResultsCollins.IsNotCompleted}" IsRunning="{Binding SearchResultsCollins.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+    </RelativeLayout>
+  </StackLayout>
+</ContentPage>

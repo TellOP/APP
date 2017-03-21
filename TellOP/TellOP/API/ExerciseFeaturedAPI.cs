@@ -49,7 +49,20 @@ namespace TellOP.Api
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
         public async Task<IList<Activity>> CallEndpointAsObjectAsync()
         {
-            return JsonConvert.DeserializeObject<List<Activity>>(await this.CallEndpointAsync().ConfigureAwait(false), new ActivityConverter());
+            try
+            {
+                var k = await this.CallEndpointAsync().ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<List<Activity>>(k, new ActivityConverter());
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(ex =>
+                {
+                    Tools.Logger.Log("Featured:CallEndpointAsObjectAsync", ex);
+                    return false;
+                });
+                throw ae;
+            }
         }
 
         /// <summary>
@@ -76,7 +89,7 @@ namespace TellOP.Api
             }
             catch (Exception ex)
             {
-                Tools.Logger.Log(this.GetType().ToString(), ex);
+                Tools.Logger.Log("FeaturedPage:CallEndpointAsExerciseModel", ex);
             }
 
             return new List<Exercise>();

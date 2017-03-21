@@ -40,18 +40,21 @@ namespace TellOP.iOS
         [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes", Justification = "The using directives take care of this")]
         public string GetConnectionString(string databaseName)
         {
+            // TellOP.iOS.Resources.LocalDictionary.sqlite
+            // TellOP.iOS.Resources.LocalLemmasDictionary.sqlite
             // Copy the database to the "Local application data" folder. (This is required because we can not load a
             // SQLite database directly from the iOS package; SQLite requires R/W access and we would like to avoid
             // memory backing).
             // TODO: do we need to add "Tell-OP" at the end? See
             // https://developer.xamarin.com/guides/ios/application_fundamentals/working_with_the_file_system/
             string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library", "Application Support");
-            string databasePath = Path.Combine(directoryPath, databaseName);
 
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
+
+            string databasePath = Path.Combine(directoryPath, databaseName);
 
             // Check if the database is not present or if a new revision is available in the app package. Note that
             // asset streams do not support seeking, so we have to open the file twice in case we need to copy it.
@@ -60,7 +63,7 @@ namespace TellOP.iOS
             string splitName;
             string splitExt;
 
-            if (splitChars.GetLength(0) == 1)
+            if (splitDBName.Length == 1)
             {
                 splitName = splitDBName[0];
                 splitExt = string.Empty;
@@ -95,12 +98,24 @@ namespace TellOP.iOS
                     localDb.Close();
                 }
 
-                needsCopy = !appDbHash.Equals(localDbHash);
+                if (!appDbHash.Equals(localDbHash))
+                {
+                    needsCopy = true;
+                    File.Delete(databasePath);
+                }
             }
 
             if (needsCopy)
             {
-                File.Copy(assetPath, databasePath);
+                try
+                {
+                    File.Copy(assetPath, databasePath);
+                }
+                catch (Exception ex)
+                {
+                    Tools.Logger.Log("GetConnectionString:INFO", "Variables:  databaseName='" + databaseName + "'\tsplitName='" + splitName + "'\tsplitExt='" + splitExt + "'\nassetPath: " + assetPath + "'\ndatabasePath: " + databasePath, ex);
+                    return databasePath;
+                }
             }
 
             return databasePath;

@@ -34,25 +34,12 @@ limitations under the License.
             <DataTemplate>
               <ViewCell>
                 <ContentView Margin="0,2,0,2">
-                  <Grid Padding="0" BackgroundColor="{Binding Level, Converter={enums:LanguageLevelClassificationToColorConverter}}">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="5" />
-                      <ColumnDefinition Width="2*" />
-                      <ColumnDefinition Width="2*" />
-                      <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="auto" />
-                      <RowDefinition Height="auto" />
-                      <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <BoxView Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" BackgroundColor="{Binding Status, Converter={enums:ExerciseStatusToColorConverter}}" />
-                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Title}" />
-                    <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" FontSize="12" VerticalOptions="Start" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Description}" />
-                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Converter={activity:ExerciseToNameConverter}}" FontSize="14" HorizontalOptions="Start" VerticalOptions="Center" FontAttributes="Italic" />
-                    <Label Grid.Column="2" Grid.Row="2" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Text="{Binding Language, Converter={enums:SupportedLanguageToNameConverter}}" />
-                    <Label Grid.Column="3" Grid.Row="2" FontSize="14" HorizontalOptions="End" VerticalOptions="Center" Text="{Binding Level, Converter={enums:LanguageLevelClassificationToShortDescriptionConverter}}" />
-                  </Grid>
+                  <StackLayout HorizontalOptions="FillAndExpand" Padding="5,5,5,15" VerticalOptions="StartAndExpand">
+                    <Label FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Title}" />
+                    <Label FontSize="12" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" LineBreakMode="WordWrap" Text="{Binding TypeLanguageLevel}" />
+                    <Label FontSize="12" VerticalOptions="Start" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Description}" />
+                    <Label Text=""/>
+                  </StackLayout>
                 </ContentView>
               </ViewCell>
             </DataTemplate>
@@ -74,6 +61,15 @@ limitations under the License.
               </StackLayout>
             </DataTemplate>
           </ListView.HeaderTemplate>
+          <ListView.FooterTemplate>
+            <DataTemplate>
+              <Label FontSize="12"
+                     Margin="5,10,5,0"
+                     HorizontalOptions="Fill"
+                     BackgroundColor="#CFD8DC"
+                     VerticalOptions="End" Text="{Binding .}" />
+            </DataTemplate>
+          </ListView.FooterTemplate>
         </ListView>
       <!--</ScrollView>-->
       <RelativeLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">

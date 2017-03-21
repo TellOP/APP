@@ -46,6 +46,12 @@ namespace TellOP.ViewModels
             this.SpoilerExampleLabel.IsVisible = !show;
             this.SpoilerExampleText.IsVisible = !show;
             this.SpoilerIndicator.Text = show ? Properties.Resources.StringNetViewCell_Contracted : Properties.Resources.StringNetViewCell_Expanded;
+            this.ForceUpdateSize();
+        }
+
+        private void Handle_Tapped(object sender, EventArgs e)
+        {
+            this.ForceUpdateSize();
         }
     }
 }

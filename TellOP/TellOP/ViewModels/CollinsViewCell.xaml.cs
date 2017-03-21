@@ -66,6 +66,12 @@ namespace TellOP.ViewModels
         {
             this.DetailsPanel.IsVisible = !this.DetailsPanel.IsVisible;
             this.DictLabel.Text = this.DetailsPanel.IsVisible ? Properties.Resources.CollinsViewCell_DictionaryName_Expanded : Properties.Resources.CollinsViewCell_DictionaryName_Contracted;
+            this.ForceUpdateSize();
+        }
+
+        private void Handle_Tapped(object sender, EventArgs e)
+        {
+            this.ForceUpdateSize();
         }
 
         /// <summary>
@@ -84,8 +90,6 @@ namespace TellOP.ViewModels
             {
                 for (int senseCounter = 0; senseCounter < word.Senses.Count; ++senseCounter)
                 {
-                    this.DetailsPanel.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
                     Grid definitionGrid = new Grid();
                     definitionGrid.BackgroundColor = CollinsViewCell.backgroundColors[senseCounter % CollinsViewCell.backgroundColors.Length];
 
@@ -186,7 +190,7 @@ namespace TellOP.ViewModels
                         ++lastRow;
                     }
 
-                    this.DetailsPanel.Children.Add(definitionGrid, 0, senseCounter);
+                    this.DetailsPanel.Children.Add(definitionGrid);
                 }
             }
         }

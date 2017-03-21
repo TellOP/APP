@@ -28,12 +28,34 @@ limitations under the License.
   <ContentPage.Content>
     <Grid>
      <!-- <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">-->
-        <Label Text="{local:Translate Dashboard_TabError}" IsVisible="{Binding FeaturedExercises.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-        <ListView HasUnevenRows="true" IsGroupingEnabled="True" ItemsSource="{Binding FeaturedExercises.Result}" GroupDisplayBinding="{Binding GroupName}" GroupShortNameBinding="{Binding GroupShortName}" Header="{Binding FeaturedExercises.Result.Count}" Footer="{Binding AppTip.Result.Text}" Margin="5" IsVisible="{Binding FeaturedExercises.IsCompleted}" ItemTapped="ExerciseList_ItemTapped" ItemSelected="ExerciseList_ItemSelected">
+        <Label Text="{local:Translate Dashboard_TabError}" 
+               IsVisible="{Binding FeaturedExercises.IsFaulted}" 
+               HorizontalTextAlignment="Center" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Center" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+        <ListView HasUnevenRows="true" 
+                  IsGroupingEnabled="True" 
+                  ItemsSource="{Binding FeaturedExercises.Result}" 
+                  GroupDisplayBinding="{Binding GroupName}" 
+                  GroupShortNameBinding="{Binding GroupShortName}" 
+                  Header="{Binding FeaturedExercises.Result.Count}" 
+                  Footer="{Binding AppTip.Result.Text}" 
+                  Margin="5" 
+                  IsVisible="{Binding FeaturedExercises.IsCompleted}" 
+                  ItemTapped="ExerciseList_ItemTapped" 
+                  ItemSelected="ExerciseList_ItemSelected">
           <ListView.ItemTemplate>
             <DataTemplate>
               <ViewCell>
-                <ContentView Margin="0,2,0,2">
+                <ContentView Margin="2,5,2,5">
+                  <StackLayout HorizontalOptions="FillAndExpand" Padding="5,5,5,15" VerticalOptions="StartAndExpand">
+                    <Label FontAttributes="Bold" FontSize="16" VerticalOptions="StartAndExpand" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Title}" />
+                    <Label FontSize="12" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" LineBreakMode="WordWrap" Text="{Binding TypeLanguageLevel}" />
+                    <Label FontSize="12" VerticalOptions="Start" HorizontalOptions="Fill" LineBreakMode="WordWrap" Text="{Binding Description}" />
+                    <Label Text=""/>
+                  </StackLayout>
+                  <!--
                   <Grid Padding="0" BackgroundColor="{Binding Level, Converter={enums:LanguageLevelClassificationToColorConverter}}">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="5" />
@@ -53,6 +75,7 @@ limitations under the License.
                     <Label Grid.Column="2" Grid.Row="2" FontSize="14" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Text="{Binding Language, Converter={enums:SupportedLanguageToNameConverter}}" />
                     <Label Grid.Column="3" Grid.Row="2" FontSize="14" HorizontalOptions="End" VerticalOptions="Center" Text="{Binding Level, Converter={enums:LanguageLevelClassificationToShortDescriptionConverter}}" />
                   </Grid>
+                  -->
                 </ContentView>
               </ViewCell>
             </DataTemplate>
@@ -68,6 +91,15 @@ limitations under the License.
               </ViewCell>
             </DataTemplate>
           </ListView.GroupHeaderTemplate>
+          <ListView.FooterTemplate>
+            <DataTemplate>
+                <Label FontSize="12"
+                       Margin="5,10,5,0"
+                       HorizontalOptions="Fill"
+                       BackgroundColor="#CFD8DC"
+                       VerticalOptions="End" Text="{Binding .}" />
+            </DataTemplate>
+          </ListView.FooterTemplate>
           <ListView.HeaderTemplate>
             <DataTemplate>
               <StackLayout Padding="5" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">

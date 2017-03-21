@@ -124,40 +124,48 @@ namespace TellOP.DataModels.SQLiteModels
             IList<IWord> retList = new List<IWord>();
 
             // First, check if there is an exact match in the database.
-            SQLiteManager dbManager = SQLiteManager.Instance;
-            Expression<Func<OfflineWord, bool>> exp = w => w.Term.Equals(word);
-            var query = dbManager.LocalWordsDictionaryConnection.Table<OfflineWord>().Where(exp);
-
-            if (await query.CountAsync() > 0)
+            try
             {
-                msg += "\tFound:\t";
-            }
+                SQLiteManager dbManager = SQLiteManager.Instance;
+                Expression<Func<OfflineWord, bool>> exp = w => w.Term.Equals(word);
+                var query = dbManager.LocalWordsDictionaryConnection.Table<OfflineWord>().Where(exp);
 
-            foreach (OfflineWord w in await query.ToListAsync())
-            {
-                msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
-                retList.Add(w);
-            }
-
-            // If, and only if, there aren't valid results, expand the search algorithm.
-            // Moreover, the word must be larger than 3 chars.(too many results otherwise).
-            if (retList.Count == 0 && word.Length >= 3)
-            {
-                if (word.EndsWith("s"))
+                if (await query.CountAsync() > 0)
                 {
-                    word = word.Substring(0, word.Length - 1);
-                    Tools.Logger.Log("OfflineWord", msg);
-                    IList<IWord> result = await Search(word, language);
-                    if (result.Count > 0)
+                    msg += "\tFound:\t";
+                }
+
+                foreach (OfflineWord w in await query.ToListAsync())
+                {
+                    msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
+                    retList.Add(w);
+                }
+
+                // If, and only if, there aren't valid results, expand the search algorithm.
+                // Moreover, the word must be larger than 3 chars.(too many results otherwise).
+                if (retList.Count == 0 && word.Length >= 3)
+                {
+                    if (word.EndsWith("s"))
                     {
-                        return result;
+                        word = word.Substring(0, word.Length - 1);
+                        Tools.Logger.Log("OfflineWord", msg);
+                        IList<IWord> result = await Search(word, language);
+                        if (result.Count > 0)
+                        {
+                            return result;
+                        }
                     }
                 }
+
+                Tools.Logger.Log("OfflineWord", msg);
+
+                return new ReadOnlyCollection<IWord>(retList);
             }
-
-            Tools.Logger.Log("OfflineWord", msg);
-
-            return new ReadOnlyCollection<IWord>(retList);
+            catch (Exception ex)
+            {
+                Tools.Logger.Log("OfflineWord:Search", "Impossible to perform the offline search", ex);
+                throw ex;
+            }
         }
 
         /// <summary>

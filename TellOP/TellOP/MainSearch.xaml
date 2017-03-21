@@ -17,7 +17,7 @@ limitations under the License.
 <author>Mattia Zago</author>
 <author>Alessandro Menti</author>
 -->
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TellOP;assembly=TellOP"
              xmlns:viewmodels="clr-namespace:TellOP.ViewModels;assembly=TellOP"
@@ -25,70 +25,7 @@ limitations under the License.
              x:Class="TellOP.MainSearch"
              Title="{local:Translate MainSearch_Title}">
   <ContentPage.ToolbarItems>
-    <ToolbarItem x:Name="refreshButton" Text="{i18n:Translate ButtonRefresh}" Order="Primary" />
-    <ToolbarItem x:Name="settingsButton" Text="{i18n:Translate ButtonSettings}" Order="Secondary" />
+    <ToolbarItem x:Name="refreshButton" Text="{i18n:Translate ButtonRefresh}" Icon="Toolbar_Refresh.png" Order="Primary" />
+    <ToolbarItem x:Name="settingsButton" Text="{i18n:Translate ButtonSettings}" Icon="Toolbar_Settings.png" Order="Primary" />
   </ContentPage.ToolbarItems>
-  <ContentPage.Content>
-    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-      <SearchBar Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Placeholder="{local:Translate MainSearch_EnterTerm}" HorizontalOptions="Fill" SearchButtonPressed="SearchBar_SearchButtonPressed" IsEnabled="{Binding IsSearchEnabled}" x:Name="SearchBar" /><!-- TODO: Test this binding -->
-      <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="{local:Translate MainSearch_HowTo}" HorizontalTextAlignment="Center" />
-      <Button Grid.Column="0" Grid.Row="2" x:Name="BTNShowDefinitions" Text="{local:Translate SingleWordExploration_Definitions}" IsEnabled="false" />
-      <Button Grid.Column="1" Grid.Row="2" x:Name="BTNShowStringNetStack" Text="{local:Translate SingleWordExploration_StringNet}" IsEnabled="false" />
-
-      <StackLayout x:Name="DefinitionsStack" IsVisible="false" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-<!-- STANDS4 GROUP-->
-        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" x:Name="Stands4ElementsGroup">
-          <Label Text="{Binding SearchResultsStands4.ErrorMessage}" IsVisible="{Binding SearchResultsStands4.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-          <Label x:Name="Stands4Title" Text="{local:Translate SingleWordExploration_Stands4DefinitionsTitle}" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" BackgroundColor="#FFFDE7" />
-          <ListView x:Name="SearchListStands4" HasUnevenRows="true" ItemsSource="{Binding SearchResultsStands4.Result}" Margin="5" IsVisible="{Binding SearchResultsStands4.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
-          <RelativeLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsCollins.IsNotCompleted}">
-            <ActivityIndicator IsVisible="{Binding SearchResultsStands4.IsNotCompleted}" IsRunning="{Binding SearchResultsStands4.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
-          </RelativeLayout>
-        </StackLayout>
-<!-- END STANDS4 GROUP-->
-<!-- COLLINS GROUP-->    
-        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" x:Name="CollinsElementsGroup">
-          <Label Text="{Binding SearchResultsCollins.ErrorMessage}" IsVisible="{Binding SearchResultsCollins.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-          <Label x:Name="CollinsTitle" Text="{local:Translate SingleWordExploration_CollinsDefinitionsTitle}" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" BackgroundColor="#FFFDE7" />
-          <ListView x:Name="SearchListCollins" HasUnevenRows="true" ItemsSource="{Binding SearchResultsCollins.Result}" Margin="5" IsVisible="{Binding SearchResultsCollins.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
-          <RelativeLayout HorizontalOptions="Center" VerticalOptions="StartAndExpand" IsVisible="{Binding SearchResultsCollins.IsNotCompleted}">
-            <ActivityIndicator IsVisible="{Binding SearchResultsCollins.IsNotCompleted}" IsRunning="{Binding SearchResultsCollins.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
-          </RelativeLayout>
-        </StackLayout>
-<!-- END COLLINS GROUP-->
-<!-- OXFORD GROUP-->
-        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" x:Name="OxfordElementsGroup">
-          <!--<Label Text="{local:Translate Search_TabError}" IsVisible="{Binding SearchResultsOxford.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />-->
-          <Label Text="{Binding SearchResultsOxford.ErrorMessage}" IsVisible="{Binding SearchResultsOxford.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-          <Label x:Name="OxfordTitle" Text="{local:Translate SingleWordExploration_OxfordDefinitionsTitle}" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" BackgroundColor="#FFFDE7" />
-          <ListView x:Name="SearchListOxford" HasUnevenRows="true" ItemsSource="{Binding SearchResultsOxford.Result}" Margin="5" IsVisible="{Binding SearchResultsOxford.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
-          <RelativeLayout HorizontalOptions="Center" VerticalOptions="StartAndExpand" IsVisible="{Binding SearchResultsOxfords.IsNotCompleted}">
-            <ActivityIndicator IsVisible="{Binding SearchResultsOxford.IsNotCompleted}" IsRunning="{Binding SearchResultsOxford.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
-          </RelativeLayout>
-        </StackLayout>
-<!-- END OXFORD GROUP-->
-      </StackLayout>
- 
-      <StackLayout x:Name="StringNetStack" IsVisible="false" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-        <Label Text="{Binding SearchResultsStringNet.ErrorMessage}" IsVisible="{Binding SearchResultsStringNet.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-        <Label x:Name="StringNetBeforeTitle" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
-        <ListView x:Name="SearchListStringNetBefore" BackgroundColor="#E3F2FD" HasUnevenRows="true" ItemsSource="{Binding SearchResultsStringNet.Result.Before}" Margin="5" IsVisible="{Binding SearchResultsStringNet.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
-        <Label  x:Name="StringNetAfterTitle" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
-        <ListView x:Name="SearchListStringNetAfter" BackgroundColor="#E0F2F1" HasUnevenRows="true" ItemsSource="{Binding SearchResultsStringNet.Result.After}" Margin="5" IsVisible="{Binding SearchResultsStringNet.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
-        <RelativeLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsStringNet.IsNotCompleted}">
-          <ActivityIndicator IsVisible="{Binding SearchResultsStringNet.IsNotCompleted}" IsRunning="{Binding SearchResultsStringNet.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
-        </RelativeLayout>
-      </StackLayout>
-    </Grid>
-  </ContentPage.Content>
-</ContentPage>
+</TabbedPage>

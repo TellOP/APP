@@ -23,10 +23,11 @@ limitations under the License.
           xmlns:local="clr-namespace:TellOP;assembly=TellOP"
           xmlns:apimodels="clr-namespace:TellOP.DataModels.ApiModels;assembly=TellOP"
           xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
-          BindingContextChanged="ViewCell_BindingContextChanged">
+          BindingContextChanged="ViewCell_BindingContextChanged"
+          Tapped="Handle_Tapped">
   <ViewCell.View>
-    <ContentView Margin="0,2,0,2">
-      <Grid Padding="0">
+    <ContentView Margin="0,10,0,10">
+      <Grid Padding="5">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="1*" />
           <ColumnDefinition Width="3*" />
@@ -52,11 +53,7 @@ limitations under the License.
           </Label.GestureRecognizers>
         </Label>
         <!-- Do not use a nested ListView to render the examples as this will cause an exception on Android -->
-        <Grid x:Name="DetailsPanel" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" IsVisible="False">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-          </Grid.ColumnDefinitions>
-        </Grid>
+        <StackLayout x:Name="DetailsPanel" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" IsVisible="False" HorizontalOptions="Fill" VerticalOptions="StartAndExpand" />
       </Grid>
     </ContentView>
   </ViewCell.View>

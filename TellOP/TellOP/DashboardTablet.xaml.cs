@@ -43,16 +43,6 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Called when the "Profile" button is clicked.
-        /// </summary>
-        /// <param name="sender">The object sending the event.</param>
-        /// <param name="e">The event parameters.</param>
-        private async void ProfileButton_Clicked(object sender, EventArgs e)
-        {
-            await this.Navigation.PushAsync(new Profile());
-        }
-
-        /// <summary>
         /// Called when the "Refresh" button is clicked.
         /// </summary>
         /// <param name="sender">The object sending the event.</param>

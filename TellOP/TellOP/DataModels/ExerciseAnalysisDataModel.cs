@@ -25,9 +25,9 @@ namespace TellOP.DataModels
     using System.Globalization;
     using System.Threading.Tasks;
     using Activity;
+    using ApiModels.LexTutor;
     using DataModels.Enums;
     using Nito.AsyncEx;
-    using ApiModels.LexTutor;
 
     /// <summary>
     /// The essay exercise analysis data model.

@@ -22,7 +22,8 @@ limitations under the License.
           x:Class="TellOP.ViewModels.StringNetCollocationsViewCell"
           xmlns:local="clr-namespace:TellOP;assembly=TellOP"
           xmlns:apimodels="clr-namespace:TellOP.DataModels.ApiModels;assembly=TellOP"
-          xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP">
+          xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
+          Tapped="Handle_Tapped">
   <ViewCell.View>
     <ContentView Margin="0,2,0,2">
       <Grid Padding="5">
@@ -37,11 +38,7 @@ limitations under the License.
           <RowDefinition Height="auto" />
           <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Label x:Name="SpoilerIndicator" Text="{local:Translate StringNetViewCell_Contracted}" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
-          <Label.GestureRecognizers>
-            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
-          </Label.GestureRecognizers>
-        </Label>
+        <Label x:Name="SpoilerIndicator" Text="{local:Translate StringNetViewCell_Contracted}" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center" />
         <!--
         <Label Text="{local:Translate StringNetViewCell_Collocation}" Grid.Column="1" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Start">
           <Label.GestureRecognizers>
@@ -49,23 +46,11 @@ limitations under the License.
           </Label.GestureRecognizers>
         </Label>
         -->
-        <Label x:Name="CollocationText" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Collocation}" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" FontAttributes="Bold" FontSize="14">
-          <Label.GestureRecognizers>
-            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
-          </Label.GestureRecognizers>
-        </Label>
-        <Label Text="{local:Translate StringNetViewCell_Frequency}" Grid.Column="3" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Start" FontSize="14">
-          <Label.GestureRecognizers>
-            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
-          </Label.GestureRecognizers>
-        </Label>
-        <Label Grid.Column="4" Grid.Row="0" Text="{Binding Frequency}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="14">
-          <Label.GestureRecognizers>
-            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
-          </Label.GestureRecognizers>
-        </Label>
-        <Label x:Name="SpoilerExampleLabel" Grid.Column="1" Grid.Row="1" IsVisible="false" Text="{local:Translate StringNetViewCell_Example}" FontSize="12" FontAttributes="Bold" />
-        <Label x:Name="SpoilerExampleText" Grid.Column="2" Grid.Row="1" IsVisible="false" Grid.ColumnSpan="3" Text="{Binding Sample}" FontSize="12" />
+        <Label x:Name="CollocationText" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Collocation}" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" FontAttributes="Bold" FontSize="14" />
+        <Label Text="{local:Translate StringNetViewCell_Frequency}" Grid.Column="3" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Start" FontSize="14" />
+        <Label Grid.Column="4" Grid.Row="0" Text="{Binding Frequency}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="14" />
+        <Label x:Name="SpoilerExampleLabel" Grid.Column="1" Grid.Row="1" IsVisible="True" Text="{local:Translate StringNetViewCell_Example}" FontSize="12" FontAttributes="Bold" />
+        <Label x:Name="SpoilerExampleText" Grid.Column="2" Grid.Row="1" IsVisible="True" Grid.ColumnSpan="3" Text="{Binding Sample}" FontSize="12" />
       </Grid>
     </ContentView>
   </ViewCell.View>

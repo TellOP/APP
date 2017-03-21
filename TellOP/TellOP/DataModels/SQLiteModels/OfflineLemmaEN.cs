@@ -25,12 +25,10 @@ namespace TellOP.DataModels.SQLiteModels
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
-    using global::SQLite;
 
     /// <summary>
     /// A lemma in the locale SQLite dictionary.
     /// </summary>
-    [Table("lemmas")]
     public class OfflineLemmaEN
     {
         /// <summary>
@@ -216,16 +214,11 @@ namespace TellOP.DataModels.SQLiteModels
         /// <summary>
         /// Gets or sets the lemma.
         /// </summary>
-        [Column("lemma")]
-        [Indexed]
-        [MaxLength(50)]
         public string Lemma { get; set; }
 
         /// <summary>
         /// Gets or sets the base word for <see cref="Lemma"/>.
         /// </summary>
-        [Column("base")]
-        [MaxLength(50)]
         public string Base { get; set; }
 
         /// <summary>
@@ -303,30 +296,7 @@ namespace TellOP.DataModels.SQLiteModels
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private static async Task<string> CallDB(string singleWord)
         {
-            string result = null;
-            try
-            {
-                Expression<Func<OfflineLemmaEN, bool>> exp = l => l.Lemma.Equals(singleWord);
-                OfflineLemmaEN query;
-                SQLiteManager dbManager = SQLiteManager.Instance;
-
-                query = await dbManager.LocalLemmasDictionaryConnection.Table<OfflineLemmaEN>().Where(exp).FirstOrDefaultAsync().ConfigureAwait(false);
-
-                if (query != null)
-                {
-                    if (query.Base != null)
-                    {
-                        result = query.Base;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO: remove the exception
-                Tools.Logger.Log("DBSearch", ex);
-            }
-
-            return result;
+            throw new NotSupportedException("UWP SQLite Offline Lemma 299");
         }
     }
 }

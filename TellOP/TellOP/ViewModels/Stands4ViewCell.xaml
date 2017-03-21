@@ -22,7 +22,8 @@ limitations under the License.
           x:Class="TellOP.ViewModels.Stands4ViewCell"
           xmlns:local="clr-namespace:TellOP;assembly=TellOP"
           xmlns:apimodels="clr-namespace:TellOP.DataModels.ApiModels;assembly=TellOP"
-          xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP">
+          xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
+          Tapped="Handle_Tapped">
   <ViewCell.View>
     <ContentView Margin="0,2,0,2">
       <Grid Padding="0">
@@ -35,23 +36,11 @@ limitations under the License.
           <RowDefinition Height="auto" />
           <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Label x:Name="DictLabel" Grid.Column="0" Grid.Row="0" Text="{local:Translate Stands4ViewCell_DictionaryName_Contracted}" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" FontAttributes="Bold" FontSize="12">
-          <Label.GestureRecognizers>
-            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
-          </Label.GestureRecognizers>
-        </Label>
-        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Term}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="14">
-          <Label.GestureRecognizers>
-            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
-          </Label.GestureRecognizers>
-        </Label>
-        <Label Grid.Column="2" Grid.Row="0" Text="{Binding PartOfSpeech, Converter={enums:PartOfSpeechToStringConverter}}" VerticalOptions="CenterAndExpand" HorizontalOptions="End" FontSize="10">
-          <Label.GestureRecognizers>
-            <TapGestureRecognizer Tapped="InvertDetailsPanel" />
-          </Label.GestureRecognizers>
-        </Label>
+        <Label x:Name="DictLabel" Grid.Column="0" Grid.Row="0" Text="{local:Translate Stands4ViewCell_DictionaryName_Contracted}" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" FontAttributes="Bold" FontSize="12" />
+        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Term}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" FontAttributes="Bold" FontSize="14" />
+        <Label Grid.Column="2" Grid.Row="0" Text="{Binding PartOfSpeech, Converter={enums:PartOfSpeechToStringConverter}}" VerticalOptions="CenterAndExpand" HorizontalOptions="End" FontSize="10" />
         <!-- Do not use a nested ListView to render the examples as this will cause an exception on Android -->
-        <Grid x:Name="DetailsPanel" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" IsVisible="False" BackgroundColor="#E8F5E9">
+        <Grid x:Name="DetailsPanel" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" IsVisible="True" BackgroundColor="#E8F5E9">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />

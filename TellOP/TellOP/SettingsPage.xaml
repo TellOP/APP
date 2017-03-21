@@ -22,8 +22,7 @@ limitations under the License.
              xmlns:i18n="clr-namespace:TellOP;assembly=TellOP"
              Title="{i18n:Translate Profile_Title}">
   <ContentPage.ToolbarItems>
-    <ToolbarItem x:Name="refreshButton" Text="{i18n:Translate ButtonRefresh}" Order="Primary" />
-    <ToolbarItem x:Name="profileButton" Text="{i18n:Translate ButtonProfile}" Order="Primary" />
+    <ToolbarItem x:Name="refreshButton" Text="{i18n:Translate ButtonRefresh}" Icon="Toolbar_Refresh.png" Order="Primary" />
   </ContentPage.ToolbarItems>
   <StackLayout>
     <Grid Margin="5" Padding="5">

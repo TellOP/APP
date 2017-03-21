@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TellOP;assembly=TellOP"
+             xmlns:viewmodels="clr-namespace:TellOP.ViewModels;assembly=TellOP"
+             xmlns:i18n="clr-namespace:TellOP;assembly=TellOP"
+             x:Class="TellOP.SearchNetSpeakTab">
+  <StackLayout x:Name="NetSpeakStack" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+    <SearchBar Placeholder="{local:Translate MainSearch_EnterTerm}" HorizontalOptions="Fill" SearchButtonPressed="SearchBar_SearchButtonPressed" IsEnabled="{Binding IsSearchEnabled}" x:Name="SearchBar" />
+
+    <Label Text="{Binding SearchResultsNetSpeak.ErrorMessage}" IsVisible="{Binding SearchResultsNetSpeak.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+    <Label x:Name="NetSpeakBeforeTitle" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+    <ListView x:Name="SearchListNetSpeakBefore" BackgroundColor="#E3F2FD" HasUnevenRows="true" ItemsSource="{Binding SearchResultsNetSpeak.Result.Before}" Margin="5" IsVisible="{Binding SearchResultsNetSpeak.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
+    <Label  x:Name="NetSpeakAfterTitle" HorizontalTextAlignment="Center" FontSize="14" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+    <ListView x:Name="SearchListNetSpeakAfter" BackgroundColor="#E0F2F1" HasUnevenRows="true" ItemsSource="{Binding SearchResultsNetSpeak.Result.After}" Margin="5" IsVisible="{Binding SearchResultsNetSpeak.IsCompleted}" VerticalOptions="FillAndExpand" ItemSelected="SearchList_ItemSelected" />
+    <RelativeLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" IsVisible="{Binding SearchResultsNetSpeak.IsNotCompleted}">
+      <ActivityIndicator IsVisible="{Binding SearchResultsNetSpeak.IsNotCompleted}" IsRunning="{Binding SearchResultsNetSpeak.IsNotCompleted}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="64" HeightRequest="64" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-32}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.5, Constant=-32}" />
+    </RelativeLayout>
+  </StackLayout>
+</ContentPage>

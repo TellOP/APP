@@ -25,7 +25,8 @@ limitations under the License.
              xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
              x:Class="TellOP.DashboardHistoryAsGrid"
              HorizontalOptions="CenterAndExpand"
-             VerticalOptions="StartAndExpand">
+             VerticalOptions="StartAndExpand"
+             Margin="5,0,0,0">
   <Label Text="{local:Translate Dashboard_TabHistory_Title}" HorizontalTextAlignment="Center" FontSize="20" />
   <Label Text="{local:Translate Dashboard_TabError}" IsVisible="{Binding ExerciseHistory.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
   <ListView HasUnevenRows="true" ItemsSource="{Binding ExerciseHistory.Result}" Header="{Binding ExerciseHistory.Result.Count}" ItemTapped="HistoryList_ItemTapped" ItemSelected="HistoryList_ItemSelected">

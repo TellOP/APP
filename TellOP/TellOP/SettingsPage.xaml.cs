@@ -40,7 +40,6 @@ namespace TellOP
             this.SetUpButtons();
 
             this.refreshButton.Clicked += this.RefreshButton_Clicked;
-            this.profileButton.Clicked += this.Profile_Clicked;
         }
 
         /// <summary>
@@ -57,7 +56,6 @@ namespace TellOP
             this.SetUpButtons();
 
             this.refreshButton.Clicked += this.RefreshButton_Clicked;
-            this.profileButton.Clicked += this.Profile_Clicked;
         }
 
         /// <summary>

@@ -13,6 +13,7 @@
 // limitations under the License.
 // </copyright>
 // <author>Alessandro Menti</author>
+// <author>Mattia Zago</author>
 
 using System.Reflection;
 using System.Resources;
@@ -27,7 +28,7 @@ using Xamarin.Forms.Xaml;
 [assembly: AssemblyCopyright("Copyright © 2016 University of Murcia")]
 [assembly: AssemblyTrademark("All trademarks belong to their respective owners.")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("0.7.*")]
+[assembly: AssemblyVersion("0.8.*")]
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]

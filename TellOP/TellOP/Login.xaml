@@ -26,10 +26,9 @@ limitations under the License.
     <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" WinPhone="10, 0" />
   </ContentPage.Padding>
   <ContentPage.Content>
-    <ScrollView Padding="0" Margin="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Orientation="Vertical">
       <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
         <Image VerticalOptions="Center" HeightRequest="200" HorizontalOptions="Center" Source="Logo.png" />
-        <StackLayout Margin="5,15,5,5">
+        <StackLayout Margin="5,15,5,5" VerticalOptions="Center" HorizontalOptions="Center">
           <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="End">
             <Button Text="{local:Translate Login_LoginButton}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Clicked="LoginButton_Clicked" />
           </StackLayout>
@@ -59,8 +58,6 @@ limitations under the License.
             </Label>
           </StackLayout>
         </StackLayout>
-        <Button Text="Tutorial" Clicked="TurorialButton_Clicked" />
       </StackLayout>
-    </ScrollView>
   </ContentPage.Content>
 </ContentPage>

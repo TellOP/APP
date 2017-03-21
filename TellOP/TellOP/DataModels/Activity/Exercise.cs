@@ -43,5 +43,16 @@ namespace TellOP.DataModels.Activity
         /// Gets or sets a value indicating whether the exercise is featured.
         /// </summary>
         public bool Featured { get; set; }
+
+        /// <summary>
+        /// Gets a unique string with the exercise type, the level and the language.
+        /// </summary>
+        public string TypeLanguageLevel
+        {
+            get
+            {
+                return Properties.Resources.Exercise_EssayName + " " + this.Level + " " + this.Language;
+            }
+        }
     }
 }

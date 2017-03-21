@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="f736c883-f105-4d30-a719-4bf328872f5e" Publisher="CN=Mattia Zago" Version="0.7.0.0" />
-  <mp:PhoneIdentity PhoneProductId="f736c883-f105-4d30-a719-4bf328872f5e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="28936MattiaZago.TellOPbeta" Publisher="CN=D6FFB450-CE57-485E-AD3D-38BE784E4A20" Version="0.8.1.0" />
+  <mp:PhoneIdentity PhoneProductId="bb0eb944-c08a-4871-aa11-2913a50e4b80" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Tell-OP</DisplayName>
-    <PublisherDisplayName>University of Murcia</PublisherDisplayName>
+    <DisplayName>TellOP beta</DisplayName>
+    <PublisherDisplayName>Mattia Zago</PublisherDisplayName>
     <Logo>Assets\NewStoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="FPCL.WIndows.App">
-      <uap:VisualElements DisplayName="Tell-OP" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="The Tell-OP mobile application" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="TellOP beta" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="The Tell-OP mobile application" BackgroundColor="transparent">
         <uap:DefaultTile ShortName="Tell-OP" Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" Square71x71Logo="Assets\Square71x71Logo.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />

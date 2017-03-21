@@ -17,8 +17,11 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>TellOP.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>4CDF9545E107A6FD66250A58702D0BCCC83E5900</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>TellOP.UWP_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>02A9CAB210677D133D6FE1000AAF8DD2DB959686</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -74,7 +77,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
@@ -88,7 +91,7 @@
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
@@ -109,10 +112,62 @@
       <Link>LocalLemmasDictionaryLocalLemmasDictionary.sqlite</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="bullet1.png" />
+    <Content Include="bullet2.png" />
+    <Content Include="bullet3.png" />
+    <Content Include="bullet4.png" />
+    <Content Include="bullet5.png" />
+    <Content Include="bullet6.png" />
     <Content Include="Logo.png" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="TAB_Collins%402x.png" />
+    <Content Include="TAB_Collins%403x.png" />
+    <Content Include="TAB_Collins.png" />
+    <Content Include="TAB_Featured%402x.png" />
+    <Content Include="TAB_Featured%403x.png" />
+    <Content Include="TAB_Featured.png" />
+    <Content Include="TAB_History%402x.png" />
+    <Content Include="TAB_History%403x.png" />
+    <Content Include="TAB_History.png" />
+    <Content Include="TAB_NetSpeak%402x.png" />
+    <Content Include="TAB_NetSpeak%403x.png" />
+    <Content Include="TAB_NetSpeak.png" />
+    <Content Include="TAB_Oxford%402x.png" />
+    <Content Include="TAB_Oxford%403x.png" />
+    <Content Include="TAB_Oxford.png" />
+    <Content Include="TAB_Stands4%402x.png" />
+    <Content Include="TAB_Stands4%403x.png" />
+    <Content Include="TAB_Stands4.png" />
+    <Content Include="TAB_StringNet%402x.png" />
+    <Content Include="TAB_StringNet%403x.png" />
+    <Content Include="TAB_StringNet.png" />
+    <Content Include="Toolbar_Analysis%402x.png" />
+    <Content Include="Toolbar_Analysis%403x.png" />
+    <Content Include="Toolbar_Analysis_max.png" />
+    <Content Include="Toolbar_Refresh%402x.png" />
+    <Content Include="Toolbar_Refresh%403x.png" />
+    <Content Include="Toolbar_Refresh_Black%402x.png" />
+    <Content Include="Toolbar_Refresh_Black%403x.png" />
     <Content Include="Toolbar_Refresh_Black.png" />
+    <Content Include="Toolbar_Refresh_max.png" />
+    <Content Include="Toolbar_Search%402x.png" />
+    <Content Include="Toolbar_Search%403x.png" />
+    <Content Include="Toolbar_Search_max.png" />
+    <Content Include="Toolbar_Settings%402x.png" />
+    <Content Include="Toolbar_Settings%403x.png" />
+    <Content Include="Toolbar_Settings.png" />
+    <Content Include="Toolbar_Show%402x.png" />
+    <Content Include="Toolbar_Show%403x.png" />
     <Content Include="Toolbar_Show.png" />
+    <Content Include="Toolbar_Show_max.png" />
+    <Content Include="tutorial01.jpg" />
+    <Content Include="tutorial02.jpg" />
+    <Content Include="tutorial03.jpg" />
+    <Content Include="tutorial04.jpg" />
+    <Content Include="tutorial05.jpg" />
+    <Content Include="tutorial06.jpg" />
     <None Include="project.json" />
+    <None Include="TellOP.UWP_StoreKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -198,6 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TellOP\TellOP.csproj">
+      <Project>{aeec39ad-dfda-4805-a71e-6f80232cc68e}</Project>
       <Name>TellOP</Name>
     </ProjectReference>
   </ItemGroup>

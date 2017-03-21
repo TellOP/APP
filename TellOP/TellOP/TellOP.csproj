@@ -46,8 +46,10 @@
     <Compile Include="Api\ExerciseFeaturedApi.cs" />
     <Compile Include="Api\ExerciseHistoryApi.cs" />
     <Compile Include="Api\ExerciseSubmissionApi.cs" />
+    <Compile Include="Api\CEFRTagger.cs" />
     <Compile Include="Api\OxfordDictionaryAPI.cs" />
     <Compile Include="Api\GermanPOSTagger.cs" />
+    <Compile Include="Api\EnglishPOSTagger.cs" />
     <Compile Include="Api\SpanishPOSTagger.cs" />
     <Compile Include="Api\Tips.cs" />
     <Compile Include="Api\StringNetApi.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="DataModels\Activity\Exercise.cs" />
     <Compile Include="DataModels\Activity\ExerciseToNameConverter.cs" />
     <Compile Include="DataModels\ApiModels\Collins\CollinsJsonLinkedWordListToHumanReadableStringConverter.cs" />
+    <Compile Include="DataModels\ApiModels\CEFRWord.cs" />
     <Compile Include="DataModels\ApiModels\ExerciseStatusJsonConverter.cs" />
     <Compile Include="DataModels\ApiModels\Exercise\UserActivityConverter.cs" />
     <Compile Include="DataModels\ApiModels\JsonCreationConverterExtensions.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="DataModels\ApiModels\LexTutor\LexTutorResultValueStandardDeviation.cs" />
     <Compile Include="DataModels\ApiModels\OxfordWord.cs" />
     <Compile Include="DataModels\ApiModels\GermanWord.cs" />
+    <Compile Include="DataModels\ApiModels\EnglishWord.cs" />
     <Compile Include="DataModels\ApiModels\SpanishWord.cs" />
     <Compile Include="DataModels\ApiModels\StringListToHumanReadableListConverter.cs" />
     <Compile Include="DataModels\ApiModels\StringNet\StringNetSplit.cs" />
@@ -97,9 +101,14 @@
     <Compile Include="DataModels\CutoffConverter.cs" />
     <Compile Include="DataModels\DictionaryMonoDirectionalConverter.cs" />
     <Compile Include="DataModels\DictionaryConverter.cs" />
-    <Compile Include="DataModels\GermanSearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\CollinsSearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\NetSpeakSearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\StringNetSearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\OxfordSearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\Stands4SearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\GermanSearchDataModel.cs" />
     <Compile Include="DataModels\Interfaces\ISearchDataModel.cs" />
-    <Compile Include="DataModels\SpanishSearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\SpanishSearchDataModel.cs" />
     <Compile Include="DataModels\Enums\ExerciseStatus.cs" />
     <Compile Include="DataModels\ApiModels\Adelex\AdelexResultEntry.cs" />
     <Compile Include="DataModels\ApiModels\Adelex\AdelexToken.cs" />
@@ -146,9 +155,8 @@
     <Compile Include="DataModels\Enums\SupportedLanguageJsonConverter.cs" />
     <Compile Include="DataModels\ExerciseAnalysisDataModel.cs" />
     <Compile Include="DataModels\Grouping.cs" />
-    <Compile Include="DataModels\EnglishSearchDataModel.cs" />
+    <Compile Include="DataModels\SearchDataModels\EnglishSearchDataModel.cs" />
     <Compile Include="DataModels\SQLiteModels\OfflineLemmaEN.cs" />
-    <Compile Include="DataModels\SQLiteModels\SQLiteManager.cs" />
     <Compile Include="DataModels\WordSearchUtilities.cs" />
     <Compile Include="ICertificateVerifier.cs" />
     <Compile Include="ISQLite.cs" />
@@ -158,6 +166,21 @@
     <Compile Include="OAuthAccountStoreFactory.cs" />
     <Compile Include="DataModels\LevelClassificationDistributionConverter.cs" />
     <Compile Include="Preconditions.cs" />
+    <Compile Include="SearchOxfordTab.xaml.cs">
+      <DependentUpon>SearchOxfordTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchNetSpeakTab.xaml.cs">
+      <DependentUpon>SearchNetSpeakTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchStringNetTab.xaml.cs">
+      <DependentUpon>SearchStringNetTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchStands4Tab.xaml.cs">
+      <DependentUpon>SearchStands4Tab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchCollinsTab.xaml.cs">
+      <DependentUpon>SearchCollinsTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -232,9 +255,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NonNullToBooleanConverter.cs" />
-    <Compile Include="SingleWordExploration.xaml.cs">
-      <DependentUpon>SingleWordExploration.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ThirdPartyLicenses.xaml.cs">
       <DependentUpon>ThirdPartyLicenses.xaml</DependentUpon>
     </Compile>
@@ -353,12 +373,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SingleWordExploration.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Login.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -459,6 +473,36 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SearchCollinsTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SearchStands4Tab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SearchStringNetTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SearchOxfordTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SearchNetSpeakTab.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

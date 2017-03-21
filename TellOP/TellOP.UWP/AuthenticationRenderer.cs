@@ -19,7 +19,6 @@ using TellOP.UWP;
 using Xamarin.Forms.Platform.UWP;
 
 [assembly: ExportRenderer(typeof(Authentication), typeof(AuthenticationRenderer))]
-
 namespace TellOP.UWP
 {
     using System;

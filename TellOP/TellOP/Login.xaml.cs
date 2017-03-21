@@ -49,16 +49,6 @@ namespace TellOP
         }
 
         /// <summary>
-        /// Navigate to the tutorial page
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">EventArg object</param>
-        private async void TurorialButton_Clicked(object sender, EventArgs e)
-        {
-            await this.Navigation.PushModalAsync(new Tutorial());
-        }
-
-        /// <summary>
         /// Called when the "Sign up" link is tapped.
         /// </summary>
         /// <param name="sender">The object sending the event.</param>

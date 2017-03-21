@@ -26,12 +26,10 @@ namespace TellOP.DataModels.SQLiteModels
     using System.Threading.Tasks;
     using Enums;
     using Nito.AsyncEx;
-    using SQLite;
 
     /// <summary>
     /// A word extracted from the offline words list.
     /// </summary>
-    [Table("words")]
     public class OfflineWord : IWord
     {
         /// <summary>
@@ -48,7 +46,6 @@ namespace TellOP.DataModels.SQLiteModels
         /// <summary>
         /// Gets or sets the CEFR level of this word.
         /// </summary>
-        [Column("cefr_level")]
         public LanguageLevelClassification JsonLevel { get; set; }
 
         /// <summary>
@@ -59,22 +56,16 @@ namespace TellOP.DataModels.SQLiteModels
         /// <summary>
         /// Gets or sets the part of speech for this word.
         /// </summary>
-        [Column("part_of_speech")]
         public PartOfSpeech PartOfSpeech { get; set; }
 
         /// <summary>
         /// Gets or sets the string representation of this word.
         /// </summary>
-        [Column("word")]
-        [Indexed]
-        [MaxLength(100)]
         public string Term { get; set; }
 
         /// <summary>
         /// Gets or sets the category this word belongs to.
         /// </summary>
-        [Column("category")]
-        [MaxLength(100)]
         public string Category { get; set; }
 
         // TODO: check if this can be expressed using the SupportedLanguage enum
@@ -82,8 +73,6 @@ namespace TellOP.DataModels.SQLiteModels
         /// <summary>
         /// Gets or sets the language of this word.
         /// </summary>
-        [Column("language")]
-        [MaxLength(9)]
         public string Language { get; set; }
 
         /// <summary>
@@ -106,58 +95,7 @@ namespace TellOP.DataModels.SQLiteModels
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Need to return a list inside a Task")]
         public static async Task<IList<IWord>> Search(string word, SupportedLanguage language)
         {
-            // Words are stored as lowercase in the DB, so convert the search term.
-            word = word.ToLower();
-
-            string msg = "Searched word: '" + word + "'";
-
-            // Avoid looking up "simple" words like numbers or "I" in the database, just return a preparsed result
-            // instead
-            ReadOnlyCollection<IWord> preparsedResult = SearchPreparse(word);
-            if (preparsedResult != null)
-            {
-                return preparsedResult;
-            }
-
-            string wordLCID = (string)new SupportedLanguageToLcidConverter().Convert(language, typeof(string), null, CultureInfo.InvariantCulture);
-
-            IList<IWord> retList = new List<IWord>();
-
-            // First, check if there is an exact match in the database.
-            SQLiteManager dbManager = SQLiteManager.Instance;
-            Expression<Func<OfflineWord, bool>> exp = w => w.Term.Equals(word);
-            var query = dbManager.LocalWordsDictionaryConnection.Table<OfflineWord>().Where(exp);
-
-            if (await query.CountAsync() > 0)
-            {
-                msg += "\tFound:\t";
-            }
-
-            foreach (OfflineWord w in await query.ToListAsync())
-            {
-                msg += " (" + w.Term + " as " + w.PartOfSpeech + ")";
-                retList.Add(w);
-            }
-
-            // If, and only if, there aren't valid results, expand the search algorithm.
-            // Moreover, the word must be larger than 3 chars.(too many results otherwise).
-            if (retList.Count == 0 && word.Length >= 3)
-            {
-                if (word.EndsWith("s"))
-                {
-                    word = word.Substring(0, word.Length - 1);
-                    Tools.Logger.Log("OfflineWord", msg);
-                    IList<IWord> result = await Search(word, language);
-                    if (result.Count > 0)
-                    {
-                        return result;
-                    }
-                }
-            }
-
-            Tools.Logger.Log("OfflineWord", msg);
-
-            return new ReadOnlyCollection<IWord>(retList);
+            throw new NotSupportedException("Offile word 98 SQLlite not usable for UWP");
         }
 
         /// <summary>

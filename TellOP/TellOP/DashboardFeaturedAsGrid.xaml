@@ -25,15 +25,16 @@ limitations under the License.
              xmlns:enums="clr-namespace:TellOP.DataModels.Enums;assembly=TellOP"
              x:Class="TellOP.DashboardFeaturedAsGrid"
              HorizontalOptions="CenterAndExpand"
-             VerticalOptions="StartAndExpand">
+             VerticalOptions="StartAndExpand"
+             Margin="0,0,10,0">
   <Label Text="{local:Translate Dashboard_TabFeatured_Title}" HorizontalTextAlignment="Center" FontSize="20" />
   <Label Text="{Binding FeaturedExercises.ErrorMessage}" IsVisible="{Binding FeaturedExercises.IsFaulted}" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
   <ListView HasUnevenRows="true" IsGroupingEnabled="True" ItemsSource="{Binding FeaturedExercises.Result}" GroupDisplayBinding="{Binding GroupName}" GroupShortNameBinding="{Binding GroupShortName}" Header="{Binding FeaturedExercises.Result.Count}" Margin="5" IsVisible="{Binding FeaturedExercises.IsCompleted}" ItemTapped="ExerciseList_ItemTapped" ItemSelected="ExerciseList_ItemSelected">
     <ListView.ItemTemplate>
       <DataTemplate>
         <ViewCell>
-          <ContentView Margin="0,2,0,2">
-            <Grid Padding="0" BackgroundColor="{Binding Level, Converter={enums:LanguageLevelClassificationToColorConverter}}">
+          <ContentView Margin="0,2,10,2">
+            <Grid Padding="0" Margin="0,0,5,0" BackgroundColor="{Binding Level, Converter={enums:LanguageLevelClassificationToColorConverter}}">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="2*" />
